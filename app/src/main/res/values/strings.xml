@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Sgo app</string>
+    <string name="login_button">Войти</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="choose_school">Выберите школу</string>
+    <string name="welcome">Добро пожаловать</string>
+    <string name="main">Сетевой Город</string>
+    <string name="journal">Дневник</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="schedule">Расписание</string>
+    <string name="when_holiday">До каникул осталось...</string>
+    <string name="today">Сегодня</string>
+    <string name="mainTab">Главная</string>
+</resources>

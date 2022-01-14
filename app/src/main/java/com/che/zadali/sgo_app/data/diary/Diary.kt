@@ -1,0 +1,17 @@
+package com.che.zadali.sgo_app.data.diary
+
+
+import com.google.gson.annotations.SerializedName
+
+data class Diary(
+    @SerializedName("className")
+    val className: String,
+    @SerializedName("termName")
+    val termName: String,
+    @SerializedName("weekDays")
+    val weekDays: List<WeekDay>,
+    @SerializedName("weekEnd")
+    val weekEnd: String,
+    @SerializedName("weekStart")
+    val weekStart: String
+)
