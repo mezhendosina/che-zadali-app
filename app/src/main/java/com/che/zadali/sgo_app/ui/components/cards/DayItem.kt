@@ -31,7 +31,7 @@ fun DayItem(item: WeekDay, visible: Boolean, date:Boolean, onClick: () -> Unit) 
             .fillMaxWidth()
             .clickable { onClick }//TODO переход ко дню
             .placeholder(
-                visible,
+                false,
                 highlight = PlaceholderHighlight.fade()
             ),
         MaterialTheme.shapes.medium,

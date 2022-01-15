@@ -20,7 +20,7 @@ import com.che.zadali.sgo_app.data.whenHoliday
 fun Holiday(holidayDay: String, onClick: () -> Unit) {
     Text(
         text = stringResource(id = R.string.when_holiday),
-        modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+        modifier = Modifier.padding(start = 16.dp, top = 16.dp),
         fontWeight = FontWeight.Medium,
         style = MaterialTheme.typography.h6
     )

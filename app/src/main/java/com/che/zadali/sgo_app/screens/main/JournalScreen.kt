@@ -11,13 +11,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.che.zadali.sgo_app.data.diary.Diary
-import com.che.zadali.sgo_app.ui.components.cards.DayItem
 import com.che.zadali.sgo_app.R
 import com.che.zadali.sgo_app.data.dateFormatter
+import com.che.zadali.sgo_app.data.diary.Diary
+import com.che.zadali.sgo_app.ui.components.cards.DayItem
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -25,12 +25,10 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @SuppressLint("SimpleDateFormat")
 @Composable
 fun Journal(diary: Diary) {
-
-
+    var visible by remember { mutableStateOf(false) }
     CollapsingToolbarScaffold(
         Modifier
-            .fillMaxSize()
-            .padding(bottom = 56.dp),
+            .fillMaxSize(),
         state = rememberCollapsingToolbarScaffoldState(),
         scrollStrategy = ScrollStrategy.EnterAlways,
         toolbar = {
@@ -41,11 +39,13 @@ fun Journal(diary: Diary) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.menu),
+                    painter = painterResource(id = R.drawable.back_icon),
                     contentDescription = "back",
-                    modifier = Modifier.clickable {
-                      //  visible = !visible
-                    }//TODO переход на предыдущую неделю
+                    modifier = Modifier
+
+                        .clickable {
+                              visible = !visible
+                        }//TODO переход на предыдущую неделю
                 )
                 Text(
                     "${dateFormatter(diary.weekStart)} - ${dateFormatter(diary.weekEnd)}",
@@ -55,8 +55,8 @@ fun Journal(diary: Diary) {
                 Icon(
                     painter = painterResource(id = R.drawable.back_icon),
                     contentDescription = "next",
-                    modifier = Modifier.clickable {
-                      //  visible = !visible
+                    modifier = Modifier.rotate(180f).clickable {
+                          visible = !visible
                     }//TODO переход на следующую неделю
                 )
             }
@@ -73,7 +73,7 @@ fun Journal(diary: Diary) {
             items(items = diary.weekDays) { item ->
                 DayItem(
                     item = item,
-                    visible = false,
+                    visible = visible,
                     date = true,
                     onClick = {/*TODO переход ко дню*/ })
             }

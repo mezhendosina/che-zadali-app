@@ -11,6 +11,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.che.zadali.sgo_app.R
 import com.che.zadali.sgo_app.data.schools.SchoolItem
 import com.che.zadali.sgo_app.ui.components.OnErrorDialog
@@ -66,7 +67,9 @@ fun Login(
                     Modifier
                         .fillMaxWidth()
                         .height(58.dp)
-                        .clickable { navController.navigate("chooseSchool/${school.school}") },
+                        .clickable {
+                            navController.navigate("chooseSchool/${school.school}")
+                        },
                     backgroundColor = MaterialTheme.colors.background,
                     elevation = 2.dp,
                     shape = MaterialTheme.shapes.medium

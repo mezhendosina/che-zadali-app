@@ -38,5 +38,6 @@ fun whenHoliday(holidayStart: String): String {
 }
 
 fun todayHomework(diary: Diary): List<WeekDay> {
+
     return diary.weekDays.filter { it.date == today() }
 }
