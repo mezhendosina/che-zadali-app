@@ -10,21 +10,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.che.zadali.sgo_app.R
-import kotlinx.coroutines.CoroutineScope
 
 //TODO onClick
-sealed class ModalDrawerContentButtons(val icon: Int, val string: Int, val onClick: () -> Unit) {
-    object Profile : ModalDrawerContentButtons(R.drawable.profile_icon, R.string.profile, {})
-    object Grades : ModalDrawerContentButtons(R.drawable.assessment, R.string.assessment, {})
-    object DiaryScreen : ModalDrawerContentButtons(R.drawable.diary_icon, R.string.diary, {})
-    object Messages : ModalDrawerContentButtons(R.drawable.messages_icon, R.string.messages, {})
-    object Forum : ModalDrawerContentButtons(R.drawable.forum_icon, R.string.forum, {})
-    object Settings : ModalDrawerContentButtons(R.drawable.settings_icon, R.string.settings, {})
+
+sealed class ModalDrawerContentButtons(val icon: Int, val string: Int, val route: String) {
+    object Profile : ModalDrawerContentButtons(R.drawable.profile_icon, R.string.profile, "profile")
+    object Grades : ModalDrawerContentButtons(R.drawable.assessment, R.string.assessment, "grades")
+    object DiaryScreen : ModalDrawerContentButtons(R.drawable.diary_icon, R.string.diary, "diaryScreen")
+    object Messages : ModalDrawerContentButtons(R.drawable.messages_icon, R.string.messages, "messages")
+    object Forum : ModalDrawerContentButtons(R.drawable.forum_icon, R.string.forum, "forum")
+    object Settings : ModalDrawerContentButtons(R.drawable.settings_icon, R.string.settings, "settings")
 }
 
 @Composable
-fun ColumnScope.ModalDrawerContent(scope: CoroutineScope, drawerState: DrawerState) {
+fun ModalDrawerContent(
+    externalNavController: NavController
+) {
     val items = listOf(
         ModalDrawerContentButtons.Profile,
         ModalDrawerContentButtons.Grades,
@@ -62,7 +65,7 @@ fun ColumnScope.ModalDrawerContent(scope: CoroutineScope, drawerState: DrawerSta
     )
     items.forEach { item ->
         Button(
-            item.onClick,
+            { externalNavController.navigate(item.route) },
             Modifier
                 .fillMaxWidth(),
             colors = buttonColors(MaterialTheme.colors.background),

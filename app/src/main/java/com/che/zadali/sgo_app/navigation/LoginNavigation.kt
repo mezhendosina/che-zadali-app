@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.che.zadali.sgo_app.data.schools.SchoolItem
+import com.che.zadali.sgo_app.screens.Screen
 import com.che.zadali.sgo_app.screens.login.ChooseSchool
 import com.che.zadali.sgo_app.screens.login.Login
 import com.che.zadali.sgo_app.screens.login.WelcomeScreen
@@ -16,9 +17,9 @@ import com.google.gson.Gson
 
 fun NavGraphBuilder.loginNavigation(navController: NavController, route:String){
     navigation(startDestination = "welcome", route = route) {
-        composable("welcome") { WelcomeScreen(navController = navController) }
+        composable(Screen.Welcome.route) { WelcomeScreen(navController = navController) }
         composable(
-            "chooseSchool/{school}",
+            "${Screen.ChooseSchool.route}/{school}",
             arguments = listOf(navArgument("school") {
                 NavType.StringType; defaultValue = ""
             })
@@ -29,7 +30,7 @@ fun NavGraphBuilder.loginNavigation(navController: NavController, route:String){
             )
         }
         composable(
-            "login/{schoolForLogin}",
+            "${Screen.Login.route}/{schoolForLogin}",
             arguments = listOf(navArgument("schoolForLogin") { NavType.StringType;  defaultValue = "" })
         ) {
             Login(

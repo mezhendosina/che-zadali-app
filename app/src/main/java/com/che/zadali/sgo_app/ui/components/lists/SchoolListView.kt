@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.che.zadali.sgo_app.data.schools.SchoolItem
+import com.che.zadali.sgo_app.screens.Screen
 import com.google.gson.Gson
 
 
@@ -40,7 +41,7 @@ fun SchoolsListView(navController: NavController, userTypedSchool: String, schoo
                     .fillMaxWidth()
                     .clickable {
                         val a = Gson().toJson(i)
-                        navController.navigate("login/$a")
+                        navController.navigate("${Screen.Login.route}/$a")
                     }
             ) {
                 Row(

@@ -9,7 +9,7 @@
     <string name="journal">Дневник</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="schedule">Расписание</string>
-    <string name="when_holiday">До каникул осталось...</string>
+    <string name="when_holiday">До каникул осталось…</string>
     <string name="today">Сегодня</string>
     <string name="mainTab">Главная</string>
     <string name="announcements">Объявления</string>
@@ -18,7 +18,7 @@
     <string name="profile">Профиль</string>
     <string name="assessment">Отчеты</string>
     <string name="diary">Расписание</string>
-    <string name="messages">Сообещния</string>
+    <string name="messages">Сообщения</string>
     <string name="forum">Форум</string>
     <string name="settings">Настройки</string>
 </resources>

@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.che.zadali.sgo_app.R
+import com.che.zadali.sgo_app.screens.Screen
 import com.che.zadali.sgo_app.ui.theme.SgoAppTheme
 
 @Composable
@@ -44,7 +44,7 @@ fun WelcomeScreen(navController: NavController) {
             ) {
                 Button(
                     onClick = {
-                        navController.navigate("chooseSchool/EMPTY")
+                        navController.navigate("${Screen.ChooseSchool.route}/EMPTY")
                     },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = MaterialTheme.colors.onBackground
