@@ -37,5 +37,5 @@ fun OnErrorDialog(errorDescription: String, onDismiss: () -> Unit) {
                 style = MaterialTheme.typography.h6
             )
         },
-        text = { Text(errorDescription, ) })
+        text = { Text(errorDescription) })
 }

@@ -29,7 +29,15 @@ private val DarkColorPalette = darkColors(
 
 @Composable
 fun SgoAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
-    if (darkTheme) {
+    rememberSystemUiController().setStatusBarColor(BackgroundColor)
+    MaterialTheme(
+        colors = LightColorPalette,
+        typography = LightTypography,
+        shapes = Shapes,
+        content = content
+    )
+
+    /*if (darkTheme) {
         rememberSystemUiController().setStatusBarColor(DarkBackgroundColor)
         MaterialTheme(
             colors = DarkColorPalette,
@@ -45,6 +53,6 @@ fun SgoAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable
             shapes = Shapes,
             content = content
         )
-    }
+    }*/
 
 }

@@ -18,7 +18,7 @@ import com.che.zadali.sgo_app.ui.theme.SgoAppTheme
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
-    SgoAppTheme() {
+    SgoAppTheme {
         Surface(Modifier.fillMaxSize()) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

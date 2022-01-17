@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.che.zadali.sgo_app.R
@@ -51,7 +52,10 @@ fun ModalDrawerContent(
         Text(
             "Евгений Меньшенин",
             style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(top = 30.dp)
+            modifier = Modifier.padding(top = 30.dp),
+            maxLines = 2,
+            softWrap = true,
+            overflow = TextOverflow.Ellipsis
         )
         Text(
             "Логин",
@@ -91,7 +95,6 @@ fun ModalDrawerContent(
                     modifier = Modifier.padding(start = 16.dp)
                 )
             }
-
         }
     }
 }

@@ -37,7 +37,7 @@ fun BottomNavigation(
         Screen.MainScreen,
         Screen.Journal,
     )
-    SgoAppTheme() {
+    SgoAppTheme {
         ModalDrawer(
             drawerContent = { ModalDrawerContent(externalNavController) },
             drawerState = drawerState

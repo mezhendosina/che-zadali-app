@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.che.zadali.sgo_app.data.schools.SchoolItem
 import com.che.zadali.sgo_app.screens.Screen
 import com.google.gson.Gson

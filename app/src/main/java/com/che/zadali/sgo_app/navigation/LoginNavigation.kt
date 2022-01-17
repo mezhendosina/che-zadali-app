@@ -1,6 +1,5 @@
 package com.che.zadali.sgo_app.navigation
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
