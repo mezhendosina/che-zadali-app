@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun TopBar(
-    navController: NavController,
+    navController: NavController? = null,
     label: String,
     backIcon: Boolean = true,
     modalDrawer: Boolean = false,
@@ -24,7 +24,7 @@ fun TopBar(
 ) {
     TopAppBar(
         backgroundColor = MaterialTheme.colors.background,
-        elevation = 2.dp,
+        elevation = 0.dp,
         modifier = Modifier.height(56.dp)
     ) {
         Row(
@@ -32,16 +32,14 @@ fun TopBar(
                 .fillMaxWidth()
                 .padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
             verticalAlignment = Alignment.CenterVertically
-
         ) {
             if (backIcon) {
                 Icon(
-                    painter = painterResource(id = R.drawable.back_icon),
+                    painter = painterResource(id = R.drawable.arrow_back),
                     "back",
                     tint = MaterialTheme.colors.primaryVariant,
                     modifier = Modifier
-                        .size(27.dp)
-                        .clickable { navController.popBackStack() }
+                        .clickable { navController?.popBackStack() }
                 )
             }
             if (modalDrawer) {

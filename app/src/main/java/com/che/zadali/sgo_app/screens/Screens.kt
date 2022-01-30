@@ -12,7 +12,6 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int) {
     object ChooseSchool : Screen("chooseSchool", R.string.choose_school)
     object Login : Screen("login", R.string.login_button)
 
-    object Profile : Screen(ModalDrawerContentButtons.Profile.route, R.string.profile)
     object Grades : Screen(ModalDrawerContentButtons.Grades.route, R.string.assessment)
     object DiaryScreen : Screen(ModalDrawerContentButtons.DiaryScreen.route, R.string.diary)
     object Messages : Screen(ModalDrawerContentButtons.Messages.route, R.string.messages)

@@ -12,7 +12,7 @@ fun dateToRussian(date: String, uppercase:Boolean): String {
     val a = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
     return  when(uppercase){
         true -> SimpleDateFormat("EEEE, dd MMMM").format(a!!).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        false ->  SimpleDateFormat("EEEE, dd MMMM").format(a!!)
+        false ->  SimpleDateFormat("Сегодня EE, dd MMMM").format(a!!)
     }
 }
 
@@ -33,11 +33,14 @@ fun today(): String {
 @SuppressLint("SimpleDateFormat")
 fun whenHoliday(holidayStart: String): String {
     val a = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-    val diff = System.currentTimeMillis() - a.parse(holidayStart).time
+    val diff = System.currentTimeMillis() - a.parse(holidayStart)!!.time
     return (-diff / (24 * 60 * 60 * 1000)).toString()
 }
 
-fun todayHomework(diary: Diary): List<WeekDay> {
-
-    return diary.weekDays.filter { it.date == today() }
+fun todayHomework(diary: Diary): List<WeekDay> {//TODO переписать null check
+    var a = diary.weekDays.filter { it.date == today() }
+    if(a.isEmpty()){
+        a = diary.weekDays
+    }
+    return a
 }

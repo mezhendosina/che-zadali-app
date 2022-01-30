@@ -5,6 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.che.zadali.sgo_app.R
 
@@ -42,7 +43,7 @@ val LightTypography = Typography(
 )
 val SecondGradeFont = FontFamily(Font(R.font.lobster))
 val DarkTypography = Typography(
-    h5 = TextStyle(color = DarkMainTextColor),
+    h5 = TextStyle(color = DarkMainTextColor, fontSize = 24.sp),
     //On top bar
     h6 = TextStyle(
         color = DarkMainTextColor,

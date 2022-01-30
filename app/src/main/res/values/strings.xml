@@ -7,7 +7,6 @@
     <string name="welcome">Добро пожаловать</string>
     <string name="main">Сетевой Город</string>
     <string name="journal">Дневник</string>
-    <string name="title_activity_login">LoginActivity</string>
     <string name="schedule">Расписание</string>
     <string name="when_holiday">До каникул осталось…</string>
     <string name="today">Сегодня</string>
@@ -21,4 +20,22 @@
     <string name="messages">Сообщения</string>
     <string name="forum">Форум</string>
     <string name="settings">Настройки</string>
+    <string name="viewPrefs">Внешний вид</string>
+    <string name="notifications">Уведомления</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="patronymic">Отчество</string>
+    <string name="birthday_date">Дата рождения</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="email">E-mail</string>
+    <string name="security">Безопастность</string>
+    <string name="change_password">Сменить пароль</string>
+    <string name="change_control_question">Изменить контрольный вопрос</string>
+    <string name="app_settings">Настройки приложения</string>
+    <string name="current_year">Текущий год</string>
+    <string name="language">Язык интерфейса</string>
+    <string name="theme">Оформление приложения</string>
+    <string name="when_holiday_settings">Отсчет каникул на главной странице</string>
+    <string name="logout">Выйти</string>
+    <string name="expand_all">Expand All</string>
 </resources>

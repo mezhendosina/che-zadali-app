@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.che.zadali.sgo_app.data.schools.SchoolItem
 import com.che.zadali.sgo_app.screens.Screen
 import com.google.gson.Gson
@@ -23,7 +24,6 @@ fun SchoolsListView(navController: NavController, userTypedSchool: String, schoo
     LazyColumn(
         Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
     ) {
         items(
             items = if (userTypedSchool != "") {
@@ -34,9 +34,8 @@ fun SchoolsListView(navController: NavController, userTypedSchool: String, schoo
         ) { i ->
             Card(
                 shape = MaterialTheme.shapes.medium,
-                elevation = 2.dp,
+                elevation = 0.dp,
                 modifier = Modifier
-                    .padding(top = 16.dp)
                     .fillMaxWidth()
                     .clickable {
                         val a = Gson().toJson(i)
@@ -44,7 +43,7 @@ fun SchoolsListView(navController: NavController, userTypedSchool: String, schoo
                     }
             ) {
                 Row(
-                    Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
+                    Modifier.padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {

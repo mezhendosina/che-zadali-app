@@ -22,7 +22,6 @@ import com.che.zadali.sgo_app.screens.Screen
 import com.che.zadali.sgo_app.screens.main.Journal
 import com.che.zadali.sgo_app.screens.main.MainScreen
 import com.che.zadali.sgo_app.ui.components.bars.ModalDrawerContent
-import com.che.zadali.sgo_app.ui.components.bars.TopBar
 import com.che.zadali.sgo_app.ui.theme.SgoAppTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -43,18 +42,6 @@ fun BottomNavigation(
             drawerState = drawerState
         ) {
             Scaffold(
-                topBar = {
-                    navController.currentDestination?.route?.let { route ->
-                        TopBar(
-                            navController = navController,
-                            label = stringResource(items.filter { it.route == route }[0].resourceId),
-                            modalDrawer = true,
-                            backIcon = false,
-                            scope = scope,
-                            drawerState = drawerState
-                        )
-                    }
-                },
                 modifier = Modifier.fillMaxSize(),
                 bottomBar = {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -104,8 +91,15 @@ fun BottomNavigation(
                     startDestination = Screen.MainScreen.route,
                     Modifier.padding(innerPadding)
                 ) {
-                    composable(Screen.MainScreen.route) { MainScreen(diary = diary) }
-                    composable(Screen.Journal.route) { Journal(diary = diary) }
+                    composable(Screen.MainScreen.route) {
+                        MainScreen(
+                            diary,
+                            scope,
+                            drawerState,
+                            externalNavController
+                        )
+                    }
+                    composable(Screen.Journal.route) { Journal(diary, scope, drawerState) }
                 }
             }
         }

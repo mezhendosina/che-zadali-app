@@ -1,14 +1,13 @@
 package com.che.zadali.sgo_app.ui.components.cards
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,30 +22,53 @@ fun Announcements(announcementsData: AnnouncementsData) {
     Column(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = 16.dp)
     ) {
         Text(
             stringResource(R.string.announcements),
             style = MaterialTheme.typography.h6,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.padding(bottom = 8.dp)
         )
         for (i in announcementsData) {
+            var showAll by remember { mutableStateOf(false) }
+
             itemsCounter += 1
             if (itemsCounter >= 2) {
-                TextButton({ /*TODO onClick*/ }) {
+                AnimatedVisibility(visible = showAll) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+
+                    ) {
+                        Text(
+                            text = i.name,
+                            fontWeight = FontWeight.Medium,
+                            style = MaterialTheme.typography.subtitle1,
+                        )
+                        Text(
+                            i.description,
+                            style = MaterialTheme.typography.button,
+                            color = MaterialTheme.colors.primaryVariant,
+                            fontWeight = FontWeight.Normal,
+                            maxLines = 2,
+                            softWrap = true,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+
+                }
+                TextButton({ showAll = !showAll }) {
                     Text(
                         stringResource(R.string.showMore),
                         style = MaterialTheme.typography.button
                     )
                 }
-                break
-            }
-            Card(shape = MaterialTheme.shapes.medium, elevation = 8.dp) {
+            } else {
                 Column(
                     Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
                 ) {
                     Text(
                         text = i.name,

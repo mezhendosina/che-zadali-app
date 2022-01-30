@@ -17,7 +17,6 @@ import com.che.zadali.sgo_app.R
 //TODO onClick
 
 sealed class ModalDrawerContentButtons(val icon: Int, val string: Int, val route: String) {
-    object Profile : ModalDrawerContentButtons(R.drawable.profile_icon, R.string.profile, "profile")
     object Grades : ModalDrawerContentButtons(R.drawable.assessment, R.string.assessment, "grades")
     object DiaryScreen : ModalDrawerContentButtons(R.drawable.diary_icon, R.string.diary, "diaryScreen")
     object Messages : ModalDrawerContentButtons(R.drawable.messages_icon, R.string.messages, "messages")
@@ -30,7 +29,6 @@ fun ModalDrawerContent(
     externalNavController: NavController
 ) {
     val items = listOf(
-        ModalDrawerContentButtons.Profile,
         ModalDrawerContentButtons.Grades,
         ModalDrawerContentButtons.DiaryScreen,
         ModalDrawerContentButtons.Messages,
@@ -68,12 +66,14 @@ fun ModalDrawerContent(
             .fillMaxWidth()
     )
     items.forEach { item ->
+
         Button(
             { externalNavController.navigate(item.route) },
             Modifier
                 .fillMaxWidth(),
-            colors = buttonColors(MaterialTheme.colors.background),
-            elevation = ButtonDefaults.elevation(0.dp)
+            shape = MaterialTheme.shapes.large,
+            elevation = ButtonDefaults.elevation(0.dp),
+            colors = buttonColors(MaterialTheme.colors.background)
         ) {
             Row(
                 horizontalArrangement = Arrangement.Start,

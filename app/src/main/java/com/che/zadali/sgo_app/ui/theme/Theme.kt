@@ -36,7 +36,6 @@ fun SgoAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable
         shapes = Shapes,
         content = content
     )
-
     /*if (darkTheme) {
         rememberSystemUiController().setStatusBarColor(DarkBackgroundColor)
         MaterialTheme(
