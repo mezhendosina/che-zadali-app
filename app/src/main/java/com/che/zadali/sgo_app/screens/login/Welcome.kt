@@ -4,6 +4,7 @@ import androidx.annotation.ColorInt
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,9 +19,12 @@ import androidx.navigation.compose.rememberNavController
 import com.che.zadali.sgo_app.R
 import com.che.zadali.sgo_app.screens.Screen
 import com.che.zadali.sgo_app.ui.theme.SgoAppTheme
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
+    val scope = rememberCoroutineScope()
     SgoAppTheme {
         Surface(Modifier.fillMaxSize()) {
             Column(
@@ -47,7 +51,9 @@ fun WelcomeScreen(navController: NavController) {
             ) {
                 Button(
                     onClick = {
-                        navController.navigate("${Screen.ChooseSchool.route}/EMPTY")
+                        scope.launch {
+                            navController.navigate("${Screen.ChooseSchool.route}/EMPTY")
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = MaterialTheme.colors.onBackground

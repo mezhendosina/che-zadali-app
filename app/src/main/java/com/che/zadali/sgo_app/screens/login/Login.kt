@@ -32,6 +32,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.google.gson.Gson
 
 
 @ExperimentalAnimationApi
@@ -39,7 +40,7 @@ import kotlinx.coroutines.withContext
 fun Login(
     navController: NavController,
     Activity: AppCompatActivity,
-    school: SchoolItem,
+    schoolItem: String?,
 ) {
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -52,10 +53,15 @@ fun Login(
     var errorDescription by remember { mutableStateOf("") }
 
     val context = LocalContext.current
+    var school: SchoolItem? = null
 
+    LaunchedEffect(
+        key1 = school,
+        block = { school = Gson().fromJson(schoolItem, SchoolItem::class.java) })
     if (isError) {
         OnErrorDialog(errorDescription) { isError = false }
     }
+
     SgoAppTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -80,6 +86,7 @@ fun Login(
                                 )
                                 val res = sendCheckLogin(loginData)
                                 SettingsPrefs(context).saveAll(loginData)
+
                                 withContext(Dispatchers.Main) {
                                     if (res.loggedIn) {
                                         startActivity(

@@ -20,7 +20,6 @@ import com.che.zadali.sgo_app.screens.login.WelcomeScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.gson.Gson
 
 @ExperimentalAnimationApi
 class LoginActivity : AppCompatActivity() {
@@ -84,12 +83,10 @@ class LoginActivity : AppCompatActivity() {
                         })
                     ) {
                         Login(
-                            navController = navController,
+
+                            navController,
                             this@LoginActivity,
-                            school = Gson().fromJson(
-                                it.arguments?.getString("schoolForLogin"),
-                                SchoolItem::class.java,
-                            )
+                            it.arguments?.getString("schoolForLogin")
                         )
                     }
                 }
