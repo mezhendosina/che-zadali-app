@@ -29,7 +29,8 @@ import kotlinx.coroutines.CoroutineScope
 fun BottomNavigation(
     scope: CoroutineScope,
     drawerState: DrawerState,
-    externalNavController: NavController
+    externalNavController: NavController,
+    string: String?
 ) {
     val navController = rememberNavController()
     val items = listOf(
@@ -38,7 +39,7 @@ fun BottomNavigation(
     )
     SgoAppTheme {
         ModalDrawer(
-            drawerContent = { ModalDrawerContent(externalNavController) },
+            drawerContent = { ModalDrawerContent(externalNavController, string) },
             drawerState = drawerState
         ) {
             Scaffold(

@@ -93,8 +93,7 @@ fun Journal(
                     DayItem(
                         item = item,
                         visible = visible,
-                        false,
-                        onClick = {/*TODO переход ко дню*/ })
+                        false)
                 }
             }
         }

@@ -52,6 +52,7 @@ fun ChooseSchool(
                 state = rememberCollapsingToolbarScaffoldState(),
                 scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
                 toolbar = {
+
                     TopBar(
                         navController = navController,
                         label = stringResource(id = R.string.choose_school)

@@ -15,7 +15,8 @@ private val LightColorPalette = lightColors(
     secondary = CaptionTextBlue,
     onError = SecondGradeColor,
     background = BackgroundColor,
-    onBackground = PrimaryBlue
+    onBackground = PrimaryBlue,
+    error = FABClickableOffColor
 )
 
 private val DarkColorPalette = darkColors(
@@ -24,7 +25,7 @@ private val DarkColorPalette = darkColors(
     secondary = DarkCaptionTextBlue,
     onError = DarkSecondGradeColor,
     background = DarkBackgroundColor,
-    onBackground = DarkPrimaryBlue
+    onBackground = DarkPrimaryBlue,
 )
 
 @Composable

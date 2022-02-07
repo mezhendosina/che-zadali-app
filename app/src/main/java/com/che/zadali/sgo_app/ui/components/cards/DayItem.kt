@@ -11,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,24 +22,26 @@ import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.material.placeholder
 
 @Composable
-fun DayItem(item: WeekDay, visible: Boolean, today: Boolean = true, onClick: () -> Unit) {
+fun DayItem(item: WeekDay, visible: Boolean, today: Boolean = true) {
     var expandAll by remember { mutableStateOf(false) }
+    var expandDeexpand by remember { mutableStateOf("Expand All") }
     Card(
         Modifier
-            .fillMaxWidth()
-            .placeholder(
-                visible,
-                highlight = PlaceholderHighlight.fade()
-            ),
+            .fillMaxWidth(),
         backgroundColor = MaterialTheme.colors.background,
         elevation = 0.dp
     ) {
         Column(Modifier.fillMaxWidth()) {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 8.dp)
+                    .placeholder(visible, highlight = PlaceholderHighlight.fade()),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Row(horizontalArrangement = Arrangement.Start) {
                     Text(
                         dateToRussian(item.date, !today),
-                        modifier = Modifier.padding(start = 16.dp),
                         fontWeight = FontWeight.Medium,
                         style = MaterialTheme.typography.h6
                     )
@@ -53,10 +54,15 @@ fun DayItem(item: WeekDay, visible: Boolean, today: Boolean = true, onClick: () 
                     verticalAlignment = Alignment.Bottom
                 ) {
                     Text(
-                        stringResource(id = R.string.expand_all),
-                        modifier = Modifier
-                            .padding(start = 16.dp)
-                            .clickable { expandAll = !expandAll },
+                        expandDeexpand,
+                        modifier = Modifier.clickable {
+                            expandAll = !expandAll
+                            expandDeexpand = if (expandAll) {
+                                "не expand all"
+                            } else {
+                                "Expand All"
+                            }
+                        },
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colors.primary,
                         style = MaterialTheme.typography.subtitle1
@@ -68,12 +74,16 @@ fun DayItem(item: WeekDay, visible: Boolean, today: Boolean = true, onClick: () 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp, 8.dp)
-                        .clickable { expanded = !expanded },
+                        .padding(horizontal = 16.dp)
+                        .clickable { expanded = !expanded }
+                        .placeholder(
+                            visible, highlight = PlaceholderHighlight.fade()
+                        ),
                     verticalArrangement = Arrangement.Center
                 ) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(8.dp)
                     ) {
                         Text(
                             i.number.toString(),
@@ -157,12 +167,13 @@ fun DayItem(item: WeekDay, visible: Boolean, today: Boolean = true, onClick: () 
                         }
                     }
                     AnimatedVisibility(visible = expanded || expandAll) {
-
-                        Text(
-                            "Д/З: ${i.assignments?.get(0)?.assignmentName}",
-                            style = MaterialTheme.typography.subtitle1,
-                            modifier = Modifier.padding(start = 8.dp)
-                        )
+                        if (i.assignments != null) {
+                            Text(
+                                "Д/З: ${i.assignments[0].assignmentName}",
+                                style = MaterialTheme.typography.subtitle1,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
                     }
                 }
             }

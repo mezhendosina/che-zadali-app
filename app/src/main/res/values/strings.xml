@@ -38,4 +38,6 @@
     <string name="when_holiday_settings">Отсчет каникул на главной странице</string>
     <string name="logout">Выйти</string>
     <string name="expand_all">Expand All</string>
+    <string name="exit">Выйти</string>
+    <string name="choosed_school">Выбранная школа</string>
 </resources>

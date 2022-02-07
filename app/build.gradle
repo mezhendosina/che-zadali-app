@@ -57,6 +57,7 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -68,13 +69,13 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
-    implementation("androidx.navigation:navigation-compose:2.4.0-rc01")
+    implementation('androidx.navigation:navigation-compose:2.5.0-alpha01')
 
     //system ui controller for change status bar color
-    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.24.0-alpha'
+    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.24.1-alpha'
 
     //collapsing toolbar
-    implementation "me.onebone:toolbar-compose:2.3.0"
+    implementation 'me.onebone:toolbar-compose:2.3.1'
 
     //parsing json
     implementation 'com.google.code.gson:gson:2.8.9'
@@ -82,6 +83,7 @@ dependencies {
     //data store
     implementation("androidx.datastore:datastore:1.0.0")
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation("androidx.datastore:datastore-preferences-core:1.0.0")
 
     //requests
     implementation "io.ktor:ktor-client-core:1.6.7"
@@ -90,8 +92,8 @@ dependencies {
     implementation "io.ktor:ktor-client-gson:1.6.7"
 
     //placeholders
-    implementation 'com.google.accompanist:accompanist-placeholder-material:0.24.0-alpha'
+    implementation 'com.google.accompanist:accompanist-placeholder-material:0.24.1-alpha'
 
     //animated nav controller
-    implementation "com.google.accompanist:accompanist-navigation-animation:0.24.0-alpha"
+    implementation 'com.google.accompanist:accompanist-navigation-animation:0.24.1-alpha'
 }

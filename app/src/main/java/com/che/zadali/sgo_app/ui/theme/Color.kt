@@ -8,7 +8,7 @@ val CaptionTextBlue = Color(0xFF497099)
 val MainTextColor = Color(0xFF444444)
 val SecondGradeColor = Color(0xFFBD0000)
 val BackgroundColor = Color(0xFFFFFFFF)
-
+val FABClickableOffColor = Color(0xFFD6D6D6)
 
 val DarkPrimaryBlue = Color(0XFF78B7FA)
 val DarkCaptionTextBlue = Color(0XFF78B7FA)

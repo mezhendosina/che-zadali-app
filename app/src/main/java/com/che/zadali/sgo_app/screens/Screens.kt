@@ -17,4 +17,7 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int) {
     object Messages : Screen(ModalDrawerContentButtons.Messages.route, R.string.messages)
     object Forum : Screen(ModalDrawerContentButtons.Forum.route, R.string.forum)
     object Settings : Screen(ModalDrawerContentButtons.Settings.route, R.string.settings)
+
+    object ChangePassword : Screen("changePassword", R.string.change_password)
+    object ChangeControlQuestion : Screen("changeControlQuestion", R.string.change_control_question)
 }

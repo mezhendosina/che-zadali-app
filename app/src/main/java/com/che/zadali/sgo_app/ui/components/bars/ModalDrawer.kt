@@ -1,8 +1,11 @@
 package com.che.zadali.sgo_app.ui.components.bars
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.ButtonDefaults.buttonColors
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,15 +21,21 @@ import com.che.zadali.sgo_app.R
 
 sealed class ModalDrawerContentButtons(val icon: Int, val string: Int, val route: String) {
     object Grades : ModalDrawerContentButtons(R.drawable.assessment, R.string.assessment, "grades")
-    object DiaryScreen : ModalDrawerContentButtons(R.drawable.diary_icon, R.string.diary, "diaryScreen")
-    object Messages : ModalDrawerContentButtons(R.drawable.messages_icon, R.string.messages, "messages")
+    object DiaryScreen :
+        ModalDrawerContentButtons(R.drawable.diary_icon, R.string.diary, "diaryScreen")
+
+    object Messages :
+        ModalDrawerContentButtons(R.drawable.messages_icon, R.string.messages, "messages")
+
     object Forum : ModalDrawerContentButtons(R.drawable.forum_icon, R.string.forum, "forum")
-    object Settings : ModalDrawerContentButtons(R.drawable.settings_icon, R.string.settings, "settings")
+    object Settings :
+        ModalDrawerContentButtons(R.drawable.settings_icon, R.string.settings, "settings")
 }
 
 @Composable
 fun ModalDrawerContent(
-    externalNavController: NavController
+    externalNavController: NavController,
+    login: String?
 ) {
     val items = listOf(
         ModalDrawerContentButtons.Grades,
@@ -55,10 +64,12 @@ fun ModalDrawerContent(
             softWrap = true,
             overflow = TextOverflow.Ellipsis
         )
-        Text(
-            "Логин",
-            style = MaterialTheme.typography.caption
-        )
+        if (login != null) {
+            Text(
+                login,
+                style = MaterialTheme.typography.caption
+            )
+        }
     }
     Divider(
         Modifier
@@ -66,22 +77,20 @@ fun ModalDrawerContent(
             .fillMaxWidth()
     )
     items.forEach { item ->
+        Row(
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
 
-        Button(
-            { externalNavController.navigate(item.route) },
-            Modifier
-                .fillMaxWidth(),
-            shape = MaterialTheme.shapes.large,
-            elevation = ButtonDefaults.elevation(0.dp),
-            colors = buttonColors(MaterialTheme.colors.background)
+                .clickable { externalNavController.navigate(item.route) }
         ) {
             Row(
+                modifier = Modifier.padding(16.dp),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
             ) {
+
                 Icon(
                     painter = painterResource(id = item.icon),
                     contentDescription = null,
