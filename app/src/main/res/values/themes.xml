@@ -1,13 +1,42 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SgoApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Status bar color. -->
+    <style name="sgoAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorSecondary">@color/main_text</item>
+        <item name="colorSecondaryVariant">@color/main_text</item>
+        <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
-        <!-- Customize your theme here. -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="Theme.SgoApp.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Toolbar">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:titleTextColor">@color/main_text</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="FAB">
+        <item name="backgroundTint">@color/primary_blue</item>
+    </style>
+
+    <style name="TextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary_blue</item>
+        <item name="hintTextColor">@color/primary_blue</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+    </style>
+
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="singleLine">true</item>
+    </style>
+
+    <style name="SecondaryTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/primary_blue</item>
+    </style>
+
+    <style name="MainTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/main_text</item>
     </style>
 </resources>

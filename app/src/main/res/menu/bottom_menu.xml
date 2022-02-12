@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/main_page"
+        android:icon="@drawable/ic_round_home_24"
+        android:title="@string/mainTab" />
+    <item
+        android:id="@+id/journal_page"
+        android:icon="@drawable/ic_round_menu_book_24"
+        android:title="@string/journal" />
+</menu>

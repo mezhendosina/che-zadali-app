@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Sgo app</string>
-    <string name="login_button">Войти</string>
+    <string name="app_name">SGO app</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
     <string name="choose_school">Выберите школу</string>
@@ -40,4 +39,7 @@
     <string name="expand_all">Expand All</string>
     <string name="exit">Выйти</string>
     <string name="choosed_school">Выбранная школа</string>
+    <string name="login_button">Войти</string>
+    <string name="welcome_screen">Добро пожаловать в \nМобильное приложение для \nСетевого Города!</string>
+    <string name="login_toolbar">Введите логин/пароль</string>
 </resources>

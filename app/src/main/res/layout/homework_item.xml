@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp">
+
+    <TextView
+        android:id="@+id/lesson_number"
+        style="@style/SecondaryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/lesson_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/strange_puzzle_piece"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_round_extension_24"
+        android:visibility="gone"
+
+        app:layout_constraintBottom_toTopOf="@id/lesson_time"
+        app:layout_constraintEnd_toStartOf="@id/lesson_name"
+        app:layout_constraintStart_toEndOf="@id/lesson_number"
+        app:layout_constraintTop_toTopOf="@id/lesson_name" />
+
+    <TextView
+        android:id="@+id/lesson_name"
+        style="@style/MainTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/strange_puzzle_piece"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lesson_time"
+        style="@style/SecondaryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/lesson_number"
+        app:layout_constraintTop_toBottomOf="@id/lesson_name" />
+
+    <ImageView
+        android:id="@+id/expand_more_homework"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_baseline_expand_more_24"
+        app:layout_constraintBottom_toBottomOf="@id/lesson_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/lesson_name" />
+
+
+    <TextView
+        android:id="@+id/homework"
+        style="@style/MainTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:visibility="gone"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/lesson_number"
+        app:layout_constraintTop_toBottomOf="@id/lesson_time" />
+</androidx.constraintlayout.widget.ConstraintLayout>
