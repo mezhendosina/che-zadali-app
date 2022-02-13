@@ -2,7 +2,7 @@ package com.che.zadali.sgoapp.data
 
 import android.content.Context
 import com.che.zadali.sgo_app.data.announcements.AnnouncementsData
-import com.che.zadali.sgoapp.data.diary.Diary
+import com.che.zadali.sgoapp.data.layout.diary.Diary
 import com.che.zadali.sgo_app.data.typesId.TypesId
 import com.google.gson.Gson
 import io.ktor.client.*

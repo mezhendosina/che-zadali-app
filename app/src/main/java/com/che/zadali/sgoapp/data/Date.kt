@@ -1,7 +1,7 @@
-package com.che.zadali.sgo_app.data
+package com.che.zadali.sgoapp.data
 
 import android.annotation.SuppressLint
-import com.che.zadali.sgoapp.data.diary.Diary
+import com.che.zadali.sgoapp.data.layout.diary.Diary
 import com.che.zadali.sgo_app.data.diary.WeekDay
 import java.text.SimpleDateFormat
 import java.util.*

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="8dp">
+    android:layout_marginVertical="8dp"
+    android:animateLayoutChanges="true">
 
     <TextView
         android:id="@+id/lesson_number"
@@ -69,8 +70,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
-        android:visibility="gone"
+        android:stateListAnimator="@android:anim/slide_in_left"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/lesson_number"
         app:layout_constraintTop_toBottomOf="@id/lesson_time" />
 </androidx.constraintlayout.widget.ConstraintLayout>
