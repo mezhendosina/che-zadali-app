@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_main"/>
     <fragment
         android:id="@+id/journal"
-        android:name="com.che.zadali.sgoapp.Journal"
+        android:name="com.che.zadali.sgoapp.ui.screens.mainActivity.Journal"
         android:label="@string/journal"
         tools:layout="@layout/fragment_journal"/>
 </navigation>

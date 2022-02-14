@@ -29,7 +29,7 @@
     </style>
 
     <style name="EditText" parent="Widget.AppCompat.EditText">
-        <item name="singleLine">true</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="SecondaryTextView" parent="Widget.AppCompat.TextView">

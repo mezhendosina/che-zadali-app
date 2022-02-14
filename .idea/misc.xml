@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Student/AndroidStudioProjects/che-zadali-app/app/src/main/res/layout/fragment_main.xml" value="0.33" />
+        <entry key="..\:/Users/Student/AndroidStudioProjects/che-zadali-app/app/src/main/res/layout/homework_item.xml" value="0.5" />
+        <entry key="..\:/Users/Student/AndroidStudioProjects/che-zadali-app/app/src/main/res/layout/login_fragment.xml" value="0.371875" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/drawable/forum_icon.xml" value="0.4145" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/drawable/homework_icon.xml" value="0.4145" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/drawable/ic_round_bookmark_24.xml" value="0.1155" />
