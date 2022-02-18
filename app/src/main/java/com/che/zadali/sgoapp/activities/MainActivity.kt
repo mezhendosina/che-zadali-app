@@ -6,17 +6,21 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.che.zadali.sgoapp.navigators.MainNavigator
 import com.che.zadali.sgoapp.R
 import com.che.zadali.sgoapp.databinding.MainContainerBinding
-import com.che.zadali.sgoapp.ui.screens.mainActivity.MainFragment
+import com.che.zadali.sgoapp.databinding.NoMainContainerBinding
+import com.che.zadali.sgoapp.navigators.Navigator
+import com.che.zadali.sgoapp.ui.screens.loginActivity.LoginFragment
+import com.che.zadali.sgoapp.ui.screens.mainActivity.SettingsFragment
 
-class MainActivity : AppCompatActivity(), MainNavigator {
+class MainActivity : AppCompatActivity(), Navigator {
     private lateinit var binding: MainContainerBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = MainContainerBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         val bottomNavigationView = binding.bottomBar
@@ -24,29 +28,55 @@ class MainActivity : AppCompatActivity(), MainNavigator {
         val navController = findNavController(R.id.fragmentContainerView)
         val appBarConfig = AppBarConfiguration(setOf(R.id.main, R.id.journal))
 
-        setSupportActionBar(binding.mainToolbar)
+        setSupportActionBar(binding.supportActionBar)
         setupActionBarWithNavController(navController, appBarConfig)
         bottomNavigationView.setupWithNavController(navController)
+        supportActionBar?.hide()
+
+        navController.addOnDestinationChangedListener { _, b, _ ->
+            binding.mainToolbar.setNavigationOnClickListener {
+
+            }
+            when (b.label) {
+                getString(R.string.mainTab) -> {
+                    binding.mainToolbar.setTitle(R.string.main)
+                }
+                getString(R.string.journal) -> {
+                    binding.mainToolbar.setTitle(R.string.journal)
+                }
+                getString(R.string.other) -> {
+                    binding.mainToolbar.setTitle(R.string.other)
+                }
+            }
+        }
     }
 
     override fun goBack() {
         TODO("Not yet implemented")
     }
 
-    override fun journal() {
+    override fun chooseSchool(typedSchool: String?) {
+        TODO("Not yet implemented")
+    }
 
+    override fun login(schoolId: Int, typedSchool: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun journal() {
+        TODO("Not yet implemented")
     }
 
     override fun main() {
-        supportFragmentManager.beginTransaction()
-            .setReorderingAllowed(true)
-            .addToBackStack(null)
-            .replace(R.id.fragmentContainer, MainFragment())
-            .commit()
+        TODO("Not yet implemented")
     }
 
     override fun settings() {
-        TODO("Not yet implemented")
+        supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .replace(R.id.container, SettingsFragment())
+            .commit()
     }
 
     override fun forum() {
@@ -56,4 +86,5 @@ class MainActivity : AppCompatActivity(), MainNavigator {
     override fun messages() {
         TODO("Not yet implemented")
     }
+
 }

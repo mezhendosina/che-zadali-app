@@ -7,6 +7,7 @@
         <item name="colorSecondaryVariant">@color/main_text</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="colorError">@color/second_grade</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
@@ -38,5 +39,11 @@
 
     <style name="MainTextView" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/main_text</item>
+    </style>
+
+    <style name="CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="cardElevation">0dp</item>
     </style>
 </resources>

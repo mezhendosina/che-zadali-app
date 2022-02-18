@@ -1,18 +1,19 @@
 package com.che.zadali.sgoapp.data
 
 import android.annotation.SuppressLint
-import com.che.zadali.sgoapp.data.layout.diary.Diary
 import com.che.zadali.sgo_app.data.diary.WeekDay
+import com.che.zadali.sgoapp.data.layout.diary.Diary
 import java.text.SimpleDateFormat
 import java.util.*
 
 //Prepare date
 @SuppressLint("SimpleDateFormat")
-fun dateToRussian(date: String, uppercase:Boolean): String {
+fun dateToRussian(date: String, uppercase: Boolean): String {
     val a = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
-    return  when(uppercase){
-        true -> SimpleDateFormat("EEEE, dd MMMM").format(a!!).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        false ->  SimpleDateFormat("Сегодня EE, dd MMMM").format(a!!)
+    return when (uppercase) {
+        true -> SimpleDateFormat("EEEE, dd MMMM").format(a!!)
+            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        false -> SimpleDateFormat("Сегодня EE, dd MMMM").format(a!!)
     }
 }
 
@@ -20,7 +21,15 @@ fun dateToRussian(date: String, uppercase:Boolean): String {
 @SuppressLint("SimpleDateFormat")
 fun dateFormatter(date: String): String {
     val a = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
+
     return SimpleDateFormat("dd.MM.yyyy").format(a!!)
+}
+
+@SuppressLint("SimpleDateFormat")
+
+fun dateToTime(date: String): Long {
+    val a = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
+    return a.time
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -39,7 +48,7 @@ fun whenHoliday(holidayStart: String): String {
 
 fun todayHomework(diary: Diary): List<WeekDay> {//TODO переписать null check
     var a = diary.weekDays.filter { it.date == today() }
-    if(a.isEmpty()){
+    if (a.isEmpty()) {
         a = diary.weekDays
     }
     return a

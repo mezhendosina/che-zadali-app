@@ -9,10 +9,15 @@
         android:id="@+id/main"
         android:name="com.che.zadali.sgoapp.ui.screens.mainActivity.MainFragment"
         android:label="@string/mainTab"
-        tools:layout="@layout/fragment_main"/>
+        tools:layout="@layout/fragment_main" />
     <fragment
         android:id="@+id/journal"
         android:name="com.che.zadali.sgoapp.ui.screens.mainActivity.Journal"
         android:label="@string/journal"
-        tools:layout="@layout/fragment_journal"/>
+        tools:layout="@layout/fragment_journal" />
+    <fragment
+        android:id="@+id/other"
+        android:name="com.che.zadali.sgoapp.ui.screens.mainActivity.OtherFragment"
+        android:label="@string/other"
+        tools:layout="@layout/other_fragment" />
 </navigation>

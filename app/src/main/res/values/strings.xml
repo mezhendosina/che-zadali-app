@@ -38,10 +38,12 @@
     <string name="logout">Выйти</string>
     <string name="expand_all">Expand All</string>
     <string name="exit">Выйти</string>
-    <string name="choosed_school">Выбранная школа</string>
+    <string name="chosen_school">Выбранная школа</string>
     <string name="login_button">Войти</string>
     <string name="welcome_screen">Добро пожаловать в \nМобильное приложение для \nСетевого Города!</string>
     <string name="login_toolbar">Введите логин/пароль</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_login_error">Введите логин</string>
+    <string name="empty_password_error">Введите пароль</string>
+    <string name="choose_control_question">Выберите вопрос</string>
+    <string name="other">Другое</string>
 </resources>

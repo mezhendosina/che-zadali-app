@@ -1,31 +1,31 @@
 package com.che.zadali.sgoapp.data.adapters
 
-import android.animation.LayoutTransition
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.che.zadali.sgo_app.data.diary.Lesson
+import com.che.zadali.sgoapp.R.color
 import com.che.zadali.sgoapp.databinding.HomeworkItemBinding
 
 
-class TodayHomeworkAdapter() :
-    RecyclerView.Adapter<TodayHomeworkAdapter.TodayHomeworkViewHolder>() {
+class HomeworkAdapter(val lessonList: List<Lesson>) :
+    RecyclerView.Adapter<HomeworkAdapter.HomeworkViewHolder>() {
 
-    var lessons: List<Lesson> = emptyList()
+    var lessons: List<Lesson> = lessonList
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
         }
     var expand = false
 
-    class TodayHomeworkViewHolder(
+    class HomeworkViewHolder(
         val binding: HomeworkItemBinding
     ) : RecyclerView.ViewHolder(binding.root)
 
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodayHomeworkViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeworkViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = HomeworkItemBinding.inflate(inflater, parent, false)
 
@@ -43,23 +43,42 @@ class TodayHomeworkAdapter() :
             }
         }
 
-        return TodayHomeworkViewHolder(binding)
+        return HomeworkViewHolder(binding)
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(
-        holder: TodayHomeworkViewHolder,
+        holder: HomeworkViewHolder,
         position: Int
     ) {
-        val lesson = lessons[position]
+        val lesson = lessons.sortedBy { it.number }[position]
         with(holder.binding) {
             holder.itemView.tag = lesson
-            root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             if (lesson.assignments != null) {
                 expandMoreHomework.visibility = View.VISIBLE
                 homework.text = lesson.assignments[0].assignmentName
+                if (lesson.assignments.any { it.mark != null }) {
+                    lesson.assignments.forEach {
+                        if (it.mark != null) {
+                            when (it.mark.mark) {
+                                2 -> grade.setTextColor(color.second_grade)
+                                else -> grade.setTextColor(color.primary_blue)
+                            }
+                            grade.text = it.mark.mark?.toString()
+                            grade.visibility = View.VISIBLE
+                        }
+                    }
+                } else {
+                    grade.visibility = View.GONE
+                }
             } else {
                 expandMoreHomework.visibility = View.GONE
                 homework.text = null
+            }
+            if (lesson.isEaLesson) {
+                strangePuzzlePiece.visibility = View.VISIBLE
+            } else {
+                strangePuzzlePiece.visibility = View.GONE
             }
 
             lessonName.text = lesson.subjectName
