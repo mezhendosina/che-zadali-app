@@ -31,7 +31,10 @@
         android:layout_below="@id/welcome_string"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:paddingHorizontal="32dp"
-        android:text="@string/login_button" />
+        android:paddingHorizontal="36dp"
+        android:paddingVertical="12dp"
+        android:text="@string/login_button"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
 
 </RelativeLayout>

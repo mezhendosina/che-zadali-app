@@ -13,13 +13,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/MainTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/chosen_school"
+        app:layout_constraintBottom_toTopOf="@id/school"
+        app:layout_constraintStart_toStartOf="@id/school"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/school"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@id/login_edit_layout"
         app:layout_constraintEnd_toEndOf="@id/login_edit_layout"
+        app:layout_constraintStart_toStartOf="@id/login_edit_layout"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <TextView
@@ -28,8 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:fontFamily="sans-serif-medium"
-            android:textColor="@color/main_text"
+            android:singleLine="true"
             android:text="@string/choose_school"
+            android:textColor="@color/main_text"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/login_edit_layout"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,13 +53,17 @@
         style="@style/TextField"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/login"
         android:layout_marginTop="8dp"
+        android:hint="@string/login"
+        app:boxStrokeErrorColor="@color/second_grade"
+        app:errorContentDescription="Введите логин"
+        app:hintAnimationEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/school">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_edit_text"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -62,12 +78,13 @@
         android:hint="@string/password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_edit_layout">
+        app:layout_constraintTop_toBottomOf="@id/login_edit_layout"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password_edit_text"
             style="@style/EditText"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>

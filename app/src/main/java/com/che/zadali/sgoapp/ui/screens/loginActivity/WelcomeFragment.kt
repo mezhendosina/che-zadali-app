@@ -9,14 +9,17 @@ import androidx.fragment.app.Fragment
 import com.che.zadali.sgoapp.R
 import com.che.zadali.sgoapp.databinding.WelcomeBinding
 import com.che.zadali.sgoapp.ui.navigator
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 
 class WelcomeFragment : Fragment() {
 
     private lateinit var binding: WelcomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val inflater = TransitionInflater.from(requireContext())
-        exitTransition = inflater.inflateTransition(R.transition.fade)
+        exitTransition = MaterialFadeThrough()
+        reenterTransition = MaterialFadeThrough()
+
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +31,5 @@ class WelcomeFragment : Fragment() {
             navigator().chooseSchool()
         }
         return binding.root
-    }
-    fun hideAll(){
     }
 }
