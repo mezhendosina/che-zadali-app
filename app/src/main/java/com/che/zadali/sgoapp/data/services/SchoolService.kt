@@ -1,7 +1,8 @@
-package com.che.zadali.sgoapp.data.layout.schools
+package com.che.zadali.sgoapp.data.services
 
 import com.che.zadali.sgo_app.data.schools.SchoolItem
 import com.che.zadali.sgoapp.data.StatusCodes
+import com.che.zadali.sgoapp.data.layout.schools.SchoolsList
 import com.google.gson.Gson
 import io.ktor.client.*
 import io.ktor.client.call.*

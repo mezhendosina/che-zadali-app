@@ -19,15 +19,27 @@ class SettingsPrefs(private val context: Context) {
         val CITY_ID: Preferences.Key<Int> = intPreferencesKey("CITY_ID")
         val PROVINCE_ID: Preferences.Key<Int> = intPreferencesKey("PROVINCE_ID")
 
+        val CURRENT_YEAR: Preferences.Key<String> = stringPreferencesKey("CURRENT_YEAR")
+        val LANGUAGE: Preferences.Key<String> = stringPreferencesKey("LANGUAGE")
+
         val THEME: Preferences.Key<String> = stringPreferencesKey("THEME")
     }
 
     val loggedIn: Flow<Boolean> = context.dataStore.data.map { prefs ->
         prefs[LOGGED_IN] ?: false
     }
-
     val login: Flow<String?> = context.dataStore.data.map { prefs ->
         prefs[LOGIN] ?: "login"
+    }
+
+    val currentYear = context.dataStore.data.map {
+        it[CURRENT_YEAR] ?: "1"//todo
+    }
+    val language: Flow<String> = context.dataStore.data.map {
+        it[LANGUAGE] ?: "12"//todo
+    }
+    val theme: Flow<String> = context.dataStore.data.map {
+        it[THEME] ?: "123"//todo
     }
 
     suspend fun saveAll(loginData: LoginData) {
@@ -49,11 +61,6 @@ class SettingsPrefs(private val context: Context) {
 
     suspend fun deleteAll() {
         context.dataStore.edit { prefs ->
-            prefs[LOGIN] = ""
-            prefs[PASSWORD] = ""
-            prefs[SCHOOL_ID] = 0
-            prefs[CITY_ID] = 0
-            prefs[PROVINCE_ID] = 0
             prefs[LOGGED_IN] = false
         }
     }

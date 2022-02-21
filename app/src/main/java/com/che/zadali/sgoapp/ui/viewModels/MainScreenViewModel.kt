@@ -11,7 +11,7 @@ class MainScreenViewModel(private val DiaryService: DiaryService) : ViewModel() 
     private var _lessons = MutableLiveData<List<Lesson>>()
     var lessons: LiveData<List<Lesson>> = _lessons
 
-    private var _expandAll = MutableLiveData<Boolean>(false)
+    private var _expandAll = MutableLiveData(false)
     var expandAll: LiveData<Boolean> = _expandAll
 
     private val listener: TodayActionListener = {
@@ -26,7 +26,7 @@ class MainScreenViewModel(private val DiaryService: DiaryService) : ViewModel() 
         _expandAll.value = _expandAll.value?.not()
     }
 
-    fun loadTodayLessons() {
+    private fun loadTodayLessons() {
         DiaryService.addTodayListener(listener)
         DiaryService.loadToday()
     }

@@ -9,13 +9,9 @@ interface Navigator {
 
     fun login(schoolId: Int, typedSchool:String)
 
-    fun journal()
-
-    fun main()
-
     fun settings()
 
-    fun forum()
+    fun changePassword()
 
-    fun messages()
+    fun changeControlQuestion()
 }

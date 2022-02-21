@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.che.zadali.sgo_app.data.schools.SchoolItem
-import com.che.zadali.sgoapp.data.layout.schools.SchoolService
-import com.che.zadali.sgoapp.data.layout.schools.SchoolsListener
+import com.che.zadali.sgoapp.data.services.SchoolService
+import com.che.zadali.sgoapp.data.services.SchoolsListener
 
 class SchoolsListViewModel(private val schoolService: SchoolService) : ViewModel() {
     private var _schools = MutableLiveData<List<SchoolItem>>()

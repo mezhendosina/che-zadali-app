@@ -46,7 +46,6 @@ class HomeworkAdapter(val lessonList: List<Lesson>) :
         return HomeworkViewHolder(binding)
     }
 
-    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(
         holder: HomeworkViewHolder,
         position: Int
@@ -60,16 +59,16 @@ class HomeworkAdapter(val lessonList: List<Lesson>) :
                 if (lesson.assignments.any { it.mark != null }) {
                     lesson.assignments.forEach {
                         if (it.mark != null) {
-                            when (it.mark.mark) {
-                                2 -> grade.setTextColor(color.second_grade)
-                                else -> grade.setTextColor(color.primary_blue)
-                            }
                             grade.text = it.mark.mark?.toString()
                             grade.visibility = View.VISIBLE
+                            if (it.mark.dutyMark){
+
+                            }
+                        }
+                        else {
+                            grade.visibility = View.GONE
                         }
                     }
-                } else {
-                    grade.visibility = View.GONE
                 }
             } else {
                 expandMoreHomework.visibility = View.GONE

@@ -31,8 +31,7 @@ class Journal : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         diaryAdapter = DiaryAdapter()
         binding = FragmentJournalBinding.inflate(inflater, container, false)
 

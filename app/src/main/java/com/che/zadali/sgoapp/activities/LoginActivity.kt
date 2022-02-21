@@ -9,7 +9,7 @@ import com.che.zadali.sgoapp.ui.screens.loginActivity.ChooseSchoolFragment
 import com.che.zadali.sgoapp.ui.screens.loginActivity.LoginFragment
 import com.che.zadali.sgoapp.ui.screens.loginActivity.WelcomeFragment
 
-class Activity : AppCompatActivity(), Navigator {
+class LoginActivity : AppCompatActivity(), Navigator {
     private lateinit var binding: FragmentContainerBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,23 +43,15 @@ class Activity : AppCompatActivity(), Navigator {
             .commit()
     }
 
-    override fun journal() {
-        TODO("Not yet implemented")
-    }
-
-    override fun main() {
-        TODO("Not yet implemented")
-    }
-
     override fun settings() {
         TODO("Not yet implemented")
     }
 
-    override fun forum() {
+    override fun changePassword() {
         TODO("Not yet implemented")
     }
 
-    override fun messages() {
+    override fun changeControlQuestion() {
         TODO("Not yet implemented")
     }
 

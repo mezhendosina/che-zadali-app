@@ -7,7 +7,6 @@
     <string name="main">Сетевой Город</string>
     <string name="journal">Дневник</string>
     <string name="schedule">Расписание</string>
-    <string name="when_holiday">До каникул осталось…</string>
     <string name="today">Сегодня</string>
     <string name="mainTab">Главная</string>
     <string name="announcements">Объявления</string>
@@ -34,7 +33,6 @@
     <string name="current_year">Текущий год</string>
     <string name="language">Язык интерфейса</string>
     <string name="theme">Оформление приложения</string>
-    <string name="when_holiday_settings">Отсчет каникул на главной странице</string>
     <string name="logout">Выйти</string>
     <string name="expand_all">Expand All</string>
     <string name="exit">Выйти</string>
@@ -46,4 +44,8 @@
     <string name="empty_password_error">Введите пароль</string>
     <string name="choose_control_question">Выберите вопрос</string>
     <string name="other">Другое</string>
+    <string name="type_answer">Ответ</string>
+    <string name="old_password">Текущий пароль</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="confirm_new_password">Новый пароль еще раз</string>
 </resources>

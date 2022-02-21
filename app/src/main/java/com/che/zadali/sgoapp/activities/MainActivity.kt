@@ -13,7 +13,7 @@ import com.che.zadali.sgoapp.navigators.Navigator
 import com.che.zadali.sgoapp.ui.screens.loginActivity.LoginFragment
 import com.che.zadali.sgoapp.ui.screens.mainActivity.SettingsFragment
 
-class MainActivity : AppCompatActivity(), Navigator {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: MainContainerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,63 +28,23 @@ class MainActivity : AppCompatActivity(), Navigator {
         val navController = findNavController(R.id.fragmentContainerView)
         val appBarConfig = AppBarConfiguration(setOf(R.id.main, R.id.journal))
 
-        setSupportActionBar(binding.supportActionBar)
+        setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController, appBarConfig)
         bottomNavigationView.setupWithNavController(navController)
-        supportActionBar?.hide()
+        supportActionBar?.setDisplayShowCustomEnabled(true)
 
         navController.addOnDestinationChangedListener { _, b, _ ->
-            binding.mainToolbar.setNavigationOnClickListener {
-
-            }
             when (b.label) {
                 getString(R.string.mainTab) -> {
-                    binding.mainToolbar.setTitle(R.string.main)
+                    binding.toolbar.setTitle(R.string.main)
                 }
                 getString(R.string.journal) -> {
-                    binding.mainToolbar.setTitle(R.string.journal)
+                    binding.toolbar.setTitle(R.string.journal)
                 }
                 getString(R.string.other) -> {
-                    binding.mainToolbar.setTitle(R.string.other)
+                    binding.toolbar.setTitle(R.string.other)
                 }
             }
         }
     }
-
-    override fun goBack() {
-        TODO("Not yet implemented")
-    }
-
-    override fun chooseSchool(typedSchool: String?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun login(schoolId: Int, typedSchool: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun journal() {
-        TODO("Not yet implemented")
-    }
-
-    override fun main() {
-        TODO("Not yet implemented")
-    }
-
-    override fun settings() {
-        supportFragmentManager.beginTransaction()
-            .setReorderingAllowed(true)
-            .addToBackStack(null)
-            .replace(R.id.container, SettingsFragment())
-            .commit()
-    }
-
-    override fun forum() {
-        TODO("Not yet implemented")
-    }
-
-    override fun messages() {
-        TODO("Not yet implemented")
-    }
-
 }

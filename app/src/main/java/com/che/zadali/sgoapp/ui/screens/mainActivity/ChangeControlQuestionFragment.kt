@@ -1,33 +1,40 @@
 package com.che.zadali.sgoapp.ui.screens.mainActivity
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.che.zadali.sgoapp.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.che.zadali.sgoapp.databinding.ChangeControlQuestionFragmentBinding
 import com.che.zadali.sgoapp.ui.viewModels.ChangeControlQuestionViewModel
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 
 class ChangeControlQuestionFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ChangeControlQuestionFragment()
-    }
+    private lateinit var binding: ChangeControlQuestionFragmentBinding
+    private val viewModel: ChangeControlQuestionViewModel by viewModels()
 
-    private lateinit var viewModel: ChangeControlQuestionViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        exitTransition = MaterialFadeThrough()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.change_control_question_fragment, container, false)
-    }
+        binding = ChangeControlQuestionFragmentBinding.inflate(inflater, container, false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ChangeControlQuestionViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel.question.observe(viewLifecycleOwner) {
+            binding.selectedControlQuestion.text = it
+        }
+        binding.controlQuestionCard.setOnClickListener {  }//TODO onClick
+
+
+        return binding.root
     }
 
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.che.zadali.sgo_app.data.schools.SchoolItem
 import com.che.zadali.sgoapp.data.LoginData
 import com.che.zadali.sgoapp.data.SettingsPrefs
-import com.che.zadali.sgoapp.data.layout.schools.SchoolService
+import com.che.zadali.sgoapp.data.services.SchoolService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
