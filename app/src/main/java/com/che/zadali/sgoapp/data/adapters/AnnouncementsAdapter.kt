@@ -1,0 +1,58 @@
+package com.che.zadali.sgoapp.data.adapters
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.RecyclerView
+import com.che.zadali.sgoapp.data.layout.announcements.AnnouncementsDataItem
+import com.che.zadali.sgoapp.databinding.AnnouncemetsItemBinding
+import com.che.zadali.sgoapp.ui.screens.mainActivity.AnnouncementsBottomSheet
+
+interface AnnouncementsActionListener{
+    fun onClick(announcementsDataItem: AnnouncementsDataItem)
+}
+
+class AnnouncementsAdapter(
+    private val announcementsList: List<AnnouncementsDataItem>,
+    private val fragmentManager: FragmentManager,
+    private val actionListener: AnnouncementsActionListener
+) :
+    RecyclerView.Adapter<AnnouncementsAdapter.AnnouncementsViewHolder>(), View.OnClickListener {
+
+    var announcements: List<AnnouncementsDataItem> = announcementsList
+        set(newValue) {
+            field = newValue
+            notifyDataSetChanged()
+        }
+
+    class AnnouncementsViewHolder(
+        val binding: AnnouncemetsItemBinding
+    ) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onClick(v: View){
+        val announcement = v.tag as AnnouncementsDataItem
+        actionListener.onClick(announcement)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementsViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = AnnouncemetsItemBinding.inflate(inflater, parent, false)
+
+        binding.root.setOnClickListener(this)
+
+        return AnnouncementsViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: AnnouncementsViewHolder, position: Int) {
+        val announcement = announcements[position]
+        with(holder.binding) {
+            holder.itemView.tag = announcement
+            this.announcement.text = announcement.description
+            this.announcementHeader.text = announcement.name
+
+        }
+    }
+
+    override fun getItemCount(): Int = announcements.size
+}

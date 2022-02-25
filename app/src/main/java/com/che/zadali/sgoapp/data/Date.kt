@@ -17,6 +17,13 @@ fun dateToRussian(date: String, uppercase: Boolean): String {
     }
 }
 
+@SuppressLint("SimpleDateFormat")
+fun dateToRussianWithTime(date:String): String {
+    val a = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss").parse(date)
+    return SimpleDateFormat("dd.MM.yyyy hh:mm").format(a!!)
+
+}
+
 //Format date
 @SuppressLint("SimpleDateFormat")
 fun dateFormatter(date: String): String {

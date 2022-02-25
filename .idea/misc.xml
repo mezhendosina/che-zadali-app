@@ -8,16 +8,20 @@
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.182" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/drawable/ic_round_bookmark_24.xml" value="0.1155" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/drawable/menu.xml" value="0.286" />
+        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/font/h.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/font/lobster.xml" value="0.23796296296296296" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/announcements_bottom_sheet.xml" value="0.33" />
+        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/announcemets_item.xml" value="0.21240942028985507" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/change_control_question_fragment.xml" value="0.25" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/change_password_fragment.xml" value="0.16" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/choose_school.xml" value="0.1" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/choose_school_fragment.xml" value="0.1" />
-        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/diary_item.xml" value="0.33" />
+        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/diary_item.xml" value="0.16" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/fragment_container.xml" value="0.1" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/fragment_journal.xml" value="0.2672239108409321" />
-        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/fragment_main.xml" value="0.22" />
-        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/homework_item.xml" value="0.5" />
+        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/fragment_main.xml" value="0.25" />
+        <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/homework_item.xml" value="0.18" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/login.xml" value="0.33" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/login_fragment.xml" value="0.1" />
         <entry key="..\:/Users/mensh/rewrite 8/app/src/main/res/layout/main.xml" value="0.2672239108409321" />

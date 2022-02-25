@@ -8,10 +8,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.che.zadali.sgoapp.R
 import com.che.zadali.sgoapp.databinding.MainContainerBinding
-import com.che.zadali.sgoapp.databinding.NoMainContainerBinding
-import com.che.zadali.sgoapp.navigators.Navigator
-import com.che.zadali.sgoapp.ui.screens.loginActivity.LoginFragment
-import com.che.zadali.sgoapp.ui.screens.mainActivity.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: MainContainerBinding

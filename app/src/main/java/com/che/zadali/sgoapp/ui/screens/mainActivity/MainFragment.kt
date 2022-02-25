@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.che.zadali.sgoapp.data.adapters.AnnouncementsActionListener
+import com.che.zadali.sgoapp.data.adapters.AnnouncementsAdapter
 import com.che.zadali.sgoapp.data.adapters.HomeworkAdapter
 import com.che.zadali.sgoapp.data.dateToRussian
+import com.che.zadali.sgoapp.data.layout.announcements.AnnouncementsDataItem
 import com.che.zadali.sgoapp.databinding.FragmentMainBinding
 import com.che.zadali.sgoapp.ui.factory
 import com.che.zadali.sgoapp.ui.viewModels.MainScreenViewModel
@@ -39,9 +42,25 @@ class MainFragment : Fragment() {
             binding.lessonsRecyclerView.adapter = lessonsAdapter
         }
 
-        val layoutManager = LinearLayoutManager(requireContext())
+        viewModel.announcements.observe(viewLifecycleOwner) {
+            val adapter = AnnouncementsAdapter(it, parentFragmentManager,
+                object : AnnouncementsActionListener {
+                    override fun onClick(announcementsDataItem: AnnouncementsDataItem) {
+                        AnnouncementsBottomSheet(announcementsDataItem).show(
+                            parentFragmentManager,
+                            AnnouncementsBottomSheet.TAG
+                        )
+                    }
+                })
+            binding.announcementsRecyclerView.adapter = adapter
+        }
+
+        val lessonLayoutManager = LinearLayoutManager(requireContext())
         binding.mainFragment.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        binding.lessonsRecyclerView.layoutManager = layoutManager
+        binding.lessonsRecyclerView.layoutManager = lessonLayoutManager
+
+        val announcementLayoutManager = LinearLayoutManager(requireContext())
+        binding.announcementsRecyclerView.layoutManager = announcementLayoutManager
 
         return binding.root
     }

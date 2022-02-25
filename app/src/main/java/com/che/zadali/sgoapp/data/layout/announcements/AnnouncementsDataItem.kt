@@ -1,6 +1,7 @@
-package com.che.zadali.sgo_app.data.announcements
+package com.che.zadali.sgoapp.data.layout.announcements
 
 
+import com.che.zadali.sgo_app.data.announcements.Author
 import com.google.gson.annotations.SerializedName
 
 data class AnnouncementsDataItem(
