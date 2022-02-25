@@ -22,12 +22,13 @@ class SettingsActivity : AppCompatActivity(), Navigator {
 
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
-            .add(R.id.no_main_container_fragment, SettingsFragment())
+            .replace(R.id.no_main_container_fragment, SettingsFragment(supportActionBar))
             .commit()
         supportActionBar?.setDisplayShowCustomEnabled(true)
         binding.noMainToolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+
     }
 
     override fun goBack() {
@@ -42,7 +43,7 @@ class SettingsActivity : AppCompatActivity(), Navigator {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .setReorderingAllowed(true)
-            .replace(R.id.no_main_container_fragment, SettingsFragment())
+            .replace(R.id.no_main_container_fragment, SettingsFragment(supportActionBar))
             .commit()
     }
 

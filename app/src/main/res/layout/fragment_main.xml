@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:fontFamily="sans-serif"
-        android:textSize="20sp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,11 +36,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@id/announcements"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/lesson_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        app:layout_constraintBottom_toTopOf="@id/announcements"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lessons_recycler_view" />
 
     <TextView
         android:id="@+id/announcements"
@@ -48,12 +57,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
         android:text="@string/announcements"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lessons_recycler_view" />
+        app:layout_constraintTop_toBottomOf="@id/lesson_divider" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/announcements_recycler_view"
@@ -65,12 +73,21 @@
         app:layout_constraintTop_toBottomOf="@id/announcements"
         tools:itemCount="15" />
 
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/announcements_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        app:layout_constraintBottom_toTopOf="@id/grades"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/announcements_recycler_view" />
+
     <TextView
         android:id="@+id/grades"
         style="@style/MainTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
         android:text="@string/grades"
         android:textSize="20sp"

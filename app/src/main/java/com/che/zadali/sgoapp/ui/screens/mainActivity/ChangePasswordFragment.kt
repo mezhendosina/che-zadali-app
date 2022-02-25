@@ -26,11 +26,7 @@ class ChangePasswordFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = ChangePasswordFragmentBinding.inflate(inflater, container, false)
-
         return binding.root
     }
-
-
 }

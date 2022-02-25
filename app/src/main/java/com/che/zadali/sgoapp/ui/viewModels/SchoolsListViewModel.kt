@@ -19,10 +19,6 @@ class SchoolsListViewModel(private val schoolService: SchoolService) : ViewModel
     }
 
     init {
-        loadSchools()
-    }
-
-    fun loadSchools() {
         _inProgress.value = true
         schoolService.addListener(listener)
         schoolService.loadSchools()

@@ -1,7 +1,6 @@
 package com.che.zadali.sgoapp.ui.screens.loginActivity
 
 import android.os.Bundle
-import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.che.zadali.sgo_app.data.schools.SchoolItem
-import com.che.zadali.sgoapp.data.layout.schools.SchoolActionListener
-import com.che.zadali.sgoapp.data.layout.schools.SchoolsAdapter
+import com.che.zadali.sgoapp.data.adapters.SchoolActionListener
+import com.che.zadali.sgoapp.data.adapters.SchoolsAdapter
 import com.che.zadali.sgoapp.databinding.ChooseSchoolFragmentBinding
 import com.che.zadali.sgoapp.ui.factory
 import com.che.zadali.sgoapp.ui.navigator

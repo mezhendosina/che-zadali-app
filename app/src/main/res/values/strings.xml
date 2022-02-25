@@ -48,4 +48,9 @@
     <string name="old_password">Текущий пароль</string>
     <string name="new_password">Новый пароль</string>
     <string name="confirm_new_password">Новый пароль еще раз</string>
+    <string name="same_as_system">Как в системе</string>
+    <string name="light_theme">Светлая тема</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="attachments">Прикрепленные файлы</string>
+    <string name="author">Автор</string>
 </resources>

@@ -20,7 +20,7 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
                 LoginViewModel(app.schoolsService)
             }
             MainScreenViewModel::class.java -> {
-                MainScreenViewModel(app.diaryService)
+                MainScreenViewModel(app.diaryService, app.announcementsService)
             }
             JournalViewModel::class.java -> {
                 JournalViewModel(app.diaryService)

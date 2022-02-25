@@ -10,7 +10,7 @@ import com.che.zadali.sgoapp.R.color
 import com.che.zadali.sgoapp.databinding.HomeworkItemBinding
 
 
-class HomeworkAdapter(val lessonList: List<Lesson>) :
+class HomeworkAdapter(private val lessonList: List<Lesson>) :
     RecyclerView.Adapter<HomeworkAdapter.HomeworkViewHolder>() {
 
     var lessons: List<Lesson> = lessonList

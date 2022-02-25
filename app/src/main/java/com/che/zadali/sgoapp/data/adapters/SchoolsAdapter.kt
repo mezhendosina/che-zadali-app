@@ -1,4 +1,4 @@
-package com.che.zadali.sgoapp.data.layout.schools
+package com.che.zadali.sgoapp.data.adapters
 
 import android.view.LayoutInflater
 import android.view.View
