@@ -20,9 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/profile"
-            android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="13sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/last_name_text_layout"
@@ -31,10 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/surname"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile">
+            android:hint="@string/surname">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/last_name_edit_text"
@@ -50,10 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/last_name_text_layout">
+            android:hint="@string/name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/first_name_edit_text"
@@ -69,10 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/patronymic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/first_name_text_layout">
+            android:hint="@string/patronymic">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/patronymic_edit_text"
@@ -90,10 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/patronymic_text_layout">
+            android:hint="@string/login">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/settings_login_edit_text"
@@ -109,10 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settings_login_text_layout">
+            android:hint="@string/email">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_edit_text"
@@ -129,10 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/phone_number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_text_layout">
+            android:hint="@string/phone_number">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/phone_edit_text"
@@ -146,9 +126,7 @@
             android:id="@+id/profile_divider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phone_text_layout" />
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/security"
@@ -158,8 +136,6 @@
             android:layout_marginTop="2dp"
             android:text="@string/security"
             android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="@id/profile"
-            app:layout_constraintTop_toBottomOf="@id/profile_divider"
             app:layout_goneMarginBottom="8dp" />
 
         <Button
@@ -179,10 +155,7 @@
             app:icon="@drawable/ic_navigate_next"
             app:iconGravity="end"
             app:iconPadding="16dp"
-            app:iconTint="@color/main_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/security"
-            app:layout_constraintTop_toBottomOf="@id/security" />
+            app:iconTint="@color/main_text" />
 
         <Button
             android:id="@+id/change_control_question"
@@ -201,18 +174,12 @@
             android:textSize="16sp"
             app:icon="@drawable/ic_navigate_next"
             app:iconGravity="end"
-            app:iconTint="@color/main_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/change_password"
-            app:layout_constraintTop_toBottomOf="@id/change_password" />
+            app:iconTint="@color/main_text" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/security_divider"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/change_control_question" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/app_settings"
@@ -223,8 +190,6 @@
             android:layout_marginBottom="8dp"
             android:text="@string/app_settings"
             android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="@id/profile"
-            app:layout_constraintTop_toBottomOf="@id/security_divider"
             app:layout_goneMarginBottom="8dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -233,11 +198,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/app_settings"
-            android:focusable="true">
+            android:focusable="true"
+            app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -273,11 +235,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/current_year_card"
-            android:focusable="true">
+            android:focusable="true"
+            app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -313,11 +272,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/language_card"
-            android:focusable="true">
+            android:focusable="true"
+            app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -360,10 +316,7 @@
             android:textColor="@color/second_grade"
             app:icon="@drawable/logout"
             app:iconPadding="16dp"
-            app:iconTint="@color/second_grade"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/theme_card" />
+            app:iconTint="@color/second_grade" />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

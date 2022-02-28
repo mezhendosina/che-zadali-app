@@ -14,8 +14,7 @@ interface AnnouncementsActionListener{
 }
 
 class AnnouncementsAdapter(
-    private val announcementsList: List<AnnouncementsDataItem>,
-    private val fragmentManager: FragmentManager,
+    announcementsList: List<AnnouncementsDataItem>,
     private val actionListener: AnnouncementsActionListener
 ) :
     RecyclerView.Adapter<AnnouncementsAdapter.AnnouncementsViewHolder>(), View.OnClickListener {

@@ -12,7 +12,7 @@ data class AnnouncementsDataItem(
     @SerializedName("deleteDate")
     val deleteDate: Any,
     @SerializedName("description")
-    val description: String,
+    var description: String,
     @SerializedName("em")
     val em: Any,
     @SerializedName("id")

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.che.zadali.sgoapp.R
 import com.che.zadali.sgoapp.data.dateToRussianWithTime
 import com.che.zadali.sgoapp.data.layout.announcements.AnnouncementsDataItem
 import com.che.zadali.sgoapp.databinding.AnnouncementsBottomSheetBinding
@@ -20,12 +21,13 @@ class AnnouncementsBottomSheet(val data: AnnouncementsDataItem) : BottomSheetDia
         binding.header.text = data.name
         binding.text.text = data.description
         binding.author.text = data.author.fio
-        binding.datePublishing.text = dateToRussianWithTime(data.postDate)
+        binding.datePublishing.text =
+            getString(R.string.publish_date, dateToRussianWithTime(data.postDate))
         if (data.attachments.isNotEmpty()) {
             binding.files.visibility = View.VISIBLE
             binding.filesDivider.visibility = View.VISIBLE
             binding.filesRecyclerView.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.files.visibility = View.GONE
             binding.filesDivider.visibility = View.GONE
             binding.filesRecyclerView.visibility = View.GONE

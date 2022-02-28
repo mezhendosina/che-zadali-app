@@ -17,7 +17,6 @@ class LoginActivity : AppCompatActivity(), Navigator {
         setContentView(binding.root)
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
-            .addToBackStack(null)
             .add(R.id.fragmentContainer, WelcomeFragment())
             .commit()
 

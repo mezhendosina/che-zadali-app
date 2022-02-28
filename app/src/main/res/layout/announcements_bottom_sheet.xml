@@ -17,6 +17,7 @@
             android:layout_marginHorizontal="16dp"
             android:fontFamily="sans-serif-medium"
             android:textSize="20sp"
+            android:layout_marginVertical="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +25,7 @@
             android:id="@+id/header_divider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="8dp"
+            android:layout_marginVertical="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header" />
@@ -32,9 +33,13 @@
         <TextView
             android:id="@+id/text"
             style="@style/MainTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:autoLink="web"
             android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/header"
             app:layout_constraintTop_toBottomOf="@id/header_divider" />
 
@@ -68,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginVertical="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/files_recycler_view" />
@@ -77,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/author"
+            android:layout_marginBottom="8dp"
             app:layout_constraintStart_toStartOf="@id/header"
             app:layout_constraintTop_toBottomOf="@id/files_divider" />
 
@@ -84,6 +91,7 @@
             android:id="@+id/profile_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
             android:src="@drawable/profile_icon"
             app:layout_constraintStart_toStartOf="@id/header"
             app:layout_constraintTop_toBottomOf="@id/author_caption" />
@@ -93,7 +101,7 @@
             style="@style/MainTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/profile_icon"
             app:layout_constraintStart_toEndOf="@id/profile_icon"
@@ -103,7 +111,10 @@
             android:id="@+id/date_publishing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/header"
+            android:layout_marginVertical="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_icon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

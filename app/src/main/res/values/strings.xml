@@ -24,6 +24,7 @@
     <string name="name">Имя</string>
     <string name="patronymic">Отчество</string>
     <string name="birthday_date">Дата рождения</string>
+    <string name="publish_date">Дата публикации: %1$s</string>
     <string name="phone_number">Номер телефона</string>
     <string name="email">E-mail</string>
     <string name="security">Безопастность</string>
