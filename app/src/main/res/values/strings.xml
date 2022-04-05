@@ -54,4 +54,12 @@
     <string name="dark_theme">Темная тема</string>
     <string name="attachments">Прикрепленные файлы</string>
     <string name="author">Автор</string>
+    <string name="choose_theme">Выберите тему</string>
+    <string name="cancel">Отмена</string>
+    <string name="open">Открыть</string>
+    <string name="close">Закрыть</string>
+    <string name="total_grades">Итоговые оценки</string>
+    <string name="resend">Переслать</string>
+    <string name="delete">Удалить</string>
+    <string name="new_message">Новое сообщение</string>
 </resources>

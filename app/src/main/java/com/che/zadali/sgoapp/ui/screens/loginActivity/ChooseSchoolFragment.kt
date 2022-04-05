@@ -69,7 +69,6 @@ class ChooseSchoolFragment : Fragment() {
             } else {
                 binding.progressCircular.visibility = View.GONE
                 binding.schoolRecyclerView.visibility = View.VISIBLE
-
             }
         }
         val layoutManager = LinearLayoutManager(requireContext())

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.che.zadali.sgoapp.R
@@ -26,8 +27,8 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.loadSchool(requireArguments().getInt(ARG_SCHOOL_ID))
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
     }
 
     override fun onCreateView(
@@ -35,13 +36,13 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        postponeEnterTransition()
         binding = LoginFragmentBinding.inflate(layoutInflater, container, false)
 
         viewModel.school.observe(viewLifecycleOwner) {
             binding.schoolTextView.text = "${it.city}, ${it.school} "
         }
 
+        binding.passwordEditText.addTextChangedListener(onTextChanged = {_, _, _, _  ->})
         binding.toolbar.setNavigationOnClickListener { navigator().goBack() }
         binding.school.setOnClickListener {
             navigator().chooseSchool(
@@ -51,7 +52,6 @@ class LoginFragment : Fragment() {
             )
         }
         binding.FAB.setOnClickListener {
-
             if (binding.passwordEditText.text.toString()
                     .isNotEmpty() && binding.loginEditText.text.toString().isNotEmpty()
             ) {
@@ -76,10 +76,8 @@ class LoginFragment : Fragment() {
                     binding.passwordLayout.error = getString(R.string.empty_password_error)
                 }
             }
-
         }
 
-        startPostponedEnterTransition()
         return binding.root
 
     }

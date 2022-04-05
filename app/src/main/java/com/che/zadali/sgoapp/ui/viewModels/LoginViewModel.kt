@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.che.zadali.sgo_app.data.schools.SchoolItem
 import com.che.zadali.sgoapp.data.LoginData
-import com.che.zadali.sgoapp.data.SettingsPrefs
+import com.che.zadali.sgoapp.data.services.SettingsPrefs
 import com.che.zadali.sgoapp.data.services.SchoolService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +22,7 @@ class LoginViewModel(private val schoolService: SchoolService) : ViewModel() {
     }
 
     fun onClick(context: Context, loginData: LoginData): Boolean {
+        //TODO
         CoroutineScope(Dispatchers.IO).launch {
             SettingsPrefs(context).saveAll(loginData)
         }

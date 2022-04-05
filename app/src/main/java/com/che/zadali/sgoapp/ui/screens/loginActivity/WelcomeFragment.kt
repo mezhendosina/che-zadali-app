@@ -19,6 +19,7 @@ class WelcomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         exitTransition = MaterialFadeThrough()
         reenterTransition = MaterialFadeThrough()
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialFadeThrough()
 
     }

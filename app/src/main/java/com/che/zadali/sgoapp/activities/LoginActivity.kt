@@ -54,4 +54,12 @@ class LoginActivity : AppCompatActivity(), Navigator {
         TODO("Not yet implemented")
     }
 
+    override fun messageItem(messageId: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun messages() {
+        TODO("Not yet implemented")
+    }
+
 }

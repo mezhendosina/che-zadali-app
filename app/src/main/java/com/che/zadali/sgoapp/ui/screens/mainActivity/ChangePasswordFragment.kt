@@ -27,6 +27,7 @@ class ChangePasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = ChangePasswordFragmentBinding.inflate(inflater, container, false)
+        //TODO net code
         return binding.root
     }
 }

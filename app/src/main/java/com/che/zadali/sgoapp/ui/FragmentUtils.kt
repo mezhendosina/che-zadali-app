@@ -5,10 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.che.zadali.sgoapp.App
 import com.che.zadali.sgoapp.navigators.Navigator
-import com.che.zadali.sgoapp.ui.viewModels.JournalViewModel
-import com.che.zadali.sgoapp.ui.viewModels.LoginViewModel
-import com.che.zadali.sgoapp.ui.viewModels.MainScreenViewModel
-import com.che.zadali.sgoapp.ui.viewModels.SchoolsListViewModel
+import com.che.zadali.sgoapp.ui.viewModels.*
 
 class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -24,6 +21,12 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
             }
             JournalViewModel::class.java -> {
                 JournalViewModel(app.diaryService)
+            }
+            MessagesViewModel::class.java -> {
+                MessagesViewModel(app.messagesService)
+            }
+            MessagesItemViewModel::class.java -> {
+                MessagesItemViewModel(app.messagesService)
             }
             else -> {
                 throw IllegalStateException("ViewModel Error")

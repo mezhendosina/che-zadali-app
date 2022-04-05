@@ -14,7 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/sgoAppTheme">
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".activities.modalDrawerActivities.ForumActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.modalDrawerActivities.MessagesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.modalDrawerActivities.CalendarActivity"
             android:exported="false" />
         <activity
             android:name=".activities.StartActivity"
@@ -30,7 +36,13 @@
             android:exported="false" />
         <activity
             android:name=".activities.LoginActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.modalDrawerActivities.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.modalDrawerActivities.GradesActivity"
             android:exported="false" />
 
         <meta-data
