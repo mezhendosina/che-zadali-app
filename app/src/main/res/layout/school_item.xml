@@ -14,24 +14,22 @@
 
     <TextView
         android:id="@+id/school_name"
+        style="@style/MainTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:fontFamily="sans-serif-medium"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/main_text"
-        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spacer" />
 
     <TextView
         android:id="@+id/school_city"
+        style="@style/SecondaryTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/primary_blue"
-        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/school_name" />
 
