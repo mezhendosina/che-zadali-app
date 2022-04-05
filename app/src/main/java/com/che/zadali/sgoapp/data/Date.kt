@@ -33,7 +33,6 @@ fun dateFormatter(date: String): String {
 }
 
 @SuppressLint("SimpleDateFormat")
-
 fun dateToTime(date: String): Long {
     val a = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
     return a.time
@@ -59,4 +58,15 @@ fun todayHomework(diary: Diary): List<WeekDay> {//TODO переписать null
         a = diary.weekDays
     }
     return a
+}
+
+@SuppressLint("SimpleDateFormat")
+fun newLineDate(date: String): String{
+    val a = SimpleDateFormat("dd.MM.yyyy hh:mm").parse(date)
+    var b = SimpleDateFormat("dd.MM.yyyy\nhh:mm").format(a!!)
+    //TODO
+//    if (Date().time - a.time < 3600000){
+//         b = SimpleDateFormat("")
+//    }
+    return b
 }
