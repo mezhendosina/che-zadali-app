@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    tools:context=".activities.SettingsActivity">
+    tools:context=".activities.modalDrawerActivities.SettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,11 +16,11 @@
 
         <TextView
             android:id="@+id/profile"
+            style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/profile"
-            android:textSize="13sp" />
+            android:text="@string/profile" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/last_name_text_layout"
@@ -130,51 +130,33 @@
 
         <TextView
             android:id="@+id/security"
+            style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
             android:text="@string/security"
-            android:textSize="13sp"
             app:layout_goneMarginBottom="8dp" />
 
         <Button
             android:id="@+id/change_password"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/SettingsTextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:letterSpacing="0"
             android:paddingHorizontal="16dp"
             android:paddingVertical="16dp"
             android:text="@string/change_password"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            app:icon="@drawable/ic_navigate_next"
-            app:iconGravity="end"
-            app:iconPadding="16dp"
-            app:iconTint="@color/main_text" />
+            app:icon="@drawable/ic_navigate_next" />
 
         <Button
             android:id="@+id/change_control_question"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/SettingsTextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elegantTextHeight="true"
-            android:fontFamily="sans-serif"
-            android:letterSpacing="0"
             android:paddingHorizontal="16dp"
             android:paddingVertical="16dp"
             android:text="@string/change_control_question"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            app:icon="@drawable/ic_navigate_next"
-            app:iconGravity="end"
-            app:iconTint="@color/main_text" />
+            app:icon="@drawable/ic_navigate_next" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/security_divider"
@@ -183,13 +165,13 @@
 
         <TextView
             android:id="@+id/app_settings"
+            style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="8dp"
             android:text="@string/app_settings"
-            android:textSize="13sp"
             app:layout_goneMarginBottom="8dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -197,8 +179,10 @@
             style="@style/CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:clickable="true"
             android:focusable="true"
+            android:paddingVertical="16dp"
             app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -213,16 +197,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/current_year"
-                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/selected_current_year"
+                    style="@style/SecondaryTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
-                    android:textColor="@color/caption"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/current_year_text_view" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -235,7 +218,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+
             android:focusable="true"
+            android:paddingVertical="16dp"
             app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -250,16 +235,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/language"
-                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/selected_language"
+                    style="@style/SecondaryTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
-                    android:textColor="@color/caption"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/language" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -273,6 +257,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            android:paddingVertical="16dp"
             app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -287,16 +272,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/theme"
-                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/selected_theme"
+                    style="@style/SecondaryTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
-                    android:textColor="@color/caption"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/theme_view" />
             </androidx.constraintlayout.widget.ConstraintLayout>

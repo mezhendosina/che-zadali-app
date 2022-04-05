@@ -1,4 +1,4 @@
-package com.che.zadali.sgoapp.activities
+package com.che.zadali.sgoapp.activities.modalDrawerActivities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +16,7 @@ class SettingsActivity : AppCompatActivity(), Navigator {
 
         binding = NoMainContainerBinding.inflate(layoutInflater)
 
-        setSupportActionBar(binding.noMainToolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setTitle(R.string.settings)
         setContentView(binding.root)
 
@@ -25,7 +25,7 @@ class SettingsActivity : AppCompatActivity(), Navigator {
             .replace(R.id.no_main_container_fragment, SettingsFragment(supportActionBar))
             .commit()
         supportActionBar?.setDisplayShowCustomEnabled(true)
-        binding.noMainToolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
 
@@ -34,10 +34,6 @@ class SettingsActivity : AppCompatActivity(), Navigator {
     override fun goBack() {
         onBackPressed()
     }
-
-    override fun chooseSchool(typedSchool: String?) {}
-
-    override fun login(schoolId: Int, typedSchool: String) {}
 
     override fun settings() {
         supportFragmentManager.beginTransaction()
@@ -48,7 +44,7 @@ class SettingsActivity : AppCompatActivity(), Navigator {
     }
 
     override fun changePassword() {
-        binding.noMainToolbar.setTitle(R.string.change_password)
+        binding.toolbar.setTitle(R.string.change_password)
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .addToBackStack(null)
@@ -57,11 +53,20 @@ class SettingsActivity : AppCompatActivity(), Navigator {
     }
 
     override fun changeControlQuestion() {
-        binding.noMainToolbar.setTitle(R.string.change_control_question)
+        binding.toolbar.setTitle(R.string.change_control_question)
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .addToBackStack(null)
             .replace(R.id.no_main_container_fragment, ChangeControlQuestionFragment())
             .commit()
+    }
+
+    override fun chooseSchool(typedSchool: String?) {}
+
+    override fun login(schoolId: Int, typedSchool: String) {}
+
+    override fun messageItem(messageId: Int) {}
+    override fun messages() {
+        TODO("Not yet implemented")
     }
 }

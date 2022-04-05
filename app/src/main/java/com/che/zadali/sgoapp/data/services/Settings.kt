@@ -1,10 +1,14 @@
-package com.che.zadali.sgoapp.data
+package com.che.zadali.sgoapp.data.services
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.che.zadali.sgoapp.R
+import com.che.zadali.sgoapp.data.LoginData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -23,7 +27,7 @@ class SettingsPrefs(private val context: Context) {
 
         val LANGUAGE: Preferences.Key<String> = stringPreferencesKey("LANGUAGE")
 
-        val THEME: Preferences.Key<String> = stringPreferencesKey("THEME")
+        val THEME1: Preferences.Key<Int> = intPreferencesKey("THEME1")
     }
 
     val loggedIn: Flow<Boolean> = context.dataStore.data.map { prefs ->
@@ -37,10 +41,12 @@ class SettingsPrefs(private val context: Context) {
         it[LANGUAGE] ?: ""
     }
 
+    val theme: Flow<Int> =
+        context.dataStore.data.map { it[THEME1] ?: AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM }
 
     suspend fun saveAll(loginData: LoginData) {
         context.dataStore.edit { prefs ->
-            prefs[THEME] = context.getString(R.string.same_as_system)
+
             prefs[LOGIN] = loginData.login
             prefs[PASSWORD] = loginData.password
             prefs[SCHOOL_ID] = loginData.school_id
@@ -59,10 +65,7 @@ class SettingsPrefs(private val context: Context) {
     suspend fun loadSettingsData(): SettingsData {
         //TODO net code
         val login = context.dataStore.data.map { return@map it[LOGIN] }
-        val theme = context.dataStore.data.map {
-            return@map it[THEME] ?: context.getString(R.string.same_as_system)
-        }
-        return SettingsData(
+        val data = SettingsData(
             login.first(),
             false,
             "+123456789",
@@ -79,8 +82,15 @@ class SettingsPrefs(private val context: Context) {
             listOf("2021/2022", "2020/2021"),
             "Русский",
             listOf("Русский"),
-            theme.first()
+            when (theme.first()) {
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> R.string.same_as_system
+                AppCompatDelegate.MODE_NIGHT_NO -> R.string.light_theme
+                AppCompatDelegate.MODE_NIGHT_YES -> R.string.dark_theme
+                else -> 0
+            }
         )
+
+        return data
     }
 
     suspend fun deleteAll() {
@@ -88,13 +98,13 @@ class SettingsPrefs(private val context: Context) {
             prefs[LOGGED_IN] = false
         }
     }
+    suspend fun editTheme(theme: Int){
+        context.dataStore.edit {
+            it[THEME1] = theme
+        }
+    }
 }
 
-sealed class ThemeState(val name: String, stringId: Int) {
-    object DarkMode : ThemeState("darkMode", R.string.dark_theme)
-    object LightMode : ThemeState("Light", R.string.light_theme)
-    object SameAsSystem : ThemeState("system", R.string.same_as_system)
-}
 
 data class SettingsData(
     var login: String?,
@@ -118,5 +128,5 @@ data class SettingsData(
     val years: List<String>,
     var current_language: String,
     val languages: List<String>,
-    var theme: String?
+    val theme: Int
 )
