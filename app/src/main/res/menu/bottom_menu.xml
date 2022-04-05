@@ -2,15 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/main"
+        android:enabled="true"
         android:icon="@drawable/ic_round_home_24"
+        android:menuCategory="container"
         android:title="@string/mainTab" />
     <item
         android:id="@+id/journal"
         android:icon="@drawable/ic_round_menu_book_24"
+        android:menuCategory="container"
         android:title="@string/journal" />
-
-    <item
-        android:id="@+id/other"
-        android:icon="@drawable/menu"
-        android:title="@string/other" />
 </menu>

@@ -14,4 +14,8 @@ interface Navigator {
     fun changePassword()
 
     fun changeControlQuestion()
+
+    fun messageItem(messageId: Int)
+
+    fun messages()
 }

@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/main"
-        android:icon="@drawable/ic_round_home_24"
-        android:title="@string/mainTab" />
-    <item
-        android:id="@+id/journal"
-        android:icon="@drawable/ic_round_menu_book_24"
-        android:title="@string/journal" />
+    <group>
+        <item
+            android:id="@+id/forum"
+            android:icon="@drawable/forum"
+            android:title="@string/forum" />
+        <item
+            android:id="@+id/calendar"
+            android:icon="@drawable/ic_round_today_24"
+            android:title="@string/diary" />
+        <item
+            android:id="@+id/messages"
+            android:icon="@drawable/messages_icon"
+            android:title="@string/messages" />
+        <item
+            android:id="@+id/reports"
+            android:icon="@drawable/ic_assessment_24"
+            android:title="@string/assessment" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/settings_icon"
+            android:title="@string/settings" />
+    </group>
 </menu>
