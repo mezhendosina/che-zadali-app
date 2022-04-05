@@ -4,6 +4,7 @@ import android.content.Context
 import com.che.zadali.sgo_app.data.announcements.AnnouncementsData
 import com.che.zadali.sgoapp.data.layout.diary.Diary
 import com.che.zadali.sgo_app.data.typesId.TypesId
+import com.che.zadali.sgoapp.data.services.SettingsPrefs
 import com.google.gson.Gson
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
