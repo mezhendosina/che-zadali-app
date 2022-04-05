@@ -12,8 +12,12 @@ class JournalViewModel(private val diaryService: DiaryService) : ViewModel() {
     private var _weekDays = MutableLiveData<List<WeekDay>>()
     var weekDays: LiveData<List<WeekDay>> = _weekDays
 
+    private var _week = MutableLiveData<String>()
+    var week: LiveData<String> = _week
+
     private val listener: DiaryActionListener = {
         _weekDays.value = it
+        _week.value = diaryService.week
     }
 
     init {

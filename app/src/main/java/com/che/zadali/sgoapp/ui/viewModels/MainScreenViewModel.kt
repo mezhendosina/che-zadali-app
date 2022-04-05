@@ -9,6 +9,8 @@ import com.che.zadali.sgoapp.data.services.AnnouncementsActionListener
 import com.che.zadali.sgoapp.data.services.AnnouncementsService
 import com.che.zadali.sgoapp.data.services.DiaryService
 import com.che.zadali.sgoapp.data.services.TodayActionListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class MainScreenViewModel(private val DiaryService: DiaryService, private val AnnouncementsService: AnnouncementsService) : ViewModel() {
     private var _lessons = MutableLiveData<List<Lesson>>()
@@ -17,12 +19,13 @@ class MainScreenViewModel(private val DiaryService: DiaryService, private val An
     private var _announcements = MutableLiveData<List<AnnouncementsDataItem>>()
     var announcements: LiveData<List<AnnouncementsDataItem>> = _announcements
 
-    private var _expandAll = MutableLiveData(false)
-    var expandAll: LiveData<Boolean> = _expandAll
+    private var _grades = MutableLiveData<List<Any>>()//TODO изменить тип массива
+    var grades: LiveData<List<Any>> = _grades //TODO изменить тип массива
+
+    //TODO gradesListener
 
     private val announcementsListener: AnnouncementsActionListener = {
         _announcements.value = it
-        println(it)
     }
 
     private val todayListener: TodayActionListener = {
@@ -33,11 +36,7 @@ class MainScreenViewModel(private val DiaryService: DiaryService, private val An
     init {
         loadTodayLessons()
         loadAnnouncements()
-
-    }
-
-    fun changeExpand() {
-        _expandAll.value = _expandAll.value?.not()
+//        loadGrades()
     }
 
     private fun loadTodayLessons() {
@@ -48,7 +47,10 @@ class MainScreenViewModel(private val DiaryService: DiaryService, private val An
     private fun loadAnnouncements(){
         AnnouncementsService.addListener(announcementsListener)
         AnnouncementsService.loadAnnouncements()
-        println(announcements.value)
+    }
+
+    private fun loadGrades(){
+        TODO("Сделать загрузку оценок")
     }
 
     override fun onCleared() {

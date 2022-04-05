@@ -3,13 +3,14 @@ package com.che.zadali.sgoapp.data.adapters
 import android.animation.LayoutTransition
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.che.zadali.sgo_app.data.diary.WeekDay
 import com.che.zadali.sgoapp.data.dateToRussian
 import com.che.zadali.sgoapp.databinding.DiaryItemBinding
 
-class DiaryAdapter() :
+class DiaryAdapter(private val supportFragmentManager: FragmentManager) :
     RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder>() {
 
     var diary: List<WeekDay> = emptyList()
@@ -26,6 +27,7 @@ class DiaryAdapter() :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiaryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = DiaryItemBinding.inflate(inflater, parent, false)
+
         return DiaryViewHolder(binding)
     }
 
@@ -34,9 +36,8 @@ class DiaryAdapter() :
         val layoutManager =
             LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
         with(holder.binding) {
-            root.layoutTransition.enableTransitionType(LayoutTransition.CHANGE_DISAPPEARING)
             lessonsRecyclerView.apply {
-                adapter = HomeworkAdapter(weekDay.lessons)
+                adapter = HomeworkAdapter(weekDay.lessons, supportFragmentManager)
                 this.layoutManager = layoutManager
                 setRecycledViewPool(viewPool)
             }

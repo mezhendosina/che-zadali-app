@@ -19,26 +19,21 @@ class Journal : Fragment() {
     private lateinit var diaryAdapter: DiaryAdapter
 
     private val viewModel: JournalViewModel by viewModels { factory() }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough()
-        reenterTransition = MaterialFadeThrough()
-        startPostponedEnterTransition()
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        diaryAdapter = DiaryAdapter()
+        diaryAdapter = DiaryAdapter(parentFragmentManager)
         binding = FragmentJournalBinding.inflate(inflater, container, false)
 
         viewModel.weekDays.observe(viewLifecycleOwner) {
             diaryAdapter.diary = it
         }
-
+        viewModel.week.observe(viewLifecycleOwner){
+            binding.week.text = it
+        }
         val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.diaryRecyclerView.adapter = diaryAdapter

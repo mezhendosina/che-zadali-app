@@ -10,13 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.che.zadali.sgoapp.data.adapters.AnnouncementsActionListener
 import com.che.zadali.sgoapp.data.adapters.AnnouncementsAdapter
+import com.che.zadali.sgoapp.data.adapters.GradesAdapter
 import com.che.zadali.sgoapp.data.adapters.HomeworkAdapter
 import com.che.zadali.sgoapp.data.dateToRussian
 import com.che.zadali.sgoapp.data.layout.announcements.AnnouncementsDataItem
 import com.che.zadali.sgoapp.databinding.FragmentMainBinding
 import com.che.zadali.sgoapp.ui.factory
 import com.che.zadali.sgoapp.ui.viewModels.MainScreenViewModel
-import com.google.android.material.transition.MaterialFadeThrough
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
@@ -24,9 +24,6 @@ class MainFragment : Fragment() {
     private val viewModel: MainScreenViewModel by viewModels { factory() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough()
-        returnTransition = MaterialFadeThrough()
-        reenterTransition = MaterialFadeThrough()
     }
 
     override fun onCreateView(
@@ -37,13 +34,13 @@ class MainFragment : Fragment() {
         binding = FragmentMainBinding.inflate(inflater, container, false)
 
         viewModel.lessons.observe(viewLifecycleOwner) {
+            val lessonsAdapter = HomeworkAdapter(it, parentFragmentManager)
             binding.header.text = dateToRussian(it[0].day, true)
-            val lessonsAdapter = HomeworkAdapter(it)
             binding.lessonsRecyclerView.adapter = lessonsAdapter
         }
 
         viewModel.announcements.observe(viewLifecycleOwner) {
-            val adapter = AnnouncementsAdapter(it, parentFragmentManager,
+            val adapter = AnnouncementsAdapter(it,
                 object : AnnouncementsActionListener {
                     override fun onClick(announcementsDataItem: AnnouncementsDataItem) {
                         AnnouncementsBottomSheet(announcementsDataItem).show(
@@ -54,6 +51,9 @@ class MainFragment : Fragment() {
                 })
             binding.announcementsRecyclerView.adapter = adapter
         }
+
+        binding.gradesRecyclerView.adapter = GradesAdapter()
+        binding.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val lessonLayoutManager = LinearLayoutManager(requireContext())
         binding.mainFragment.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)

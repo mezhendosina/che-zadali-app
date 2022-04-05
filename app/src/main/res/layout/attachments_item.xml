@@ -3,30 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="8dp"
-    android:paddingHorizontal="16dp"
     android:background="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/announcement_header"
-        style="@style/Header1"
+    <ImageView
+        android:id="@+id/file_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/announcement"
-        style="@style/MainTextView"
+        android:id="@+id/file_name"
+        style="@style/SecondaryTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/announcement_header" />
-
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/file_icon"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

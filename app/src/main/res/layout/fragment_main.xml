@@ -10,32 +10,18 @@
 
     <TextView
         android:id="@+id/header"
+        style="@style/MainFragmentHeaders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/black"
-        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/expand_more_homework"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/expand_all"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="@id/header"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/header" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lessons_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toTopOf="@id/announcements"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,14 +39,11 @@
 
     <TextView
         android:id="@+id/announcements"
-        style="@style/MainTextView"
+        style="@style/MainFragmentHeaders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:layout_marginStart="16dp"
-        android:fontFamily="sans-serif"
         android:text="@string/announcements"
-        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lesson_divider" />
 
@@ -68,7 +51,8 @@
         android:id="@+id/announcements_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:isScrollContainer="false"
+        android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/announcements"
@@ -86,21 +70,19 @@
 
     <TextView
         android:id="@+id/grades"
-        style="@style/MainTextView"
+        style="@style/MainFragmentHeaders"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/black"
         android:text="@string/grades"
-        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@id/announcements"
         app:layout_constraintTop_toBottomOf="@id/announcements_recycler_view" />
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/grades_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/grades" />
