@@ -1,10 +1,11 @@
 package com.mezhendosina.sgo.app.ui.journal
 
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.Singleton.at
+import com.mezhendosina.sgo.Singleton.requests
 import com.mezhendosina.sgo.data.diary.diary.WeekDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.*
 
 typealias journalActionListener = (d: List<WeekDay>) -> Unit
 
@@ -20,9 +21,11 @@ class JournalService {
         val d = if (Singleton.diary.weekDays.isNotEmpty()) {
             Singleton.diary
         } else {
-            val a = Singleton.requests.diary(
-                Singleton.at,
-                studentId,
+            val diaryInit = requests.diaryInit(at)
+
+            val a = requests.diary(
+                at,
+                diaryInit.students[0].studentId,
                 weekEnd,
                 weekStart,
                 yearId
@@ -44,7 +47,7 @@ class JournalService {
         listeners.remove(listener)
     }
 
-    fun notifyListeners() {
+    private fun notifyListeners() {
         listeners.forEach { it.invoke(diary) }
     }
 

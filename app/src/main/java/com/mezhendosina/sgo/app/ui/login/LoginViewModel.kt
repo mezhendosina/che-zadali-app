@@ -45,9 +45,9 @@ class LoginViewModel : ViewModel() {
                 val singleton = Singleton
 
                 singleton.login(settingsLoginData)
-                settings.setCurrentUserId(
-                    singleton.requests.diaryInit(singleton.at).currentStudentId
-                )
+                val userId = singleton.requests.diaryInit(singleton.at).currentStudentId
+                settings.setCurrentUserId(userId)
+
                 singleton.requests.logout(singleton.at)
 
                 withContext(Dispatchers.Main) {

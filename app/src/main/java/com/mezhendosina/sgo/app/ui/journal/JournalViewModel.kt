@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,7 +41,9 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
                     currentWeekEnd()
                 )
             } catch (e: ResponseException) {
-                errorDialog(context, e.response.body<ErrorResponse>().message)
+                withContext(Dispatchers.Main){
+                    errorDialog(context, e.response.body<ErrorResponse>().message)
+                }
             }
         }
     }

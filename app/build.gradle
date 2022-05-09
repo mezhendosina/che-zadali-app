@@ -70,6 +70,6 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
 
     //html parser
-    implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.jsoup:jsoup:1.14.3'
 
 }
