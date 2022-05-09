@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:nestedScrollingEnabled="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:nestedScrollingEnabled="true"
+        tools:context=".ui.main.MainFragment">
+
+        <include
+            android:id="@+id/today_homework"
+            layout="@layout/diary_item" />
+
+        <TextView
+            android:id="@+id/announcements_title"
+            style="@style/mainScreenHeaders"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/announcements"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/today_homework" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/announcements_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/announcements_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            tools:itemCount="2"
+            tools:listitem="@layout/announcements_item" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/grades_title"-->
+<!--            style="@style/mainScreenHeaders"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="16dp"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            android:text="@string/grades"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/announcements_recycler_view" />-->
+
+
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/grades_recycler_view"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="4dp"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/grades_title"-->
+        <!--            tools:itemCount="4"-->
+        <!--            tools:listitem="@layout/grade_item" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

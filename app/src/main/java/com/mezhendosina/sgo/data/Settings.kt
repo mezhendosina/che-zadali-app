@@ -1,0 +1,90 @@
+package com.mezhendosina.sgo.data
+
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+data class SettingsLoginData(
+    val cid: String,
+    val sid: String,
+    val pid: String,
+    val cn: String,
+    val sft: String,
+    val scid: String,
+    val UN: String,
+    val PW: String,
+)
+
+class Settings(val context: Context) {
+
+    companion object {
+        val LOGGED_IN = booleanPreferencesKey("logged_in")
+
+        val LOGIN = stringPreferencesKey("login")
+        val PASSWORD = stringPreferencesKey("password")
+
+        val CURRENT_USER_ID = intPreferencesKey("current_user_id")
+
+        val CID = stringPreferencesKey("cid")
+        val SID = stringPreferencesKey("sid")
+        val pid = stringPreferencesKey("pid")
+        val CN = stringPreferencesKey("cn")
+        val SFT = stringPreferencesKey("sft")
+        val SCID = stringPreferencesKey("scid")
+    }
+
+
+    val currentUserId = context.dataStore.data.map {
+        it[CURRENT_USER_ID] ?: 0
+    }
+    val loggedIn = context.dataStore.data.map {
+        it[LOGGED_IN] ?: false
+    }
+
+    suspend fun saveALl(loginData: SettingsLoginData) {
+        context.dataStore.edit { prefs ->
+            prefs[LOGGED_IN] = true
+            prefs[LOGIN] = loginData.UN
+            prefs[PASSWORD] = loginData.PW
+            prefs[CID] = loginData.cid
+            prefs[SID] = loginData.sid
+            prefs[pid] = loginData.pid
+            prefs[CN] = loginData.cn
+            prefs[SFT] = loginData.sft
+            prefs[SCID] = loginData.scid
+
+        }
+    }
+
+    suspend fun setCurrentUserId(id: Int) {
+        context.dataStore.edit { prefs ->
+            prefs[CURRENT_USER_ID] = id
+        }
+    }
+
+    suspend fun logout() {
+        context.dataStore.edit { prefs ->
+            prefs[LOGGED_IN] = false
+        }
+    }
+
+    suspend fun getLoginData(): SettingsLoginData {
+        context.dataStore.data.first().let {
+            return SettingsLoginData(
+                it[CID] ?: "2",
+                it[SID] ?: "1",
+                it[pid] ?: "-1",
+                it[CN] ?: "1",
+                it[SFT] ?: "2",
+                it[SCID] ?: "89",
+                it[LOGIN] ?: "МеньшенинЕ1",
+                it[PASSWORD] ?: "f01610e8ab356f8fa6c2e48424fc208e"
+            )
+        }
+    }
+}

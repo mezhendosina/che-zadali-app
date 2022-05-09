@@ -7,11 +7,15 @@
     <color name="ClickableOff">#D6D6D6</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="backgroundWhite">#FCFCFC</color>
+
 
     <color name="dark_primary_blue">#78B7FA</color>
     <color name="dark_caption">#78B7FA</color>
     <color name="dark_main_text">#D6D6D6</color>
     <color name="dark_second_grade">#FF544F</color>
-    <color name="dark_background">#444444</color>
+    <color name="dark_background">#303030</color>
     <color name="transperent">#00FFFFFF</color>
+    <color name="dark_on_background">#2E2E2E</color>
+    <color name="dark_card_background">#424242</color>
 </resources>

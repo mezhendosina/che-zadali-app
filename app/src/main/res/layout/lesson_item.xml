@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbarlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:fitsSystemWindows="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingtoolbarlayout"
+                style="@style/expandedToolBarText"
+                android:layout_width="match_parent"
+                android:layout_height="158dp"
+                android:nestedScrollingEnabled="true"
+                app:expandedTitleMarginStart="16dp"
+                app:expandedTitleTextAppearance="@style/expandedToolBarText"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:elevation="0dp"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_arrow_back"
+                    tool:title="Русский язык" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:outlineProvider="bounds"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/homework_header_divider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/homework_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homework_header_divider"
+                tool:text="Домашнее задание" />
+
+            <TextView
+                android:id="@+id/homework_body"
+                style="@style/mainText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homework_header"
+                tool:text="Выучить все" />
+
+
+            <TextView
+                android:id="@+id/due_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/homework_body"
+                app:layout_constraintTop_toBottomOf="@id/homework_body"
+                tool:text="Срок сдачи: 04.04.2022" />
+
+            <TextView
+                android:id="@+id/teacher_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/due_date"
+                tool:text="Учитель: Чеглакова Дарья Владимировна1" />
+
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/attachments_divider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/teacher_name" />
+
+            <TextView
+                android:id="@+id/attachments_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:text="@string/attachments"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/attachments_divider" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/attachments_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/attachments_header" />
+
+<!--            <com.google.android.material.divider.MaterialDivider-->
+<!--                android:id="@+id/send_homework_divider"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/attachments_list" />-->
+
+<!--            <Button-->
+<!--                style="@style/Widget.MaterialComponents.Button.TextButton"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="32dp"-->
+<!--                android:letterSpacing="0.1"-->
+<!--                android:paddingVertical="16dp"-->
+<!--                android:text="@string/send_homework"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textColor="@color/primary_blue"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/send_homework_divider" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</ScrollView>
