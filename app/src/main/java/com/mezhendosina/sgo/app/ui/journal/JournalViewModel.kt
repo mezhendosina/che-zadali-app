@@ -5,10 +5,12 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.Settings
+import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.diary.diary.WeekDay
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -25,12 +27,18 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
     private val _diary = MutableLiveData<List<WeekDay>>()
     val diary: LiveData<List<WeekDay>> = _diary
 
+    private val _attachments = MutableLiveData<List<AttachmentsResponseItem>>()
+    val attachments: LiveData<List<AttachmentsResponseItem>> = _attachments
+
     private val diaryListener: journalActionListener = {
         _diary.value = it
     }
+    private val attachmentsListener: attachmentActionListener = {
+        _attachments.value = it
+    }
 
     fun getDiary(context: Context) {
-        journalService.addListener(diaryListener)
+        journalService.addListener(diaryListener, attachmentsListener)
         CoroutineScope(Dispatchers.IO).launch {
             val settings = Settings(context)
             try {
@@ -41,13 +49,33 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
                     currentWeekEnd()
                 )
             } catch (e: ResponseException) {
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     errorDialog(context, e.response.body<ErrorResponse>().message)
                 }
             }
         }
     }
 
+    fun refreshDiary(context: Context, swipeRefreshLayout: SwipeRefreshLayout) {
+        CoroutineScope(Dispatchers.IO).launch {
+            swipeRefreshLayout.isRefreshing = true
+            val settings = Settings(context)
+            try {
+                journalService.reloadDiary(
+                    settings.currentUserId.first(),
+                    Singleton.currentYear,
+                    currentWeekStart(),
+                    currentWeekEnd()
+                )
+            } catch (e: ResponseException) {
+                withContext(Dispatchers.Main) {
+                    errorDialog(context, e.response.body<ErrorResponse>().message)
+                }
+            } finally {
+                swipeRefreshLayout.isRefreshing = false
+            }
+        }
+    }
 //    fun nextWeek(context: Context) {
 //        CoroutineScope(Dispatchers.IO).launch {
 //            val settings = Settings(context)
@@ -73,7 +101,7 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
 
     override fun onCleared() {
         super.onCleared()
-        journalService.removeListener(diaryListener)
+        journalService.removeListener(diaryListener, attachmentsListener)
     }
 
     @SuppressLint("SimpleDateFormat")

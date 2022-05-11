@@ -11,9 +11,10 @@
     <string name="start_typing">Школа…</string>
     <string name="attachments">Прикрепленные файлы</string>
     <string name="send_homework">Отправить домашнее задание</string>
-    <string name="settings">Настройки</string>
     <string name="logout">Выйти</string>
     <string name="in_progress">В разработке</string>
     <string name="selected_theme">Выбранная тема</string>
     <string name="contain_attachments">Есть прикрепленные файлы</string>
+    <string name="settings">Настройки</string>
+    <string name="more">more</string>
 </resources>

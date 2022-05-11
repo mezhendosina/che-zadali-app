@@ -16,9 +16,10 @@ import kotlinx.coroutines.withContext
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val settings = Settings(this)
 
         CoroutineScope(Dispatchers.IO).launch {
-            if (Settings(this@LoginActivity).loggedIn.first()) {
+            if (settings.loggedIn.first()) {
                 withContext(Dispatchers.Main) {
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()

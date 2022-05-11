@@ -10,6 +10,7 @@
     app:cardElevation="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/onCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp">
@@ -19,6 +20,7 @@
             style="@style/mainText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@color/transperent"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@id/grade"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +32,7 @@
             style="@style/lesson_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@color/transperent"
             android:textAlignment="textEnd"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"

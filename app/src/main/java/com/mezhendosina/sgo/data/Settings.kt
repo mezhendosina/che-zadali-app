@@ -29,6 +29,8 @@ class Settings(val context: Context) {
         val PASSWORD = stringPreferencesKey("password")
 
         val CURRENT_USER_ID = intPreferencesKey("current_user_id")
+        val THEME = intPreferencesKey("theme")
+
 
         val CID = stringPreferencesKey("cid")
         val SID = stringPreferencesKey("sid")
@@ -45,6 +47,10 @@ class Settings(val context: Context) {
     val loggedIn = context.dataStore.data.map {
         it[LOGGED_IN] ?: false
     }
+    val theme = context.dataStore.data.map {
+        it[THEME] ?: 2
+    }
+
 
     suspend fun saveALl(loginData: SettingsLoginData) {
         context.dataStore.edit { prefs ->
@@ -73,6 +79,12 @@ class Settings(val context: Context) {
         }
     }
 
+    suspend fun setTheme(selectedTheme: Int) {
+        context.dataStore.edit { prefs ->
+            prefs[THEME] = selectedTheme
+        }
+    }
+
     suspend fun getLoginData(): SettingsLoginData {
         context.dataStore.data.first().let {
             return SettingsLoginData(
@@ -82,8 +94,8 @@ class Settings(val context: Context) {
                 it[CN] ?: "1",
                 it[SFT] ?: "2",
                 it[SCID] ?: "89",
-                it[LOGIN] ?: "МеньшенинЕ1",
-                it[PASSWORD] ?: "f01610e8ab356f8fa6c2e48424fc208e"
+                it[LOGIN] ?: "",
+                it[PASSWORD] ?: ""
             )
         }
     }

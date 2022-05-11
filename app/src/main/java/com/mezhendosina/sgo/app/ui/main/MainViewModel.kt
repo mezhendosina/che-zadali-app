@@ -5,10 +5,12 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.announcements.AnnouncementsResponseItem
+import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.diary.diary.Lesson
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -27,8 +29,15 @@ class MainViewModel(
     private val _todayHomework = MutableLiveData<List<Lesson>>()
     val todayHomework: LiveData<List<Lesson>> = _todayHomework
 
+    private val _todayAttachments = MutableLiveData<List<AttachmentsResponseItem>>()
+    val todayAttachments: LiveData<List<AttachmentsResponseItem>> = _todayAttachments
+
     private val todayListener: TodayActionListener = {
         _todayHomework.value = it
+    }
+
+    private val todayAttachmentsListener: TodayAttachmentsListener = {
+        _todayAttachments.value = it
     }
 
     private val _announcements = MutableLiveData<List<AnnouncementsResponseItem>>()
@@ -40,7 +49,9 @@ class MainViewModel(
 
     fun loadTodayHomework(context: Context) {
         todayHomeworkService.addListener(todayListener)
-        if (Singleton.todayHomework.isEmpty()) {
+        todayHomeworkService.addAttachmentsListener(todayListener)
+
+        if (Singleton.todayHomework.diaryResponse.weekDays.isEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     todayHomeworkService.todayHomework()
@@ -51,7 +62,8 @@ class MainViewModel(
                 }
             }
         } else {
-            _todayHomework.value = Singleton.todayHomework
+            _todayHomework.value = Singleton.todayHomework.diaryResponse.weekDays[0].lessons
+            _todayAttachments.value = Singleton.todayHomework.attachmentsResponse
         }
     }
 
@@ -64,7 +76,7 @@ class MainViewModel(
         } else {
             Date().time
         }
-        return SimpleDateFormat("Сегодня EE, dd MMMM").format(date)
+        return SimpleDateFormat("Сегодня EE, dd MMMM", Locale("ru", "RU")).format(date)
     }
 
 
@@ -78,7 +90,6 @@ class MainViewModel(
                     withContext(Dispatchers.Main) {
                         errorDialog(context, e.response.body<ErrorResponse>().message)
                     }
-
                 }
             }
         } else {
@@ -86,8 +97,27 @@ class MainViewModel(
         }
     }
 
+
+    fun refreshAll(context: Context, swipeRefreshLayout: SwipeRefreshLayout) {
+        CoroutineScope(Dispatchers.IO).launch {
+            swipeRefreshLayout.isRefreshing = true
+
+            try {
+                todayHomeworkService.todayHomework()
+                announcementsService.announcements()
+            } catch (e: ResponseException) {
+                withContext(Dispatchers.Main) {
+                    errorDialog(context, e.response.body<ErrorResponse>().message)
+                }
+            } finally {
+                swipeRefreshLayout.isRefreshing = false
+            }
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         todayHomeworkService.removeListener(todayListener)
+        announcementsService.removeListener(announcementsListener)
     }
 }

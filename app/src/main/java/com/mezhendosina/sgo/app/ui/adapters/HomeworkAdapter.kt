@@ -1,21 +1,23 @@
 package com.mezhendosina.sgo.app.ui.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.HomeworkItemBinding
+import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.diary.diary.Lesson
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 
 class HomeworkAdapter :
     RecyclerView.Adapter<HomeworkAdapter.HomeworkViewHolder>() {
 
     var lessons: List<Lesson> = emptyList()
+        set(newValue) {
+            field = newValue
+            notifyDataSetChanged()
+        }
+    var attachments: List<AttachmentsResponseItem> = emptyList()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
@@ -45,8 +47,12 @@ class HomeworkAdapter :
 
             if (!lesson.assignments.isNullOrEmpty()) {
                 var grade = ""
-
                 lesson.assignments.forEach { assign ->
+                    attachments.forEach {
+                        if (it.assignmentId == assign.id) {
+                            attachmentsIcon.visibility = View.VISIBLE
+                        }
+                    }
                     if (assign.mark != null) {
                         grade += "${assign.mark.mark}  "
                     }

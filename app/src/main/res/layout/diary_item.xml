@@ -4,7 +4,10 @@
     xmlns:tool="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="wrap_content"
+    android:nestedScrollingEnabled="true"
+    android:isScrollContainer="false"
     android:elevation="0dp"
     android:paddingTop="8dp">
 
@@ -39,9 +42,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:isScrollContainer="false"
-            tools:itemCount="3"
             android:background="@color/transperent"
+            android:isScrollContainer="false"
+            android:nestedScrollingEnabled="false"
+            tools:itemCount="3"
             tools:listitem="@layout/homework_item" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

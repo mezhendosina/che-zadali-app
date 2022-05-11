@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.DiaryItemBinding
+import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.diary.diary.WeekDay
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,6 +28,12 @@ class DiaryAdapter :
     RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder>() {
 
     var diary: List<WeekDay> = emptyList()
+        set(newValue) {
+            field = newValue
+            notifyDataSetChanged()
+        }
+
+    var attachments: List<AttachmentsResponseItem> = emptyList()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
@@ -53,7 +60,10 @@ class DiaryAdapter :
             val layoutManager =
                 LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
             val homeworkAdapter = HomeworkAdapter()
+
             homeworkAdapter.lessons = day.lessons
+            homeworkAdapter.attachments = attachments
+
             homeworkRecyclerView.apply {
                 adapter = homeworkAdapter
                 this.layoutManager = layoutManager

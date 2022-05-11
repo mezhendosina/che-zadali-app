@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,7 +25,7 @@
                 android:layout_height="158dp"
                 android:nestedScrollingEnabled="true"
                 app:expandedTitleMarginStart="16dp"
-                app:expandedTitleTextAppearance="@style/expandedToolBarText"
+                app:expandedTitleTextColor="?attr/colorOnSecondary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <com.google.android.material.appbar.MaterialToolbar
@@ -46,21 +45,13 @@
             android:outlineProvider="bounds"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/homework_header_divider"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/homework_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homework_header_divider"
+                app:layout_constraintTop_toTopOf="parent"
                 tool:text="Домашнее задание" />
 
             <TextView
@@ -124,28 +115,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/attachments_header" />
 
-<!--            <com.google.android.material.divider.MaterialDivider-->
-<!--                android:id="@+id/send_homework_divider"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="4dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/attachments_list" />-->
+            <!--            <com.google.android.material.divider.MaterialDivider-->
+            <!--                android:id="@+id/send_homework_divider"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="4dp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/attachments_list" />-->
 
-<!--            <Button-->
-<!--                style="@style/Widget.MaterialComponents.Button.TextButton"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="32dp"-->
-<!--                android:letterSpacing="0.1"-->
-<!--                android:paddingVertical="16dp"-->
-<!--                android:text="@string/send_homework"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="@color/primary_blue"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/send_homework_divider" />-->
+            <!--            <Button-->
+            <!--                style="@style/Widget.MaterialComponents.Button.TextButton"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginHorizontal="32dp"-->
+            <!--                android:letterSpacing="0.1"-->
+            <!--                android:paddingVertical="16dp"-->
+            <!--                android:text="@string/send_homework"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:textColor="@color/primary_blue"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/send_homework_divider" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

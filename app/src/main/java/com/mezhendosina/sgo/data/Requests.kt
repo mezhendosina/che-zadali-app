@@ -4,14 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
+import com.mezhendosina.sgo.app.ui.updateDialog
 import com.mezhendosina.sgo.data.announcements.AnnouncementsResponse
+import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.checkUpdates.CheckUpdates
+import com.mezhendosina.sgo.data.diary.Diary
 import com.mezhendosina.sgo.data.diary.diary.DiaryResponse
 import com.mezhendosina.sgo.data.diary.init.DiaryInit
 import com.mezhendosina.sgo.data.login.LoginResponse
@@ -33,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.security.MessageDigest
 
 data class GetData(
     val lt: String,
@@ -55,6 +56,14 @@ data class LoginData(
     val ver: String
 )
 
+fun String.toMD5(): String {
+    val bytes = MessageDigest.getInstance("MD5").digest(this.toByteArray())
+    return bytes.toHex()
+}
+
+fun ByteArray.toHex(): String {
+    return joinToString("") { "%02x".format(it) }
+}
 
 class Requests {
 
@@ -136,9 +145,9 @@ class Requests {
     /**
      * Выход
      */
-    suspend fun logout(at: String) {
+    suspend fun logout() {
         client.submitForm("/asp/logout.asp", Parameters.build {
-            append("at", at)
+            append("at", Singleton.at)
         })
     }
 
@@ -154,11 +163,26 @@ class Requests {
         weekEnd: String,
         weekStart: String,
         yearId: Int
-    ): DiaryResponse {
-        return client.get("/webapi/student/diary?studentId=$studentId&weekEnd=$weekEnd&weekStart=$weekStart&withLaAssigns=true&yearId=$yearId&vers=1651588438710") {
-            headers.append("at", at)
+    ): Diary {
+        val diary: DiaryResponse =
+            client.get("/webapi/student/diary?studentId=$studentId&weekEnd=$weekEnd&weekStart=$weekStart&withLaAssigns=true&yearId=$yearId") {
+                headers.append("at", at)
+            }.body()
+        val assignsId = mutableListOf<Int>()
+        diary.weekDays.forEach { day ->
+            day.lessons.forEach { lesson ->
+                lesson.assignments?.forEach { assign ->
+                    assignsId.add(assign.id)
+                }
+            }
         }
-            .body()
+        val attachments =
+            client.post("https://sgo.edu-74.ru/webapi/student/diary/get-attachments?studentId=$studentId") {
+                headers.append("at", at)
+                contentType(ContentType.Application.Json)
+                setBody(AssignsId(assignsId))
+            }.body<List<AttachmentsResponseItem>>()
+        return Diary(diary, attachments)
     }
 
     suspend fun preLoginNotice(): PreLoginNoticeResponse {
@@ -177,6 +201,7 @@ class Requests {
         }.body()
         return yearList
     }
+
 }
 
 suspend fun checkUpdates(context: Context, file: File) {
@@ -190,31 +215,30 @@ suspend fun checkUpdates(context: Context, file: File) {
             .body()
     withContext(Dispatchers.Main) {
         if (r.tagName != BuildConfig.VERSION_NAME) {
-            MaterialAlertDialogBuilder(context).setTitle("Доступна новая версия").setMessage(r.body)
-                .setPositiveButton("Обновить") { _, _ ->
-                    CoroutineScope(Dispatchers.IO).launch {
-                        r.assets.forEach {
-                            if (it.contentType == "application/vnd.android.package-archive") {
-                                val response = client.get(it.browserDownloadUrl) {
-                                    onDownload { downloaded, total ->
-                                        println("$downloaded $total")
-                                    }
-                                }.body<ByteArray>()
-
-                                file.writeBytes(response)
-                                val intent = Intent(Intent.ACTION_VIEW).apply {
-                                    setDataAndType(
-                                        uriFromFile(context, file),
-                                        "application/vnd.android.package-archive"
-                                    )
-                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            updateDialog(context, r.body) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    r.assets.forEach {
+                        if (it.contentType == "application/vnd.android.package-archive") {
+                            val response = client.get(it.browserDownloadUrl) {
+                                onDownload { downloaded, total ->
+                                    println("$downloaded $total")
                                 }
-                                context.startActivity(intent)
+                            }.body<ByteArray>()
+
+                            file.writeBytes(response)
+                            val intent = Intent(Intent.ACTION_VIEW).apply {
+                                setDataAndType(
+                                    uriFromFile(context, file),
+                                    "application/vnd.android.package-archive"
+                                )
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             }
+                            context.startActivity(intent)
                         }
                     }
-                }.show()
+                }
+            }
         }
     }
 }
@@ -226,3 +250,4 @@ private fun uriFromFile(context: Context, file: File): Uri? {
         Uri.fromFile(file)
     }
 }
+

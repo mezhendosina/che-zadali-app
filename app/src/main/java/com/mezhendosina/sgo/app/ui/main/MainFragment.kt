@@ -29,6 +29,7 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = MainFragmentBinding.inflate(inflater, container, false)
 
         val todayHomeworkAdapter = HomeworkAdapter()
@@ -41,6 +42,10 @@ class MainFragment : Fragment() {
 
         viewModel.announcements.observe(viewLifecycleOwner) {
             announcementsAdapter.announcements = it
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refreshAll(requireContext(), binding.swipeRefresh)
         }
 
         binding.announcementsRecyclerView.layoutManager = LinearLayoutManager(inflater.context)

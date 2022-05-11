@@ -2,6 +2,7 @@ package com.mezhendosina.sgo.data.diary.diary
 
 
 import com.google.gson.annotations.SerializedName
+import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 
 data class DiaryResponse(
     @SerializedName("className")
@@ -15,5 +16,5 @@ data class DiaryResponse(
     @SerializedName("weekEnd")
     val weekEnd: String,
     @SerializedName("weekStart")
-    val weekStart: String
+    val weekStart: String,
 )

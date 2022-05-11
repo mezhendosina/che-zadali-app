@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:background="@color/transperent"
-        app:layout_constraintEnd_toStartOf="@id/attachments"
+        app:layout_constraintEnd_toStartOf="@id/attachmentsIcon"
         app:layout_constraintStart_toEndOf="@id/lesson_number"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="Литература" />
@@ -47,7 +47,7 @@
         tool:text="8:00 - 8:40" />
 
     <ImageView
-        android:id="@+id/attachments"
+        android:id="@+id/attachmentsIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -55,8 +55,10 @@
         android:contentDescription="@string/contain_attachments"
         android:src="@drawable/ic_attachment"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/grades"
         app:layout_constraintEnd_toStartOf="@id/grades"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/grades"
+        app:tint="?attr/colorSecondary" />
 
     <TextView
         android:id="@+id/grades"
@@ -84,7 +86,7 @@
         android:linksClickable="true"
         android:maxLines="3"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/attachments"
+        app:layout_constraintEnd_toStartOf="@id/attachmentsIcon"
         app:layout_constraintStart_toStartOf="@id/lesson_name"
         app:layout_constraintTop_toBottomOf="@id/lesson_time"
         tool:text="Выучить все" />

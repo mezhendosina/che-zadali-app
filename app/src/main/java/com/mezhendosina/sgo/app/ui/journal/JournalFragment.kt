@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mezhendosina.sgo.app.databinding.JournalFragmentBinding
 import com.mezhendosina.sgo.app.factory
 import com.mezhendosina.sgo.app.ui.adapters.DiaryAdapter
+import com.mezhendosina.sgo.app.ui.errorDialog
 
 class JournalFragment : Fragment() {
 
@@ -20,24 +21,33 @@ class JournalFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getDiary(requireContext())
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val diaryAdapter = DiaryAdapter()
         binding = JournalFragmentBinding.inflate(inflater, container, false)
+        try {
+            val diaryAdapter = DiaryAdapter()
+            viewModel.diary.observe(viewLifecycleOwner) {
+                diaryAdapter.diary = it
+            }
+            viewModel.attachments.observe(viewLifecycleOwner) {
+                diaryAdapter.attachments = it
+            }
+            binding.swipeRefresh.setOnRefreshListener {
+                viewModel.refreshDiary(requireContext(), binding.swipeRefresh)
+            }
+            binding.diary.layoutManager = LinearLayoutManager(inflater.context)
+            binding.diary.adapter = diaryAdapter
 
-        viewModel.diary.observe(viewLifecycleOwner) {
-            diaryAdapter.diary = it
-            println(it)
+        } catch (e: Exception) {
+            errorDialog(requireContext(), e.message ?: "")
         }
 
-        binding.diary.layoutManager = LinearLayoutManager(inflater.context)
-        binding.diary.adapter = diaryAdapter
 
         return binding.root
     }
-
 }

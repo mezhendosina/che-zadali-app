@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import com.mezhendosina.sgo.data.Requests
 import com.mezhendosina.sgo.data.SettingsLoginData
 import com.mezhendosina.sgo.data.announcements.AnnouncementsResponseItem
+import com.mezhendosina.sgo.data.diary.Diary
 import com.mezhendosina.sgo.data.diary.diary.DiaryResponse
-import com.mezhendosina.sgo.data.diary.diary.Lesson
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -14,13 +14,14 @@ object Singleton {
     val requests = Requests()
 
     var at: String = ""
-    var todayHomework: List<Lesson> = emptyList()
+    var todayHomework: Diary =
+        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList())
     var announcements: List<AnnouncementsResponseItem> = emptyList()
 
     var currentWeek = currentWeek()
     var currentYear: Int = 0
-    var diary: DiaryResponse =
-        DiaryResponse("", emptyList(), "", emptyList(), "", "")
+    var diary: Diary =
+        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList())
 
 
     suspend fun login(loginData: SettingsLoginData) {

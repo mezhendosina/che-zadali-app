@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Lesson(
     @SerializedName("assignments")
-    val assignments: List<Assignment>,
+    val assignments: List<Assignment>?,
     @SerializedName("classmeetingId")
     val classmeetingId: Int,
     @SerializedName("day")

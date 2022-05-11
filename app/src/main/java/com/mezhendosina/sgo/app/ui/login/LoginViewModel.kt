@@ -48,18 +48,19 @@ class LoginViewModel : ViewModel() {
                 val userId = singleton.requests.diaryInit(singleton.at).currentStudentId
                 settings.setCurrentUserId(userId)
 
-                singleton.requests.logout(singleton.at)
+                singleton.requests.logout()
+                settings.saveALl(settingsLoginData)
 
                 withContext(Dispatchers.Main) {
                     startActivity(context, Intent(context, MainActivity::class.java), null)
                 }
 
-                settings.saveALl(settingsLoginData)
             } catch (e: ResponseException) {
                 withContext(Dispatchers.Main) {
                     errorDialog(context, e.response.body<ErrorResponse>().message)
                     binding.fab.show()
                     hideAnimation(binding.progressIndicator)
+
                 }
             }
 
