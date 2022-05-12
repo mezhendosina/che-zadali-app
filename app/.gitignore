@@ -1,1 +1,6 @@
 /build
+/debug/app-debug.apk
+/release/app-release.apk
+/debug/output-metadata.json
+/release/output-metadata.json
+/src/main/java/com/mezhendosina/sgo/data/test.kt

@@ -1,6 +1,7 @@
 package com.mezhendosina.sgo.app.ui
 
 import android.content.Context
+import android.content.DialogInterface
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun errorDialog(context: Context, message: String) {
@@ -36,5 +37,5 @@ fun updateDialog(context: Context, message: String, onUpdate: () -> Unit) {
         .setMessage(message)
         .setPositiveButton("Обновить") { _, _ ->
             onUpdate()
-        }.show()
+        }.show().getButton(DialogInterface.BUTTON_POSITIVE).isAllCaps = false
 }

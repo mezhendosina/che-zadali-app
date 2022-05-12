@@ -8,6 +8,7 @@ import com.mezhendosina.sgo.app.Navigator
 import com.mezhendosina.sgo.app.databinding.ContainerBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.app.ui.main.MainScreenFragment
+import com.mezhendosina.sgo.app.ui.more.MoreFragment
 import com.mezhendosina.sgo.app.ui.settings.SettingsFragment
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.checkUpdates
@@ -66,6 +67,15 @@ class MainActivity : AppCompatActivity(), Navigator {
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .replace(binding.container.id, SettingsFragment())
+            .commit()
+    }
+
+    override fun more(lessonId: Int, string: String) {
+        supportFragmentManager
+            .beginTransaction()
+            .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .replace(binding.container.id, MoreFragment.newInstance(lessonId, string))
             .commit()
     }
 }

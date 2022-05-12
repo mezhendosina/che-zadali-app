@@ -9,6 +9,7 @@
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/drawable/shapes.xml" value="0.3895" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/announcements_item.xml" value="0.33" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/announcemets_item.xml" value="0.15520833333333334" />
+        <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/attachment_item.xml" value="0.25" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/attachments_item.xml" value="0.15520833333333334" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/bottom_sheet.xml" value="0.15520833333333334" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/calendar_activity.xml" value="0.15520833333333334" />
@@ -27,12 +28,12 @@
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/grades_item.xml" value="0.31637451902522445" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/homework_item.xml" value="0.22" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/journal_fragment.xml" value="0.17" />
-        <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/lesson_item.xml" value="0.33" />
+        <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/lesson_item.xml" value="0.25" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/login_activity.xml" value="0.22" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/login_fragment.xml" value="0.33" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/main_activity.xml" value="0.25" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/main_container.xml" value="0.15520833333333334" />
-        <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/main_fragment.xml" value="0.2" />
+        <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/main_fragment.xml" value="0.25" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/message_item_fragment.xml" value="0.15520833333333334" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/messages_item.xml" value="0.15520833333333334" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/layout/modal_drawer_header.xml" value="0.15520833333333334" />
@@ -44,7 +45,7 @@
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/menu/bottom_menu.xml" value="0.15520833333333334" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/menu/bottom_nav.xml" value="0.22" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/menu/main_toolbar_menu.xml" value="0.3304831124412142" />
-        <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/menu/main_toolbar_more_menu.xml" value="0.3304831124412142" />
+        <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/menu/main_toolbar_more_menu.xml" value="0.22" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2905" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2905" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/xml/file_paths.xml" value="0.3346846846846847" />

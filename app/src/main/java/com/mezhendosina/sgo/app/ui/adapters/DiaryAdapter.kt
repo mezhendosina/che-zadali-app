@@ -24,7 +24,7 @@ fun dateToRussian(date: String): String {
 
 }
 
-class DiaryAdapter :
+class DiaryAdapter(val onHomeworkClickListener: OnHomeworkClickListener) :
     RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder>() {
 
     var diary: List<WeekDay> = emptyList()
@@ -59,7 +59,7 @@ class DiaryAdapter :
             this.day.text = dateToRussian(day.date)
             val layoutManager =
                 LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
-            val homeworkAdapter = HomeworkAdapter()
+            val homeworkAdapter = HomeworkAdapter(onHomeworkClickListener)
 
             homeworkAdapter.lessons = day.lessons
             homeworkAdapter.attachments = attachments

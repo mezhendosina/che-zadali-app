@@ -9,8 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mezhendosina.sgo.app.databinding.MainFragmentBinding
 import com.mezhendosina.sgo.app.factory
+import com.mezhendosina.sgo.app.navigator
 import com.mezhendosina.sgo.app.ui.adapters.AnnouncementsAdapter
 import com.mezhendosina.sgo.app.ui.adapters.HomeworkAdapter
+import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
+import com.mezhendosina.sgo.data.diary.diary.Lesson
 
 class MainFragment : Fragment() {
 
@@ -32,7 +35,11 @@ class MainFragment : Fragment() {
 
         binding = MainFragmentBinding.inflate(inflater, container, false)
 
-        val todayHomeworkAdapter = HomeworkAdapter()
+        val todayHomeworkAdapter = HomeworkAdapter(object : OnHomeworkClickListener {
+            override fun invoke(p1: Lesson) {
+                navigator().more(p1.classmeetingId, "today")
+            }
+        })
         val announcementsAdapter = AnnouncementsAdapter()
 
         viewModel.todayHomework.observe(viewLifecycleOwner) {

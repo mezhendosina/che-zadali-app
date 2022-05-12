@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.FileProvider
+import androidx.lifecycle.MutableLiveData
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.ui.updateDialog
@@ -202,6 +203,30 @@ class Requests {
         return yearList
     }
 
+    suspend fun downloadAttachment(
+        context: Context,
+        at: String,
+        id: Int,
+        name: String,
+        progressState: MutableLiveData<Int>
+    ) {
+        val request = client.get("/webapi/attachments/$id") {
+            headers.append("at", at)
+            onDownload { downloaded, total ->
+                withContext(Dispatchers.Main) {
+                    progressState.value = (downloaded * 100 / total).toInt()
+                }
+            }
+        }
+        val file = File(context.getExternalFilesDir(null), name)
+        file.writeBytes(request.body())
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uriFromFile(context, file), request.headers["Content-Type"])
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        context.startActivity(intent)
+    }
 }
 
 suspend fun checkUpdates(context: Context, file: File) {
@@ -221,7 +246,7 @@ suspend fun checkUpdates(context: Context, file: File) {
                         if (it.contentType == "application/vnd.android.package-archive") {
                             val response = client.get(it.browserDownloadUrl) {
                                 onDownload { downloaded, total ->
-                                    println("$downloaded $total")
+
                                 }
                             }.body<ByteArray>()
 

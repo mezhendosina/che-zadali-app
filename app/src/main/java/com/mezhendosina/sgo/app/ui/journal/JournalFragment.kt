@@ -9,8 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mezhendosina.sgo.app.databinding.JournalFragmentBinding
 import com.mezhendosina.sgo.app.factory
+import com.mezhendosina.sgo.app.navigator
 import com.mezhendosina.sgo.app.ui.adapters.DiaryAdapter
+import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
 import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.data.diary.diary.Lesson
 
 class JournalFragment : Fragment() {
 
@@ -30,7 +33,11 @@ class JournalFragment : Fragment() {
     ): View {
         binding = JournalFragmentBinding.inflate(inflater, container, false)
         try {
-            val diaryAdapter = DiaryAdapter()
+            val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
+                override fun invoke(p1: Lesson) {
+                    navigator().more(p1.classmeetingId, "journal")
+                }
+            })
             viewModel.diary.observe(viewLifecycleOwner) {
                 diaryAdapter.diary = it
             }

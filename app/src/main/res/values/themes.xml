@@ -7,7 +7,7 @@
         <item name="colorSurface">@color/white</item>
         <item name="colorSecondaryVariant">@color/main_text</item>
         <item name="colorOnSecondary">@color/black</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:statusBarColor" >@color/white</item>
         <item name="colorError">@color/second_grade</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="windowActionBar">false</item>
@@ -71,14 +71,26 @@
         <item name="android:textColor">@color/main_text</item>
     </style>
 
-    <style name="ButtonIconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="iconPadding">0dp</item>
+    <style name="ButtonIconOnly" parent="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="iconPadding">16dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
+
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">48dp</item>
+
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingEnd">32dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+
+        <item name="android:letterSpacing">0</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">0dp</item>
+
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textSize">16sp</item>
+        <item name="strokeWidth">0dp</item>
     </style>
 
     <style name="onCard">

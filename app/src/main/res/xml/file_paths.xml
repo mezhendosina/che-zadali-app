@@ -1,3 +1,11 @@
 <paths>
-    <cache-path name="my_cache" path="." />
+    <cache-path
+        name="my_cache"
+        path="." />
+    <external-path
+        name="sgo app"
+        path="." />
+    <external-files-path
+        name="sgo app"
+        path="."/>
 </paths>
