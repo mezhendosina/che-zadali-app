@@ -17,6 +17,7 @@ import com.mezhendosina.sgo.data.diary.diary.DiaryResponse
 import com.mezhendosina.sgo.data.diary.init.DiaryInit
 import com.mezhendosina.sgo.data.login.LoginResponse
 import com.mezhendosina.sgo.data.preLoginNotice.PreLoginNoticeResponse
+import com.mezhendosina.sgo.data.schools.SchoolsResponse
 import com.mezhendosina.sgo.data.yearList.YearListResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -71,7 +72,7 @@ class Requests {
     private val client = HttpClient(CIO) {
         expectSuccess = true
         install(Logging) {
-            level = LogLevel.HEADERS
+            level = LogLevel.INFO
             logger = Logger.DEFAULT
         }
         install(ContentNegotiation) {
@@ -229,14 +230,14 @@ class Requests {
     }
 }
 
-suspend fun checkUpdates(context: Context, file: File) {
+suspend fun checkUpdates(context: Context, file: File, downloadProgress: MutableLiveData<Int>) {
     val client = HttpClient(CIO) {
         install(ContentNegotiation) {
             gson()
         }
     }
     val r: CheckUpdates =
-        client.get(" https://api.github.com/repos/mezhendosina/che-zadali-app/releases/latest")
+        client.get("https://api.github.com/repos/mezhendosina/che-zadali-app/releases/latest")
             .body()
     withContext(Dispatchers.Main) {
         if (r.tagName != BuildConfig.VERSION_NAME) {
@@ -246,7 +247,7 @@ suspend fun checkUpdates(context: Context, file: File) {
                         if (it.contentType == "application/vnd.android.package-archive") {
                             val response = client.get(it.browserDownloadUrl) {
                                 onDownload { downloaded, total ->
-
+                                    downloadProgress.value = (downloaded * 100 / total).toInt()
                                 }
                             }.body<ByteArray>()
 
@@ -266,6 +267,19 @@ suspend fun checkUpdates(context: Context, file: File) {
             }
         }
     }
+}
+
+suspend fun schools(): SchoolsResponse {
+    return HttpClient(CIO) {
+        expectSuccess = true
+        install(Logging) {
+            level = LogLevel.HEADERS
+            logger = Logger.DEFAULT
+        }
+        install(ContentNegotiation) {
+            gson()
+        }
+    }.get("https://mezhendosina.pythonanywhere.com/schools").body()
 }
 
 private fun uriFromFile(context: Context, file: File): Uri? {

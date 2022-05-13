@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mezhendosina.sgo.app.ui.journal.JournalViewModel
+import com.mezhendosina.sgo.app.ui.login.ChooseSchool.ChooseSchoolViewModel
 import com.mezhendosina.sgo.app.ui.main.MainViewModel
 
 class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
@@ -15,6 +16,9 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
             )
             JournalViewModel::class.java -> JournalViewModel(
                 app.journalService
+            )
+            ChooseSchoolViewModel::class.java -> ChooseSchoolViewModel(
+                app.chooseSchoolService
             )
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

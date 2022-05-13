@@ -64,10 +64,10 @@
         android:id="@+id/grades"
         style="@style/lesson_number"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/transperent"
-
-        android:textStyle="italic"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/lobster"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

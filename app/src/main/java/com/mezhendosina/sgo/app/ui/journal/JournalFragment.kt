@@ -32,6 +32,7 @@ class JournalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = JournalFragmentBinding.inflate(inflater, container, false)
+        requireActivity().actionBar?.title = "Дневник"
         try {
             val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
                 override fun invoke(p1: Lesson) {

@@ -49,7 +49,6 @@ class MainViewModel(
 
     fun loadTodayHomework(context: Context) {
         todayHomeworkService.addListener(todayListener)
-        todayHomeworkService.addAttachmentsListener(todayListener)
 
         if (Singleton.todayHomework.diaryResponse.weekDays.isEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {

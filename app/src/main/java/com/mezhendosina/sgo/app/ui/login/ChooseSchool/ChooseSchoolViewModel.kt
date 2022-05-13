@@ -1,0 +1,43 @@
+package com.mezhendosina.sgo.app.ui.login.ChooseSchool
+
+import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.data.schools.SchoolItem
+import io.ktor.client.plugins.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+class ChooseSchoolViewModel(private val schoolService: ChooseSchoolService) : ViewModel() {
+    private val _schools = MutableLiveData<List<SchoolItem>>()
+    val schools: LiveData<List<SchoolItem>> = _schools
+
+    private val actionListener: schoolsActionListener = {
+        _schools.value = it
+    }
+
+
+    fun findSchool(string: String): List<SchoolItem>? {
+        return _schools.value?.filter { it.school.contains(string) }
+    }
+
+    fun loadSchools(context: Context) {
+        schoolService.addListener(actionListener)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                schoolService.loadSchools()
+                println(_schools.value)
+            } catch (e: ResponseException) {
+                errorDialog(context, e.message ?: "")
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        schoolService.removeListener(actionListener)
+    }
+}

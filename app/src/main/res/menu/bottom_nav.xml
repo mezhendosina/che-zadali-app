@@ -2,12 +2,12 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/main"
+        android:id="@+id/mainFragment"
         android:background="@color/transperent"
         android:icon="@drawable/ic_home"
         android:title="@string/main" />
     <item
-        android:id="@+id/journal"
+        android:id="@+id/journalFragment"
         android:icon="@drawable/ic_journal"
         android:title="@string/journal" />
 </menu>

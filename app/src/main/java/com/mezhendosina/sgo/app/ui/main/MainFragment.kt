@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainFragmentBinding
 import com.mezhendosina.sgo.app.factory
-import com.mezhendosina.sgo.app.navigator
 import com.mezhendosina.sgo.app.ui.adapters.AnnouncementsAdapter
 import com.mezhendosina.sgo.app.ui.adapters.HomeworkAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
@@ -32,17 +34,23 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = MainFragmentBinding.inflate(inflater, container, false)
 
+
+        val parentFragmentNavController = parentFragment?.findNavController()
         val todayHomeworkAdapter = HomeworkAdapter(object : OnHomeworkClickListener {
             override fun invoke(p1: Lesson) {
-                navigator().more(p1.classmeetingId, "today")
+                parentFragmentNavController?.navigate(
+                    R.id.moreFragment,
+                    bundleOf("lessonId" to p1.classmeetingId, "type" to "today")
+                )
             }
         })
+
         val announcementsAdapter = AnnouncementsAdapter()
 
         viewModel.todayHomework.observe(viewLifecycleOwner) {
+            println(it)
             binding.todayHomework.day.text = viewModel.todayDate()
             todayHomeworkAdapter.lessons = it
         }

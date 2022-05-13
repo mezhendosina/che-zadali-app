@@ -18,4 +18,6 @@
     <string name="settings">Настройки</string>
     <string name="more">more</string>
     <string name="homework">Домашнее задание</string>
+    <string name="download_update">Скачивание обновления</string>
+    <string name="log_in">Войти</string>
 </resources>

@@ -56,24 +56,27 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
 
             if (!lesson.assignments.isNullOrEmpty()) {
                 var grade = ""
+
                 lesson.assignments.forEach { assign ->
-                    attachments.forEach {
-                        if (it.assignmentId == assign.id) {
-                            attachmentsIcon.visibility = View.VISIBLE
-                        }
+                    grade += if (assign.mark != null) {
+                        "${assign.mark.mark}  "
+                    } else {
+                        ""
                     }
-                    if (assign.mark != null) {
-                        grade += "${assign.mark.mark}  "
-                    }
-                    if (assign.typeId == 3 && assign.asdignmentName.isNotEmpty()) {
+                    if (assign.typeId == 3 && assign.assignmentName.isNotEmpty()) {
                         homework.text = assign.assignmentName
                         homework.visibility = View.VISIBLE
                     } else {
+                        homework.text = ""
                         homework.visibility = View.GONE
                     }
                 }
 
                 grades.text = grade
+            } else {
+                grades.visibility = View.GONE
+                homework.visibility = View.GONE
+                attachmentsIcon.visibility = View.GONE
             }
         }
     }

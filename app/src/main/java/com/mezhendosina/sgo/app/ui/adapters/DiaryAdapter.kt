@@ -24,7 +24,7 @@ fun dateToRussian(date: String): String {
 
 }
 
-class DiaryAdapter(val onHomeworkClickListener: OnHomeworkClickListener) :
+class DiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListener) :
     RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder>() {
 
     var diary: List<WeekDay> = emptyList()

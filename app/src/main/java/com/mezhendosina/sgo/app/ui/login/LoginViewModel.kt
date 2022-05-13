@@ -3,6 +3,7 @@ package com.mezhendosina.sgo.app.ui.login
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.activities.MainActivity
@@ -23,8 +24,7 @@ import kotlinx.coroutines.withContext
 
 class LoginViewModel : ViewModel() {
 
-    fun onClickLogin(binding: LoginFragmentBinding, context: Context) {
-        binding.fab.hide()
+    fun onClickLogin(binding: LoginFragmentBinding, context: Context, activity: FragmentActivity) {
 
         showAnimation(binding.progressIndicator)
 
@@ -53,12 +53,12 @@ class LoginViewModel : ViewModel() {
 
                 withContext(Dispatchers.Main) {
                     startActivity(context, Intent(context, MainActivity::class.java), null)
+                    activity.finish()
                 }
 
             } catch (e: ResponseException) {
                 withContext(Dispatchers.Main) {
                     errorDialog(context, e.response.body<ErrorResponse>().message)
-                    binding.fab.show()
                     hideAnimation(binding.progressIndicator)
 
                 }

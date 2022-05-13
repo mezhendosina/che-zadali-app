@@ -46,7 +46,6 @@ class AttachmentAdapter(
         binding = AttachmentItemBinding.inflate(inflater, parent, false)
 
         viewModel.loading.observe(lifecycleOwner) {
-            println(it)
             binding.progressBar.progress = it
             if (it == 100) {
                 hideAnimation(binding.progressBar)
