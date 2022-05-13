@@ -65,7 +65,7 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
                     if (assign.mark != null) {
                         grade += "${assign.mark.mark}  "
                     }
-                    if (assign.typeId == 3) {
+                    if (assign.typeId == 3 && assign.asdignmentName.isNotEmpty()) {
                         homework.text = assign.assignmentName
                         homework.visibility = View.VISIBLE
                     } else {
