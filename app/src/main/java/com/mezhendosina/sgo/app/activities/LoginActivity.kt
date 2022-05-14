@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.LoginActivityBinding
@@ -21,6 +20,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val settings = Settings(this)
@@ -41,8 +41,11 @@ class LoginActivity : AppCompatActivity() {
                         supportFragmentManager.findFragmentById(binding.fragmentContainer.id) as NavHostFragment
                     val navController = navHostFragment.navController
                     appBarConfiguration = AppBarConfiguration(navController.graph)
-                    binding.collapsingtoolbarlayout.setupWithNavController(binding.toolbar, navController, appBarConfiguration)
-
+                    binding.collapsingtoolbarlayout.setupWithNavController(
+                        binding.toolbar,
+                        navController,
+                        appBarConfiguration
+                    )
 //                    navController.addOnDestinationChangedListener() { _, destination, _ ->
 //                        if (destination.id == R.id.loginFragment) {
 //                            supportActionBar?.title = "Login"

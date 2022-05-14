@@ -1,5 +1,6 @@
-package com.mezhendosina.sgo.app.ui.login.ChooseSchool
+package com.mezhendosina.sgo.app.ui.login.chooseSchool
 
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.schools
 import com.mezhendosina.sgo.data.schools.SchoolItem
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,7 @@ class ChooseSchoolService {
         val schoolsList = schools()
         withContext(Dispatchers.Main) {
             schools = schoolsList.schoolItems.toMutableList()
+            Singleton.schools = schools
             notifyListeners()
         }
     }

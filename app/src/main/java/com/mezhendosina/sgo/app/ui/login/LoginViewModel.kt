@@ -14,6 +14,7 @@ import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.SettingsLoginData
+import com.mezhendosina.sgo.data.schools.SchoolItem
 import com.mezhendosina.sgo.data.toMD5
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -24,11 +25,19 @@ import kotlinx.coroutines.withContext
 
 class LoginViewModel : ViewModel() {
 
-    fun onClickLogin(binding: LoginFragmentBinding, context: Context, activity: FragmentActivity) {
+    fun onClickLogin(
+        binding: LoginFragmentBinding,
+        context: Context,
+        activity: FragmentActivity,
+        schoolId: Int
+    ) {
 
         showAnimation(binding.progressIndicator)
 
         CoroutineScope(Dispatchers.IO).launch {
+//            Пригодится, когда будут другие города
+//            val school = Singleton.schools.find { it.schoolId == schoolId }
+
             val password = binding.passwordTextField.editText?.text.toString().toMD5()
             val settingsLoginData = SettingsLoginData(
                 "2",
@@ -36,7 +45,7 @@ class LoginViewModel : ViewModel() {
                 "-1",
                 "1",
                 "2",
-                "89",
+                "$schoolId",
                 binding.loginTextField.editText?.text.toString(),
                 password
             )
@@ -66,6 +75,10 @@ class LoginViewModel : ViewModel() {
 
         }
 
+    }
+
+    fun findSchool(schoolId: Int): SchoolItem? {
+        return Singleton.schools.find { it.schoolId == schoolId }
     }
 }
 

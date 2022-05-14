@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_nav"
+    app:startDestination="@id/containerFragment2">
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settings.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" />
+    <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment" />
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.mezhendosina.sgo.app.ui.more.MoreFragment"
+        android:label="MoreFragment" />
+    <action android:id="@+id/action_global_moreFragment" app:destination="@id/moreFragment" />
+    <fragment
+        android:id="@+id/containerFragment2"
+        android:name="com.mezhendosina.sgo.app.ui.main.ContainerFragment"
+        android:label="ContainerFragment" />
+</navigation>

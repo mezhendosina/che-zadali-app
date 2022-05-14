@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainFragmentBinding
@@ -37,12 +37,11 @@ class MainFragment : Fragment() {
         binding = MainFragmentBinding.inflate(inflater, container, false)
 
 
-        val parentFragmentNavController = parentFragment?.findNavController()
         val todayHomeworkAdapter = HomeworkAdapter(object : OnHomeworkClickListener {
             override fun invoke(p1: Lesson) {
-                parentFragmentNavController?.navigate(
+                activity?.findNavController(R.id.container)?.navigate(
                     R.id.moreFragment,
-                    bundleOf("lessonId" to p1.classmeetingId, "type" to "today")
+                    bundleOf("lessonId" to p1.classmeetingId, "type" to "123")
                 )
             }
         })

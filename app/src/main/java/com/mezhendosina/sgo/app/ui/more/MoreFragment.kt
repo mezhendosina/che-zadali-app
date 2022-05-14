@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.databinding.LessonItemBinding
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentAdapter
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentClickListener
@@ -17,24 +18,15 @@ import java.text.SimpleDateFormat
 
 class MoreFragment : Fragment() {
 
-    companion object {
-        private const val LESSON_ID = "LESSON_ID"
-        private const val FROM = "FROM"
-        fun newInstance(lessonId: Int, string: String): Fragment {
-            val fragment = MoreFragment()
-            fragment.arguments = bundleOf(LESSON_ID to lessonId, FROM to string)
-            return fragment
-        }
-
-    }
-
     private val viewModel: MoreViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         viewModel.findLesson(
-            requireArguments().getInt(LESSON_ID),
-            requireArguments().getString(FROM)!!
+            arguments?.getInt("lessonId") ?: 0,
+            arguments?.getString("type") ?: ""
         )
     }
 

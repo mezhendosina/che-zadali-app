@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.JournalFragmentBinding
 import com.mezhendosina.sgo.app.factory
-import com.mezhendosina.sgo.app.navigator
 import com.mezhendosina.sgo.app.ui.adapters.DiaryAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
 import com.mezhendosina.sgo.app.ui.errorDialog
@@ -36,7 +38,10 @@ class JournalFragment : Fragment() {
         try {
             val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
                 override fun invoke(p1: Lesson) {
-                    navigator().more(p1.classmeetingId, "journal")
+                    activity?.findNavController(R.id.container)?.navigate(
+                        R.id.moreFragment,
+                        bundleOf("lessonId" to p1.classmeetingId, "type" to "journal")
+                    )
                 }
             })
             viewModel.diary.observe(viewLifecycleOwner) {

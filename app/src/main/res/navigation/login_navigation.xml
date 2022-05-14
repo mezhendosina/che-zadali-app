@@ -5,7 +5,7 @@
     app:startDestination="@id/chooseSchoolFragment">
     <fragment
         android:id="@+id/chooseSchoolFragment"
-        android:name="com.mezhendosina.sgo.app.ui.login.ChooseSchool.ChooseSchoolFragment"
+        android:name="com.mezhendosina.sgo.app.ui.login.chooseSchool.ChooseSchoolFragment"
         android:label="Выберите школу">
         <action
             android:id="@+id/action_chooseSchoolFragment_to_loginFragment"

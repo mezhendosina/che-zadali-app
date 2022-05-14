@@ -6,6 +6,7 @@ import com.mezhendosina.sgo.data.SettingsLoginData
 import com.mezhendosina.sgo.data.announcements.AnnouncementsResponseItem
 import com.mezhendosina.sgo.data.diary.Diary
 import com.mezhendosina.sgo.data.diary.diary.DiaryResponse
+import com.mezhendosina.sgo.data.schools.SchoolItem
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,7 +23,7 @@ object Singleton {
     var currentYear: Int = 0
     var diary: Diary =
         Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList())
-
+    var schools = mutableListOf<SchoolItem>()
 
     suspend fun login(loginData: SettingsLoginData) {
         requests.login(loginData)

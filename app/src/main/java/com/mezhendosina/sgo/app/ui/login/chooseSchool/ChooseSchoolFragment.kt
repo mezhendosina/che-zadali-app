@@ -1,16 +1,14 @@
-package com.mezhendosina.sgo.app.ui.login.ChooseSchool
+package com.mezhendosina.sgo.app.ui.login.chooseSchool
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
@@ -39,12 +37,16 @@ class ChooseSchoolFragment : Fragment() {
         val schoolAdapter = ChooseSchoolAdapter(object : OnSchoolClickListener {
             override fun invoke(p1: SchoolItem) {
                 requireActivity().findNavController(R.id.fragmentContainer).navigate(
-                    R.id.loginFragment,
+                    R.id.action_chooseSchoolFragment_to_loginFragment,
                     bundleOf("schoolId" to p1.schoolId)
                 )
             }
         })
-        binding.schoolEditText.addTextChangedListener(onTextChanged = {it,_,_,_ ->
+        if (!binding.schoolEditText.text.isNullOrEmpty()) {
+            schoolAdapter.schools = viewModel.findSchool(binding.schoolEditText.text.toString()) ?: emptyList()
+        }
+
+        binding.schoolEditText.addTextChangedListener(onTextChanged = { it, _, _, _ ->
             schoolAdapter.schools = viewModel.findSchool(it.toString()) ?: emptyList()
 
         })

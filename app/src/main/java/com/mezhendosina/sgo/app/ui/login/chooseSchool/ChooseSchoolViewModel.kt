@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.app.ui.login.ChooseSchool
+package com.mezhendosina.sgo.app.ui.login.chooseSchool
 
 import android.content.Context
 import androidx.lifecycle.LiveData

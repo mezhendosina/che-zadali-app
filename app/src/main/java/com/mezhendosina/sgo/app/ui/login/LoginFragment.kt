@@ -14,6 +14,8 @@ class LoginFragment : Fragment() {
     private lateinit var binding: LoginFragmentBinding
 
     private val viewModel: LoginViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
@@ -26,6 +28,13 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = LoginFragmentBinding.inflate(inflater, container, false)
+        val schoolId = arguments?.getInt("schoolId")!!
+
+
+        binding.selectedSchool.text = viewModel.findSchool(schoolId)?.school
+        binding.selectedSchoolCard.setOnClickListener() {
+            requireActivity().onBackPressed()
+        }
 
         binding.loginButton.setOnClickListener {
             if (binding.loginEditText.text.isNullOrEmpty()) {
@@ -35,7 +44,12 @@ class LoginFragment : Fragment() {
                 binding.passwordTextField.error = "Не введен пароль"
             }
             if (!binding.loginEditText.text.isNullOrEmpty() && !binding.passwordEditText.text.isNullOrEmpty()) {
-                viewModel.onClickLogin(binding, requireContext(), requireActivity())
+                viewModel.onClickLogin(
+                    binding,
+                    requireContext(),
+                    requireActivity(),
+                    schoolId
+                )
 
             }
         }

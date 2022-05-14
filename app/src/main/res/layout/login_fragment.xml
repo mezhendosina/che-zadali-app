@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -17,28 +18,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/selected_school_text_view"
+        android:id="@+id/selected_school_header"
         style="@style/captions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/selected_school"
-        app:layout_constraintStart_toStartOf="@id/selected_school"
+        app:layout_constraintStart_toStartOf="@id/selected_school_card"
         app:layout_constraintTop_toBottomOf="@id/progress_indicator" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/selected_school"
+        android:id="@+id/selected_school_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="2dp"
         android:elevation="8dp"
-
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selected_school_text_view">
+        app:layout_constraintTop_toBottomOf="@id/selected_school_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/onCard"
@@ -47,16 +47,17 @@
             android:layout_margin="16dp">
 
             <TextView
+                android:id="@+id/selected_school"
                 style="@style/mainText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/transperent"
                 android:maxLines="1"
-                android:text="МБОУ СОШ №68 г.Челябинска"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tool:text="МБОУ СОШ №68 г.Челябинска" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -70,7 +71,7 @@
         android:hint="@string/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selected_school"
+        app:layout_constraintTop_toBottomOf="@id/selected_school_card"
         app:passwordToggleEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
