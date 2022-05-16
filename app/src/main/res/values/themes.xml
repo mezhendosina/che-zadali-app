@@ -1,11 +1,11 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.SGOApp." parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.SGOApp." parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
         <item name="colorSecondary">@color/primaryColor</item>
         <item name="backgroundColor">@color/backgroundWhite</item>
-        <item name="android:background">@color/backgroundWhite</item>
+
         <item name="colorSurface">@color/surface</item>
         <item name="colorError">@color/error</item>
         <item name="colorOnPrimary">@color/onPrimary</item>
@@ -13,10 +13,7 @@
         <item name="colorOnSurface">@color/onSurface</item>
         <item name="colorOnError">@color/onError</item>
 
-        <item name="dividerColor">@color/primaryColor</item>
         <item name="android:textColorLink">@color/primaryDarkColor</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="android:statusBarColor">?android:attr/colorBackground</item>
 
         <item name="android:windowLightStatusBar">true</item>
         <item name="windowActionBar">false</item>
@@ -25,7 +22,6 @@
     <style name="Toolbar">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:titleTextColor">?attr/colorOnBackground</item>
     </style>
 
     <style name="recycler_view">

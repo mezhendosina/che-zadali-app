@@ -11,6 +11,7 @@ import com.mezhendosina.sgo.data.Settings
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,27 +29,36 @@ class MainActivity : AppCompatActivity() {
                 val loginData = settings.getLoginData()
                 Singleton.login(loginData)
             } catch (e: ResponseException) {
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     errorDialog(this@MainActivity, e.message ?: "")
                 }
             }
 
             withContext(Dispatchers.Main) {
-                when (settings.theme.first()) {
-                    R.id.light_theme -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    R.id.dark_theme -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    R.id.same_as_system -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
                 binding = MainActivityContainerBinding.inflate(layoutInflater)
                 setContentView(binding.root)
+//                settings.theme.collect(){
+//                    when (it) {
+//                        R.id.light_theme -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                        R.id.dark_theme -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//                        R.id.same_as_system -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+//                    }
+//                }
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         CoroutineScope(Dispatchers.IO).launch {
             Singleton.requests.logout()
+        }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        CoroutineScope(Dispatchers.IO).launch {
+            Singleton.requests.login(Settings(this@MainActivity).getLoginData())
         }
     }
 }

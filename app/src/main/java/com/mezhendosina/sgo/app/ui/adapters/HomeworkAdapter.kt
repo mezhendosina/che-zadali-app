@@ -56,6 +56,30 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
 
             if (!lesson.assignments.isNullOrEmpty()) {
                 var grade = ""
+                var withAttachments = false
+                var withHomework = false
+                for (i in lesson.assignments) {
+                    for (b in attachments) {
+                        if (i.id == b.assignmentId) {
+                            withAttachments = true
+                        }
+                    }
+                    if (i.typeId == 3) {
+                        homework.text = i.assignmentName
+                        withHomework = true
+                    }
+                }
+
+                if (withAttachments) {
+                    attachmentsIcon.visibility = View.VISIBLE
+                } else {
+                    attachmentsIcon.visibility = View.INVISIBLE
+                }
+                if (withHomework) {
+                    homework.visibility = View.VISIBLE
+                } else {
+                    homework.visibility = View.INVISIBLE
+                }
 
                 lesson.assignments.forEach { assign ->
                     grade += if (assign.mark != null) {
@@ -63,25 +87,13 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
                     } else {
                         ""
                     }
-
-                    if(attachments.find { it.assignmentId == assign.id } != null){
-                        attachmentsIcon.visibility = View.VISIBLE
-                    }
-
-                    if (assign.typeId == 3 && assign.assignmentName.isNotEmpty()) {
-                        homework.text = assign.assignmentName
-                        homework.visibility = View.VISIBLE
-                    } else {
-                        homework.text = ""
-                        homework.visibility = View.GONE
-                    }
                 }
 
                 grades.text = grade
             } else {
                 grades.visibility = View.GONE
                 homework.visibility = View.GONE
-                attachmentsIcon.visibility = View.GONE
+                attachmentsIcon.visibility = View.INVISIBLE
             }
         }
     }

@@ -56,11 +56,11 @@
         android:rotation="90"
         android:layout_margin="8dp"
         android:src="@drawable/ic_attachment"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/lesson_time"
-        app:layout_constraintStart_toEndOf="@id/lesson_time"
-        app:layout_constraintTop_toTopOf="@id/lesson_time"
-        app:tint="?attr/colorSecondary" />
+        app:layout_constraintEnd_toStartOf="@id/grades"
+        app:layout_constraintTop_toTopOf="@id/lesson_name"
+        app:tint="?attr/colorOnBackground" />
 
     <TextView
         android:id="@+id/grades"

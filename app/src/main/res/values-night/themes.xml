@@ -1,11 +1,9 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.SGOApp." parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.SGOApp." parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryLightColor</item>
         <item name="colorSecondary">@color/primaryColor</item>
-        <item name="android:textColor">@color/primaryDarkTextColor</item>
-        <item name="android:colorBackground">@color/backgroundDark</item>
         <item name="colorSurface">@color/surfaceDark</item>
         <item name="colorError">@color/errorDark</item>
         <item name="colorOnPrimary">@color/onPrimaryDark</item>

@@ -49,6 +49,7 @@ class MainViewModel(
 
     fun loadTodayHomework(context: Context) {
         todayHomeworkService.addListener(todayListener)
+        todayHomeworkService.addAttachmentsListener(todayAttachmentsListener)
 
         if (Singleton.todayHomework.diaryResponse.weekDays.isEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -117,6 +118,8 @@ class MainViewModel(
     override fun onCleared() {
         super.onCleared()
         todayHomeworkService.removeListener(todayListener)
+        todayHomeworkService.removeAttachmentsListener(todayAttachmentsListener)
+
         announcementsService.removeListener(announcementsListener)
     }
 }

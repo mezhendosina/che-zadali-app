@@ -5,6 +5,8 @@
     android:id="@+id/main_activity_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+
     android:animateLayoutChanges="true"
     >
 
@@ -23,6 +25,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/Toolbar"
+            app:titleTextColor="?attr/colorOnBackground"
             android:layout_width="match_parent"
             android:background="?android:attr/colorBackground"
             android:layout_height="wrap_content"

@@ -5,14 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
+import com.mezhendosina.sgo.app.databinding.AttachmentItemBinding
 import com.mezhendosina.sgo.app.databinding.LessonItemBinding
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentAdapter
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentClickListener
+import com.mezhendosina.sgo.app.ui.hideAnimation
+import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.attachments.Attachment
 import java.text.SimpleDateFormat
 
@@ -36,12 +39,19 @@ class MoreFragment : Fragment() {
     ): View {
         val binding = LessonItemBinding.inflate(inflater, container, false)
 
+        val downloadState = MutableLiveData(0)
+
         val attachmentAdapter = AttachmentAdapter(
             viewModel,
             viewLifecycleOwner,
             object : AttachmentClickListener {
-                override fun onClick(attachment: Attachment) {
-                    viewModel.downloadAttachment(requireContext(), attachment)
+                override fun onClick(attachment: Attachment, binding: AttachmentItemBinding) {
+                    downloadState.observe(viewLifecycleOwner) {
+                        if (it != 100 && it != 1) {
+                            binding.progressBar.progress = it
+                        }
+                    }
+                    viewModel.downloadAttachment(requireContext(), attachment, downloadState)
                 }
             })
 

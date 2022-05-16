@@ -34,7 +34,6 @@ import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -234,20 +233,29 @@ class Requests {
         context.startActivity(intent)
     }
 
-    suspend fun loadGrades(at: String, studentId: String): HttpResponse {
-        val request = client.submitForm("asp/Reports/StudentTotalMarks.asp", Parameters.build {
-            append("LoginType", "")
+    suspend fun loadGrades(at: String, studentId: String): String {
+        client.submitForm("/asp/Reports/ReportParentInfoLetter.asp", Parameters.build {
+            append("at", at)
+            append("RPNAME", "Информационное письмо для родителей")
+            append("RPTID", "ParentInfoLetter")
+        })
+
+        val request = client.submitForm("/asp/Reports/ParentInfoLetter.asp", Parameters.build {
+            append("LoginType", "0")
             append("AT", at)
-            append("PP", "/asp/Reports/ReportStudentTotalMarks.asp")
-            append("BACK", "/asp/Reports/ReportStudentTotalMarks.asp")
+            append("PP", "/asp/Reports/ReportParentInfoLetter.asp")
+            append("BACK", "/asp/Reports/ReportParentInfoLetter.asp ")
             append("ThmID", "")
-            append("RPTID", "StudentTotalMarks")
+            append("RPTID", "ParentInfoLetter")
             append("A", "")
             append("NA", "")
             append("TA", "")
             append("RT", "")
             append("RP", "")
-            append("PCLID", "1248066")
+            append("dtWeek", "16.05.22")
+            append("ReportType", "1")
+            append("TERMID", "679138")
+            append("DATE", "16.05.22")
             append("SID", studentId)
         })
         return request.body()
@@ -271,7 +279,7 @@ suspend fun checkUpdates(context: Context, file: File, downloadProgress: Mutable
                         if (it.contentType == "application/vnd.android.package-archive") {
                             val response = client.get(it.browserDownloadUrl) {
                                 onDownload { downloaded, total ->
-                                    withContext(Dispatchers.Main){
+                                    withContext(Dispatchers.Main) {
                                         downloadProgress.value = (downloaded * 100 / total).toInt()
                                     }
                                 }

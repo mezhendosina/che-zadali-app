@@ -20,6 +20,8 @@
         android:layout_height="wrap_content"
         android:background="@color/transperent"
         android:text="@string/download_update"
+        android:textColor="?attr/colorSurface"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/update_progress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

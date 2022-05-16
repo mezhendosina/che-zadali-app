@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.transition.MaterialSharedAxis
@@ -45,13 +46,11 @@ class SettingsFragment : Fragment() {
             requireActivity().onBackPressed()
         }
 
-        binding.changeThemeRadioGroup.setOnCheckedChangeListener { group, checkedId ->
-            CoroutineScope(Dispatchers.IO).launch {
-                Settings(inflater.context).setTheme(checkedId)
-                withContext(Dispatchers.Main) {
-                }
-            }
-        }
+//        binding.changeThemeRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+//            CoroutineScope(Dispatchers.IO).launch {
+//                Settings(inflater.context).setTheme(checkedId)
+//            }
+//        }
 //        viewModel.currentTheme.observe(viewLifecycleOwner) {
 //            binding.currentTheme.text = when (it) {
 //                0 -> "Светлая"

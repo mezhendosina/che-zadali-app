@@ -12,7 +12,7 @@ import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.attachments.Attachment
 
 interface AttachmentClickListener {
-    fun onClick(attachment: Attachment)
+    fun onClick(attachment: Attachment, binding: AttachmentItemBinding)
 }
 
 class AttachmentAdapter(
@@ -35,7 +35,7 @@ class AttachmentAdapter(
         hideAnimation(binding.fileIcon)
         showAnimation(binding.progressBar)
 
-        actionListener.onClick(attachment)
+        actionListener.onClick(attachment, binding)
     }
 
     class AttachmentViewHolder(val binding: AttachmentItemBinding) :
@@ -45,13 +45,6 @@ class AttachmentAdapter(
         val inflater = LayoutInflater.from(parent.context)
         binding = AttachmentItemBinding.inflate(inflater, parent, false)
 
-        viewModel.loading.observe(lifecycleOwner) {
-            binding.progressBar.progress = it
-            if (it == 100) {
-                hideAnimation(binding.progressBar)
-                showAnimation(binding.fileIcon)
-            }
-        }
         binding.root.setOnClickListener(this)
 
         return AttachmentViewHolder(binding)

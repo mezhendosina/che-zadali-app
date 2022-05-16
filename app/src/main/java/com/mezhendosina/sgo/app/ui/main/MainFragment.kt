@@ -49,11 +49,13 @@ class MainFragment : Fragment() {
         val announcementsAdapter = AnnouncementsAdapter()
 
         viewModel.todayHomework.observe(viewLifecycleOwner) {
-            println(it)
             binding.todayHomework.day.text = viewModel.todayDate()
             todayHomeworkAdapter.lessons = it
         }
 
+        viewModel.todayAttachments.observe(viewLifecycleOwner) {
+            todayHomeworkAdapter.attachments = it
+        }
         viewModel.announcements.observe(viewLifecycleOwner) {
             announcementsAdapter.announcements = it
         }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.diary.diary.Lesson
-import io.ktor.client.plugins.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -53,11 +52,11 @@ class TodayHomeworkService {
         if (diary.diaryResponse.weekDays.isNotEmpty()) {
             todayHomework = diary.diaryResponse.weekDays[0].lessons.toMutableList()
             Singleton.todayHomework = diary
-            withContext(Dispatchers.Main) {
-                notifyListeners()
-            }
             if (diary.attachmentsResponse.isNotEmpty()) {
                 todayAttachments = diary.attachmentsResponse.toMutableList()
+            }
+            withContext(Dispatchers.Main) {
+                notifyListeners()
             }
         }
     }
@@ -71,12 +70,12 @@ class TodayHomeworkService {
 
     }
 
-    fun addAttachmentsListener(listener: TodayActionListener) {
-        listeners.add(listener)
+    fun addAttachmentsListener(listener: TodayAttachmentsListener) {
+        attachmentsListeners.add(listener)
     }
 
-    fun removeAttachmentsListener(listener: TodayActionListener) {
-        listeners.remove(listener)
+    fun removeAttachmentsListener(listener: TodayAttachmentsListener) {
+        attachmentsListeners.remove(listener)
     }
 
     private fun notifyListeners() {

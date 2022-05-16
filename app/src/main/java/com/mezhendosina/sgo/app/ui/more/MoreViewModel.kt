@@ -25,10 +25,6 @@ class MoreViewModel : ViewModel() {
     private val _attachments = MutableLiveData<List<Attachment>>(emptyList())
     val attachments: LiveData<List<Attachment>> = _attachments
 
-
-    private val _loading = MutableLiveData<Int>(0)
-    val loading: LiveData<Int> = _loading
-
     fun findLesson(lessonId: Int, from: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val singleton = if (from == "journal") {
@@ -36,19 +32,42 @@ class MoreViewModel : ViewModel() {
             } else {
                 Singleton.todayHomework
             }
-            singleton.diaryResponse.weekDays.forEach { weekDay ->
-                weekDay.lessons.forEach { lessonItem ->
-                    if (lessonItem.classmeetingId == lessonId) {
-                        val mutableAttachments = mutableListOf<Attachment>()
-                        lessonItem.assignments?.forEach { assign ->
-                            Singleton.diary.attachmentsResponse
-                                .find { it.assignmentId == assign.id }?.attachments?.forEach { attachment ->
-                                    mutableAttachments.add(attachment)
+//            singleton.diaryResponse.weekDays.forEach { weekDay ->
+//                weekDay.lessons.forEach { lessonItem ->
+//                    if (lessonItem.classmeetingId == lessonId) {
+//                        val mutableAttachments = mutableListOf<Attachment>()
+//                        lessonItem.assignments?.forEach { assign ->
+//                            Singleton.diary.attachmentsResponse
+//                                .find { it.assignmentId == assign.id }?.attachments?.forEach { attachment ->
+//                                    mutableAttachments.add(attachment)
+//                                }
+//                            withContext(Dispatchers.Main) {
+//                                _attachments.value = mutableAttachments
+//                                _lesson.value = lessonItem
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+
+            for (day in singleton.diaryResponse.weekDays) {
+                for (lesson in day.lessons) {
+                    if (lesson.classmeetingId == lessonId) {
+                        val attachments = mutableListOf<Attachment>()
+                        if (lesson.assignments != null) {
+                            for (attachment in singleton.attachmentsResponse) {
+                                for (assignment in lesson.assignments) {
+                                    if (assignment.id == attachment.assignmentId) {
+                                        for (i in attachment.attachments) {
+                                            attachments.add(i)
+                                        }
+                                    }
                                 }
-                            withContext(Dispatchers.Main) {
-                                _attachments.value = mutableAttachments
-                                _lesson.value = lessonItem
                             }
+                        }
+                        withContext(Dispatchers.Main) {
+                            _attachments.value = attachments
+                            _lesson.value = lesson
                         }
                     }
                 }
@@ -57,7 +76,11 @@ class MoreViewModel : ViewModel() {
     }
 
 
-    fun downloadAttachment(context: Context, attachment: Attachment) {
+    fun downloadAttachment(
+        context: Context,
+        attachment: Attachment,
+        _loading: MutableLiveData<Int>
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 Singleton.requests.downloadAttachment(
