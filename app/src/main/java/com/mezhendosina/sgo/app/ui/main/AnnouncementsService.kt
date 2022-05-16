@@ -17,7 +17,6 @@ class AnnouncementsService {
     suspend fun announcements() {
         val requests = Singleton.requests
         announcements = requests.announcements(Singleton.at).toMutableList()
-        announcements.forEach { println(Jsoup.parse(it.description).text()) }
         Singleton.announcements = announcements
         withContext(Dispatchers.Main) {
             notifyListeners()

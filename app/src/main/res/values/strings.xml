@@ -20,4 +20,8 @@
     <string name="homework">Домашнее задание</string>
     <string name="download_update">Скачивание обновления</string>
     <string name="log_in">Войти</string>
+    <string name="light_theme">Светлая тема</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="same_as_system">Как в системе</string>
+    <string name="select_theme">Выбор темы</string>
 </resources>

@@ -24,7 +24,7 @@ import java.util.*
 class MainViewModel(
     private val todayHomeworkService: TodayHomeworkService,
     private val announcementsService: AnnouncementsService,
-//    private val gradeService: GradeService
+    private val gradeServices: GradeService
 ) : ViewModel() {
     private val _todayHomework = MutableLiveData<List<Lesson>>()
     val todayHomework: LiveData<List<Lesson>> = _todayHomework

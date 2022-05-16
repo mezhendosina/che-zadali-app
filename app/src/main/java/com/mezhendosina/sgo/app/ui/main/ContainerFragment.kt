@@ -12,6 +12,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainContainerBinding
 import com.mezhendosina.sgo.app.ui.journal.JournalFragment
+import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.checkUpdates
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,16 +76,21 @@ class ContainerFragment : Fragment() {
                 else -> false
             }
         }
-//        downloadState.observe(viewLifecycleOwner) {
-//            val updateProgress = binding.updateProgress.root
-//
-//            if (it == 100 || it == 0) {
-//                updateProgress.visibility = View.GONE
-//            } else {
-//                showAnimation(updateProgress)
-//                binding.updateProgress.updateProgress.setProgressCompat(it, true)
-//            }
-//        }
+        downloadState.observe(viewLifecycleOwner) {
+            val updateProgress = binding.updateProgress.root
+
+            when (it) {
+                100, 0 -> {
+                    updateProgress.visibility = View.GONE
+                }
+                1 -> {
+                    showAnimation(updateProgress)
+                }
+                else -> {
+                    binding.updateProgress.updateProgress.setProgressCompat(it, true)
+                }
+            }
+        }
 
 
         return binding.root

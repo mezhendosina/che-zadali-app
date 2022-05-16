@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.mezhendosina.sgo.app.R
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -48,7 +49,7 @@ class Settings(val context: Context) {
         it[LOGGED_IN] ?: false
     }
     val theme = context.dataStore.data.map {
-        it[THEME] ?: 2
+        it[THEME] ?: R.id.same_as_system
     }
 
 

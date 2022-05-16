@@ -2,6 +2,7 @@ package com.mezhendosina.sgo.app.ui.settings
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,13 +29,6 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    fun changeTheme(context: Context, theme: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val settings = Settings(context)
-            settings.setTheme(theme)
-        }
-    }
-
     fun logout(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             Settings(context).logout()
@@ -43,4 +37,5 @@ class SettingsViewModel : ViewModel() {
             }
         }
     }
+
 }

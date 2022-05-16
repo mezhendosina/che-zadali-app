@@ -4,6 +4,7 @@ import android.app.Application
 import com.mezhendosina.sgo.app.ui.journal.JournalService
 import com.mezhendosina.sgo.app.ui.login.chooseSchool.ChooseSchoolService
 import com.mezhendosina.sgo.app.ui.main.AnnouncementsService
+import com.mezhendosina.sgo.app.ui.main.GradeService
 import com.mezhendosina.sgo.app.ui.main.TodayHomeworkService
 
 class App : Application() {
@@ -11,5 +12,5 @@ class App : Application() {
     val announcementsService = AnnouncementsService()
     val journalService = JournalService()
     val chooseSchoolService = ChooseSchoolService()
-
+    val gradesService = GradeService()
 }

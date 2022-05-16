@@ -44,7 +44,7 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
             try {
                 journalService.loadDiary(
                     settings.currentUserId.first(),
-                    Singleton.currentYear,
+                    Singleton.currentYearId,
                     currentWeekStart(),
                     currentWeekEnd()
                 )
@@ -58,12 +58,14 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
 
     fun refreshDiary(context: Context, swipeRefreshLayout: SwipeRefreshLayout) {
         CoroutineScope(Dispatchers.IO).launch {
-            swipeRefreshLayout.isRefreshing = true
+            withContext(Dispatchers.Main) {
+                swipeRefreshLayout.isRefreshing = true
+            }
             val settings = Settings(context)
             try {
                 journalService.reloadDiary(
                     settings.currentUserId.first(),
-                    Singleton.currentYear,
+                    Singleton.currentYearId,
                     currentWeekStart(),
                     currentWeekEnd()
                 )
@@ -72,32 +74,55 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
                     errorDialog(context, e.response.body<ErrorResponse>().message)
                 }
             } finally {
+                withContext(Dispatchers.Main) {
+                    swipeRefreshLayout.isRefreshing = false
+                }
+            }
+        }
+    }
+
+    fun nextWeek(context: Context, swipeRefreshLayout: SwipeRefreshLayout) {
+        CoroutineScope(Dispatchers.IO).launch {
+            withContext(Dispatchers.Main) {
+                swipeRefreshLayout.isRefreshing = true
+            }
+            val singleton = Singleton
+            val settings = Settings(context)
+            singleton.currentWeek += 1
+            journalService.reloadDiary(
+                settings.currentUserId.first(),
+                Singleton.currentYearId,
+                weekStart(singleton.currentWeek),
+                weekEnd(singleton.currentWeek)
+            )
+            withContext(Dispatchers.Main) {
                 swipeRefreshLayout.isRefreshing = false
             }
         }
     }
-//    fun nextWeek(context: Context) {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val settings = Settings(context)
-//            Singleton.currentWeek += 1
-//            journalService.loadDiary(
-//                settings.currentUserId.first(),
-//                Singleton.currentYear,
-//            )
-//        }
-//    }
-//
-//    fun previousWeek(context: Context) {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val settings = Settings(context)
-//            Singleton.currentWeek -= 1
-//            journalService.loadDiary(
-//                settings.currentUserId.first(),
-//                Singleton.currentYear,
-//
-//                )
-//        }
-//    }
+
+    fun previousWeek(context: Context, swipeRefreshLayout: SwipeRefreshLayout) {
+        CoroutineScope(Dispatchers.IO).launch {
+            withContext(Dispatchers.Main) {
+                swipeRefreshLayout.isRefreshing = true
+            }
+            val singleton = Singleton
+            val settings = Settings(context)
+            singleton.currentWeek -= 1
+            println(
+                "${weekStart(singleton.currentWeek)} ${weekEnd(singleton.currentWeek)}"
+            )
+            journalService.reloadDiary(
+                settings.currentUserId.first(),
+                singleton.currentYearId,
+                weekStart(singleton.currentWeek),
+                weekEnd(singleton.currentWeek)
+            )
+            withContext(Dispatchers.Main) {
+                swipeRefreshLayout.isRefreshing = false
+            }
+        }
+    }
 
     override fun onCleared() {
         super.onCleared()
@@ -119,14 +144,17 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun weekStartByWeekNum(weekNumWithYear: String): String {
-        val s = SimpleDateFormat("w.yyyy").parse(weekNumWithYear)
-        return SimpleDateFormat("yyyy-MM-dd").format(s!!)
+    private fun weekStart(week: Int): String {
+        val s = SimpleDateFormat("w.yyyy").format(Date().time)
+        val a = SimpleDateFormat("w.yyyy").parse(s)!!.time + week * 7 * 24 * 60 * 60 * 1000
+        return SimpleDateFormat("yyyy-MM-dd").format(a)
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun weekEndByWeekNum(weekNumWithYear: String): String {
-        val s = SimpleDateFormat("w.yyyy").parse(weekNumWithYear)!!.time + 6 * 24 * 60 * 60 * 1000
-        return SimpleDateFormat("yyyy-MM-dd").format(s)
+    private fun weekEnd(week: Int): String {
+        val s = SimpleDateFormat("w.yyyy").format(Date().time)
+        val a =
+            SimpleDateFormat("w.yyyy").parse(s)!!.time + week * 7 * 24 * 60 * 60 * 1000 + 6 * 24 * 60 * 60 * 1000
+        return SimpleDateFormat("yyyy-MM-dd").format(a)
     }
 }

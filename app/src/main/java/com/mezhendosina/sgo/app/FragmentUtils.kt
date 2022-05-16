@@ -12,7 +12,8 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
         val viewModel = when (modelClass) {
             MainViewModel::class.java -> MainViewModel(
                 app.todayHomeworkService,
-                app.announcementsService
+                app.announcementsService,
+                app.gradesService
             )
             JournalViewModel::class.java -> JournalViewModel(
                 app.journalService

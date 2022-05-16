@@ -14,7 +14,6 @@
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
             android:clipChildren="false"
             android:clipToPadding="true"
             android:nestedScrollingEnabled="true"

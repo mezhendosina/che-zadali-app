@@ -20,7 +20,7 @@ android {
         minSdk 23
         targetSdk 31
         versionCode 1
-        versionName '1.2.0'
+        versionName '1.4.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -73,6 +73,7 @@ dependencies {
     implementation "io.ktor:ktor-client-logging:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "com.google.code.gson:gson:$gson_version"
+    implementation "io.ktor:ktor-client-websockets:$ktor_version"
 
     //datastore
     implementation("androidx.datastore:datastore:1.0.0")

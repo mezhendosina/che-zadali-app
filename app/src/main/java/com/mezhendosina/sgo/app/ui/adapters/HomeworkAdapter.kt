@@ -63,6 +63,11 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
                     } else {
                         ""
                     }
+
+                    if(attachments.find { it.assignmentId == assign.id } != null){
+                        attachmentsIcon.visibility = View.VISIBLE
+                    }
+
                     if (assign.typeId == 3 && assign.assignmentName.isNotEmpty()) {
                         homework.text = assign.assignmentName
                         homework.visibility = View.VISIBLE

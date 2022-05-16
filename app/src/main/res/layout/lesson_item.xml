@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
@@ -11,6 +9,7 @@
         android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground"
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,7 +21,7 @@
             android:layout_height="158dp"
             android:nestedScrollingEnabled="true"
             app:expandedTitleMarginStart="16dp"
-            app:expandedTitleTextColor="?attr/colorSecondary"
+            app:expandedTitleTextColor="?attr/colorOnBackground"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -32,7 +31,7 @@
                 android:elevation="0dp"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_back"
-                app:navigationIconTint="?attr/colorSecondary"
+                app:navigationIconTint="?attr/colorOnBackground"
                 tool:title="Русский язык" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -76,14 +75,14 @@
             app:layout_constraintTop_toBottomOf="@id/homework_body"
             tool:text="Срок сдачи: 04.04.2022" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/teacher_name"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginHorizontal="16dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/due_date"-->
-<!--            tool:text="Учитель: Чеглакова Дарья Владимировна1" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/teacher_name"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginHorizontal="16dp"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/due_date"-->
+        <!--            tool:text="Учитель: Чеглакова Дарья Владимировна1" />-->
 
 
         <com.google.android.material.divider.MaterialDivider

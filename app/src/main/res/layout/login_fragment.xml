@@ -31,11 +31,9 @@
         android:id="@+id/selected_school_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        style="@style/MaterialCardView"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="2dp"
-        android:elevation="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selected_school_header">

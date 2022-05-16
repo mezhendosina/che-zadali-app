@@ -68,6 +68,7 @@ class TodayHomeworkService {
 
     fun removeListener(listener: TodayActionListener) {
         listeners.remove(listener)
+
     }
 
     fun addAttachmentsListener(listener: TodayActionListener) {

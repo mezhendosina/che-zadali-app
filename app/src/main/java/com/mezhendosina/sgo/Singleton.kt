@@ -19,20 +19,16 @@ object Singleton {
         Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList())
     var announcements: List<AnnouncementsResponseItem> = emptyList()
 
-    var currentWeek = currentWeek()
-    var currentYear: Int = 0
+    var currentWeek = 0
+    var currentYearId: Int = 0
+    var currentYear: String = ""
     var diary: Diary =
         Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList())
     var schools = mutableListOf<SchoolItem>()
 
     suspend fun login(loginData: SettingsLoginData) {
         requests.login(loginData)
-
-        currentYear = requests.yearList(at).first { !it.name.contains("(*) ") }.id
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    fun currentWeek(): Int {
-        return SimpleDateFormat("w").format(Date().time).toInt()
+        val currentYearResponse = requests.yearList(at).first { !it.name.contains("(*) ") }
+        currentYearId = currentYearResponse.id
     }
 }

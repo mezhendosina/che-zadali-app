@@ -1,81 +1,27 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.SGOApp." parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/dark_primary_blue</item>
-        <item name="colorSecondary">@color/dark_main_text</item>
-        <item name="colorSurface">@color/dark_on_background</item>
-        <item name="colorSecondaryVariant">@color/dark_main_text</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorError">@color/dark_second_grade</item>
-        <item name="colorOnError">@color/dark_second_grade</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <item name="colorSecondary">@color/primaryColor</item>
+        <item name="android:textColor">@color/primaryDarkTextColor</item>
+        <item name="android:colorBackground">@color/backgroundDark</item>
+        <item name="colorSurface">@color/surfaceDark</item>
+        <item name="colorError">@color/errorDark</item>
+        <item name="colorOnPrimary">@color/onPrimaryDark</item>
+        <item name="colorOnBackground">@color/onBackgroundDark</item>
+        <item name="colorOnSurface">@color/onSurfaceDark</item>
+        <item name="colorOnError">@color/onErrorDark</item>
 
-        <item name="android:statusBarColor" >@color/dark_on_background</item>
+
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="windowActionBar">false</item>
 
         <item name="materialCardViewStyle">@style/MaterialCardView</item>
 
-        <item name="android:textColorLink">@color/dark_primary_blue</item>
-        <item name="android:background">@color/dark_background</item>
-    </style>
-
-    <style name="Toolbar">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:titleTextColor">@color/dark_main_text</item>
-    </style>
-
-    <style name="recycler_view">
-        <item name="android:background">@color/dark_on_background</item>
-    </style>
-
-    <style name="mainScreenHeaders" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/dark_main_text</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/text_size_large</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
-    </style>
-
-    <style name="expandedToolBarText" parent="">
-        <item name="android:textSize">32sp</item>
-        <item name="expandedTitleTextColor">@color/dark_main_text</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
-    </style>
-
-    <style name="fab" parent="">
-        <item name="android:backgroundTint">@color/dark_primary_blue</item>
-    </style>
-
-    <style name="MaterialCardView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
+        <item name="android:textColorLink">?attr/colorPrimaryVariant</item>
     </style>
 
 
-    <style name="lesson_number">
-        <item name="android:textColor">@color/dark_primary_blue</item>
-        <item name="android:textSize">24sp</item>
-    </style>
-
-    <style name="mainText" parent="TextAppearance.MaterialComponents.Body1" />
-
-    <style name="captions" parent="mainText">
-        <item name="android:textColor">@color/dark_primary_blue</item>
-        <item name="android:textSize">@dimen/text_size_small</item>
-    </style>
-
-    <style name="dark_captions" parent="captions">
-        <item name="android:textColor">@color/dark_main_text</item>
-    </style>
-
-
-
-    <style name="AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
-        <item name="android:background">@color/dark_on_background</item>
-        <item name="android:fitsSystemWindows">true</item>
-    </style>
-
-    <style name="onCard">
-        <item name="android:background">@color/dark_card_background</item>
-    </style>
 </resources>

@@ -19,7 +19,7 @@ fun hideAnimation(view: View) {
         .setDuration(300)
         .setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                view.visibility = View.INVISIBLE
+                view.visibility = View.GONE
             }
         })
 }

@@ -26,12 +26,15 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.cookies.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -78,6 +81,7 @@ class Requests {
         install(ContentNegotiation) {
             gson()
         }
+        install(WebSockets)
         install(HttpCookies)
         defaultRequest {
             url("https://sgo.edu-74.ru")
@@ -178,6 +182,7 @@ class Requests {
                 }
             }
         }
+
         val attachments =
             client.post("https://sgo.edu-74.ru/webapi/student/diary/get-attachments?studentId=$studentId") {
                 headers.append("at", at)
@@ -228,6 +233,25 @@ class Requests {
         }
         context.startActivity(intent)
     }
+
+    suspend fun loadGrades(at: String, studentId: String): HttpResponse {
+        val request = client.submitForm("asp/Reports/StudentTotalMarks.asp", Parameters.build {
+            append("LoginType", "")
+            append("AT", at)
+            append("PP", "/asp/Reports/ReportStudentTotalMarks.asp")
+            append("BACK", "/asp/Reports/ReportStudentTotalMarks.asp")
+            append("ThmID", "")
+            append("RPTID", "StudentTotalMarks")
+            append("A", "")
+            append("NA", "")
+            append("TA", "")
+            append("RT", "")
+            append("RP", "")
+            append("PCLID", "1248066")
+            append("SID", studentId)
+        })
+        return request.body()
+    }
 }
 
 suspend fun checkUpdates(context: Context, file: File, downloadProgress: MutableLiveData<Int>) {
@@ -247,7 +271,9 @@ suspend fun checkUpdates(context: Context, file: File, downloadProgress: Mutable
                         if (it.contentType == "application/vnd.android.package-archive") {
                             val response = client.get(it.browserDownloadUrl) {
                                 onDownload { downloaded, total ->
-                                    downloadProgress.value = (downloaded * 100 / total).toInt()
+                                    withContext(Dispatchers.Main){
+                                        downloadProgress.value = (downloaded * 100 / total).toInt()
+                                    }
                                 }
                             }.body<ByteArray>()
 

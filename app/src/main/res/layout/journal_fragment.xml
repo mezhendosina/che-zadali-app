@@ -1,61 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
+    app:layoutDescription="@xml/journal_fragment_scene"
     tools:context=".ui.journal.JournalFragment">
 
-    <!--    <com.google.android.material.appbar.AppBarLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content">-->
 
-    <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--            style="@style/Toolbar"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            -->
-    <!--            android:layout_height="wrap_content">-->
-
-    <!--            <androidx.appcompat.widget.AppCompatImageButton-->
-    <!--                android:id="@+id/prev_week"-->
-    <!--                android:layout_width="54dp"-->
-    <!--                android:layout_height="0dp"-->
-    <!--                android:layout_marginStart="16dp"-->
-    <!--                android:background="@drawable/shapes"-->
-    <!--                android:src="@drawable/ic_arrow_back"-->
-    <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--                app:layout_constraintStart_toStartOf="parent"-->
-    <!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--            <TextView-->
-    <!--                style="@style/mainScreenHeaders"-->
-    <!--                android:layout_width="0dp"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:textAlignment="center"-->
-    <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--                app:layout_constraintEnd_toStartOf="@id/next_week"-->
-    <!--                app:layout_constraintStart_toEndOf="@id/prev_week"-->
-    <!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--            <androidx.appcompat.widget.AppCompatImageButton-->
-    <!--                android:id="@+id/next_week"-->
-    <!--                android:layout_width="54dp"-->
-    <!--                android:layout_height="54dp"-->
-    <!--                android:layout_marginEnd="16dp"-->
-    <!--                android:background="@drawable/shapes"-->
-    <!--                android:rotationY="180"-->
-    <!--                android:src="@drawable/ic_arrow_back"-->
-    <!--                app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                app:layout_constraintTop_toTopOf="parent" />-->
-    <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-    <!--    </com.google.android.material.appbar.AppBarLayout>-->
+    <include
+        android:id="@+id/week_selector_layout"
+        layout="@layout/week_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/week_selector_layout"
         app:swipeRefreshLayoutProgressSpinnerBackgroundColor="?android:attr/colorPrimary">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/diary"
@@ -64,4 +34,4 @@
             tools:listitem="@layout/diary_item" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
