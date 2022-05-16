@@ -24,7 +24,7 @@ class SettingsViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             val settings = Settings(context)
             withContext(Dispatchers.Main){
-                _currentTheme.value = settings.theme.first()
+//                _currentTheme.value = settings.theme.first()
             }
         }
     }

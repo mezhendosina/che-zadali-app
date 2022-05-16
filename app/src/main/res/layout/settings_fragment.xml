@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.settings.SettingsFragment">
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/backgroundColor"
+        android:background="?android:attr/colorBackground"
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -38,67 +37,67 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.divider.MaterialDivider
-        android:id="@+id/appbar_layout_divider"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp"
-        app:dividerThickness="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbarlayout" />
+    <!--    <com.google.android.material.divider.MaterialDivider-->
+    <!--        android:id="@+id/appbar_layout_divider"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginVertical="4dp"-->
+    <!--        app:dividerThickness="8dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/appbarlayout" />-->
 
-    <TextView
-        android:id="@+id/change_theme_header"
-        style="@style/captions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/select_theme"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar_layout_divider" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/change_theme_header"-->
+    <!--        style="@style/captions"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginHorizontal="16dp"-->
+    <!--        android:layout_marginTop="4dp"-->
+    <!--        android:text="@string/select_theme"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/appbar_layout_divider" />-->
 
-    <RadioGroup
-        android:id="@+id/change_theme_radio_group"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:paddingHorizontal="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_theme_header">
+    <!--    <RadioGroup-->
+    <!--        android:id="@+id/change_theme_radio_group"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="4dp"-->
+    <!--        android:paddingHorizontal="16dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/change_theme_header">-->
 
-        <RadioButton
-            android:id="@+id/light_theme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/light_theme" />
+    <!--        <RadioButton-->
+    <!--            android:id="@+id/light_theme"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/light_theme" />-->
 
-        <RadioButton
-            android:id="@+id/dark_theme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/dark_theme" />
+    <!--        <RadioButton-->
+    <!--            android:id="@+id/dark_theme"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/dark_theme" />-->
 
-        <RadioButton
-            android:id="@+id/same_as_system"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/same_as_system"
-            android:textColorHighlight="?attr/colorPrimary" />
-    </RadioGroup>
+    <!--        <RadioButton-->
+    <!--            android:id="@+id/same_as_system"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/same_as_system"-->
+    <!--            android:textColorHighlight="?attr/colorPrimary" />-->
+    <!--    </RadioGroup>-->
 
-    <com.google.android.material.divider.MaterialDivider
-        android:id="@+id/change_theme_divider"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp"
-        app:dividerThickness="8dp"
-        app:layout_constraintBottom_toTopOf="@id/logout_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_theme_radio_group" />
+    <!--    <com.google.android.material.divider.MaterialDivider-->
+    <!--        android:id="@+id/change_theme_divider"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginVertical="4dp"-->
+    <!--        app:dividerThickness="8dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/logout_button"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/change_theme_radio_group" />-->
 
 
     <Button
@@ -112,6 +111,6 @@
         app:iconTint="?attr/colorError"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_theme_divider" />
+        app:layout_constraintTop_toBottomOf="@id/appbarlayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

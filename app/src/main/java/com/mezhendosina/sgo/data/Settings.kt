@@ -49,7 +49,7 @@ class Settings(val context: Context) {
         it[LOGGED_IN] ?: false
     }
     val theme = context.dataStore.data.map {
-        it[THEME] ?: R.id.same_as_system
+//        it[THEME] ?: R.id.same_as_system
     }
 
 

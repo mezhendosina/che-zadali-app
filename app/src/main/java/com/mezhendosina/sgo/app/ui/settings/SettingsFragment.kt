@@ -34,9 +34,9 @@ class SettingsFragment : Fragment() {
     ): View {
         binding = SettingsFragmentBinding.inflate(inflater, container, false)
 
-        viewModel.currentTheme.observe(viewLifecycleOwner) {
-            binding.changeThemeRadioGroup.check(it)
-        }
+//        viewModel.currentTheme.observe(viewLifecycleOwner) {
+//            binding.changeThemeRadioGroup.check(it)
+//        }
 
         binding.logoutButton.setOnClickListener {
             viewModel.logout(requireContext())
