@@ -4,16 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.databinding.SettingsFragmentBinding
-import com.mezhendosina.sgo.data.Settings
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SettingsFragment : Fragment() {
 
@@ -45,7 +39,11 @@ class SettingsFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
+        binding.cacheSize.text =
+            "Объем кэша: ${(viewModel.calculateCache(requireContext()) / 8 ).toDouble()}"
+        binding.clearCacheCard.setOnClickListener {
 
+        }
 //        binding.changeThemeRadioGroup.setOnCheckedChangeListener { group, checkedId ->
 //            CoroutineScope(Dispatchers.IO).launch {
 //                Settings(inflater.context).setTheme(checkedId)

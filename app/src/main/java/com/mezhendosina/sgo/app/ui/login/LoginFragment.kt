@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.databinding.LoginFragmentBinding
 
@@ -18,7 +19,7 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        enterTransition = MaterialFadeThrough()
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 

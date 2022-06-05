@@ -27,7 +27,7 @@
             style="@style/Toolbar"
             app:titleTextColor="?attr/colorOnBackground"
             android:layout_width="match_parent"
-            android:background="?android:attr/colorBackground"
+            android:background="?attr/backgroundColor"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="true"
             android:saveEnabled="false"
@@ -58,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:itemRippleColor="@null"
-        android:background="?android:attr/colorBackground"
+        android:background="?attr/backgroundColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav" />
 

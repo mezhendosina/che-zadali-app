@@ -13,13 +13,13 @@ fun showAnimation(view: View) {
     }
 }
 
-fun hideAnimation(view: View) {
+fun hideAnimation(view: View, endVisibility: Int) {
     view.animate()
         .alpha(0f)
         .setDuration(300)
         .setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                view.visibility = View.GONE
+                view.visibility = endVisibility
             }
         })
 }

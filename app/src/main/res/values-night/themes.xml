@@ -1,5 +1,4 @@
 <resources>
-    <!-- Base application theme. -->
     <style name="Theme.SGOApp." parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryLightColor</item>
@@ -10,16 +9,27 @@
         <item name="colorOnBackground">@color/onBackgroundDark</item>
         <item name="colorOnSurface">@color/onSurfaceDark</item>
         <item name="colorOnError">@color/onErrorDark</item>
-
+        <item name="android:colorBackground">@color/backgroundDark</item>
 
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="windowActionBar">false</item>
 
+
         <item name="materialCardViewStyle">@style/MaterialCardView</item>
 
         <item name="android:textColorLink">?attr/colorPrimaryVariant</item>
+
+        <item name="snackbarStyle">@style/snackBarStyle</item>
+    </style>
+    <style name="snackBarStyle" parent="Widget.MaterialComponents.Snackbar">
+        <item name="backgroundTint">?attr/colorOnBackground</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Snackbar</item>
+        <item name="actionTextColorAlpha">1</item>
     </style>
 
-
+    <style name="ThemeOverlay.App.Snackbar" parent="">
+        <item name="colorPrimary">?attr/colorPrimary</item>
+        <item name="colorOnSurface">@color/onSurfaceDark</item>
+    </style>
 </resources>

@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.app.ui.more
+package com.mezhendosina.sgo.app.ui.lessonItem
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -12,17 +12,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.databinding.AttachmentItemBinding
 import com.mezhendosina.sgo.app.databinding.LessonItemBinding
+import com.mezhendosina.sgo.app.factory
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentAdapter
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentClickListener
+import com.mezhendosina.sgo.app.ui.adapters.WhyGradeAdapter
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.attachments.Attachment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 
-class MoreFragment : Fragment() {
+class LessonFragment : Fragment() {
 
-    private val viewModel: MoreViewModel by viewModels()
-
+    private val viewModel: LessonViewModel by viewModels { factory() }
+    private lateinit var binding: LessonItemBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
@@ -37,21 +43,29 @@ class MoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = LessonItemBinding.inflate(inflater, container, false)
+        binding = LessonItemBinding.inflate(inflater, container, false)
 
-        val downloadState = MutableLiveData(0)
+        CoroutineScope(Dispatchers.Main).launch {
+            showAnimation(binding.progressBar)
+            withContext(Dispatchers.IO) {
+                viewModel.loadHomework(requireContext())
+                viewModel.loadGrades(requireContext())
+            }
+            hideAnimation(binding.progressBar, View.GONE)
+        }
 
+        val downloadState = MutableLiveData(1)
+        val whyGradeAdapter = WhyGradeAdapter()
         val attachmentAdapter = AttachmentAdapter(
-            viewModel,
-            viewLifecycleOwner,
             object : AttachmentClickListener {
                 override fun onClick(attachment: Attachment, binding: AttachmentItemBinding) {
+                    viewModel.downloadAttachment(requireContext(), attachment, downloadState)
                     downloadState.observe(viewLifecycleOwner) {
-                        if (it != 100 && it != 1) {
-                            binding.progressBar.progress = it
+                        binding.progressBar.progress = it
+                        if (it == 100) {
+                            hideAnimation(binding.progressBar, View.INVISIBLE)
                         }
                     }
-                    viewModel.downloadAttachment(requireContext(), attachment, downloadState)
                 }
             })
 
@@ -80,11 +94,44 @@ class MoreFragment : Fragment() {
 
             binding.homeworkBody.text = homework?.assignmentName
             binding.dueDate.text = "Срок сдачи: ${homework?.dueDate?.let { it1 -> parseDate(it1) }}"
-
-
         }
+
+        viewModel.homework.observe(viewLifecycleOwner) { assignResponse ->
+            var teachers = ""
+            assignResponse.teachers.forEach {
+                teachers += it.name
+                if (assignResponse.teachers.size > 1) {
+                    teachers += ", "
+                }
+            }
+            binding.teacherName.text = "Учитель: $teachers"
+            if (assignResponse.description != null) {
+                showComment(binding)
+                binding.commentBody.text = assignResponse.description
+            }
+        }
+        viewModel.grades.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                whyGradeAdapter.grades = it
+                whyGradeAdapter.types = viewModel.types.value ?: emptyList()
+                showWhyGrades(binding)
+
+            }
+        }
+
+        binding.sendHomeworkTextLayout.setEndIconOnClickListener {
+            viewModel.sendAnswer(
+                requireContext(),
+                binding.sendHomeworkEditText.text.toString(),
+                binding
+            )
+        }
+
         binding.attachmentsList.adapter = attachmentAdapter
         binding.attachmentsList.layoutManager = LinearLayoutManager(inflater.context)
+
+        binding.whyGradeRecyclerView.adapter = whyGradeAdapter
+        binding.whyGradeRecyclerView.layoutManager = LinearLayoutManager(inflater.context)
 
         return binding.root
     }
@@ -93,5 +140,17 @@ class MoreFragment : Fragment() {
     private fun parseDate(date: String): String {
         val parse = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
         return SimpleDateFormat("dd/MM/yyyy").format(parse!!)
+    }
+
+    private fun showComment(binding: LessonItemBinding) {
+        binding.commentBody.visibility = View.VISIBLE
+        binding.commentDivider.visibility = View.VISIBLE
+        binding.commentHeader.visibility = View.VISIBLE
+    }
+
+    private fun showWhyGrades(binding: LessonItemBinding) {
+        showAnimation(binding.whyGradeRecyclerView)
+        showAnimation(binding.whyGradeDivider)
+        showAnimation(binding.whyGradeHeader)
     }
 }

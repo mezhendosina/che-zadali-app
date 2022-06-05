@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:isScrollContainer="true"
-    app:layoutDescription="@xml/journal_fragment_scene"
     tools:context=".ui.journal.JournalFragment">
-
 
     <include
         android:id="@+id/week_selector_layout"
@@ -15,10 +13,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,11 +24,45 @@
         app:swipeRefreshLayoutProgressSpinnerBackgroundColor="?android:attr/colorPrimary">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/diary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/diary_item" />
+
+<!--            <include-->
+<!--                android:id="@+id/past_mandatory_1"-->
+<!--                layout="@layout/past_mandatory" />-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/diary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transperent"
+                android:nestedScrollingEnabled="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/diary_item" />
+
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:id="@+id/no_homework_icon"
+        style="@style/captions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Здесь должна быть картинка, но художника в команде нету :("
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/no_homework"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/no_homework"
+        style="@style/mainText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Тут ничего нету"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

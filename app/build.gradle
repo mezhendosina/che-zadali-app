@@ -20,7 +20,7 @@ android {
         minSdk 23
         targetSdk 31
         versionCode 1
-        versionName '1.4.2'
+        versionName '1.5.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,10 +46,10 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.aar"])
 
-    implementation 'com.google.android.material:material:1.7.0-alpha01'
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'com.google.android.material:material:1.7.0-alpha02'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'androidx.navigation:navigation-fragment:2.4.2'
@@ -82,8 +82,15 @@ dependencies {
 
     //html parser
     implementation 'org.jsoup:jsoup:1.14.3'
-
     //swipe refresh layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    //viewpager 2
+    implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
+
+
+    //jetpack paging
+
+    implementation "androidx.paging:paging-runtime:3.1.1"
 
 }

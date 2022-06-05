@@ -6,6 +6,7 @@
     android:id="@+id/download_button"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/transperent"
     android:padding="16dp">
 
     <ImageView
@@ -21,14 +22,13 @@
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="24dp"
-        android:indeterminate="false"
         android:layout_height="24dp"
+        android:indeterminate="false"
         android:indeterminateTint="?attr/colorPrimary"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@id/file_icon"
-        app:layout_constraintEnd_toEndOf="@id/file_icon"
-        app:layout_constraintStart_toStartOf="@id/file_icon"
-        app:layout_constraintTop_toTopOf="@id/file_icon" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/file_name"
@@ -40,7 +40,7 @@
         android:textColor="?attr/colorPrimary"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/progress_bar"
+        app:layout_constraintStart_toEndOf="@id/file_icon"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="Файл.txt" />
 </androidx.constraintlayout.widget.ConstraintLayout>

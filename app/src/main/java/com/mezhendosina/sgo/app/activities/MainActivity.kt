@@ -4,24 +4,24 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainActivityContainerBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.app.ui.journal.weekEnd
+import com.mezhendosina.sgo.app.ui.journal.weekStart
 import com.mezhendosina.sgo.data.Settings
+import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityContainerBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         CoroutineScope(Dispatchers.IO).launch {
             val settings = Settings(this@MainActivity)
@@ -48,17 +48,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        val singleton = Singleton
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                singleton.requests.login(Settings(this@MainActivity).getLoginData())
+                val currentWeek = singleton.currentWeek
+                val a = singleton.requests.diaryInit(singleton.at)
+                singleton.requests.diary(
+                    singleton.at,
+                    a.students[0].studentId,
+                    weekEnd(currentWeek),
+                    weekStart(currentWeek),
+                    singleton.currentYearId
+                )
+            } catch (e: ResponseException) {
+                withContext(Dispatchers.Main) {
+                    errorDialog(this@MainActivity, e.response.body())
+                }
+            }
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         CoroutineScope(Dispatchers.IO).launch {
             Singleton.requests.logout()
-        }
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        CoroutineScope(Dispatchers.IO).launch {
-            Singleton.requests.login(Settings(this@MainActivity).getLoginData())
         }
     }
 }

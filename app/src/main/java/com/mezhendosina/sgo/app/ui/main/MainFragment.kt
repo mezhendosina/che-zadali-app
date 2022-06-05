@@ -13,6 +13,7 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainFragmentBinding
 import com.mezhendosina.sgo.app.factory
 import com.mezhendosina.sgo.app.ui.adapters.AnnouncementsAdapter
+import com.mezhendosina.sgo.app.ui.adapters.GradeAdapter
 import com.mezhendosina.sgo.app.ui.adapters.HomeworkAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
 import com.mezhendosina.sgo.data.diary.diary.Lesson
@@ -25,8 +26,11 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel.loadTodayHomework(requireContext())
         viewModel.loadAnnouncements(requireContext())
+//            viewModel.loadGrades(requireContext())
+
     }
 
     override fun onCreateView(
@@ -45,12 +49,15 @@ class MainFragment : Fragment() {
                 )
             }
         })
-
+        val gradeAdapter = GradeAdapter()
         val announcementsAdapter = AnnouncementsAdapter()
 
         viewModel.todayHomework.observe(viewLifecycleOwner) {
-            binding.todayHomework.day.text = viewModel.todayDate()
-            todayHomeworkAdapter.lessons = it
+            if (!it.isNullOrEmpty()) {
+                binding.todayHomework.root.visibility = View.VISIBLE
+                binding.todayHomework.day.text = viewModel.todayDate()
+                todayHomeworkAdapter.lessons = it
+            }
         }
 
         viewModel.todayAttachments.observe(viewLifecycleOwner) {
@@ -58,6 +65,10 @@ class MainFragment : Fragment() {
         }
         viewModel.announcements.observe(viewLifecycleOwner) {
             announcementsAdapter.announcements = it
+        }
+
+        viewModel.grades.observe(viewLifecycleOwner) {
+            gradeAdapter.grades = it
         }
 
         binding.swipeRefresh.setOnRefreshListener {

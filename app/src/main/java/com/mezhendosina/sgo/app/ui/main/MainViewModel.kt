@@ -9,13 +9,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.data.ErrorResponse
+import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.announcements.AnnouncementsResponseItem
 import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.diary.diary.Lesson
+import com.mezhendosina.sgo.data.grades.GradeItem
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -47,6 +50,13 @@ class MainViewModel(
         _announcements.value = it
     }
 
+    private val _grades = MutableLiveData<List<GradeItem>>()
+    val grades: LiveData<List<GradeItem>> = _grades
+
+    private val gradeActionListener: GradeActionListener = {
+        _grades.value = it
+    }
+
     fun loadTodayHomework(context: Context) {
         todayHomeworkService.addListener(todayListener)
         todayHomeworkService.addAttachmentsListener(todayAttachmentsListener)
@@ -67,19 +77,6 @@ class MainViewModel(
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
-    fun todayDate(): String {
-        val calendar = Calendar.getInstance()
-        val day = calendar.get(Calendar.DAY_OF_WEEK)
-        val date = if (day == Calendar.SUNDAY) {
-            Date().time + 86400000
-        } else {
-            Date().time
-        }
-        return SimpleDateFormat("Сегодня EE, dd MMMM", Locale("ru", "RU")).format(date)
-    }
-
-
     fun loadAnnouncements(context: Context) {
         announcementsService.addListener(announcementsListener)
         if (Singleton.announcements.isEmpty()) {
@@ -98,6 +95,26 @@ class MainViewModel(
     }
 
 
+    fun loadGrades(context: Context) {
+        gradeServices.addListener(gradeActionListener)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                gradeServices.loadGrades(Settings(context).currentUserId.first())
+            } catch (e: ResponseException) {
+                withContext(Dispatchers.Main) {
+                    errorDialog(context, e.response.body())
+                }
+            }
+
+        }
+    }
+
+    fun loadPreLoginNotice() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = Singleton.requests.preLoginNotice()
+        }
+    }
+
     fun refreshAll(context: Context, swipeRefreshLayout: SwipeRefreshLayout) {
         CoroutineScope(Dispatchers.IO).launch {
             swipeRefreshLayout.isRefreshing = true
@@ -115,11 +132,25 @@ class MainViewModel(
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
+    fun todayDate(): String {
+        val calendar = Calendar.getInstance()
+        val day = calendar.get(Calendar.DAY_OF_WEEK)
+        val date = if (day == Calendar.SUNDAY) {
+            Date().time + 86400000
+        } else {
+            Date().time
+        }
+        return SimpleDateFormat("Сегодня EE, dd MMMM", Locale("ru", "RU")).format(date)
+    }
+
     override fun onCleared() {
         super.onCleared()
         todayHomeworkService.removeListener(todayListener)
         todayHomeworkService.removeAttachmentsListener(todayAttachmentsListener)
 
         announcementsService.removeListener(announcementsListener)
+
+        gradeServices.removeListener(gradeActionListener)
     }
 }

@@ -24,4 +24,10 @@
     <string name="dark_theme">Темная тема</string>
     <string name="same_as_system">Как в системе</string>
     <string name="select_theme">Выбор темы</string>
+    <string name="answer_text">Текст ответа</string>
+    <string name="todo_snackbar">Пока что, это не работает, но скоро будет :)</string>
+    <string name="clear_cache">Очистить кэш</string>
+    <string name="why_grade">За что оценка?</string>
+    <string name="teacher_comment">Подробности от учителя</string>
+    <string name="past_mandatory_header">Есть просроченные задания</string>
 </resources>

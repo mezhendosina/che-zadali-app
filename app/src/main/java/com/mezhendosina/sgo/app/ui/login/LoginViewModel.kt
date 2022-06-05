@@ -2,6 +2,7 @@ package com.mezhendosina.sgo.app.ui.login
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -54,8 +55,13 @@ class LoginViewModel : ViewModel() {
                 val singleton = Singleton
 
                 singleton.login(settingsLoginData)
-                val userId = singleton.requests.diaryInit(singleton.at).currentStudentId
-                settings.setCurrentUserId(userId)
+                val diaryInit = singleton.requests.diaryInit(singleton.at)
+                val userId = diaryInit.currentStudentId
+//                if (userId == 0) {
+                settings.setCurrentUserId(diaryInit.students[0].studentId)
+//                } else{
+//
+//                }
 
                 singleton.requests.logout()
                 settings.saveALl(settingsLoginData)
@@ -68,7 +74,7 @@ class LoginViewModel : ViewModel() {
             } catch (e: ResponseException) {
                 withContext(Dispatchers.Main) {
                     errorDialog(context, e.response.body<ErrorResponse>().message)
-                    hideAnimation(binding.progressIndicator)
+                    hideAnimation(binding.progressIndicator, View.GONE)
 
                 }
             }

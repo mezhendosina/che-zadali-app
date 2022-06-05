@@ -10,14 +10,19 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.ui.updateDialog
 import com.mezhendosina.sgo.data.announcements.AnnouncementsResponse
+import com.mezhendosina.sgo.data.assignRequest.AssignResponse
 import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.checkUpdates.CheckUpdates
 import com.mezhendosina.sgo.data.diary.Diary
 import com.mezhendosina.sgo.data.diary.diary.DiaryResponse
 import com.mezhendosina.sgo.data.diary.init.DiaryInit
+import com.mezhendosina.sgo.data.grades.GradeItem
+import com.mezhendosina.sgo.data.homeworkTypes.TypesResponseItem
 import com.mezhendosina.sgo.data.login.LoginResponse
+import com.mezhendosina.sgo.data.pastMandatory.PastMandatoryItem
 import com.mezhendosina.sgo.data.preLoginNotice.PreLoginNoticeResponse
 import com.mezhendosina.sgo.data.schools.SchoolsResponse
+import com.mezhendosina.sgo.data.studentTotal.StudentTotalResponse
 import com.mezhendosina.sgo.data.yearList.YearListResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -29,13 +34,10 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import io.ktor.websocket.*
+import kotlinx.coroutines.*
 import java.io.File
 import java.security.MessageDigest
 
@@ -45,20 +47,6 @@ data class GetData(
     val ver: String
 )
 
-data class LoginData(
-    val LoginType: String,
-    val cid: String,
-    val sid: String,
-    val pid: String,
-    val cn: String,
-    val sft: String,
-    val scid: String,
-    val UN: String,
-    val PW: String,
-    val lt: String,
-    val pw2: String,
-    val ver: String
-)
 
 fun String.toMD5(): String {
     val bytes = MessageDigest.getInstance("MD5").digest(this.toByteArray())
@@ -73,10 +61,10 @@ class Requests {
 
     private val client = HttpClient(CIO) {
         expectSuccess = true
-        install(Logging) {
-            level = LogLevel.INFO
-            logger = Logger.DEFAULT
-        }
+//        install(Logging) {
+//            level = LogLevel.HEADERS
+//            logger = Logger.DEFAULT
+//        }
         install(ContentNegotiation) {
             gson()
         }
@@ -115,16 +103,15 @@ class Requests {
     /**
      * Получить соль, версию и lt
      */
-    private suspend fun getData(): GetData {
-        return client.post("/webapi/auth/getdata").body()
-    }
+    private suspend fun getData(): GetData =
+       client.post("/webapi/auth/getdata").body()
+
 
     /**
      * Вход
      * @param loginData данные для входа
      */
     suspend fun login(loginData: SettingsLoginData): LoginResponse {
-
         loginData()
         val getData = getData()
         val password = (getData.salt + loginData.PW).toMD5()
@@ -156,11 +143,10 @@ class Requests {
         })
     }
 
-    suspend fun diaryInit(at: String): DiaryInit {
-        return client.get("/webapi/student/diary/init") {
+    suspend fun diaryInit(at: String): DiaryInit = client.get("/webapi/student/diary/init") {
             headers.append("at", at)
         }.body()
-    }
+
 
     suspend fun diary(
         at: String,
@@ -169,12 +155,20 @@ class Requests {
         weekStart: String,
         yearId: Int
     ): Diary {
-        val diary: DiaryResponse =
-            client.get("/webapi/student/diary?studentId=$studentId&weekEnd=$weekEnd&weekStart=$weekStart&withLaAssigns=true&yearId=$yearId") {
+        val diary = CoroutineScope(Dispatchers.IO).async {
+            return@async client.get("/webapi/student/diary?studentId=$studentId&weekEnd=$weekEnd&weekStart=$weekStart&withLaAssigns=true&yearId=$yearId") {
                 headers.append("at", at)
-            }.body()
+            }.body<DiaryResponse>()
+        }
+
+        val pastMandatory = CoroutineScope(Dispatchers.IO).async {
+            return@async client.get("/webapi/student/diary/pastMandatory?studentId=$studentId&weekEnd=$weekEnd&weekStart=$weekStart&yearId=$yearId") {
+                headers.append("at", at)
+            }.body<List<PastMandatoryItem>>()
+        }
+
         val assignsId = mutableListOf<Int>()
-        diary.weekDays.forEach { day ->
+        diary.await().weekDays.forEach { day ->
             day.lessons.forEach { lesson ->
                 lesson.assignments?.forEach { assign ->
                     assignsId.add(assign.id)
@@ -188,25 +182,26 @@ class Requests {
                 contentType(ContentType.Application.Json)
                 setBody(AssignsId(assignsId))
             }.body<List<AttachmentsResponseItem>>()
-        return Diary(diary, attachments)
+        println(diary.await().weekDays)
+        println(diary.await().weekDays.size)
+        return Diary(diary.await(), attachments, pastMandatory.await())
     }
 
-    suspend fun preLoginNotice(): PreLoginNoticeResponse {
-        return client.get("/webapi/settings/preloginnotice").body()
-    }
+    suspend fun preLoginNotice(): PreLoginNoticeResponse =
+        client.get("/webapi/settings/preloginnotice").body()
 
-    suspend fun announcements(at: String): AnnouncementsResponse {
-        return client.get("/webapi/announcements") {
+
+    suspend fun announcements(at: String): AnnouncementsResponse =
+        client.get("/webapi/announcements") {
             headers.append("at", at)
         }.body()
-    }
 
-    suspend fun yearList(at: String): YearListResponse {
-        val yearList: YearListResponse = client.get("/webapi/mysettings/yearlist") {
+
+    suspend fun yearList(at: String): YearListResponse =
+        client.get("/webapi/mysettings/yearlist") {
             headers.append("at", at)
         }.body()
-        return yearList
-    }
+
 
     suspend fun downloadAttachment(
         context: Context,
@@ -233,32 +228,39 @@ class Requests {
         context.startActivity(intent)
     }
 
-    suspend fun loadGrades(at: String, studentId: String): String {
-        client.submitForm("/asp/Reports/ReportParentInfoLetter.asp", Parameters.build {
-            append("at", at)
-            append("RPNAME", "Информационное письмо для родителей")
-            append("RPTID", "ParentInfoLetter")
-        })
 
-        val request = client.submitForm("/asp/Reports/ParentInfoLetter.asp", Parameters.build {
-            append("LoginType", "0")
-            append("AT", at)
-            append("PP", "/asp/Reports/ReportParentInfoLetter.asp")
-            append("BACK", "/asp/Reports/ReportParentInfoLetter.asp ")
-            append("ThmID", "")
-            append("RPTID", "ParentInfoLetter")
-            append("A", "")
-            append("NA", "")
-            append("TA", "")
-            append("RT", "")
-            append("RP", "")
-            append("dtWeek", "16.05.22")
-            append("ReportType", "1")
-            append("TERMID", "679138")
-            append("DATE", "16.05.22")
-            append("SID", studentId)
-        })
-        return request.body()
+    suspend fun loadAssign(at: String, studentId: Int, assignId: Int): AssignResponse =
+        client.get("/webapi/student/diary/assigns/$assignId?studentId=$studentId") {
+            headers.append("at", at)
+        }.body()
+
+
+    suspend fun loadTypes(): List<TypesResponseItem> =
+        client.get("/webapi/grade/assignment/types?all=false").body()
+
+    suspend fun sendAnswer(at: String, studentId: Int, assignmentId: Int, answer: String) =
+        client.submitForm(
+            "/webapi/assignments/$assignmentId/answers?studentId=$studentId",
+            Parameters.build { append("", answer) }
+        ) { headers.append("at", at) }
+
+
+    suspend fun studentTotal(at: String): StudentTotalResponse =
+        client.get("/webapi/reports/studenttotal") { header("at", at) }.body()
+
+    suspend fun negotiate(at: String): NegotiateResponse =
+        client.get("/WebApi/signalr/negotiate?clientProtocol=1.5&at=$at&connectionData=%5B%7B%22name%22%3A%22queuehub%22%7D%5D")
+            .body()
+
+    suspend fun gradesWebSocket(at: String, negotiateResponse: NegotiateResponse) {
+        client.webSocket("/WebApi/signalr/connect?transport=webSockets&clientProtocol=1.5&at=$at&connectionToken=${negotiateResponse.connectionToken}&connectionData=%5B%7B%22name%22%3A%22queuehub%22%7D%5D7&tid=7") {
+            client.get("/WebApi/signalr/start?transport=webSockets&clientProtocol=1.5&at=$at&connectionToken=${negotiateResponse.connectionToken}&connectionData=%5B%7B%22name%22%3A%22queuehub%22%7D%5D7")
+            client.get("/webapi/reports/studenttotal/queue") {
+                contentType(ContentType.Application.Json)
+                setBody("{\"selectedData\":[{\"filterId\":\"SID\",\"filterValue\":\"472262\",\"filterText\":\"Меньшенин Евгений\"},{\"filterId\":\"PCLID\",\"filterValue\":\"1248066\",\"filterText\":\"10Б\"},{\"filterId\":\"period\",\"filterValue\":\"2022-03-01T00:00:00.000Z - 2022-05-31T00:00:00.000Z\",\"filterText\":\"01.03.2022 - 31.05.2022\"}],\"params\":[{\"name\":\"SCHOOLYEARID\",\"value\":\"631571\"},{\"name\":\"SERVERTIMEZONE\",\"value\":5},{\"name\":\"FULLSCHOOLNAME\",\"value\":\"Муниципальное бюджетное общеобразовательное учреждение \\\"Средняя общеобразовательная школа №68 г. Челябинска имени Родионова Е.Н.\\\"\"},{\"name\":\"DATEFORMAT\",\"value\":\"dd\\u0001mm\\u0001yy\\u0001.\"}]}")
+            }
+            this.send("""{"H":"queuehub","M":"StartTask","A":[],"I":0}""")
+        }
     }
 }
 
@@ -316,6 +318,21 @@ suspend fun schools(): SchoolsResponse {
     }.get("https://mezhendosina.pythonanywhere.com/schools").body()
 }
 
+suspend fun extractGrades(html: String): List<GradeItem> {
+    return HttpClient(CIO) {
+        expectSuccess = true
+        install(Logging) {
+            level = LogLevel.HEADERS
+            logger = Logger.DEFAULT
+        }
+        install(ContentNegotiation) {
+            gson()
+        }
+    }.submitForm("https://mezhendosina.pythonanywhere.com/extract_grades", Parameters.build {
+        append("html", html)
+    }).body()
+}
+
 private fun uriFromFile(context: Context, file: File): Uri? {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
@@ -324,3 +341,64 @@ private fun uriFromFile(context: Context, file: File): Uri? {
     }
 }
 
+//fun studentTotalResponseToGradeRequest(
+//    studentTotalResponse: StudentTotalResponse,
+//    yearId: Int
+//): QueneRequest {
+//    val sid = studentTotalResponse.filterSources.find { it.filterId == "SID" }
+//    val pclid = studentTotalResponse.filterSources.find { it.filterId == "PCLID" }
+//    val range = studentTotalResponse.filterSources.find { it.filterId == "period" }
+//    return QueneRequest(
+//        listOf(
+//            Param("SCHOOLYEARID", yearId.toString()),
+//            Param("SERVERTIMEZONE", 5),
+//            Param(
+//                "FULLSCHOOLNAME",
+//                "Муниципальное бюджетное общеобразовательное учреждение \"Средняя общеобразовательная школа №68 г. Челябинска имени Родионова Е.Н.\""
+//            ),
+//            Param("DATEFORMAT", "dd\u0001mm\u0001yy\u0001.")
+//        ),
+//        listOf(
+//            SelectedData(
+//                "SID",
+//                sid?.items?.find { it.value == sid.defaultValue }?.title!!,
+//                sid.defaultValue
+//            ),
+//            SelectedData(
+//                "PCLID",
+//                pclid?.items?.find { it.value == pclid.defaultValue }?.title!!,
+//                pclid.defaultValue
+//            ),
+////            SelectedData("period", "")
+//        )
+//    )
+//}
+
+
+//    suspend fun loadGrades(at: String, studentId: String): String {
+//        client.submitForm("/asp/Reports/ReportParentInfoLetter.asp", Parameters.build {
+//            append("at", at)
+//            append("RPNAME", "Информационное письмо для родителей")
+//            append("RPTID", "ParentInfoLetter")
+//        })
+//
+//        val request = client.submitForm("/asp/Reports/ParentInfoLetter.asp", Parameters.build {
+//            append("LoginType", "0")
+//            append("AT", at)
+//            append("PP", "/asp/Reports/ReportParentInfoLetter.asp")
+//            append("BACK", "/asp/Reports/ReportParentInfoLetter.asp ")
+//            append("ThmID", "")
+//            append("RPTID", "ParentInfoLetter")
+//            append("A", "")
+//            append("NA", "")
+//            append("TA", "")
+//            append("RT", "")
+//            append("RP", "")
+//            append("dtWeek", "16.05.22")
+//            append("ReportType", "1")
+//            append("TERMID", "671233")
+//            append("DATE", "16.05.22")
+//            append("SID", studentId)
+//        })
+//        return request.body()
+//    }

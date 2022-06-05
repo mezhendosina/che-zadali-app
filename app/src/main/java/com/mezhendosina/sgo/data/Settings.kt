@@ -64,7 +64,6 @@ class Settings(val context: Context) {
             prefs[CN] = loginData.cn
             prefs[SFT] = loginData.sft
             prefs[SCID] = loginData.scid
-
         }
     }
 
@@ -77,6 +76,14 @@ class Settings(val context: Context) {
     suspend fun logout() {
         context.dataStore.edit { prefs ->
             prefs[LOGGED_IN] = false
+            prefs[LOGIN] = ""
+            prefs[PASSWORD] = ""
+            prefs[CID] = ""
+            prefs[SID] = ""
+            prefs[pid] = ""
+            prefs[CN] = ""
+            prefs[SFT] = ""
+            prefs[SCID] = ""
         }
     }
 
@@ -89,12 +96,12 @@ class Settings(val context: Context) {
     suspend fun getLoginData(): SettingsLoginData {
         context.dataStore.data.first().let {
             return SettingsLoginData(
-                it[CID] ?: "2",
-                it[SID] ?: "1",
-                it[pid] ?: "-1",
-                it[CN] ?: "1",
-                it[SFT] ?: "2",
-                it[SCID] ?: "89",
+                it[CID] ?: "0",
+                it[SID] ?: "0",
+                it[pid] ?: "0",
+                it[CN] ?: "0",
+                it[SFT] ?: "0",
+                it[SCID] ?: "0",
                 it[LOGIN] ?: "",
                 it[PASSWORD] ?: ""
             )

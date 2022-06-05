@@ -3,10 +3,12 @@ package com.mezhendosina.sgo.app.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.HomeworkItemBinding
 import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.diary.diary.Lesson
+import com.mezhendosina.sgo.data.diary.diary.Mark
 
 typealias OnHomeworkClickListener = (Lesson) -> Unit
 
@@ -15,7 +17,7 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
 
     var lessons: List<Lesson> = emptyList()
         set(newValue) {
-            field = newValue
+            field = newValue.sortedBy { it.number }
             notifyDataSetChanged()
         }
     var attachments: List<AttachmentsResponseItem> = emptyList()
@@ -23,6 +25,7 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
             field = newValue
             notifyDataSetChanged()
         }
+    private val viewPool = RecyclerView.RecycledViewPool()
 
     class HomeworkViewHolder(val binding: HomeworkItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -89,11 +92,32 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
                     }
                 }
 
-                grades.text = grade
+                val layoutManager =
+                    LinearLayoutManager(
+                        holder.itemView.context,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                val homeworkAdapter = HomeworkGradeAdapter()
+                val gradesList = mutableListOf<Mark>()
+
+                lesson.assignments.forEach {
+                    if (it.mark != null) {
+                        gradesList.add(it.mark)
+                    }
+                }
+                homeworkAdapter.grades = gradesList
+
+                grades.apply {
+                    adapter = homeworkAdapter
+                    this.layoutManager = layoutManager
+                    setRecycledViewPool(viewPool)
+                }
             } else {
                 grades.visibility = View.GONE
                 homework.visibility = View.GONE
                 attachmentsIcon.visibility = View.INVISIBLE
+                this.root.isClickable = false
             }
         }
     }

@@ -16,14 +16,14 @@ object Singleton {
 
     var at: String = ""
     var todayHomework: Diary =
-        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList())
+        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
     var announcements: List<AnnouncementsResponseItem> = emptyList()
 
     var currentWeek = 0
     var currentYearId: Int = 0
     var currentYear: String = ""
     var diary: Diary =
-        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList())
+        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
     var schools = mutableListOf<SchoolItem>()
 
     suspend fun login(loginData: SettingsLoginData) {

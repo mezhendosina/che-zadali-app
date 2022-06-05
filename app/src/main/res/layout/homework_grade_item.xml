@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="2dp"
+    android:background="@color/transperent"
+    >
+
+    <TextView
+        android:id="@+id/good_grade"
+        style="@style/lesson_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transperent"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/lobster"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="4" />
+
+    <TextView
+        android:id="@+id/bad_grade"
+        style="@style/lesson_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transperent"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/lobster"
+        android:textColor="?attr/colorError"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="4" />
+
+    <ImageView
+        android:id="@+id/duty_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transperent"
+        android:src="@drawable/ic_duty_mark"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorError" />
+</androidx.constraintlayout.widget.ConstraintLayout>

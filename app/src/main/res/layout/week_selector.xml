@@ -32,10 +32,8 @@
     <TextView
         android:id="@+id/week_selector_text_view"
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/next_week_button"
         app:layout_constraintStart_toEndOf="@id/prev_week_button"

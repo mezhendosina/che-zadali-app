@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.AttachmentItemBinding
 import com.mezhendosina.sgo.app.ui.hideAnimation
-import com.mezhendosina.sgo.app.ui.more.MoreViewModel
+import com.mezhendosina.sgo.app.ui.lessonItem.LessonViewModel
 import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.attachments.Attachment
 
@@ -16,8 +16,6 @@ interface AttachmentClickListener {
 }
 
 class AttachmentAdapter(
-    private val viewModel: MoreViewModel,
-    private val lifecycleOwner: LifecycleOwner,
     private val actionListener: AttachmentClickListener
 ) :
     RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder>(),
@@ -32,7 +30,6 @@ class AttachmentAdapter(
     override fun onClick(v: View) {
         val attachment = v.tag as Attachment
 
-        hideAnimation(binding.fileIcon)
         showAnimation(binding.progressBar)
 
         actionListener.onClick(attachment, binding)

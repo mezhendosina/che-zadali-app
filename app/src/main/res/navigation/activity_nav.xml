@@ -13,7 +13,7 @@
     <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment" />
     <fragment
         android:id="@+id/moreFragment"
-        android:name="com.mezhendosina.sgo.app.ui.more.MoreFragment"
+        android:name="com.mezhendosina.sgo.app.ui.lessonItem.LessonFragment"
         android:label="MoreFragment" />
     <action android:id="@+id/action_global_moreFragment" app:destination="@id/moreFragment" />
     <fragment

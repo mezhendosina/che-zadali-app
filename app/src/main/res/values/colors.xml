@@ -36,8 +36,8 @@
     <!-- Темная тема-->
     <color name="primaryLightColor">#8ebcf2</color>
     <color name="primaryDarkTextColor">#ffffff</color>
-    <color name="backgroundDark">#1F1F1F</color>
-    <color name="surfaceDark">#333333</color>
+    <color name="backgroundDark">#212121</color>
+    <color name="surfaceDark">#303030</color>
     <color name="errorDark">#FF544F</color>
     <color name="onPrimaryDark">#000000</color>
     <color name="onBackgroundDark">#D6D6D6</color>

@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class SettingsViewModel : ViewModel() {
 
@@ -36,6 +37,12 @@ class SettingsViewModel : ViewModel() {
                 startActivity(context, Intent(context, LoginActivity::class.java), null)
             }
         }
+    }
+
+    fun calculateCache(context: Context): Long = context.cacheDir.calculateSizeRecursively()
+
+     private fun File.calculateSizeRecursively(): Long {
+        return walkBottomUp().fold(0L) { acc, file -> acc + file.length() }
     }
 
 }

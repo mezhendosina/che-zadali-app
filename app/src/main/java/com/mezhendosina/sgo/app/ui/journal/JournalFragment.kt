@@ -16,7 +16,9 @@ import com.mezhendosina.sgo.app.databinding.JournalFragmentBinding
 import com.mezhendosina.sgo.app.factory
 import com.mezhendosina.sgo.app.ui.adapters.DiaryAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
+import com.mezhendosina.sgo.app.ui.adapters.PastMandatoryAdapter
 import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.diary.diary.Lesson
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,6 +51,8 @@ class JournalFragment : Fragment() {
                 }
             })
 
+            val pastMandatoryAdapter = PastMandatoryAdapter()
+
             binding.weekSelectorLayout.nextWeekButton.setOnClickListener {
                 viewModel.nextWeek(requireContext(), binding.swipeRefresh)
             }
@@ -69,19 +73,39 @@ class JournalFragment : Fragment() {
                             Singleton.diary.diaryResponse.weekEnd
                         )
                     }"
+                println(diaryAdapter.diary.size)
             }
 
             viewModel.attachments.observe(viewLifecycleOwner) {
                 diaryAdapter.attachments = it
+            }
 
+//            viewModel.pastMandatory.observe(viewLifecycleOwner) {
+//                if (it.isNotEmpty()) {
+//                    pastMandatoryAdapter.items = it
+//                    showAnimation(binding.pastMandatory1.root)
+//                }
+//            }
+
+            viewModel.isEmpty.observe(viewLifecycleOwner) {
+                if (it) {
+                    noHomework(binding)
+                } else {
+                    showHomework(binding)
+                }
             }
 
             binding.swipeRefresh.setOnRefreshListener {
                 viewModel.refreshDiary(requireContext(), binding.swipeRefresh)
             }
 
+
             binding.diary.layoutManager = LinearLayoutManager(inflater.context)
             binding.diary.adapter = diaryAdapter
+//
+//            binding.pastMandatory1.pastMandatory.layoutManager =
+//                LinearLayoutManager(inflater.context)
+//            binding.pastMandatory1.pastMandatory.adapter = pastMandatoryAdapter
 
         } catch (e: Exception) {
             errorDialog(requireContext(), e.message ?: "")
@@ -102,5 +126,18 @@ class JournalFragment : Fragment() {
             ) else it.toString()
         }
 
+    }
+
+    private fun noHomework(binding: JournalFragmentBinding) {
+//        binding.pastMandatory1.root.visibility = View.GONE
+        binding.diary.visibility = View.GONE
+        showAnimation(binding.noHomework)
+        showAnimation(binding.noHomeworkIcon)
+    }
+
+    private fun showHomework(binding: JournalFragmentBinding) {
+        binding.diary.visibility = View.VISIBLE
+        binding.noHomework.visibility = View.GONE
+        binding.noHomeworkIcon.visibility = View.GONE
     }
 }

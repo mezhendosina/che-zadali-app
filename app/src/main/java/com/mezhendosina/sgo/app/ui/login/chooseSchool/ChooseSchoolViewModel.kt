@@ -10,6 +10,7 @@ import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ChooseSchoolViewModel(private val schoolService: ChooseSchoolService) : ViewModel() {
     private val _schools = MutableLiveData<List<SchoolItem>>()
@@ -24,14 +25,21 @@ class ChooseSchoolViewModel(private val schoolService: ChooseSchoolService) : Vi
         return _schools.value?.filter { it.school.contains(string) }
     }
 
-    fun loadSchools(context: Context) {
+    fun loadSchools(context: Context, loadingState: MutableLiveData<Boolean>) {
         schoolService.addListener(actionListener)
+        loadingState.value = true
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 schoolService.loadSchools()
                 println(_schools.value)
             } catch (e: ResponseException) {
-                errorDialog(context, e.message ?: "")
+                withContext(Dispatchers.Main) {
+                    errorDialog(context, e.message ?: "")
+                }
+            } finally {
+                withContext(Dispatchers.Main) {
+                    loadingState.value = false
+                }
             }
         }
     }

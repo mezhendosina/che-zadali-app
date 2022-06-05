@@ -30,6 +30,7 @@
 
         <activity
             android:name=".activities.MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="uiMode" />
 
         <meta-data
