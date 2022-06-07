@@ -2,12 +2,18 @@ package com.mezhendosina.sgo.app.ui.journal
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.R
+import com.mezhendosina.sgo.app.databinding.JournalFragmentBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.app.ui.hideAnimation
+import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
@@ -73,10 +79,11 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
     }
 
 
-    fun refreshDiary(context: Context, swipeRefreshLayout: SwipeRefreshLayout) {
+    fun refreshDiary(context: Context, binding: JournalFragmentBinding) {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
-                swipeRefreshLayout.isRefreshing = true
+                hideAnimation(binding.diary, View.INVISIBLE)
+                binding.swipeRefresh.isRefreshing = true
             }
             val singleton = Singleton
             val settings = Settings(context)
@@ -94,16 +101,18 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
                 }
             } finally {
                 withContext(Dispatchers.Main) {
-                    swipeRefreshLayout.isRefreshing = false
+                    binding.swipeRefresh.isRefreshing = false
+                    showAnimation(binding.diary)
                 }
             }
         }
     }
 
-    fun nextWeek(context: Context, swipeRefreshLayout: SwipeRefreshLayout) {
+    fun nextWeek(context: Context, binding: JournalFragmentBinding) {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
-                swipeRefreshLayout.isRefreshing = true
+                binding.swipeRefresh.isRefreshing = true
+                hideAnimation(binding.diary, View.INVISIBLE)
             }
             val singleton = Singleton
             val settings = Settings(context)
@@ -116,22 +125,24 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
                 _isEmpty
             )
             withContext(Dispatchers.Main) {
-                swipeRefreshLayout.isRefreshing = false
+                binding.swipeRefresh.isRefreshing = false
+                showAnimation(binding.diary)
             }
         }
     }
 
-    fun previousWeek(context: Context, swipeRefreshLayout: SwipeRefreshLayout) {
+    fun previousWeek(context: Context, binding: JournalFragmentBinding) {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
-                swipeRefreshLayout.isRefreshing = true
+                    val a = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+//                hideAnimation(binding.diary, View.GONE)
+                binding.diary.startAnimation(a)
+                binding.swipeRefresh.isRefreshing = true
             }
             val singleton = Singleton
             val settings = Settings(context)
             singleton.currentWeek -= 1
-            println(
-                "${weekStart(singleton.currentWeek)} ${weekEnd(singleton.currentWeek)}"
-            )
+
             journalService.reloadDiary(
                 settings.currentUserId.first(),
                 singleton.currentYearId,
@@ -140,7 +151,10 @@ class JournalViewModel(private val journalService: JournalService) : ViewModel()
                 _isEmpty
             )
             withContext(Dispatchers.Main) {
-                swipeRefreshLayout.isRefreshing = false
+                binding.swipeRefresh.isRefreshing = false
+                val a = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+                binding.diary.startAnimation(a)
+
             }
         }
     }

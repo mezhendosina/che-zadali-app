@@ -182,8 +182,6 @@ class Requests {
                 contentType(ContentType.Application.Json)
                 setBody(AssignsId(assignsId))
             }.body<List<AttachmentsResponseItem>>()
-        println(diary.await().weekDays)
-        println(diary.await().weekDays.size)
         return Diary(diary.await(), attachments, pastMandatory.await())
     }
 

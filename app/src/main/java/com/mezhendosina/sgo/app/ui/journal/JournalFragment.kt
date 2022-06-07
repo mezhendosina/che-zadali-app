@@ -1,5 +1,6 @@
 package com.mezhendosina.sgo.app.ui.journal
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.mezhendosina.sgo.app.ui.adapters.DiaryAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
 import com.mezhendosina.sgo.app.ui.adapters.PastMandatoryAdapter
 import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.diary.diary.Lesson
 import java.text.SimpleDateFormat
@@ -54,26 +56,24 @@ class JournalFragment : Fragment() {
             val pastMandatoryAdapter = PastMandatoryAdapter()
 
             binding.weekSelectorLayout.nextWeekButton.setOnClickListener {
-                viewModel.nextWeek(requireContext(), binding.swipeRefresh)
+                viewModel.nextWeek(requireContext(), binding)
             }
 
             binding.weekSelectorLayout.prevWeekButton.setOnClickListener {
-                viewModel.previousWeek(requireContext(), binding.swipeRefresh)
-
+                viewModel.previousWeek(requireContext(), binding)
             }
-            binding.weekSelectorLayout.weekSelectorTextView.setOnClickListener() {
+            binding.weekSelectorLayout.weekSelectorTextView.setOnClickListener {
                 Singleton.currentWeek = 0
-                viewModel.refreshDiary(requireContext(), binding.swipeRefresh)
+                viewModel.refreshDiary(requireContext(), binding)
             }
             viewModel.diary.observe(viewLifecycleOwner) {
                 diaryAdapter.diary = it
                 binding.weekSelectorLayout.weekSelectorTextView.text =
-                    "${dateToRussian(Singleton.diary.diaryResponse.weekStart)} - ${
-                        dateToRussian(
-                            Singleton.diary.diaryResponse.weekEnd
-                        )
-                    }"
-                println(diaryAdapter.diary.size)
+                    requireContext().getString(
+                        R.string.week_selector_date,
+                        dateToRussian(Singleton.diary.diaryResponse.weekStart),
+                        dateToRussian(Singleton.diary.diaryResponse.weekEnd)
+                    )
             }
 
             viewModel.attachments.observe(viewLifecycleOwner) {
@@ -96,7 +96,7 @@ class JournalFragment : Fragment() {
             }
 
             binding.swipeRefresh.setOnRefreshListener {
-                viewModel.refreshDiary(requireContext(), binding.swipeRefresh)
+                viewModel.refreshDiary(requireContext(), binding)
             }
 
 
@@ -110,7 +110,6 @@ class JournalFragment : Fragment() {
         } catch (e: Exception) {
             errorDialog(requireContext(), e.message ?: "")
         }
-
 
         return binding.root
     }

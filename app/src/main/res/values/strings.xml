@@ -30,4 +30,5 @@
     <string name="why_grade">За что оценка?</string>
     <string name="teacher_comment">Подробности от учителя</string>
     <string name="past_mandatory_header">Есть просроченные задания</string>
+    <string name="week_selector_date">%1$s - %2$s</string>
 </resources>
