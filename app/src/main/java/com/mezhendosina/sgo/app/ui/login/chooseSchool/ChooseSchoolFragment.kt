@@ -19,7 +19,7 @@ import com.mezhendosina.sgo.app.ui.adapters.ChooseSchoolAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnSchoolClickListener
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.schools.SchoolItem
+import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
 
 class ChooseSchoolFragment : Fragment() {
 

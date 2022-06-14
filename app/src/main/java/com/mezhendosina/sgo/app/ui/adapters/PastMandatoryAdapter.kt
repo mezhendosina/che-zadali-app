@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.PastMandatoryItemBinding
-import com.mezhendosina.sgo.data.pastMandatory.PastMandatoryItem
+import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
 
 class PastMandatoryAdapter : RecyclerView.Adapter<PastMandatoryAdapter.PastMandatoryViewHolder>() {
 

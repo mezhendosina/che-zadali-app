@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.DiaryItemBinding
-import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
-import com.mezhendosina.sgo.data.diary.diary.WeekDay
+import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
+import com.mezhendosina.sgo.data.layouts.diary.diary.WeekDay
 import java.text.SimpleDateFormat
 import java.util.*
 

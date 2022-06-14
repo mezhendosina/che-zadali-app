@@ -10,10 +10,10 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
-import com.mezhendosina.sgo.data.diary.diary.Mark
-import com.mezhendosina.sgo.data.diary.diary.WeekDay
-import com.mezhendosina.sgo.data.pastMandatory.PastMandatoryItem
+import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
+import com.mezhendosina.sgo.data.layouts.diary.diary.Mark
+import com.mezhendosina.sgo.data.layouts.diary.diary.WeekDay
+import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope

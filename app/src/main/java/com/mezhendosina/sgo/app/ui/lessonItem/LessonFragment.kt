@@ -18,7 +18,7 @@ import com.mezhendosina.sgo.app.ui.adapters.AttachmentClickListener
 import com.mezhendosina.sgo.app.ui.adapters.WhyGradeAdapter
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.attachments.Attachment
+import com.mezhendosina.sgo.data.layouts.attachments.Attachment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

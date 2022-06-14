@@ -1,14 +1,11 @@
 package com.mezhendosina.sgo
 
-import android.annotation.SuppressLint
 import com.mezhendosina.sgo.data.Requests
 import com.mezhendosina.sgo.data.SettingsLoginData
-import com.mezhendosina.sgo.data.announcements.AnnouncementsResponseItem
-import com.mezhendosina.sgo.data.diary.Diary
-import com.mezhendosina.sgo.data.diary.diary.DiaryResponse
-import com.mezhendosina.sgo.data.schools.SchoolItem
-import java.text.SimpleDateFormat
-import java.util.*
+import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
+import com.mezhendosina.sgo.data.layouts.diary.Diary
+import com.mezhendosina.sgo.data.layouts.diary.diary.DiaryResponse
+import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
 
 object Singleton {
 

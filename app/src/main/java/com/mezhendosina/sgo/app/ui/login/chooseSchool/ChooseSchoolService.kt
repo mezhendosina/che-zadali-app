@@ -2,7 +2,7 @@ package com.mezhendosina.sgo.app.ui.login.chooseSchool
 
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.schools
-import com.mezhendosina.sgo.data.schools.SchoolItem
+import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

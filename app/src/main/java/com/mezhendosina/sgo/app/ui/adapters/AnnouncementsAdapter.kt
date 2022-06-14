@@ -1,15 +1,11 @@
 package com.mezhendosina.sgo.app.ui.adapters
 
-import android.os.Build
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.text.htmlEncode
 import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.AnnouncementsItemBinding
-import com.mezhendosina.sgo.data.announcements.AnnouncementsResponseItem
-import io.ktor.util.*
+import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 
 class AnnouncementsAdapter : RecyclerView.Adapter<AnnouncementsAdapter.AnnouncementsViewHolder>() {
 

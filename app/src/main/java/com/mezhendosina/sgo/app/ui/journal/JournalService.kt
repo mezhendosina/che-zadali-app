@@ -1,14 +1,17 @@
 package com.mezhendosina.sgo.app.ui.journal
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.Singleton.at
 import com.mezhendosina.sgo.Singleton.requests
-import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
-import com.mezhendosina.sgo.data.diary.diary.WeekDay
-import com.mezhendosina.sgo.data.pastMandatory.PastMandatoryItem
+import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
+import com.mezhendosina.sgo.data.layouts.diary.diary.WeekDay
+import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 
 typealias journalActionListener = (d: List<WeekDay>) -> Unit
 typealias attachmentActionListener = (d: List<AttachmentsResponseItem>) -> Unit
@@ -27,8 +30,7 @@ class JournalService {
     suspend fun loadDiary(
         studentId: Int,
         yearId: Int,
-        weekStart: String,
-        weekEnd: String,
+        weekStartTime: Long,
         isEmpty: MutableLiveData<Boolean>
     ) {
         withContext(Dispatchers.Main) {
@@ -41,8 +43,8 @@ class JournalService {
                 val a = requests.diary(
                     at,
                     diaryInit.students[0].studentId,
-                    weekEnd,
-                    weekStart,
+                    weekEndByTime(weekStartTime),
+                    weekStartByTime(weekStartTime),
                     yearId
                 )
                 Singleton.diary = a
@@ -64,9 +66,10 @@ class JournalService {
         yearId: Int,
         weekStart: String,
         weekEnd: String,
+        weekStartTime: Long,
         isEmpty: MutableLiveData<Boolean>
     ) {
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             isEmpty.value = false
         }
         val diaryInit = requests.diaryInit(at)
@@ -74,8 +77,8 @@ class JournalService {
         val a = requests.diary(
             at,
             diaryInit.students[0].studentId,
-            weekEnd,
-            weekStart,
+            weekEndByTime(weekStartTime),
+            weekStartByTime(weekStartTime),
             yearId
         )
         Singleton.diary = a
@@ -114,5 +117,7 @@ class JournalService {
         attachmentsListener.forEach { it.invoke(attachments) }
         pastMandatoryListener.forEach { it.invoke(pastMandatory) }
     }
+
+
 
 }

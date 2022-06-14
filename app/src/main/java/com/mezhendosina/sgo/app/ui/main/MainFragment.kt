@@ -16,7 +16,7 @@ import com.mezhendosina.sgo.app.ui.adapters.AnnouncementsAdapter
 import com.mezhendosina.sgo.app.ui.adapters.GradeAdapter
 import com.mezhendosina.sgo.app.ui.adapters.HomeworkAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
-import com.mezhendosina.sgo.data.diary.diary.Lesson
+import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
 
 class MainFragment : Fragment() {
 
