@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.MainActivityContainerBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
-import com.mezhendosina.sgo.app.ui.journal.weekEnd
-import com.mezhendosina.sgo.app.ui.journal.weekStart
 import com.mezhendosina.sgo.data.Settings
+import com.mezhendosina.sgo.data.weekEnd
+import com.mezhendosina.sgo.data.weekStart
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope

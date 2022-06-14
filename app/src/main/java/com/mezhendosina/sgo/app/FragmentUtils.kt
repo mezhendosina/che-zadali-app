@@ -17,7 +17,6 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
                 app.gradesService
             )
 
-            JournalViewModel::class.java -> JournalViewModel(app.journalService)
             LessonViewModel::class.java -> LessonViewModel(app.lessonService)
 
             ChooseSchoolViewModel::class.java -> ChooseSchoolViewModel(

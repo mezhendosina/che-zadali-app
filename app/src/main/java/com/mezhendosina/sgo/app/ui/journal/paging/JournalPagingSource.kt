@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.ui.journal.JournalService
 import com.mezhendosina.sgo.data.layouts.diary.Diary
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +29,7 @@ class JournalPagingSource(
                 weekStartByTime(page),
                 Singleton.currentYearId
             )
+            println(page)
             val nextKey = page + 7 * 24 * 60 * 60 * 1000
             val prevKey = if (page == 0.toLong()) null else page - 7 * 24 * 60 * 60 * 1000
             LoadResult.Page(listOf(response), prevKey, nextKey)

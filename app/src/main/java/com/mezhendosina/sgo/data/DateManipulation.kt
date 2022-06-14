@@ -39,3 +39,18 @@ class DateManipulation(val date: String) {
         return SimpleDateFormat("dd MMMM", locale).format(a!!)
     }
 }
+
+@SuppressLint("SimpleDateFormat")
+fun weekStart(week: Int): String {
+    val s = SimpleDateFormat("w.yyyy").format(Date().time)
+    val a = SimpleDateFormat("w.yyyy").parse(s)!!.time + week * 7 * 24 * 60 * 60 * 1000
+    return SimpleDateFormat("yyyy-MM-dd").format(a)
+}
+
+@SuppressLint("SimpleDateFormat")
+fun weekEnd(week: Int): String {
+    val s = SimpleDateFormat("w.yyyy").format(Date().time)
+    val a =
+        SimpleDateFormat("w.yyyy").parse(s)!!.time + week * 7 * 24 * 60 * 60 * 1000 + 6 * 24 * 60 * 60 * 1000
+    return SimpleDateFormat("yyyy-MM-dd").format(a)
+}

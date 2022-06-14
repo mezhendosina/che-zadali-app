@@ -7,17 +7,21 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mezhendosina.sgo.app.databinding.JournalViewpagerItemBinding
 import com.mezhendosina.sgo.data.layouts.diary.Diary
 
+
 class NewDiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListener) :
-    PagingDataAdapter<Diary, NewDiaryAdapter.ViewHolder>() {
+    PagingDataAdapter<Diary, NewDiaryAdapter.ViewHolder>(DiaryDiffCallback()) {
     class ViewHolder(val binding: JournalViewpagerItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = JournalViewpagerItemBinding.inflate(inflater, parent, false)
+
+        binding.swipeRefresh.setOnRefreshListener { refresh() }
 
         return ViewHolder(binding)
     }
@@ -47,7 +51,7 @@ class NewDiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
     }
 }
 
-class DiaryDiffCallback() : DiffUtil.ItemCallback<Diary>() {
+class DiaryDiffCallback : DiffUtil.ItemCallback<Diary>() {
     override fun areItemsTheSame(oldItem: Diary, newItem: Diary): Boolean {
         return oldItem.diaryResponse.weekStart == newItem.diaryResponse.weekStart
     }
