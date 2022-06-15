@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.paging.PagingData
+import androidx.viewpager2.widget.ViewPager2
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.JournalFragmentBinding
 import com.mezhendosina.sgo.app.findTopNavController
@@ -20,7 +21,7 @@ import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class JournalFragment : Fragment() {
+class JournalFragment : Fragment(R.layout.journal_fragment) {
 
     private lateinit var binding: JournalFragmentBinding
     private val viewModel: JournalViewModel by viewModels()
@@ -30,12 +31,11 @@ class JournalFragment : Fragment() {
         viewModel.loadDiary(requireContext())
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = JournalFragmentBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = JournalFragmentBinding.bind(view)
+
         val adapter = NewDiaryAdapter(
             object : OnHomeworkClickListener {
                 override fun invoke(p1: Lesson) {
@@ -44,19 +44,19 @@ class JournalFragment : Fragment() {
                         bundleOf("lessonId" to p1.classmeetingId, "type" to "journal")
                     )
                 }
-            })
+            }, )
 
         binding.journalPager.adapter = adapter
 
         observeDiary(adapter)
-
-        return binding.root
     }
+
 
     private fun observeDiary(adapter: NewDiaryAdapter) {
         lifecycleScope.launch {
             viewModel.diary.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
+
             }
         }
     }

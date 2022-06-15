@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mezhendosina.sgo.app.databinding.JournalViewpagerItemBinding
 import com.mezhendosina.sgo.data.layouts.diary.Diary
+import kotlinx.coroutines.flow.Flow
 
 
-class NewDiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListener) :
+class NewDiaryAdapter(
+    private val onHomeworkClickListener: OnHomeworkClickListener,
+    private val week: Flow<String>
+) :
     PagingDataAdapter<Diary, NewDiaryAdapter.ViewHolder>(DiaryDiffCallback()) {
     class ViewHolder(val binding: JournalViewpagerItemBinding) :
         RecyclerView.ViewHolder(binding.root)
