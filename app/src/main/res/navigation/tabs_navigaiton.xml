@@ -2,16 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_nav"
-    app:startDestination="@id/mainFragment2">
+    android:id="@+id/tabs_navigaiton"
+    app:startDestination="@id/mainFragment">
 
     <fragment
-        android:id="@+id/journalFragment2"
+        android:id="@+id/journalFragment"
         android:name="com.mezhendosina.sgo.app.ui.journal.JournalFragment"
         android:label="journal_fragment"
         tools:layout="@layout/journal_fragment" />
     <fragment
-        android:id="@+id/mainFragment2"
+        android:id="@+id/mainFragment"
         android:name="com.mezhendosina.sgo.app.ui.main.MainFragment"
-        android:label="MainFragment" />
+        android:label="@string/main"
+        tools:layout="@layout/main_fragment" />
 </navigation>

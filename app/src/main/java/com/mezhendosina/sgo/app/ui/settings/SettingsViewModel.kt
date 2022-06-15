@@ -33,9 +33,6 @@ class SettingsViewModel : ViewModel() {
     fun logout(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             Settings(context).logout()
-            withContext(Dispatchers.Main){
-                startActivity(context, Intent(context, LoginActivity::class.java), null)
-            }
         }
     }
 

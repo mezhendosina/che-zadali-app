@@ -5,7 +5,8 @@
     android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    tools:context=".ui.main.MainFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,13 +18,12 @@
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="true"
-            android:nestedScrollingEnabled="true"
-            tools:context=".ui.main.MainFragment">
+            android:nestedScrollingEnabled="true">
 
             <include
                 android:id="@+id/today_homework"
-                android:visibility="gone"
-                layout="@layout/diary_item" />
+                layout="@layout/diary_item"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/announcements_title"

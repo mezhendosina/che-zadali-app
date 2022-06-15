@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.paging.PagingData
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.JournalFragmentBinding
+import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.NewDiaryAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
 import com.mezhendosina.sgo.data.layouts.diary.Diary
@@ -35,12 +36,11 @@ class JournalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = JournalFragmentBinding.inflate(inflater, container, false)
-
         val adapter = NewDiaryAdapter(
             object : OnHomeworkClickListener {
                 override fun invoke(p1: Lesson) {
-                    activity?.findNavController(R.id.container)?.navigate(
-                        R.id.moreFragment,
+                    findTopNavController().navigate(
+                        R.id.action_containerFragment_to_lessonFragment,
                         bundleOf("lessonId" to p1.classmeetingId, "type" to "journal")
                     )
                 }

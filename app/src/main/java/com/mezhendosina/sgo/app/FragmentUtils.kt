@@ -3,6 +3,9 @@ package com.mezhendosina.sgo.app
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.mezhendosina.sgo.app.ui.journal.JournalViewModel
 import com.mezhendosina.sgo.app.ui.lessonItem.LessonViewModel
 import com.mezhendosina.sgo.app.ui.login.chooseSchool.ChooseSchoolViewModel
@@ -32,4 +35,8 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
 
 fun Fragment.factory() = ViewModelFactory(requireContext().applicationContext as App)
 
-fun Fragment.navigator() = requireActivity() as Navigator
+fun Fragment.findTopNavController(): NavController {
+    val topLevelHost =
+        requireActivity().supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment?
+    return topLevelHost?.navController ?: findNavController()
+}

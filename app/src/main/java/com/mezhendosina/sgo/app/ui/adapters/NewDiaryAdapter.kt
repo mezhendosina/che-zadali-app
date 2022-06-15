@@ -29,7 +29,7 @@ class NewDiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val diary = getItem(position)
         with(holder.binding) {
-            if (diary != null) {
+            if (diary != null && diary.diaryResponse.weekDays.isNotEmpty()) {
                 val diaryAdapter = DiaryAdapter(onHomeworkClickListener)
                 diaryAdapter.diary = diary.diaryResponse.weekDays
                 this.diary.adapter = diaryAdapter

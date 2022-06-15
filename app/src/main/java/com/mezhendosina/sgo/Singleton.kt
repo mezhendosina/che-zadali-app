@@ -16,6 +16,10 @@ object Singleton {
         Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
     var announcements: List<AnnouncementsResponseItem> = emptyList()
 
+
+    var selectedDiary =
+        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
+
     var currentWeek = 0
     var currentYearId: Int = 0
     var currentYear: String = ""

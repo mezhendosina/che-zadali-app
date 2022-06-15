@@ -1,17 +1,17 @@
 package com.mezhendosina.sgo.app.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainContainerBinding
-import com.mezhendosina.sgo.app.ui.journal.JournalFragment
+import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.checkUpdates
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-class ContainerFragment : Fragment() {
+class ContainerFragment : Fragment(R.layout.main_container) {
 
     private lateinit var binding: MainContainerBinding
     private lateinit var navController: NavController
@@ -38,39 +38,20 @@ class ContainerFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = MainContainerBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = MainContainerBinding.bind(view)
+        val navHost = childFragmentManager.findFragmentById(R.id.tabs_container) as NavHostFragment
+        val navController = navHost.navController
+
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
+        NavigationUI.setupWithNavController(binding.toolbar, navController)
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.settings -> {
-                    activity?.findNavController(R.id.container)?.navigate(R.id.settingsFragment)
-                    true
-                }
-                else -> false
-            }
-        }
-
-        binding.bottomNavigation.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.journalFragment -> {
-                    binding.toolbar.setTitle(R.string.journal)
-                    childFragmentManager.beginTransaction()
-                        .setReorderingAllowed(true)
-                        .replace(binding.fragmentContainerView.id, JournalFragment())
-                        .commit()
-                    true
-                }
-                R.id.mainFragment -> {
-                    binding.toolbar.setTitle(R.string.main)
-                    childFragmentManager.beginTransaction()
-                        .setReorderingAllowed(true)
-                        .replace(binding.fragmentContainerView.id, MainFragment())
-                        .commit()
+                    findTopNavController().navigate(R.id.action_containerFragment_to_settingsFragment)
                     true
                 }
                 else -> false
@@ -91,9 +72,6 @@ class ContainerFragment : Fragment() {
                 }
             }
         }
-
-
-        return binding.root
     }
 
     override fun onDestroy() {
