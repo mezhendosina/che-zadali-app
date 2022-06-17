@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/containerFragment">
+
+    <fragment
+        android:id="@+id/lessonFragment"
+        android:name="com.mezhendosina.sgo.app.ui.lessonItem.LessonFragment"
+        android:label="lesson_item"
+        tools:layout="@layout/lesson_item" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settings.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_loginActivity"
+            app:destination="@id/loginActivity"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.mezhendosina.sgo.app.activities.LoginActivity"
+        android:label="login_activity"
+        tools:layout="@layout/login_activity" />
+    <fragment
+        android:id="@+id/containerFragment"
+        android:name="com.mezhendosina.sgo.app.ui.main.ContainerFragment"
+        android:label="main_container"
+        tools:layout="@layout/main_container" >
+        <action
+            android:id="@+id/action_containerFragment_to_lessonFragment"
+            app:destination="@id/lessonFragment" />
+        <action
+            android:id="@+id/action_containerFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+</navigation>

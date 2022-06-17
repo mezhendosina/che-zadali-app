@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
@@ -18,10 +20,11 @@ import com.mezhendosina.sgo.app.factory
 import com.mezhendosina.sgo.app.ui.adapters.ChooseSchoolAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnSchoolClickListener
 import com.mezhendosina.sgo.app.ui.hideAnimation
+import com.mezhendosina.sgo.app.ui.login.LoginFragment
 import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.schools.SchoolItem
+import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
 
-class ChooseSchoolFragment : Fragment() {
+class ChooseSchoolFragment : Fragment(R.layout.choose_school_fragment) {
 
     private lateinit var binding: ChooseSchoolFragmentBinding
     private val viewModel: ChooseSchoolViewModel by viewModels { factory() }
@@ -34,17 +37,14 @@ class ChooseSchoolFragment : Fragment() {
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = ChooseSchoolFragmentBinding.inflate(inflater, container, false)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = ChooseSchoolFragmentBinding.bind(view)
         val schoolAdapter = ChooseSchoolAdapter(object : OnSchoolClickListener {
             override fun invoke(p1: SchoolItem) {
-                requireActivity().findNavController(R.id.fragmentContainer).navigate(
+                findNavController().navigate(
                     R.id.action_chooseSchoolFragment_to_loginFragment,
-                    bundleOf("schoolId" to p1.schoolId)
+                    bundleOf(LoginFragment.ARG_SCHOOL_ID to p1.schoolId)
                 )
             }
         })
@@ -72,8 +72,5 @@ class ChooseSchoolFragment : Fragment() {
 
         binding.schoolList.adapter = schoolAdapter
         binding.schoolList.layoutManager = LinearLayoutManager(requireContext())
-
-        return binding.root
     }
-
 }

@@ -3,13 +3,10 @@ package com.mezhendosina.sgo.app.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.AttachmentItemBinding
-import com.mezhendosina.sgo.app.ui.hideAnimation
-import com.mezhendosina.sgo.app.ui.lessonItem.LessonViewModel
 import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.attachments.Attachment
+import com.mezhendosina.sgo.data.layouts.attachments.Attachment
 
 interface AttachmentClickListener {
     fun onClick(attachment: Attachment, binding: AttachmentItemBinding)

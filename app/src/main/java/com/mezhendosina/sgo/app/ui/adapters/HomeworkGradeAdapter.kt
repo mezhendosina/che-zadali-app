@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.HomeworkGradeItemBinding
-import com.mezhendosina.sgo.data.diary.diary.Mark
+import com.mezhendosina.sgo.data.layouts.diary.diary.Mark
 
 class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkGradeViewHolder>() {
 

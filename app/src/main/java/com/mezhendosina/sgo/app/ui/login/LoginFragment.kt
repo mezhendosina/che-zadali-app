@@ -6,16 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.LoginFragmentBinding
 
-class LoginFragment : Fragment() {
+class LoginFragment : Fragment(R.layout.login_fragment) {
 
     private lateinit var binding: LoginFragmentBinding
 
     private val viewModel: LoginViewModel by viewModels()
 
+    companion object {
+        const val ARG_SCHOOL_ID = "schoolId"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,18 +28,16 @@ class LoginFragment : Fragment() {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = LoginFragmentBinding.inflate(inflater, container, false)
-        val schoolId = arguments?.getInt("schoolId")!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = LoginFragmentBinding.bind(view)
+        val schoolId = requireArguments().getInt(ARG_SCHOOL_ID)
 
 
         binding.selectedSchool.text = viewModel.findSchool(schoolId)?.school
-        binding.selectedSchoolCard.setOnClickListener() {
-            requireActivity().onBackPressed()
+        binding.selectedSchoolCard.setOnClickListener {
+           findNavController().popBackStack()
         }
 
         binding.loginButton.setOnClickListener {
@@ -55,7 +58,5 @@ class LoginFragment : Fragment() {
             }
         }
 
-
-        return binding.root
     }
 }

@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="?android:attr/colorBackground"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:background="?android:attr/colorBackground"
+    tools:context="com.mezhendosina.sgo.app.ui.login.chooseSchool.ChooseSchoolFragment"
+    >
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/choose_school_text_view"
@@ -21,8 +23,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
             android:id="@+id/school_edit_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -31,12 +33,12 @@
         android:id="@+id/progress_indicator"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:indeterminate="true"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/choose_school_text_view"
+        android:indeterminate="true"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/choose_school_text_view" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/school_list"

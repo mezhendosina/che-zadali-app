@@ -9,21 +9,23 @@ import androidx.lifecycle.MutableLiveData
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.ui.updateDialog
-import com.mezhendosina.sgo.data.announcements.AnnouncementsResponse
-import com.mezhendosina.sgo.data.assignRequest.AssignResponse
-import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
-import com.mezhendosina.sgo.data.checkUpdates.CheckUpdates
-import com.mezhendosina.sgo.data.diary.Diary
-import com.mezhendosina.sgo.data.diary.diary.DiaryResponse
-import com.mezhendosina.sgo.data.diary.init.DiaryInit
-import com.mezhendosina.sgo.data.grades.GradeItem
-import com.mezhendosina.sgo.data.homeworkTypes.TypesResponseItem
-import com.mezhendosina.sgo.data.login.LoginResponse
-import com.mezhendosina.sgo.data.pastMandatory.PastMandatoryItem
-import com.mezhendosina.sgo.data.preLoginNotice.PreLoginNoticeResponse
-import com.mezhendosina.sgo.data.schools.SchoolsResponse
-import com.mezhendosina.sgo.data.studentTotal.StudentTotalResponse
-import com.mezhendosina.sgo.data.yearList.YearListResponse
+import com.mezhendosina.sgo.data.layouts.AssignsId
+import com.mezhendosina.sgo.data.layouts.NegotiateResponse
+import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponse
+import com.mezhendosina.sgo.data.layouts.assignRequest.AssignResponse
+import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
+import com.mezhendosina.sgo.data.layouts.checkUpdates.CheckUpdates
+import com.mezhendosina.sgo.data.layouts.diary.Diary
+import com.mezhendosina.sgo.data.layouts.diary.diary.DiaryResponse
+import com.mezhendosina.sgo.data.layouts.diary.init.DiaryInit
+import com.mezhendosina.sgo.data.layouts.grades.GradeItem
+import com.mezhendosina.sgo.data.layouts.homeworkTypes.TypesResponseItem
+import com.mezhendosina.sgo.data.layouts.login.LoginResponse
+import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
+import com.mezhendosina.sgo.data.layouts.preLoginNotice.PreLoginNoticeResponse
+import com.mezhendosina.sgo.data.layouts.schools.SchoolsResponse
+import com.mezhendosina.sgo.data.layouts.studentTotal.StudentTotalResponse
+import com.mezhendosina.sgo.data.layouts.yearList.YearListResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -186,6 +188,8 @@ class Requests {
         println(diary.await().weekDays.size)
         return Diary(diary.await(), attachments, pastMandatory.await())
     }
+
+
 
     suspend fun preLoginNotice(): PreLoginNoticeResponse =
         client.get("/webapi/settings/preloginnotice").body()

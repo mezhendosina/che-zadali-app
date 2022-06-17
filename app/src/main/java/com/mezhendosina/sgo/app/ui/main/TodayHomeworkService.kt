@@ -2,8 +2,8 @@ package com.mezhendosina.sgo.app.ui.main
 
 import android.annotation.SuppressLint
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
-import com.mezhendosina.sgo.data.diary.diary.Lesson
+import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
+import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat

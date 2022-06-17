@@ -15,7 +15,7 @@ import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.SettingsLoginData
-import com.mezhendosina.sgo.data.schools.SchoolItem
+import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
 import com.mezhendosina.sgo.data.toMD5
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*

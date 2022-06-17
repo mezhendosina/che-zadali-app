@@ -13,56 +13,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
-        android:layout_width="0dp"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/journal_pager"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/week_selector_layout"
-        app:swipeRefreshLayoutProgressSpinnerBackgroundColor="?android:attr/colorPrimary">
-
-
-
-<!--            <include-->
-<!--                android:id="@+id/past_mandatory_1"-->
-<!--                layout="@layout/past_mandatory" />-->
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/diary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/transperent"
-                android:nestedScrollingEnabled="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/diary_item" />
-
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <TextView
-        android:id="@+id/no_homework_icon"
-        style="@style/captions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="Здесь должна быть картинка, но художника в команде нету :("
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/no_homework"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/no_homework"
-        style="@style/mainText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Тут ничего нету"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/week_selector_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_navigation"
     app:startDestination="@id/chooseSchoolFragment">
     <fragment
         android:id="@+id/chooseSchoolFragment"
         android:name="com.mezhendosina.sgo.app.ui.login.chooseSchool.ChooseSchoolFragment"
-        android:label="Выберите школу">
+        android:label="@string/choose_school"
+        tools:layout="@layout/choose_school_fragment" >
+        <argument
+            android:name="schoolId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_chooseSchoolFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/chooseSchoolFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.mezhendosina.sgo.app.ui.login.LoginFragment"
-        android:label="Войти" />
+        android:label="@string/log_in"
+        tools:layout="@layout/login_fragment" />
 </navigation>

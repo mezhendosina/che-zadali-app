@@ -1,10 +1,9 @@
 package com.mezhendosina.sgo.app.ui.main
 
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.data.announcements.AnnouncementsResponseItem
+import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.jsoup.Jsoup
 
 typealias AnnouncementsActionListener = (announcements: List<AnnouncementsResponseItem>) -> Unit
 

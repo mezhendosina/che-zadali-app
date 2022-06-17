@@ -11,11 +11,11 @@ import com.mezhendosina.sgo.app.databinding.LessonItemBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.assignRequest.AssignResponse
-import com.mezhendosina.sgo.data.attachments.Attachment
-import com.mezhendosina.sgo.data.diary.diary.Lesson
-import com.mezhendosina.sgo.data.grades.WhyGradeItem
-import com.mezhendosina.sgo.data.homeworkTypes.TypesResponseItem
+import com.mezhendosina.sgo.data.layouts.assignRequest.AssignResponse
+import com.mezhendosina.sgo.data.layouts.attachments.Attachment
+import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
+import com.mezhendosina.sgo.data.layouts.grades.WhyGradeItem
+import com.mezhendosina.sgo.data.layouts.homeworkTypes.TypesResponseItem
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope

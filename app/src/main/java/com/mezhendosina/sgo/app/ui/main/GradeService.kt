@@ -1,10 +1,6 @@
 package com.mezhendosina.sgo.app.ui.main
 
-import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.data.extractGrades
-import com.mezhendosina.sgo.data.grades.GradeItem
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.mezhendosina.sgo.data.layouts.grades.GradeItem
 
 typealias GradeActionListener = (grade: List<GradeItem>) -> Unit
 

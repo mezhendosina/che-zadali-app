@@ -10,10 +10,10 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.announcements.AnnouncementsResponseItem
-import com.mezhendosina.sgo.data.attachments.AttachmentsResponseItem
-import com.mezhendosina.sgo.data.diary.diary.Lesson
-import com.mezhendosina.sgo.data.grades.GradeItem
+import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
+import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
+import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
+import com.mezhendosina.sgo.data.layouts.grades.GradeItem
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope

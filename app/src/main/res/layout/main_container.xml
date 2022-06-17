@@ -5,10 +5,9 @@
     android:id="@+id/main_activity_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
-
     android:animateLayoutChanges="true"
-    >
+    android:background="?android:attr/colorBackground"
+    tools:context=".ui.main.ContainerFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout"
@@ -25,16 +24,16 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/Toolbar"
-            app:titleTextColor="?attr/colorOnBackground"
             android:layout_width="match_parent"
-            android:background="?attr/backgroundColor"
             android:layout_height="wrap_content"
+            android:background="?attr/backgroundColor"
             android:nestedScrollingEnabled="true"
             android:saveEnabled="false"
             app:expanded="true"
-            app:title="@string/main"
             app:liftOnScroll="true"
-            app:menu="@menu/main_toolbar_more_menu" />
+            app:menu="@menu/main_toolbar_more_menu"
+            app:title="@string/main"
+            app:titleTextColor="?attr/colorOnBackground" />
 
         <include
             android:id="@+id/update_progress"
@@ -52,27 +51,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/tabs_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar_layout"
+        app:navGraph="@navigation/tabs_navigaiton" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemRippleColor="@null"
         android:background="?attr/backgroundColor"
+        app:itemRippleColor="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar_layout"
-        app:navGraph="@navigation/main_nav"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="57dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

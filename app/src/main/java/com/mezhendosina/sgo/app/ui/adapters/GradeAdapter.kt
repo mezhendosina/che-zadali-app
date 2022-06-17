@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.GradeItemBinding
-import com.mezhendosina.sgo.data.grades.GradeItem
+import com.mezhendosina.sgo.data.layouts.grades.GradeItem
 
 class GradeAdapter : RecyclerView.Adapter<GradeAdapter.GradeViewHolder>() {
 

@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.WhyGradeItemBinding
-import com.mezhendosina.sgo.data.grades.WhyGradeItem
-import com.mezhendosina.sgo.data.homeworkTypes.TypesResponseItem
+import com.mezhendosina.sgo.data.layouts.grades.WhyGradeItem
+import com.mezhendosina.sgo.data.layouts.homeworkTypes.TypesResponseItem
 
 class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>() {
 

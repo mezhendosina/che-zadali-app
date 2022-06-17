@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainFragmentBinding
 import com.mezhendosina.sgo.app.factory
+import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.AnnouncementsAdapter
 import com.mezhendosina.sgo.app.ui.adapters.GradeAdapter
 import com.mezhendosina.sgo.app.ui.adapters.HomeworkAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
-import com.mezhendosina.sgo.data.diary.diary.Lesson
+import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
 
 class MainFragment : Fragment() {
 
@@ -43,8 +44,8 @@ class MainFragment : Fragment() {
 
         val todayHomeworkAdapter = HomeworkAdapter(object : OnHomeworkClickListener {
             override fun invoke(p1: Lesson) {
-                activity?.findNavController(R.id.container)?.navigate(
-                    R.id.moreFragment,
+                findTopNavController().navigate(
+                    R.id.action_containerFragment_to_lessonFragment,
                     bundleOf("lessonId" to p1.classmeetingId, "type" to "123")
                 )
             }

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.app.ui.errorDialog
-import com.mezhendosina.sgo.data.schools.SchoolItem
+import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.transition.MaterialSharedAxis
+import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.SettingsFragmentBinding
+import com.mezhendosina.sgo.app.findTopNavController
 
 class SettingsFragment : Fragment() {
 
@@ -34,6 +36,7 @@ class SettingsFragment : Fragment() {
 
         binding.logoutButton.setOnClickListener {
             viewModel.logout(requireContext())
+            findTopNavController().navigate(R.id.action_settingsFragment_to_loginActivity)
         }
 
         binding.toolbar.setNavigationOnClickListener {
