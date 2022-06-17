@@ -1,5 +1,6 @@
 package com.mezhendosina.sgo.app.ui.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.transition.MaterialSharedAxis
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
+import com.mezhendosina.sgo.app.activities.LoginActivity
+import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.databinding.SettingsFragmentBinding
 import com.mezhendosina.sgo.app.findTopNavController
+import com.mezhendosina.sgo.app.ui.login.LoginFragment
+import io.ktor.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SettingsFragment : Fragment() {
 
@@ -35,15 +45,23 @@ class SettingsFragment : Fragment() {
 //        }
 
         binding.logoutButton.setOnClickListener {
-            viewModel.logout(requireContext())
-            findTopNavController().navigate(R.id.action_settingsFragment_to_loginActivity)
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.Main) {
+                    viewModel.logout(requireContext())
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+
+                }
+
+            }
         }
 
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
         binding.cacheSize.text =
-            "Объем кэша: ${(viewModel.calculateCache(requireContext()) / 8 ).toDouble()}"
+            "Объем кэша: ${(viewModel.calculateCache(requireContext()) / 8).toDouble()}"
         binding.clearCacheCard.setOnClickListener {
 
         }

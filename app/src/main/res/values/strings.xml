@@ -31,4 +31,5 @@
     <string name="teacher_comment">Подробности от учителя</string>
     <string name="past_mandatory_header">Есть просроченные задания</string>
     <string name="choose_school">Выберите школу</string>
+    <string name="author">Автор</string>
 </resources>

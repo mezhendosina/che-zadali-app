@@ -12,6 +12,7 @@ import com.mezhendosina.sgo.app.ui.updateDialog
 import com.mezhendosina.sgo.data.layouts.AssignsId
 import com.mezhendosina.sgo.data.layouts.NegotiateResponse
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponse
+import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 import com.mezhendosina.sgo.data.layouts.assignRequest.AssignResponse
 import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.layouts.checkUpdates.CheckUpdates
@@ -63,10 +64,10 @@ class Requests {
 
     private val client = HttpClient(CIO) {
         expectSuccess = true
-//        install(Logging) {
-//            level = LogLevel.HEADERS
-//            logger = Logger.DEFAULT
-//        }
+        install(Logging) {
+            level = LogLevel.INFO
+            logger = Logger.DEFAULT
+        }
         install(ContentNegotiation) {
             gson()
         }
@@ -106,7 +107,7 @@ class Requests {
      * Получить соль, версию и lt
      */
     private suspend fun getData(): GetData =
-       client.post("/webapi/auth/getdata").body()
+        client.post("/webapi/auth/getdata").body()
 
 
     /**
@@ -146,8 +147,8 @@ class Requests {
     }
 
     suspend fun diaryInit(at: String): DiaryInit = client.get("/webapi/student/diary/init") {
-            headers.append("at", at)
-        }.body()
+        headers.append("at", at)
+    }.body()
 
 
     suspend fun diary(
@@ -184,21 +185,20 @@ class Requests {
                 contentType(ContentType.Application.Json)
                 setBody(AssignsId(assignsId))
             }.body<List<AttachmentsResponseItem>>()
-        println(diary.await().weekDays)
-        println(diary.await().weekDays.size)
         return Diary(diary.await(), attachments, pastMandatory.await())
     }
-
 
 
     suspend fun preLoginNotice(): PreLoginNoticeResponse =
         client.get("/webapi/settings/preloginnotice").body()
 
 
-    suspend fun announcements(at: String): AnnouncementsResponse =
-        client.get("/webapi/announcements") {
+    suspend fun announcements(at: String): AnnouncementsResponse {
+        val a = client.get("/webapi/announcements") {
             headers.append("at", at)
-        }.body()
+        }.body<AnnouncementsResponse>()
+        return a
+    }
 
 
     suspend fun yearList(at: String): YearListResponse =
@@ -267,6 +267,7 @@ class Requests {
         }
     }
 }
+
 
 suspend fun checkUpdates(context: Context, file: File, downloadProgress: MutableLiveData<Int>) {
     val client = HttpClient(CIO) {

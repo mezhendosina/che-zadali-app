@@ -9,15 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainFragmentBinding
 import com.mezhendosina.sgo.app.factory
 import com.mezhendosina.sgo.app.findTopNavController
-import com.mezhendosina.sgo.app.ui.adapters.AnnouncementsAdapter
-import com.mezhendosina.sgo.app.ui.adapters.GradeAdapter
-import com.mezhendosina.sgo.app.ui.adapters.HomeworkAdapter
-import com.mezhendosina.sgo.app.ui.adapters.OnHomeworkClickListener
+import com.mezhendosina.sgo.app.ui.adapters.*
+import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
+import io.noties.markwon.Markwon
+import io.noties.markwon.html.HtmlPlugin
 
 class MainFragment : Fragment() {
 
@@ -46,12 +47,24 @@ class MainFragment : Fragment() {
             override fun invoke(p1: Lesson) {
                 findTopNavController().navigate(
                     R.id.action_containerFragment_to_lessonFragment,
-                    bundleOf("lessonId" to p1.classmeetingId, "type" to "123")
+                    bundleOf("lessonId" to p1.classmeetingId)
                 )
             }
         })
         val gradeAdapter = GradeAdapter()
-        val announcementsAdapter = AnnouncementsAdapter()
+        val announcementsAdapter = AnnouncementsAdapter(
+            object : OnAnnouncementClickListener {
+                override fun invoke(p1: AnnouncementsResponseItem) {
+                    findTopNavController().navigate(
+                        R.id.action_containerFragment_to_announcementsFragment,
+                        bundleOf(Singleton.ANNOUNCEMENTS_ID to p1.id)
+                    )
+                }
+            },
+            Markwon.builder(requireContext())
+                .usePlugin(HtmlPlugin.create())
+                .build()
+        )
 
         viewModel.todayHomework.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {

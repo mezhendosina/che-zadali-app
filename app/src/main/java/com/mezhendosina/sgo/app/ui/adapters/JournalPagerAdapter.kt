@@ -3,21 +3,26 @@ package com.mezhendosina.sgo.app.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.JournalViewpagerItemBinding
+import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.layouts.diary.Diary
-import kotlinx.coroutines.flow.Flow
+import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
 
+typealias CurrentItemListener = () -> Int
 
-class NewDiaryAdapter(
-    private val onHomeworkClickListener: OnHomeworkClickListener,
-    private val week: Flow<String>
+class JournalPagerAdapter(
+    private val navController: NavController,
+    private val currentItemListener: CurrentItemListener
 ) :
-    PagingDataAdapter<Diary, NewDiaryAdapter.ViewHolder>(DiaryDiffCallback()) {
+    PagingDataAdapter<Diary, JournalPagerAdapter.ViewHolder>(DiaryDiffCallback()) {
     class ViewHolder(val binding: JournalViewpagerItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -25,7 +30,11 @@ class NewDiaryAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = JournalViewpagerItemBinding.inflate(inflater, parent, false)
 
-        binding.swipeRefresh.setOnRefreshListener { refresh() }
+//        binding.weekSelectorLayout.root.setOnClickListener {
+//            viewPager2.currentItem = snapshot().indexOfFirst {
+//                it?.diaryResponse?.weekStart == weekStartByTime(currentTime())
+//            }
+//        }
 
         return ViewHolder(binding)
     }
@@ -33,10 +42,27 @@ class NewDiaryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val diary = getItem(position)
         with(holder.binding) {
+            if (diary != null) this.weekSelectorLayout.weekSelectorTextView.text =
+                "${DateManipulation(diary.diaryResponse.weekStart).dateFormatter()} - ${
+                    DateManipulation(diary.diaryResponse.weekEnd).dateFormatter()
+                }"
             if (diary != null && diary.diaryResponse.weekDays.isNotEmpty()) {
-                val diaryAdapter = DiaryAdapter(onHomeworkClickListener)
+                val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
+                    override fun invoke(p1: Lesson) {
+                        val d = getItem(currentItemListener.invoke())
+                        if (d != null) {
+                            Singleton.diary = d
+                            navController.navigate(
+                                R.id.action_containerFragment_to_lessonFragment,
+                                bundleOf("lessonId" to p1.classmeetingId, "type" to "journal")
+                            )
+                        }
+
+                    }
+                })
                 diaryAdapter.diary = diary.diaryResponse.weekDays
                 this.diary.adapter = diaryAdapter
+
                 this.diary.layoutManager =
                     LinearLayoutManager(
                         holder.itemView.context,

@@ -7,7 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUiSaveStateControl
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainContainerBinding
@@ -45,8 +48,7 @@ class ContainerFragment : Fragment(R.layout.main_container) {
         val navHost = childFragmentManager.findFragmentById(R.id.tabs_container) as NavHostFragment
         val navController = navHost.navController
 
-        NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
-        NavigationUI.setupWithNavController(binding.toolbar, navController)
+        binding.bottomNavigation.setupWithNavController(navController)
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {

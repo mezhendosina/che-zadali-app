@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -89,5 +88,10 @@ dependencies {
 
     //jetpack paging
     implementation "androidx.paging:paging-runtime:3.1.1"
+
+    //markdown support
+    implementation "io.noties.markwon:core:$markwon_version"
+    implementation "io.noties.markwon:html:$markwon_version"
+    implementation "io.noties.markwon:recycler:$markwon_version"
 
 }

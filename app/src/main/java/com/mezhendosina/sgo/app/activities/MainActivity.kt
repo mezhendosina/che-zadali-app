@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityContainerBinding
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)

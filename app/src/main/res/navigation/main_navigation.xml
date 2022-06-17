@@ -36,5 +36,13 @@
         <action
             android:id="@+id/action_containerFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_containerFragment_to_announcementsFragment"
+            app:destination="@id/announcementsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/announcementsFragment"
+        android:name="com.mezhendosina.sgo.app.ui.main.AnnouncementsFragment"
+        android:label="announcements_fragment"
+        tools:layout="@layout/announcements_fragment" />
 </navigation>

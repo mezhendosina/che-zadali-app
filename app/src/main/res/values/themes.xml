@@ -41,6 +41,10 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
+    <style name="announcementsToolBarText" parent="mainScreenHeaders">
+        <item name="android:textSize">18dp</item>
+    </style>
+
     <style name="fab" parent="">
         <item name="android:backgroundTint">?attr/colorPrimaryVariant</item>
     </style>
