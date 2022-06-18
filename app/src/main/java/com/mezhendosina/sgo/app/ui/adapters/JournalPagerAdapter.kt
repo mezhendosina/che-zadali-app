@@ -47,6 +47,7 @@ class JournalPagerAdapter(
                     DateManipulation(diary.diaryResponse.weekEnd).dateFormatter()
                 }"
             if (diary != null && diary.diaryResponse.weekDays.isNotEmpty()) {
+                val pastMandatoryAdapter = PastMandatoryAdapter()
                 val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
                     override fun invoke(p1: Lesson) {
                         val d = getItem(currentItemListener.invoke())
@@ -60,9 +61,21 @@ class JournalPagerAdapter(
 
                     }
                 })
-                diaryAdapter.diary = diary.diaryResponse.weekDays
-                this.diary.adapter = diaryAdapter
+                if (diary.pastMandatory.isNotEmpty()) {
+                    pastMandatoryAdapter.items = diary.pastMandatory
+                    pastMandatory.root.visibility = View.VISIBLE
+                } else pastMandatory.root.visibility = View.GONE
 
+                diaryAdapter.diary = diary.diaryResponse.weekDays
+
+                pastMandatory.pastMandatory.adapter = pastMandatoryAdapter
+                pastMandatory.pastMandatory.layoutManager = LinearLayoutManager(
+                    holder.itemView.context,
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+
+                this.diary.adapter = diaryAdapter
                 this.diary.layoutManager =
                     LinearLayoutManager(
                         holder.itemView.context,
@@ -74,6 +87,7 @@ class JournalPagerAdapter(
                 this.diary.visibility = View.VISIBLE
             } else {
                 this.diary.visibility = View.INVISIBLE
+                pastMandatory.root.visibility = View.INVISIBLE
                 noHomeworkIcon.visibility = View.VISIBLE
                 noHomework.visibility = View.VISIBLE
             }

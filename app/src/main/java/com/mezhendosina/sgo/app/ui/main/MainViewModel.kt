@@ -14,6 +14,7 @@ import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
 import com.mezhendosina.sgo.data.layouts.grades.GradeItem
+import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope
@@ -35,12 +36,18 @@ class MainViewModel(
     private val _todayAttachments = MutableLiveData<List<AttachmentsResponseItem>>()
     val todayAttachments: LiveData<List<AttachmentsResponseItem>> = _todayAttachments
 
+    private val _todayPastMandatory = MutableLiveData<List<PastMandatoryItem>>()
+    val todayPastMandatory: LiveData<List<PastMandatoryItem>> = _todayPastMandatory
+
     private val todayListener: TodayActionListener = {
         _todayHomework.value = it
     }
 
     private val todayAttachmentsListener: TodayAttachmentsListener = {
         _todayAttachments.value = it
+    }
+    private val todayPastMandatoryListener: TodayPastMandatoryListener = {
+        _todayPastMandatory.value = it
     }
 
     private val _announcements = MutableLiveData<List<AnnouncementsResponseItem>>()
@@ -58,8 +65,11 @@ class MainViewModel(
     }
 
     fun loadTodayHomework(context: Context) {
-        todayHomeworkService.addListener(todayListener)
-        todayHomeworkService.addAttachmentsListener(todayAttachmentsListener)
+        todayHomeworkService.addListener(
+            todayListener,
+            todayAttachmentsListener,
+            todayPastMandatoryListener
+        )
 
         if (Singleton.todayHomework.diaryResponse.weekDays.isEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -74,6 +84,7 @@ class MainViewModel(
         } else {
             _todayHomework.value = Singleton.todayHomework.diaryResponse.weekDays[0].lessons
             _todayAttachments.value = Singleton.todayHomework.attachmentsResponse
+            _todayPastMandatory.value = Singleton.todayHomework.pastMandatory
         }
     }
 
@@ -146,8 +157,11 @@ class MainViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        todayHomeworkService.removeListener(todayListener)
-        todayHomeworkService.removeAttachmentsListener(todayAttachmentsListener)
+        todayHomeworkService.removeListener(
+            todayListener,
+            todayAttachmentsListener,
+            todayPastMandatoryListener
+        )
 
         announcementsService.removeListener(announcementsListener)
 

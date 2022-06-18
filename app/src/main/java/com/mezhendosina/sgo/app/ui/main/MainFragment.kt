@@ -42,6 +42,7 @@ class MainFragment : Fragment() {
     ): View {
         binding = MainFragmentBinding.inflate(inflater, container, false)
 
+        val pastMandatoryAdapter = PastMandatoryAdapter()
 
         val todayHomeworkAdapter = HomeworkAdapter(object : OnHomeworkClickListener {
             override fun invoke(p1: Lesson) {
@@ -51,7 +52,7 @@ class MainFragment : Fragment() {
                 )
             }
         })
-        val gradeAdapter = GradeAdapter()
+
         val announcementsAdapter = AnnouncementsAdapter(
             object : OnAnnouncementClickListener {
                 override fun invoke(p1: AnnouncementsResponseItem) {
@@ -66,6 +67,8 @@ class MainFragment : Fragment() {
                 .build()
         )
 
+        val gradeAdapter = GradeAdapter()
+
         viewModel.todayHomework.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 binding.todayHomework.root.visibility = View.VISIBLE
@@ -77,6 +80,14 @@ class MainFragment : Fragment() {
         viewModel.todayAttachments.observe(viewLifecycleOwner) {
             todayHomeworkAdapter.attachments = it
         }
+
+        viewModel.todayPastMandatory.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                pastMandatoryAdapter.items = it
+                binding.pastMandatory.root.visibility = View.VISIBLE
+            } else binding.pastMandatory.root.visibility = View.GONE
+
+        }
         viewModel.announcements.observe(viewLifecycleOwner) {
             announcementsAdapter.announcements = it
         }
@@ -85,16 +96,22 @@ class MainFragment : Fragment() {
             gradeAdapter.grades = it
         }
 
+
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.refreshAll(requireContext(), binding.swipeRefresh)
         }
 
-        binding.announcementsRecyclerView.layoutManager = LinearLayoutManager(inflater.context)
-        binding.announcementsRecyclerView.adapter = announcementsAdapter
+
+        binding.pastMandatory.pastMandatory.layoutManager = LinearLayoutManager(inflater.context)
+        binding.pastMandatory.pastMandatory.adapter = pastMandatoryAdapter
 
         binding.todayHomework.homeworkRecyclerView.layoutManager =
             LinearLayoutManager(inflater.context)
         binding.todayHomework.homeworkRecyclerView.adapter = todayHomeworkAdapter
+
+        binding.announcementsRecyclerView.layoutManager = LinearLayoutManager(inflater.context)
+        binding.announcementsRecyclerView.adapter = announcementsAdapter
+
         return binding.root
     }
 

@@ -32,6 +32,8 @@
     <color name="onBackground">#444444</color>
     <color name="onSurface">#444444</color>
     <color name="onError">#fcfcfc</color>
+    <color name="goodGrade">#058019</color>
+    <color name="threeGrade">#B05E00</color>
 
     <!-- Темная тема-->
     <color name="primaryLightColor">#8ebcf2</color>
@@ -43,4 +45,6 @@
     <color name="onBackgroundDark">#D6D6D6</color>
     <color name="onSurfaceDark">#ffffff</color>
     <color name="onErrorDark">#000000</color>
+    <color name="threeGradeDark">#FFE256</color>
+    <color name="goodGradeDark">#0DDE59</color>
 </resources>

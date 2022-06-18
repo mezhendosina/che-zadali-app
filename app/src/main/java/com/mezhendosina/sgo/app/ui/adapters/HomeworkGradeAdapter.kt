@@ -29,33 +29,30 @@ class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkG
     override fun onBindViewHolder(holder: HomeworkGradeViewHolder, position: Int) {
         val grade = grades[position]
         with(holder.binding) {
+            goodGrade.visibility = View.INVISIBLE
+            threeGrade.visibility = View.INVISIBLE
+            badGrade.visibility = View.INVISIBLE
+            dutyMark.visibility = View.INVISIBLE
             if (grade.dutyMark) {
                 dutyMark.visibility = View.VISIBLE
-
-                goodGrade.visibility = View.INVISIBLE
-                badGrade.visibility = View.INVISIBLE
-            } else if (grade.mark <= 2) {
-                badGrade.visibility = View.VISIBLE
-
-                dutyMark.visibility = View.INVISIBLE
-                goodGrade.visibility = View.INVISIBLE
-
-                badGrade.text = grade.mark.toString()
-            } else if (grade.mark > 2) {
-                goodGrade.visibility = View.VISIBLE
-
-                badGrade.visibility = View.INVISIBLE
-                dutyMark.visibility = View.INVISIBLE
-
-                goodGrade.text = grade.mark.toString()
-            } else {
-                goodGrade.visibility = View.INVISIBLE
-                badGrade.visibility = View.INVISIBLE
-                dutyMark.visibility = View.INVISIBLE
+            } else when (grade.mark) {
+                1, 2 -> {
+                    badGrade.visibility = View.VISIBLE
+                    badGrade.text = grade.mark.toString()
+                }
+                3 -> {
+                    threeGrade.visibility = View.VISIBLE
+                    threeGrade.text = "3"
+                }
+                4, 5 -> {
+                    goodGrade.visibility = View.VISIBLE
+                    goodGrade.text = grade.mark.toString()
+                }
             }
         }
     }
 
     override fun getItemCount(): Int = grades.size
+
 
 }

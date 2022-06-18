@@ -21,9 +21,22 @@
             android:nestedScrollingEnabled="true">
 
             <include
+                android:id="@+id/past_mandatory"
+                layout="@layout/past_mandatory"
+                app:layout_constraintBottom_toTopOf="@id/today_homework"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
                 android:id="@+id/today_homework"
                 layout="@layout/diary_item"
-                android:visibility="gone" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/past_mandatory" />
 
             <TextView
                 android:id="@+id/announcements_title"
