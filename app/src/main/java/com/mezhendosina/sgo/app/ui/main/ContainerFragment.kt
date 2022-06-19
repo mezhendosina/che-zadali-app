@@ -49,6 +49,12 @@ class ContainerFragment : Fragment(R.layout.main_container) {
         val navController = navHost.navController
 
         binding.bottomNavigation.setupWithNavController(navController)
+        NavigationUI.setupWithNavController(
+            binding.toolbar,
+            navController,
+            AppBarConfiguration(setOf(R.id.mainFragment, R.id.journalFragment))
+        )
+
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {

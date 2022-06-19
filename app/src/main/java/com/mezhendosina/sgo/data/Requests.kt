@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.content.FileProvider
 import androidx.lifecycle.MutableLiveData
+import com.bumptech.glide.Glide
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.ui.updateDialog
@@ -22,6 +23,7 @@ import com.mezhendosina.sgo.data.layouts.diary.init.DiaryInit
 import com.mezhendosina.sgo.data.layouts.grades.GradeItem
 import com.mezhendosina.sgo.data.layouts.homeworkTypes.TypesResponseItem
 import com.mezhendosina.sgo.data.layouts.login.LoginResponse
+import com.mezhendosina.sgo.data.layouts.mySettings.MySettings
 import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
 import com.mezhendosina.sgo.data.layouts.preLoginNotice.PreLoginNoticeResponse
 import com.mezhendosina.sgo.data.layouts.schools.SchoolsResponse
@@ -39,10 +41,13 @@ import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
+import io.ktor.utils.io.*
+import io.ktor.utils.io.core.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.*
 import java.io.File
 import java.security.MessageDigest
+import kotlin.text.toByteArray
 
 data class GetData(
     val lt: String,
@@ -64,10 +69,10 @@ class Requests {
 
     private val client = HttpClient(CIO) {
         expectSuccess = true
-        install(Logging) {
-            level = LogLevel.INFO
-            logger = Logger.DEFAULT
-        }
+//        install(Logging) {
+//            level = LogLevel.INFO
+//            logger = Logger.DEFAULT
+//        }
         install(ContentNegotiation) {
             gson()
         }
@@ -91,7 +96,6 @@ class Requests {
                     "sec-ch-ua",
                     "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Microsoft Edge\";v=\"101\""
                 )
-
             }
         }
     }
@@ -248,6 +252,23 @@ class Requests {
             Parameters.build { append("", answer) }
         ) { headers.append("at", at) }
 
+    suspend fun mySettings(at: String): MySettings =
+        client.get("/webapi/mysettings") { headers.append("at", at) }.body()
+
+    suspend fun loadPhoto(at: String, userId: Int, file: File) {
+        client.prepareGet("/webapi/users/photo?at=$at&ver=1655623298878&userId=$userId") {
+            accept(ContentType.Any)
+        }.execute { httpResponse ->
+            val channel: ByteReadChannel = httpResponse.body()
+            while (!channel.isClosedForRead) {
+                val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
+                while (!packet.isEmpty) {
+                    val bytes = packet.readBytes()
+                    file.appendBytes(bytes)
+                }
+            }
+        }
+    }
 
     suspend fun studentTotal(at: String): StudentTotalResponse =
         client.get("/webapi/reports/studenttotal") { header("at", at) }.body()

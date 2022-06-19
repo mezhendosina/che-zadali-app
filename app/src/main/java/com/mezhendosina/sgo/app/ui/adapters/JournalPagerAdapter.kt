@@ -68,8 +68,8 @@ class JournalPagerAdapter(
 
                 diaryAdapter.diary = diary.diaryResponse.weekDays
 
-                pastMandatory.pastMandatory.adapter = pastMandatoryAdapter
-                pastMandatory.pastMandatory.layoutManager = LinearLayoutManager(
+                pastMandatory.pastMandatoryRecyclerView.adapter = pastMandatoryAdapter
+                pastMandatory.pastMandatoryRecyclerView.layoutManager = LinearLayoutManager(
                     holder.itemView.context,
                     LinearLayoutManager.VERTICAL,
                     false

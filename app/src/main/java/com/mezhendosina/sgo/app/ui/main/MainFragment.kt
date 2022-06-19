@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.transition.MaterialFadeThrough
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainFragmentBinding
@@ -28,7 +29,8 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        exitTransition = MaterialFadeThrough()
+        enterTransition = MaterialFadeThrough()
         viewModel.loadTodayHomework(requireContext())
         viewModel.loadAnnouncements(requireContext())
 //            viewModel.loadGrades(requireContext())
@@ -102,8 +104,8 @@ class MainFragment : Fragment() {
         }
 
 
-        binding.pastMandatory.pastMandatory.layoutManager = LinearLayoutManager(inflater.context)
-        binding.pastMandatory.pastMandatory.adapter = pastMandatoryAdapter
+        binding.pastMandatory.pastMandatoryRecyclerView.layoutManager = LinearLayoutManager(inflater.context)
+        binding.pastMandatory.pastMandatoryRecyclerView.adapter = pastMandatoryAdapter
 
         binding.todayHomework.homeworkRecyclerView.layoutManager =
             LinearLayoutManager(inflater.context)

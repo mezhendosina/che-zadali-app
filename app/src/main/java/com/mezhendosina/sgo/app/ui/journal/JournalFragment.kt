@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.MaterialFadeThrough
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.JournalFragmentBinding
 import com.mezhendosina.sgo.app.findTopNavController
@@ -21,6 +22,8 @@ class JournalFragment : Fragment(R.layout.journal_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
         viewModel.loadDiary(requireContext())
     }
 

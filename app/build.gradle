@@ -94,4 +94,9 @@ dependencies {
     implementation "io.noties.markwon:html:$markwon_version"
     implementation "io.noties.markwon:recycler:$markwon_version"
 
+    //glide
+    implementation ("com.github.bumptech.glide:glide:4.13.0") {
+        exclude group: "com.android.support"
+    }
+
 }

@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
@@ -15,6 +18,8 @@ import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.databinding.SettingsFragmentBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.login.LoginFragment
+import com.mezhendosina.sgo.data.DateManipulation
+import com.mezhendosina.sgo.data.Settings
 import io.ktor.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,8 +35,7 @@ class SettingsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-
-        viewModel.getCurrentTheme(requireContext())
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     override fun onCreateView(
@@ -39,10 +43,24 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = SettingsFragmentBinding.inflate(inflater, container, false)
+        println(AppCompatDelegate.getDefaultNightMode())
+        when (AppCompatDelegate.getDefaultNightMode()) {
+            1 -> binding.lightTheme.isChecked = true
+            2 -> binding.darkTheme.isChecked = true
+            -1 ->{ binding.sameAsSystem.isChecked = true}
+        }
+        viewModel.loadProfilePhoto(requireContext(), binding.userPhoto)
 
 //        viewModel.currentTheme.observe(viewLifecycleOwner) {
 //            binding.changeThemeRadioGroup.check(it)
 //        }
+        viewModel.mySettings.observe(viewLifecycleOwner) {
+            binding.userName.text = "${it.lastName} ${it.firstName} ${it.middleName}"
+            binding.userLogin.text = it.loginName
+            binding.birthday.editText?.setText(DateManipulation(it.birthDate).dateFormatter())
+            binding.phoneNumber.editText?.setText(it.mobilePhone)
+            binding.email.editText?.setText(it.email)
+        }
 
         binding.logoutButton.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
@@ -51,43 +69,24 @@ class SettingsFragment : Fragment() {
                     val intent = Intent(requireContext(), LoginActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
-
                 }
 
             }
         }
-
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
         binding.cacheSize.text =
-            "Объем кэша: ${(viewModel.calculateCache(requireContext()) / 8).toDouble()}"
+            "Объем кэша: ${(viewModel.calculateCache(requireContext())).toDouble()}"
         binding.clearCacheCard.setOnClickListener {
 
         }
-//        binding.changeThemeRadioGroup.setOnCheckedChangeListener { group, checkedId ->
-//            CoroutineScope(Dispatchers.IO).launch {
-//                Settings(inflater.context).setTheme(checkedId)
-//            }
-//        }
-//        viewModel.currentTheme.observe(viewLifecycleOwner) {
-//            binding.currentTheme.text = when (it) {
-//                0 -> "Светлая"
-//                1 -> "Темная"
-//                2 -> "Как в системе"
-//                else -> ""
-//            }
-//        }
 
-//        binding.selectThemeCard.setOnClickListener {
-//            changeThemeAlertDialog(
-//                requireContext(),
-//                arrayOf("Светлая", "Темная", "Как в системе"),
-//                viewModel.currentTheme.value ?: 2
-//            ) {
-//                viewModel.changeTheme(requireContext(), it)
-//            }
-//        }
+
+
+        binding.changeThemeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            viewModel.changeTheme(checkedId)
+        }
 
         return binding.root
     }

@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@id/past_mandatory_header">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/past_mandatory"
+            android:id="@+id/past_mandatory_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
