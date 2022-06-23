@@ -7,7 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUiSaveStateControl
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.MainContainerBinding
@@ -22,7 +25,6 @@ import java.io.File
 class ContainerFragment : Fragment(R.layout.main_container) {
 
     private lateinit var binding: MainContainerBinding
-    private lateinit var navController: NavController
 
     private val file: File = File.createTempFile("app", "apk")
     private val downloadState = MutableLiveData(0)
@@ -45,13 +47,18 @@ class ContainerFragment : Fragment(R.layout.main_container) {
         val navHost = childFragmentManager.findFragmentById(R.id.tabs_container) as NavHostFragment
         val navController = navHost.navController
 
-        NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
-        NavigationUI.setupWithNavController(binding.toolbar, navController)
+        binding.bottomNavigation.setupWithNavController(navController)
+        NavigationUI.setupWithNavController(
+            binding.toolbar,
+            navController,
+            AppBarConfiguration(setOf(R.id.mainFragment, R.id.journalFragment))
+        )
+
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.settings -> {
-                    findTopNavController().navigate(R.id.action_containerFragment_to_settingsFragment)
+                    findTopNavController().navigate(R.id.action_containerFragment_to_settingsContainer)
                     true
                 }
                 else -> false

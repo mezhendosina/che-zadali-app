@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val PAGE_SIZE = 1
-private const val PLACEHOLDERS = true
+const val PLACEHOLDERS = true
 
 class JournalPagingSource(
     private val studentId: Int
@@ -29,7 +29,6 @@ class JournalPagingSource(
                 weekStartByTime(page),
                 Singleton.currentYearId
             )
-            println(page)
             val nextKey = page + 7 * 24 * 60 * 60 * 1000
             val prevKey = if (page == 0.toLong()) null else page - 7 * 24 * 60 * 60 * 1000
             LoadResult.Page(listOf(response), prevKey, nextKey)
@@ -45,35 +44,25 @@ class JournalPagingSource(
         return page.prevKey?.plus(7 * 24 * 60 * 60 * 1000)
             ?: page.nextKey?.minus(7 * 24 * 60 * 60 * 1000)
     }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun currentTime(): Long {
-        val s = SimpleDateFormat("w.yyyy").format(Date().time)
-        return SimpleDateFormat("w.yyyy").parse(s)!!.time
-
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun weekStartByTime(time: Long): String {
-        val s = SimpleDateFormat("w.yyyy").format(time)
-        val a = SimpleDateFormat("w.yyyy").parse(s)
-        return SimpleDateFormat("yyyy-MM-dd").format(a!!)
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun weekEndByTime(time: Long): String {
-        val s = SimpleDateFormat("w.yyyy").format(time)
-        val a = SimpleDateFormat("w.yyyy").parse(s)!!.time + 6 * 24 * 60 * 60 * 1000
-        return SimpleDateFormat("yyyy-MM-dd").format(a)
-    }
 }
 
-fun getPagedDiary(studentId: Int): Flow<PagingData<Diary>> =
-    Pager(
-        config = PagingConfig(
-            pageSize = PAGE_SIZE,
-            enablePlaceholders = PLACEHOLDERS,
-            initialLoadSize = PAGE_SIZE
-        ),
-        pagingSourceFactory = { JournalPagingSource(studentId) }
-    ).flow
+@SuppressLint("SimpleDateFormat")
+fun currentTime(): Long {
+    val s = SimpleDateFormat("w.yyyy").format(Date().time)
+    return SimpleDateFormat("w.yyyy").parse(s)!!.time
+
+}
+
+@SuppressLint("SimpleDateFormat")
+fun weekStartByTime(time: Long): String {
+    val s = SimpleDateFormat("w.yyyy").format(time)
+    val a = SimpleDateFormat("w.yyyy").parse(s)
+    return SimpleDateFormat("yyyy-MM-dd").format(a!!)
+}
+
+@SuppressLint("SimpleDateFormat")
+private fun weekEndByTime(time: Long): String {
+    val s = SimpleDateFormat("w.yyyy").format(time)
+    val a = SimpleDateFormat("w.yyyy").parse(s)!!.time + 6 * 24 * 60 * 60 * 1000
+    return SimpleDateFormat("yyyy-MM-dd").format(a)
+}

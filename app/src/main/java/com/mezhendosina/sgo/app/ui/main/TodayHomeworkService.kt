@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
+import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -11,7 +12,7 @@ import java.util.*
 
 typealias TodayActionListener = (a: List<Lesson>) -> Unit
 typealias TodayAttachmentsListener = (a: List<AttachmentsResponseItem>) -> Unit
-
+typealias TodayPastMandatoryListener = (a: List<PastMandatoryItem>) -> Unit
 
 @SuppressLint("SimpleDateFormat")
 fun todayDate(): String {
@@ -29,9 +30,12 @@ fun todayDate(): String {
 class TodayHomeworkService {
 
     private var todayHomework = mutableListOf<Lesson>()
-    private val listeners = mutableSetOf<TodayActionListener>()
     private var todayAttachments = mutableListOf<AttachmentsResponseItem>()
+    private var todayPastMandatory = mutableListOf<PastMandatoryItem>()
+
+    private val listeners = mutableSetOf<TodayActionListener>()
     private val attachmentsListeners = mutableSetOf<TodayAttachmentsListener>()
+    private val pastMandatoryListeners = mutableSetOf<TodayPastMandatoryListener>()
 
     suspend fun todayHomework() {
         val date = todayDate()
@@ -52,34 +56,44 @@ class TodayHomeworkService {
         if (diary.diaryResponse.weekDays.isNotEmpty()) {
             todayHomework = diary.diaryResponse.weekDays[0].lessons.toMutableList()
             Singleton.todayHomework = diary
-            if (diary.attachmentsResponse.isNotEmpty()) {
-                todayAttachments = diary.attachmentsResponse.toMutableList()
-            }
+
+            if (diary.attachmentsResponse.isNotEmpty()) todayAttachments =
+                diary.attachmentsResponse.toMutableList()
+
+            if (diary.pastMandatory.isNotEmpty()) todayPastMandatory =
+                diary.pastMandatory.toMutableList()
+
             withContext(Dispatchers.Main) {
                 notifyListeners()
             }
         }
     }
 
-    fun addListener(listener: TodayActionListener) {
-        listeners.add(listener)
+    fun addListener(
+        homeworkListener: TodayActionListener,
+        attachmentListener: TodayAttachmentsListener,
+        pastMandatoryListener: TodayPastMandatoryListener
+    ) {
+        listeners.add(homeworkListener)
+        attachmentsListeners.add(attachmentListener)
+        pastMandatoryListeners.add(pastMandatoryListener)
     }
 
-    fun removeListener(listener: TodayActionListener) {
-        listeners.remove(listener)
+    fun removeListener(
+        homeworkListener: TodayActionListener,
+        attachmentListener: TodayAttachmentsListener,
+        pastMandatoryListener: TodayPastMandatoryListener
+    ) {
+        listeners.remove(homeworkListener)
+        attachmentsListeners.remove(attachmentListener)
+        pastMandatoryListeners.remove(pastMandatoryListener)
 
     }
 
-    fun addAttachmentsListener(listener: TodayAttachmentsListener) {
-        attachmentsListeners.add(listener)
-    }
-
-    fun removeAttachmentsListener(listener: TodayAttachmentsListener) {
-        attachmentsListeners.remove(listener)
-    }
 
     private fun notifyListeners() {
         listeners.forEach { it.invoke(todayHomework) }
         attachmentsListeners.forEach { it.invoke(todayAttachments) }
+        pastMandatoryListeners.forEach { it.invoke(todayPastMandatory) }
     }
 }

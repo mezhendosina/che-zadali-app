@@ -5,8 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="2dp"
-    android:background="@color/transperent"
-    >
+    android:background="@color/transperent">
 
     <TextView
         android:id="@+id/good_grade"
@@ -16,6 +15,21 @@
         android:background="@color/transperent"
         android:elegantTextHeight="true"
         android:fontFamily="@font/lobster"
+        android:textColor="@color/goodGrade"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="4" />
+
+    <TextView
+        android:id="@+id/three_grade"
+        style="@style/lesson_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transperent"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/lobster"
+        android:textColor="@color/threeGrade"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

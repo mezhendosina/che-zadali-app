@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.activities.LoginActivity
 import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.databinding.LoginFragmentBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
@@ -67,8 +68,9 @@ class LoginViewModel : ViewModel() {
                 settings.saveALl(settingsLoginData)
 
                 withContext(Dispatchers.Main) {
-                    startActivity(context, Intent(context, MainActivity::class.java), null)
-                    activity.finish()
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(context, intent, null)
                 }
 
             } catch (e: ResponseException) {

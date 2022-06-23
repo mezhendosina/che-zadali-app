@@ -5,12 +5,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.FileProvider
+import androidx.core.text.htmlEncode
+import androidx.core.text.parseAsHtml
+import androidx.core.text.toHtml
 import androidx.lifecycle.MutableLiveData
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.ui.updateDialog
 import com.mezhendosina.sgo.data.layouts.AssignsId
 import com.mezhendosina.sgo.data.layouts.NegotiateResponse
+import com.mezhendosina.sgo.data.layouts.StartQueueResponse
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponse
 import com.mezhendosina.sgo.data.layouts.assignRequest.AssignResponse
 import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
@@ -21,10 +25,14 @@ import com.mezhendosina.sgo.data.layouts.diary.init.DiaryInit
 import com.mezhendosina.sgo.data.layouts.grades.GradeItem
 import com.mezhendosina.sgo.data.layouts.homeworkTypes.TypesResponseItem
 import com.mezhendosina.sgo.data.layouts.login.LoginResponse
+import com.mezhendosina.sgo.data.layouts.mySettingsRequest.MySettingsRequest
+import com.mezhendosina.sgo.data.layouts.mySettingsResponse.MySettingsResponse
+import com.mezhendosina.sgo.data.layouts.password.Password
 import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
 import com.mezhendosina.sgo.data.layouts.preLoginNotice.PreLoginNoticeResponse
 import com.mezhendosina.sgo.data.layouts.schools.SchoolsResponse
 import com.mezhendosina.sgo.data.layouts.studentTotal.StudentTotalResponse
+import com.mezhendosina.sgo.data.layouts.webSocketResponse.WebSocketResponse
 import com.mezhendosina.sgo.data.layouts.yearList.YearListResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -38,10 +46,13 @@ import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
+import io.ktor.utils.io.*
+import io.ktor.utils.io.core.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.*
 import java.io.File
 import java.security.MessageDigest
+import kotlin.text.toByteArray
 
 data class GetData(
     val lt: String,
@@ -61,17 +72,21 @@ fun ByteArray.toHex(): String {
 
 class Requests {
 
-    private val client = HttpClient(CIO) {
+    val client = HttpClient(CIO) {
         expectSuccess = true
-//        install(Logging) {
-//            level = LogLevel.HEADERS
-//            logger = Logger.DEFAULT
-//        }
+        engine {
+            maxConnectionsCount = 2
+        }
+        install(Logging) {
+            level = LogLevel.INFO
+            logger = Logger.DEFAULT
+        }
         install(ContentNegotiation) {
             gson()
         }
-        install(WebSockets)
+        install(WebSockets) { contentConverter = GsonWebsocketContentConverter() }
         install(HttpCookies)
+
         defaultRequest {
             url("https://sgo.edu-74.ru")
             headers {
@@ -90,7 +105,6 @@ class Requests {
                     "sec-ch-ua",
                     "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Microsoft Edge\";v=\"101\""
                 )
-
             }
         }
     }
@@ -106,7 +120,7 @@ class Requests {
      * Получить соль, версию и lt
      */
     private suspend fun getData(): GetData =
-       client.post("/webapi/auth/getdata").body()
+        client.post("/webapi/auth/getdata").body()
 
 
     /**
@@ -146,8 +160,8 @@ class Requests {
     }
 
     suspend fun diaryInit(at: String): DiaryInit = client.get("/webapi/student/diary/init") {
-            headers.append("at", at)
-        }.body()
+        headers.append("at", at)
+    }.body()
 
 
     suspend fun diary(
@@ -184,21 +198,20 @@ class Requests {
                 contentType(ContentType.Application.Json)
                 setBody(AssignsId(assignsId))
             }.body<List<AttachmentsResponseItem>>()
-        println(diary.await().weekDays)
-        println(diary.await().weekDays.size)
         return Diary(diary.await(), attachments, pastMandatory.await())
     }
-
 
 
     suspend fun preLoginNotice(): PreLoginNoticeResponse =
         client.get("/webapi/settings/preloginnotice").body()
 
 
-    suspend fun announcements(at: String): AnnouncementsResponse =
-        client.get("/webapi/announcements") {
+    suspend fun announcements(at: String): AnnouncementsResponse {
+        val a = client.get("/webapi/announcements") {
             headers.append("at", at)
-        }.body()
+        }.body<AnnouncementsResponse>()
+        return a
+    }
 
 
     suspend fun yearList(at: String): YearListResponse =
@@ -248,6 +261,37 @@ class Requests {
             Parameters.build { append("", answer) }
         ) { headers.append("at", at) }
 
+    suspend fun getMySettings(at: String): MySettingsResponse =
+        client.get("/webapi/mysettings") { headers.append("at", at) }.body()
+
+    suspend fun sendMySettings(at: String, mySettingsRequest: MySettingsRequest) =
+        client.post("/webapi/mysettings/") {
+            headers.append("at", at)
+            contentType(ContentType.Application.Json)
+            setBody(mySettingsRequest)
+        }
+
+    suspend fun loadPhoto(at: String, userId: Int, file: File) {
+        client.prepareGet("/webapi/users/photo?at=$at&ver=1655623298878&userId=$userId") {
+            accept(ContentType.Any)
+        }.execute { httpResponse ->
+            val channel: ByteReadChannel = httpResponse.body()
+            while (!channel.isClosedForRead) {
+                val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
+                while (!packet.isEmpty) {
+                    val bytes = packet.readBytes()
+                    file.appendBytes(bytes)
+                }
+            }
+        }
+    }
+
+    suspend fun changePassword(oldPasswordMD5: String, newPasswordMD5: String, userId: Int) =
+        client.post("/webapi/users/$userId/password") {
+            headers.append("at", Singleton.at)
+            contentType(ContentType.Application.Json)
+            setBody(Password(oldPasswordMD5, newPasswordMD5))
+        }
 
     suspend fun studentTotal(at: String): StudentTotalResponse =
         client.get("/webapi/reports/studenttotal") { header("at", at) }.body()
@@ -257,16 +301,10 @@ class Requests {
             .body()
 
     suspend fun gradesWebSocket(at: String, negotiateResponse: NegotiateResponse) {
-        client.webSocket("/WebApi/signalr/connect?transport=webSockets&clientProtocol=1.5&at=$at&connectionToken=${negotiateResponse.connectionToken}&connectionData=%5B%7B%22name%22%3A%22queuehub%22%7D%5D7&tid=7") {
-            client.get("/WebApi/signalr/start?transport=webSockets&clientProtocol=1.5&at=$at&connectionToken=${negotiateResponse.connectionToken}&connectionData=%5B%7B%22name%22%3A%22queuehub%22%7D%5D7")
-            client.get("/webapi/reports/studenttotal/queue") {
-                contentType(ContentType.Application.Json)
-                setBody("{\"selectedData\":[{\"filterId\":\"SID\",\"filterValue\":\"472262\",\"filterText\":\"Меньшенин Евгений\"},{\"filterId\":\"PCLID\",\"filterValue\":\"1248066\",\"filterText\":\"10Б\"},{\"filterId\":\"period\",\"filterValue\":\"2022-03-01T00:00:00.000Z - 2022-05-31T00:00:00.000Z\",\"filterText\":\"01.03.2022 - 31.05.2022\"}],\"params\":[{\"name\":\"SCHOOLYEARID\",\"value\":\"631571\"},{\"name\":\"SERVERTIMEZONE\",\"value\":5},{\"name\":\"FULLSCHOOLNAME\",\"value\":\"Муниципальное бюджетное общеобразовательное учреждение \\\"Средняя общеобразовательная школа №68 г. Челябинска имени Родионова Е.Н.\\\"\"},{\"name\":\"DATEFORMAT\",\"value\":\"dd\\u0001mm\\u0001yy\\u0001.\"}]}")
-            }
-            this.send("""{"H":"queuehub","M":"StartTask","A":[],"I":0}""")
-        }
+
     }
 }
+
 
 suspend fun checkUpdates(context: Context, file: File, downloadProgress: MutableLiveData<Int>) {
     val client = HttpClient(CIO) {

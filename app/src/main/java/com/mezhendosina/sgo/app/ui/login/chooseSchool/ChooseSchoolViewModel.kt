@@ -31,7 +31,6 @@ class ChooseSchoolViewModel(private val schoolService: ChooseSchoolService) : Vi
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 schoolService.loadSchools()
-                println(_schools.value)
             } catch (e: ResponseException) {
                 withContext(Dispatchers.Main) {
                     errorDialog(context, e.message ?: "")

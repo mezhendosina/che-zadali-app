@@ -11,21 +11,6 @@
         android:label="lesson_item"
         tools:layout="@layout/lesson_item" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.mezhendosina.sgo.app.ui.settings.SettingsFragment"
-        android:label="settings_fragment"
-        tools:layout="@layout/settings_fragment" >
-        <action
-            android:id="@+id/action_settingsFragment_to_loginActivity"
-            app:destination="@id/loginActivity"
-            app:popUpToInclusive="false" />
-    </fragment>
-    <activity
-        android:id="@+id/loginActivity"
-        android:name="com.mezhendosina.sgo.app.activities.LoginActivity"
-        android:label="login_activity"
-        tools:layout="@layout/login_activity" />
-    <fragment
         android:id="@+id/containerFragment"
         android:name="com.mezhendosina.sgo.app.ui.main.ContainerFragment"
         android:label="main_container"
@@ -34,7 +19,20 @@
             android:id="@+id/action_containerFragment_to_lessonFragment"
             app:destination="@id/lessonFragment" />
         <action
-            android:id="@+id/action_containerFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            android:id="@+id/action_containerFragment_to_announcementsFragment"
+            app:destination="@id/announcementsFragment" />
+        <action
+            android:id="@+id/action_containerFragment_to_settingsContainer"
+            app:destination="@id/settingsContainer" />
     </fragment>
+    <fragment
+        android:id="@+id/announcementsFragment"
+        android:name="com.mezhendosina.sgo.app.ui.main.AnnouncementsFragment"
+        android:label="announcements_fragment"
+        tools:layout="@layout/announcements_fragment" />
+    <fragment
+        android:id="@+id/settingsContainer"
+        android:name="com.mezhendosina.sgo.app.ui.settings.SettingsContainer"
+        android:label="container_settings"
+        tools:layout="@layout/container_settings" />
 </navigation>

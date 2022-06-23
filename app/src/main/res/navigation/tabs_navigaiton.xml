@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/journalFragment"
         android:name="com.mezhendosina.sgo.app.ui.journal.JournalFragment"
-        android:label="journal_fragment"
+        android:label="@string/journal"
         tools:layout="@layout/journal_fragment" />
     <fragment
         android:id="@+id/mainFragment"

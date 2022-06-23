@@ -7,7 +7,7 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 class DateManipulation(val date: String) {
     private val locale = Locale("ru", "RU")
-    private val a = SimpleDateFormat("yyyy-MM-dd'T'00:00:00")
+    private val a = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
 
     fun dateToRussian(uppercase: Boolean): String {
         val a = a.parse(date)

@@ -1,155 +1,317 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:context=".ui.settings.SettingsFragment"
+    android:transitionGroup="true"
+    android:background="?attr/backgroundColor"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbarlayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/colorBackground"
-        android:fitsSystemWindows="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:context=".ui.settings.SettingsFragment">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingtoolbarlayout"
-            style="@style/expandedToolBarText"
-            android:layout_width="match_parent"
-            android:layout_height="128dp"
-            android:nestedScrollingEnabled="true"
-            app:expandedTitleMarginStart="16dp"
-            app:expandedTitleTextAppearance="@style/expandedToolBarText"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="0dp"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:navigationIconTint="?attr/colorOnBackground"
-                app:title="@string/settings" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!--    <com.google.android.material.divider.MaterialDivider-->
-    <!--        android:id="@+id/appbar_layout_divider"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginVertical="4dp"-->
-    <!--        app:dividerThickness="8dp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/appbarlayout" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/change_theme_header"-->
-    <!--        style="@style/captions"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginHorizontal="16dp"-->
-    <!--        android:layout_marginTop="4dp"-->
-    <!--        android:text="@string/select_theme"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/appbar_layout_divider" />-->
-
-    <!--    <RadioGroup-->
-    <!--        android:id="@+id/change_theme_radio_group"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="4dp"-->
-    <!--        android:paddingHorizontal="16dp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/change_theme_header">-->
-
-    <!--        <RadioButton-->
-    <!--            android:id="@+id/light_theme"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="@string/light_theme" />-->
-
-    <!--        <RadioButton-->
-    <!--            android:id="@+id/dark_theme"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="@string/dark_theme" />-->
-
-    <!--        <RadioButton-->
-    <!--            android:id="@+id/same_as_system"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="@string/same_as_system"-->
-    <!--            android:textColorHighlight="?attr/colorPrimary" />-->
-    <!--    </RadioGroup>-->
-
-    <!--    <com.google.android.material.divider.MaterialDivider-->
-    <!--        android:id="@+id/change_theme_divider"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginVertical="4dp"-->
-    <!--        app:dividerThickness="8dp"-->
-    <!--        app:layout_constraintBottom_toTopOf="@id/logout_button"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/change_theme_radio_group" />-->
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/clear_cache_card"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"
-        app:cardBackgroundColor="?attr/backgroundColor"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbarlayout">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profile_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            app:cardBackgroundColor="?attr/backgroundColor"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/clear_cache"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/onCard"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/clear_cache"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/transperent"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp">
 
-            <TextView
-                android:id="@+id/cache_size"
-                style="@style/captions"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:contentDescription="@string/profile_photo"
+                    android:id="@+id/user_photo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/profile_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    style="@style/mainScreenHeaders"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/user_photo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Меньшенин Евгений Андреевич" />
+
+                <TextView
+                    android:id="@+id/user_login"
+                    style="@style/captions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toEndOf="@id/user_photo"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    tools:text="МеньшенинЕ1" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:id="@+id/change_photo_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/backgroundColor"
+            android:gravity="start|center_vertical"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:text="@string/change_profile_photo"
+            android:textAppearance="@style/mainText"
+            android:textStyle="bold"
+            app:cornerRadius="0dp"
+            app:icon="@drawable/ic_add_photo"
+            app:iconPadding="32dp"
+            app:layout_constraintTop_toBottomOf="@id/profile_card"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/change_photo_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_photo_button" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/birthday"
+            style="@style/settingsTextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/birthday"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_photo_divider">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clear_cache"
-                tools:text="Объем кэша: 123мб" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                android:background="@color/transperent"
+                android:enabled="false" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/logout_button"
-        style="@style/ButtonIconOnly"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/logout"
-        android:textColor="?attr/colorError"
-        app:icon="@drawable/ic_logout"
-        app:iconTint="?attr/colorError"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clear_cache_card" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phone_number"
+            style="@style/settingsTextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/phone_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/birthday">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transperent"
+                android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_number_visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phone_number" />
+
+        <TextView
+            style="@style/mainText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/show_phone_number"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/switch_number_visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/switch_number_visible"
+            app:layout_constraintTop_toTopOf="@id/switch_number_visible" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email"
+            style="@style/settingsTextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transperent"
+            android:hint="@string/email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/switch_number_visible">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transperent"
+                android:inputType="textEmailSubject" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/change_password"
+            style="@style/settingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="16dp"
+            android:text="@string/change_password"
+            app:icon="@drawable/ic_navigate_next"
+            app:layout_constraintTop_toBottomOf="@id/email" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_password" />
+
+        <Button
+            android:id="@+id/change_control_question"
+            style="@style/settingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="16dp"
+            android:text="@string/change_control_question"
+            app:icon="@drawable/ic_navigate_next"
+            app:layout_constraintTop_toBottomOf="@id/change_password" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_control_question" />
+
+        <TextView
+            android:id="@+id/change_theme_header"
+            style="@style/captions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/select_theme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_control_question" />
+
+        <RadioGroup
+            android:id="@+id/change_theme_radio_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_theme_header">
+
+            <RadioButton
+                android:id="@+id/light_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/light_theme" />
+
+            <RadioButton
+                android:id="@+id/dark_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dark_theme" />
+
+            <RadioButton
+                android:id="@+id/same_as_system"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/same_as_system"
+                android:textColorHighlight="?attr/colorPrimary" />
+        </RadioGroup>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/change_theme_divider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            app:layout_constraintBottom_toTopOf="@id/logout_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_theme_radio_group" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clear_cache_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:cardBackgroundColor="?attr/backgroundColor"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp">
+
+                <TextView
+                    android:id="@+id/clear_cache"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clear_cache"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/cache_size"
+                    style="@style/captions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clear_cache"
+                    tools:text="Объем кэша: 123мб" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:id="@+id/logout_button"
+            style="@style/ButtonIconOnly"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="16dp"
+            android:text="@string/logout"
+            android:textColor="?attr/colorError"
+            app:icon="@drawable/ic_logout"
+            app:iconTint="?attr/colorError"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_theme_radio_group" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

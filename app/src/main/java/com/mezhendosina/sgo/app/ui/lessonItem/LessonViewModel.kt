@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.map
 import com.google.android.material.snackbar.Snackbar
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.LessonItemBinding
@@ -13,6 +14,7 @@ import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.layouts.assignRequest.AssignResponse
 import com.mezhendosina.sgo.data.layouts.attachments.Attachment
+import com.mezhendosina.sgo.data.layouts.diary.Diary
 import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
 import com.mezhendosina.sgo.data.layouts.grades.WhyGradeItem
 import com.mezhendosina.sgo.data.layouts.homeworkTypes.TypesResponseItem
@@ -21,6 +23,8 @@ import io.ktor.client.plugins.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -44,31 +48,33 @@ class LessonViewModel(private val lessonService: LessonService) : ViewModel() {
 
     fun findLesson(lessonId: Int, from: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val singleton = if (from == "journal") {
-                Singleton.diary
+            if (from == "journal") {
+                mapLesson(Singleton.diary, lessonId)
             } else {
-                Singleton.todayHomework
+                mapLesson(Singleton.todayHomework, lessonId)
             }
+        }
+    }
 
-            for (day in singleton.diaryResponse.weekDays) {
-                for (lesson in day.lessons) {
-                    if (lesson.classmeetingId == lessonId) {
-                        val attachments = mutableListOf<Attachment>()
-                        if (lesson.assignments != null) {
-                            for (attachment in singleton.attachmentsResponse) {
-                                for (assignment in lesson.assignments) {
-                                    if (assignment.id == attachment.assignmentId) {
-                                        for (i in attachment.attachments) {
-                                            attachments.add(i)
-                                        }
+    private suspend fun mapLesson(diary: Diary, lessonId: Int) {
+        for (day in diary.diaryResponse.weekDays) {
+            for (lesson in day.lessons) {
+                if (lesson.classmeetingId == lessonId) {
+                    val attachments = mutableListOf<Attachment>()
+                    if (lesson.assignments != null) {
+                        for (attachment in diary.attachmentsResponse) {
+                            for (assignment in lesson.assignments) {
+                                if (assignment.id == attachment.assignmentId) {
+                                    for (i in attachment.attachments) {
+                                        attachments.add(i)
                                     }
                                 }
                             }
                         }
-                        withContext(Dispatchers.Main) {
-                            _attachments.value = attachments
-                            _lesson.value = lesson
-                        }
+                    }
+                    withContext(Dispatchers.Main) {
+                        _attachments.value = attachments
+                        _lesson.value = lesson
                     }
                 }
             }
@@ -121,11 +127,11 @@ class LessonViewModel(private val lessonService: LessonService) : ViewModel() {
                     assignment?.id!!,
                     answer
                 )
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     Snackbar.make(binding.root, "Ответ прикреплен", Snackbar.LENGTH_LONG).show()
                 }
             } catch (e: ResponseException) {
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     errorDialog(context, e.response.body())
                 }
             }
@@ -146,7 +152,7 @@ class LessonViewModel(private val lessonService: LessonService) : ViewModel() {
                         _homework.value = response
                     }
                 } catch (e: ResponseException) {
-                    withContext(Dispatchers.Main){
+                    withContext(Dispatchers.Main) {
                         errorDialog(context, e.response.body())
                     }
                 }
@@ -170,7 +176,7 @@ class LessonViewModel(private val lessonService: LessonService) : ViewModel() {
                 _grades.value = gradesList
             }
         } catch (e: ResponseException) {
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 errorDialog(context, e.response.body())
             }
         }

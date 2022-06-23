@@ -6,13 +6,11 @@ buildscript {
     ext.logback_version = "1.2.11"
     ext.gson_version = "2.9.0"
     ext.nav_version = "2.4.2"
-
+    ext.markwon_version = "4.6.2"
     repositories {
         google()
     }
-    dependencies {
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
-    }
+
 }
 plugins {
     id 'com.android.application' version '7.2.1' apply false

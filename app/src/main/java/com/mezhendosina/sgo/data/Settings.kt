@@ -1,10 +1,12 @@
 package com.mezhendosina.sgo.data
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.mezhendosina.sgo.app.R
+import com.mezhendosina.sgo.data.layouts.password.Password
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -49,7 +51,7 @@ class Settings(val context: Context) {
         it[LOGGED_IN] ?: false
     }
     val theme = context.dataStore.data.map {
-//        it[THEME] ?: R.id.same_as_system
+        it[THEME] ?: AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
 
 
@@ -106,5 +108,9 @@ class Settings(val context: Context) {
                 it[PASSWORD] ?: ""
             )
         }
+    }
+
+    suspend fun changePassword(newPassword: String) = context.dataStore.edit { prefs ->
+        prefs[PASSWORD] = newPassword
     }
 }

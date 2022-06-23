@@ -9,6 +9,7 @@
     android:isScrollContainer="false"
     android:paddingTop="8dp">
 
+
     <TextView
         android:id="@+id/day"
         style="@style/mainScreenHeaders"

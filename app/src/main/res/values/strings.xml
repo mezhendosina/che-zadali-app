@@ -2,7 +2,7 @@
     <string name="app_name">SGO app</string>
     <string name="main">Главная</string>
     <string name="journal">Дневник</string>
-    <string name="announcements">Обявления</string>
+    <string name="announcements">Объявления</string>
     <string name="grades">Оценки</string>
     <string name="login">Логин</string>
     <string name="login_title">Вход</string>
@@ -31,4 +31,23 @@
     <string name="teacher_comment">Подробности от учителя</string>
     <string name="past_mandatory_header">Есть просроченные задания</string>
     <string name="choose_school">Выберите школу</string>
+    <string name="author">Автор</string>
+    <string name="change_profile_photo">Изменить фото профиля</string>
+    <string name="birthday">Дата рождения</string>
+    <string name="phone_number">Мобильный телефон</string>
+    <string name="email">E-mail</string>
+    <string name="show_phone_number">Показывать номер телефона сотрудникам ОО</string>
+    <string name="change_password">Сменить пароль</string>
+    <string name="change_control_question">Изменить контрольный вопрос</string>
+    <string name="current_password">Текущий пароль</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="confirm_new_password">Подтвердите новый пароль</string>
+    <string name="save">Сохранить</string>
+    <string name="selected_question">Выбранный вопрос</string>
+    <string name="answer">Ответ на вопрос</string>
+    <string name="control_question">Контрольный вопрос</string>
+    <string name="show_all">Показать все</string>
+    <string name="profile_photo">Фото профиля</string>
+    <string name="author_profile_photo">Фото профиля автора</string>
+    <string name="attach_file">Прикрепить файл</string>
 </resources>

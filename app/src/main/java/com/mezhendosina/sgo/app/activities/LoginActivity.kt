@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -17,11 +18,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.LoginActivityBinding
 import com.mezhendosina.sgo.data.Settings
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity() {
@@ -30,8 +28,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         val settings = Settings(this)
+        runBlocking {
+            AppCompatDelegate.setDefaultNightMode(settings.theme.first())
+        }
+        super.onCreate(savedInstanceState)
 
         CoroutineScope(Dispatchers.IO).launch {
             if (settings.loggedIn.first()) {

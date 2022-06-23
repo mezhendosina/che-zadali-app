@@ -67,7 +67,8 @@ class LessonFragment : Fragment() {
                         }
                     }
                 }
-            })
+            }
+        )
 
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()

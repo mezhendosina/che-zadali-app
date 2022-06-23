@@ -7,11 +7,6 @@
     android:isScrollContainer="true"
     tools:context=".ui.journal.JournalFragment">
 
-    <include
-        android:id="@+id/week_selector_layout"
-        layout="@layout/week_selector"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/journal_pager"
@@ -19,5 +14,6 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/week_selector_layout" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

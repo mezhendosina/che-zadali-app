@@ -4,30 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="16dp">
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="16dp">
 
-    <ImageButton
-        android:id="@+id/prev_week_button"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@color/transperent"
-        android:padding="16dp"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorOnBackground" />
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/prev_week_button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@color/transperent"-->
+    <!--        android:padding="16dp"-->
+    <!--        android:src="@drawable/ic_arrow_back"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:tint="?attr/colorOnBackground" />-->
 
-    <ImageButton
-        android:id="@+id/next_week_button"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@color/transperent"
-        android:padding="16dp"
-        android:rotationY="180"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorOnBackground" />
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/next_week_button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@color/transperent"-->
+    <!--        android:padding="16dp"-->
+    <!--        android:rotationY="180"-->
+    <!--        android:src="@drawable/ic_arrow_back"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:tint="?attr/colorOnBackground" />-->
 
     <TextView
         android:id="@+id/week_selector_text_view"
@@ -35,8 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/next_week_button"
-        app:layout_constraintStart_toEndOf="@id/prev_week_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="11.11.2019 - 18.11.2019" />
 </androidx.constraintlayout.widget.ConstraintLayout>
