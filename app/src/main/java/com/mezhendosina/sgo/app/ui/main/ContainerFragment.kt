@@ -25,7 +25,6 @@ import java.io.File
 class ContainerFragment : Fragment(R.layout.main_container) {
 
     private lateinit var binding: MainContainerBinding
-    private lateinit var navController: NavController
 
     private val file: File = File.createTempFile("app", "apk")
     private val downloadState = MutableLiveData(0)
@@ -59,7 +58,7 @@ class ContainerFragment : Fragment(R.layout.main_container) {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.settings -> {
-                    findTopNavController().navigate(R.id.action_containerFragment_to_settingsFragment)
+                    findTopNavController().navigate(R.id.action_containerFragment_to_settingsContainer)
                     true
                 }
                 else -> false

@@ -1,6 +1,6 @@
-package com.mezhendosina.sgo.data.layouts.mySettings
+package com.mezhendosina.sgo.data.layouts.mySettingsResponse
 
-data class MySettings(
+data class MySettingsResponse(
     val birthDate: String,
     val email: String,
     val existsPhoto: Boolean,

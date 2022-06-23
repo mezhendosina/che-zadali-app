@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.properties.Delegates
 
 class JournalViewModel : ViewModel() {
 
@@ -23,11 +24,13 @@ class JournalViewModel : ViewModel() {
 
     private lateinit var journalPagingSource: JournalPagingSource
 
+    private var studentId by Delegates.notNull<Int>()
+
     fun loadDiary(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            val studentId = Settings(context).currentUserId.first()
+            studentId = Settings(context).currentUserId.first()
             journalPagingSource = JournalPagingSource(studentId)
-            diary = getPagedDiary()
+            diary = getPagedDiary(journalPagingSource)
         }
     }
 
@@ -36,7 +39,7 @@ class JournalViewModel : ViewModel() {
     }
 
 
-    private fun getPagedDiary(): Flow<PagingData<Diary>> =
+    private fun getPagedDiary(journalPagingSource: JournalPagingSource): Flow<PagingData<Diary>> =
         Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,

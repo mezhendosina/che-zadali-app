@@ -9,9 +9,13 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.JournalViewpagerItemBinding
+import com.mezhendosina.sgo.app.ui.journal.JournalViewModel
+import com.mezhendosina.sgo.app.ui.journal.paging.currentTime
+import com.mezhendosina.sgo.app.ui.journal.paging.weekStartByTime
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.layouts.diary.Diary
 import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
@@ -20,7 +24,8 @@ typealias CurrentItemListener = () -> Int
 
 class JournalPagerAdapter(
     private val navController: NavController,
-    private val currentItemListener: CurrentItemListener
+    private val currentItemListener: CurrentItemListener,
+    private val pager: JournalViewModel
 ) :
     PagingDataAdapter<Diary, JournalPagerAdapter.ViewHolder>(DiaryDiffCallback()) {
     class ViewHolder(val binding: JournalViewpagerItemBinding) :

@@ -11,7 +11,9 @@ import io.noties.markwon.Markwon
 
 typealias OnAnnouncementClickListener = (AnnouncementsResponseItem) -> Unit
 
-class AnnouncementsAdapter(private val onAnnouncementClickListener: OnAnnouncementClickListener, private val markwon: Markwon) :
+class AnnouncementsAdapter(
+    private val onAnnouncementClickListener: OnAnnouncementClickListener,
+) :
     RecyclerView.Adapter<AnnouncementsAdapter.AnnouncementsViewHolder>(),
     View.OnClickListener {
 
@@ -20,6 +22,7 @@ class AnnouncementsAdapter(private val onAnnouncementClickListener: OnAnnounceme
             field = newValue
             notifyDataSetChanged()
         }
+
 
     class AnnouncementsViewHolder(val binding: AnnouncementsItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -42,7 +45,6 @@ class AnnouncementsAdapter(private val onAnnouncementClickListener: OnAnnounceme
         val announcement = announcements[position]
         with(holder.binding) {
             holder.itemView.tag = announcement
-
             announcementHeader.text = announcement.name.parseAsHtml()
             announcementBody.text = announcement.description.parseAsHtml()
         }

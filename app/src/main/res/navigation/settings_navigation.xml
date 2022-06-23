@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_navigation"
+    app:startDestination="@id/settingsFragment">
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settings.changePassword.ChangePasswordFragment"
+        android:label="@string/change_password"
+        tools:layout="@layout/fragment_change_password" />
+    <fragment
+        android:id="@+id/changeControlQuestionFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settings.changeControlQuestion.ChangeControlQuestionFragment"
+        android:label="@string/change_control_question"
+        tools:layout="@layout/fragment_change_control_question" >
+        <action
+            android:id="@+id/action_changeControlQuestionFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settings.SettingsFragment"
+        android:label="@string/settings">
+        <action
+            android:id="@+id/action_settingsFragment4_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_settingsFragment4_to_changeControlQuestionFragment"
+            app:destination="@id/changeControlQuestionFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_pop3"
+            app:popUpTo="@id/settingsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

@@ -5,7 +5,9 @@ import android.view.View
 import androidx.core.text.parseAsHtml
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.AnnouncementsFragmentBinding
@@ -18,8 +20,12 @@ class AnnouncementsFragment : Fragment(R.layout.announcements_fragment) {
 
     private lateinit var binding: AnnouncementsFragmentBinding
 
-    private val viewModel: AnnouncementsFragmentViewModel by viewModels { factory() }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = AnnouncementsFragmentBinding.bind(view)
@@ -34,6 +40,7 @@ class AnnouncementsFragment : Fragment(R.layout.announcements_fragment) {
 
         with(binding) {
             collapsingtoolbarlayout.title = announcement?.name
+            toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
             announcement?.description?.let { markwon.setMarkdown(homeworkBody, it) }
             author.text = announcement?.author?.nickName
             date.text =

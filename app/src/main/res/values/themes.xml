@@ -37,7 +37,7 @@
     </style>
 
     <style name="expandedToolBarText" parent="">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
@@ -117,7 +117,7 @@
         <item name="android:textColorHint">?attr/colorPrimary</item>
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginEnd">8dp</item>
-        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
     </style>
 
     <style name="settingsButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
@@ -125,7 +125,6 @@
         <item name="textAllCaps">false</item>
         <item name="android:textAppearance">@style/mainText</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:textStyle">bold</item>
         <item name="iconGravity">end</item>
         <item name="iconPadding">32dp</item>
         <item name="iconTint">?attr/colorOnBackground</item>

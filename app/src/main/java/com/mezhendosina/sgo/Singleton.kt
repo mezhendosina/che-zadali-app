@@ -6,6 +6,8 @@ import com.mezhendosina.sgo.data.SettingsLoginData
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 import com.mezhendosina.sgo.data.layouts.diary.Diary
 import com.mezhendosina.sgo.data.layouts.diary.diary.DiaryResponse
+import com.mezhendosina.sgo.data.layouts.mySettingsRequest.MySettingsRequest
+import com.mezhendosina.sgo.data.layouts.mySettingsResponse.MySettingsResponse
 import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
 import kotlinx.coroutines.flow.Flow
 
@@ -19,14 +21,13 @@ object Singleton {
     var announcements: List<AnnouncementsResponseItem> = emptyList()
 
 
-    var selectedDiary =
-        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
     var currentWeek = 0
     var currentYearId: Int = 0
-    var currentYear: String = ""
     var diary: Diary =
         Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
     var schools = mutableListOf<SchoolItem>()
+
+    var mySettings: MySettingsResponse? = null
 
     suspend fun login(loginData: SettingsLoginData) {
         requests.login(loginData)

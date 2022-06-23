@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tool:context=".ui.lessonItem.LessonFragment"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:transitionGroup="true"
+    tool:context=".ui.lessonItem.LessonFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarlayout"
@@ -17,13 +18,15 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingtoolbarlayout"
-            style="@style/expandedToolBarText"
             android:layout_width="match_parent"
-            android:layout_height="158dp"
+            android:layout_height="172dp"
             android:nestedScrollingEnabled="true"
+            app:expandedTitleMarginBottom="16dp"
             app:expandedTitleMarginStart="16dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             app:expandedTitleTextColor="?attr/colorOnBackground"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:maxLines="3">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -42,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
+        android:background="?attr/backgroundColor"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -211,6 +215,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
+            android:contentDescription="@string/attach_file"
             android:id="@+id/send_attachment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -227,6 +232,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/send_homework"
             android:padding="8dp"
             android:src="@drawable/ic_send"
             android:visibility="gone"

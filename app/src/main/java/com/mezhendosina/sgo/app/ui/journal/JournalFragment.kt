@@ -34,7 +34,8 @@ class JournalFragment : Fragment(R.layout.journal_fragment) {
 
         val adapter = JournalPagerAdapter(findTopNavController(), object : CurrentItemListener {
             override fun invoke(): Int = binding.journalPager.currentItem
-        })
+        }, viewModel)
+
 
         binding.journalPager.adapter = adapter
 
@@ -44,7 +45,7 @@ class JournalFragment : Fragment(R.layout.journal_fragment) {
 
     private fun observeDiary(adapter: JournalPagerAdapter) {
         lifecycleScope.launch {
-            viewModel.diary.collectLatest { pagingData ->
+            viewModel.diary.collect() { pagingData ->
                 adapter.submitData(pagingData)
             }
         }

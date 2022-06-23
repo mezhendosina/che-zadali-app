@@ -77,7 +77,7 @@ class MainViewModel(
                     todayHomeworkService.todayHomework()
                 } catch (e: ResponseException) {
                     withContext(Dispatchers.Main) {
-                        errorDialog(context, e.response.body<ErrorResponse>().message)
+                        errorDialog(context, e.response.body())
                     }
                 }
             }
@@ -96,7 +96,7 @@ class MainViewModel(
                     announcementsService.announcements()
                 } catch (e: ResponseException) {
                     withContext(Dispatchers.Main) {
-                        errorDialog(context, e.response.body<ErrorResponse>().message)
+                        errorDialog(context, e.response.body())
                     }
                 }
             }

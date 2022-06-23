@@ -1,9 +1,14 @@
 package com.mezhendosina.sgo.app.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
@@ -22,6 +27,7 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityContainerBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,22 +46,11 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 binding = MainActivityContainerBinding.inflate(layoutInflater)
                 setContentView(binding.root)
-
-//                settings.theme.collect(){
-//                    when (it) {
-//                        R.id.light_theme -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//                        R.id.dark_theme -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//                        R.id.same_as_system -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-//                    }
-//                }
             }
         }
     }
 
-    private fun getMainNavGraphId(): Int = R.navigation.main_navigation
-
     override fun onRestart() {
-        super.onRestart()
         val singleton = Singleton
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -74,18 +69,19 @@ class MainActivity : AppCompatActivity() {
                     errorDialog(this@MainActivity, e.response.body())
                 }
             }
+            withContext(Dispatchers.Main) {
+            }
         }
+
+        super.onRestart()
     }
 
     override fun onStop() {
-        super.onStop()
         CoroutineScope(Dispatchers.IO).launch {
             Singleton.requests.logout()
+            withContext(Dispatchers.Main) {
+            }
         }
-    }
-
-    private fun getRootNavController(): NavController {
-        val navHost = supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
-        return navHost.navController
+        super.onStop()
     }
 }

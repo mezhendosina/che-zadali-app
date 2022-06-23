@@ -56,7 +56,7 @@ class LessonViewModel(private val lessonService: LessonService) : ViewModel() {
         }
     }
 
-    suspend fun mapLesson(diary: Diary, lessonId: Int) {
+    private suspend fun mapLesson(diary: Diary, lessonId: Int) {
         for (day in diary.diaryResponse.weekDays) {
             for (lesson in day.lessons) {
                 if (lesson.classmeetingId == lessonId) {

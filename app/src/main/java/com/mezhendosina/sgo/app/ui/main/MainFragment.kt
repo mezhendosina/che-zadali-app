@@ -1,12 +1,15 @@
 package com.mezhendosina.sgo.app.ui.main
 
 import android.os.Bundle
+import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
@@ -50,7 +53,7 @@ class MainFragment : Fragment() {
             override fun invoke(p1: Lesson) {
                 findTopNavController().navigate(
                     R.id.action_containerFragment_to_lessonFragment,
-                    bundleOf("lessonId" to p1.classmeetingId)
+                    bundleOf("lessonId" to p1.classmeetingId),
                 )
             }
         })
@@ -63,10 +66,7 @@ class MainFragment : Fragment() {
                         bundleOf(Singleton.ANNOUNCEMENTS_ID to p1.id)
                     )
                 }
-            },
-            Markwon.builder(requireContext())
-                .usePlugin(HtmlPlugin.create())
-                .build()
+            }
         )
 
         val gradeAdapter = GradeAdapter()
@@ -104,7 +104,8 @@ class MainFragment : Fragment() {
         }
 
 
-        binding.pastMandatory.pastMandatoryRecyclerView.layoutManager = LinearLayoutManager(inflater.context)
+        binding.pastMandatory.pastMandatoryRecyclerView.layoutManager =
+            LinearLayoutManager(inflater.context)
         binding.pastMandatory.pastMandatoryRecyclerView.adapter = pastMandatoryAdapter
 
         binding.todayHomework.homeworkRecyclerView.layoutManager =
