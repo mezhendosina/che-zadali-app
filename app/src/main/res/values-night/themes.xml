@@ -20,6 +20,7 @@
 
 
         <item name="materialCardViewStyle">@style/MaterialCardView</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
 
         <item name="android:textColorLink">?attr/colorPrimaryVariant</item>
 
@@ -35,5 +36,17 @@
     <style name="ThemeOverlay.App.Snackbar" parent="">
         <item name="colorPrimary">?attr/colorPrimary</item>
         <item name="colorOnSurface">@color/onSurfaceDark</item>
+    </style>
+
+    <style name="goodGradeText" parent="gradeText">
+        <item name="android:textColor">@color/goodGradeDark</item>
+    </style>
+
+    <style name="midGradeText" parent="gradeText">
+        <item name="android:textColor">@color/threeGradeDark</item>
+    </style>
+
+    <style name="badGradeText" parent="gradeText">
+        <item name="android:textColor">?attr/colorError</item>
     </style>
 </resources>

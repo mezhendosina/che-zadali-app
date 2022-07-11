@@ -30,9 +30,18 @@ class SettingsContainer : Fragment(R.layout.container_settings) {
             childFragmentManager.findFragmentById(R.id.settings_fragment_container) as NavHost
         val navController = navHost.navController
 
-        NavigationUI.setupWithNavController(binding.toolbar, navController)
+        val appBarConfiguration = AppBarConfiguration.Builder()
+            .setFallbackOnNavigateUpListener {
+                true
+            }.build()
 
-        binding.toolbar.setNavigationOnClickListener { navController.navigateUp() }
+        NavigationUI.setupWithNavController(
+            binding.toolbar,
+            navController,
+            appBarConfiguration
+        )
+
+        binding.toolbar.setNavigationOnClickListener { this.activity?.onBackPressed() }
     }
 
 

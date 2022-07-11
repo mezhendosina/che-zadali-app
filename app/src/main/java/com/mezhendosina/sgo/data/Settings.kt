@@ -33,7 +33,7 @@ class Settings(val context: Context) {
 
         val CURRENT_USER_ID = intPreferencesKey("current_user_id")
         val THEME = intPreferencesKey("theme")
-
+        val CURRENT_TRIM_ID = stringPreferencesKey("current_trim_id")
 
         val CID = stringPreferencesKey("cid")
         val SID = stringPreferencesKey("sid")
@@ -43,17 +43,13 @@ class Settings(val context: Context) {
         val SCID = stringPreferencesKey("scid")
     }
 
-
-    val currentUserId = context.dataStore.data.map {
-        it[CURRENT_USER_ID] ?: 0
-    }
-    val loggedIn = context.dataStore.data.map {
-        it[LOGGED_IN] ?: false
-    }
+    val loggedIn = context.dataStore.data.map { it[LOGGED_IN] ?: false }
     val theme = context.dataStore.data.map {
         it[THEME] ?: AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
 
+    val currentUserId = context.dataStore.data.map { it[CURRENT_USER_ID] ?: 0 }
+    val currentTrimId = context.dataStore.data.map { it[CURRENT_TRIM_ID] }
 
     suspend fun saveALl(loginData: SettingsLoginData) {
         context.dataStore.edit { prefs ->
@@ -86,6 +82,7 @@ class Settings(val context: Context) {
             prefs[CN] = ""
             prefs[SFT] = ""
             prefs[SCID] = ""
+            prefs[THEME] = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         }
     }
 
@@ -112,5 +109,9 @@ class Settings(val context: Context) {
 
     suspend fun changePassword(newPassword: String) = context.dataStore.edit { prefs ->
         prefs[PASSWORD] = newPassword
+    }
+
+    suspend fun changeTRIMId(newId: String) = context.dataStore.edit { prefs ->
+        prefs[CURRENT_TRIM_ID] = newId
     }
 }

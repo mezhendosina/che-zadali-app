@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/lessonFragment"
-        android:name="com.mezhendosina.sgo.app.ui.lessonItem.LessonFragment"
+        android:name="com.mezhendosina.sgo.app.ui.journal.lessonItem.LessonFragment"
         android:label="lesson_item"
-        tools:layout="@layout/lesson_item" />
+        tools:layout="@layout/item_lesson" />
     <fragment
         android:id="@+id/containerFragment"
-        android:name="com.mezhendosina.sgo.app.ui.main.ContainerFragment"
+        android:name="com.mezhendosina.sgo.app.ui.container.ContainerFragment"
         android:label="main_container"
-        tools:layout="@layout/main_container" >
+        tools:layout="@layout/container_main" >
         <action
             android:id="@+id/action_containerFragment_to_lessonFragment"
             app:destination="@id/lessonFragment" />
@@ -24,15 +24,23 @@
         <action
             android:id="@+id/action_containerFragment_to_settingsContainer"
             app:destination="@id/settingsContainer" />
+        <action
+            android:id="@+id/action_containerFragment_to_gradeItemFragment"
+            app:destination="@id/gradeItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/announcementsFragment"
-        android:name="com.mezhendosina.sgo.app.ui.main.AnnouncementsFragment"
+        android:name="com.mezhendosina.sgo.app.ui.annoucements.AnnouncementsFragment"
         android:label="announcements_fragment"
-        tools:layout="@layout/announcements_fragment" />
+        tools:layout="@layout/fragment_announcement_item" />
     <fragment
         android:id="@+id/settingsContainer"
         android:name="com.mezhendosina.sgo.app.ui.settings.SettingsContainer"
         android:label="container_settings"
         tools:layout="@layout/container_settings" />
+    <fragment
+        android:id="@+id/gradeItemFragment"
+        android:name="com.mezhendosina.sgo.app.ui.grades.GradeItemFragment"
+        android:label="grade_fragment"
+        tools:layout="@layout/fragment_grade_item" />
 </navigation>

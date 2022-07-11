@@ -3,9 +3,10 @@ package com.mezhendosina.sgo.app.ui.adapters
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.app.databinding.DiaryItemBinding
+import com.mezhendosina.sgo.app.databinding.ItemDiaryBinding
 import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.layouts.diary.diary.WeekDay
 import java.text.SimpleDateFormat
@@ -40,7 +41,7 @@ class DiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListener)
         }
     private val viewPool = RecyclerView.RecycledViewPool()
 
-    class DiaryViewHolder(val binding: DiaryItemBinding) :
+    class DiaryViewHolder(val binding: ItemDiaryBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
@@ -48,7 +49,7 @@ class DiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListener)
         viewType: Int
     ): DiaryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DiaryItemBinding.inflate(inflater, parent, false)
+        val binding = ItemDiaryBinding.inflate(inflater, parent, false)
 
         return DiaryViewHolder(binding)
     }

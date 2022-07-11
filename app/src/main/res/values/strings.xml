@@ -50,4 +50,19 @@
     <string name="profile_photo">Фото профиля</string>
     <string name="author_profile_photo">Фото профиля автора</string>
     <string name="attach_file">Прикрепить файл</string>
+    <string name="new_version_available">Доступна новая версия приложения</string>
+    <string name="whats_new">Что нового?</string>
+    <string name="update">Обновить</string>
+    <string name="something_went_wrong">Упс, что то пошло не так :(</string>
+    <string name="load_grades">Загружаем оценки</string>
+    <string name="total_grade">Итого</string>
+    <string name="avg_grade">Средний балл</string>
+    <string name="class_avg_grade">Средний балл класса</string>
+    <string name="grades_count">Количество оценок</string>
+    <string name="five_grade">Пятерок</string>
+    <string name="four_grade">Четверок</string>
+    <string name="three_grade">Троек</string>
+    <string name="two_grade">Двоек</string>
+    <string name="one_grade">Единиц</string>
+    <string name="about_app">О приложении</string>
 </resources>

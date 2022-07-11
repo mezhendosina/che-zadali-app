@@ -16,7 +16,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.LoginActivityBinding
+import com.mezhendosina.sgo.app.databinding.ContainerLoginBinding
 import com.mezhendosina.sgo.data.Settings
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             } else {
                 withContext(Dispatchers.Main) {
-                    val binding = LoginActivityBinding.inflate(layoutInflater)
+                    val binding = ContainerLoginBinding.inflate(layoutInflater)
                     setContentView(binding.root)
                     setSupportActionBar(binding.toolbar)
 

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.app.databinding.HomeworkItemBinding
+import com.mezhendosina.sgo.app.databinding.ItemHomeworkBinding
 import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
 import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
 import com.mezhendosina.sgo.data.layouts.diary.diary.Mark
@@ -27,7 +27,7 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
         }
     private val viewPool = RecyclerView.RecycledViewPool()
 
-    class HomeworkViewHolder(val binding: HomeworkItemBinding) :
+    class HomeworkViewHolder(val binding: ItemHomeworkBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(v: View) {
@@ -41,7 +41,7 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
     ): HomeworkViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
-        val binding = HomeworkItemBinding.inflate(inflater, parent, false)
+        val binding = ItemHomeworkBinding.inflate(inflater, parent, false)
 
         binding.root.setOnClickListener(this)
 

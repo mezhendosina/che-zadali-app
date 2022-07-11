@@ -6,6 +6,7 @@ import com.mezhendosina.sgo.data.SettingsLoginData
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 import com.mezhendosina.sgo.data.layouts.diary.Diary
 import com.mezhendosina.sgo.data.layouts.diary.diary.DiaryResponse
+import com.mezhendosina.sgo.data.layouts.grades.GradesItem
 import com.mezhendosina.sgo.data.layouts.mySettingsRequest.MySettingsRequest
 import com.mezhendosina.sgo.data.layouts.mySettingsResponse.MySettingsResponse
 import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
@@ -26,6 +27,8 @@ object Singleton {
     var diary: Diary =
         Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
     var schools = mutableListOf<SchoolItem>()
+
+    var grades: List<GradesItem> = emptyList()
 
     var mySettings: MySettingsResponse? = null
 

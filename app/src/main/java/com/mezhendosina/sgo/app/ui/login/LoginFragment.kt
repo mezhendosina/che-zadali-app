@@ -1,20 +1,18 @@
 package com.mezhendosina.sgo.app.ui.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.LoginFragmentBinding
+import com.mezhendosina.sgo.app.databinding.FragmentLoginBinding
 
-class LoginFragment : Fragment(R.layout.login_fragment) {
+class LoginFragment : Fragment(R.layout.fragment_login) {
 
-    private lateinit var binding: LoginFragmentBinding
+    private lateinit var binding: FragmentLoginBinding
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -31,7 +29,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = LoginFragmentBinding.bind(view)
+        binding = FragmentLoginBinding.bind(view)
         val schoolId = requireArguments().getInt(ARG_SCHOOL_ID)
 
 

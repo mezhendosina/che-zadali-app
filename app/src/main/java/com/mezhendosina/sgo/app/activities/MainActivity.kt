@@ -3,16 +3,24 @@ package com.mezhendosina.sgo.app.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.provider.MediaStore
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.registerForActivityResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.MainActivityContainerBinding
+import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.weekEnd
@@ -26,8 +34,19 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: MainActivityContainerBinding
-    private lateinit var navController: NavController
+    private lateinit var binding: ContainerMainActivityBinding
+    private var navController: NavController? = null
+
+    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
+        override fun onFragmentCreated(
+            fm: FragmentManager,
+            f: Fragment,
+            savedInstanceState: Bundle?
+        ) {
+            super.onFragmentCreated(fm, f, savedInstanceState)
+            if (f.findNavController() != navController) navController = f.findNavController()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +56,24 @@ class MainActivity : AppCompatActivity() {
             try {
                 val loginData = settings.getLoginData()
                 Singleton.login(loginData)
-            } catch (e: ResponseException) {
+
+            } catch (response: ResponseException) {
+                withContext(Dispatchers.Main) {
+                    errorDialog(this@MainActivity, response.response.body() ?: "")
+                }
+            } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     errorDialog(this@MainActivity, e.message ?: "")
                 }
             }
-
             withContext(Dispatchers.Main) {
-                binding = MainActivityContainerBinding.inflate(layoutInflater)
+                binding = ContainerMainActivityBinding.inflate(layoutInflater)
                 setContentView(binding.root)
             }
         }
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
+
+
     }
 
     override fun onRestart() {
@@ -83,5 +109,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
+    }
+
+
+    override fun onBackPressed() {
+        if (navController?.currentDestination?.id != navController?.graph?.startDestinationId) navController?.navigateUp()
+        else super.onBackPressed()
     }
 }

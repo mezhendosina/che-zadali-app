@@ -5,9 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.app.databinding.AnnouncementsItemBinding
+import com.mezhendosina.sgo.app.databinding.ItemAnnouncementBinding
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 import io.noties.markwon.Markwon
+import org.jsoup.Jsoup
 
 typealias OnAnnouncementClickListener = (AnnouncementsResponseItem) -> Unit
 
@@ -24,7 +25,7 @@ class AnnouncementsAdapter(
         }
 
 
-    class AnnouncementsViewHolder(val binding: AnnouncementsItemBinding) :
+    class AnnouncementsViewHolder(val binding: ItemAnnouncementBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(p0: View) {
@@ -34,7 +35,7 @@ class AnnouncementsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = AnnouncementsItemBinding.inflate(inflater, parent, false)
+        val binding = ItemAnnouncementBinding.inflate(inflater, parent, false)
 
         binding.root.setOnClickListener(this)
 
@@ -46,7 +47,8 @@ class AnnouncementsAdapter(
         with(holder.binding) {
             holder.itemView.tag = announcement
             announcementHeader.text = announcement.name.parseAsHtml()
-            announcementBody.text = announcement.description.parseAsHtml()
+            val a = Jsoup.parse(announcement.description).text()
+            announcementBody.text = Jsoup.parse(a).text()
         }
     }
 

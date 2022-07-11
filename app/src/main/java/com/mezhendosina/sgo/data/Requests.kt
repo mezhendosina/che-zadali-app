@@ -5,16 +5,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.FileProvider
-import androidx.core.text.htmlEncode
-import androidx.core.text.parseAsHtml
-import androidx.core.text.toHtml
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
-import com.mezhendosina.sgo.app.ui.updateDialog
+import com.mezhendosina.sgo.app.ui.bottomSheets.UpdateBottomSheetFragment
 import com.mezhendosina.sgo.data.layouts.AssignsId
-import com.mezhendosina.sgo.data.layouts.NegotiateResponse
-import com.mezhendosina.sgo.data.layouts.StartQueueResponse
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponse
 import com.mezhendosina.sgo.data.layouts.assignRequest.AssignResponse
 import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
@@ -22,7 +18,8 @@ import com.mezhendosina.sgo.data.layouts.checkUpdates.CheckUpdates
 import com.mezhendosina.sgo.data.layouts.diary.Diary
 import com.mezhendosina.sgo.data.layouts.diary.diary.DiaryResponse
 import com.mezhendosina.sgo.data.layouts.diary.init.DiaryInit
-import com.mezhendosina.sgo.data.layouts.grades.GradeItem
+import com.mezhendosina.sgo.data.layouts.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.layouts.grades.GradesItem
 import com.mezhendosina.sgo.data.layouts.homeworkTypes.TypesResponseItem
 import com.mezhendosina.sgo.data.layouts.login.LoginResponse
 import com.mezhendosina.sgo.data.layouts.mySettingsRequest.MySettingsRequest
@@ -31,24 +28,21 @@ import com.mezhendosina.sgo.data.layouts.password.Password
 import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
 import com.mezhendosina.sgo.data.layouts.preLoginNotice.PreLoginNoticeResponse
 import com.mezhendosina.sgo.data.layouts.schools.SchoolsResponse
-import com.mezhendosina.sgo.data.layouts.studentTotal.StudentTotalResponse
-import com.mezhendosina.sgo.data.layouts.webSocketResponse.WebSocketResponse
 import com.mezhendosina.sgo.data.layouts.yearList.YearListResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.cookies.*
 import io.ktor.client.plugins.logging.*
-import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.utils.io.*
 import io.ktor.utils.io.core.*
-import io.ktor.websocket.*
 import kotlinx.coroutines.*
 import java.io.File
 import java.security.MessageDigest
@@ -72,11 +66,9 @@ fun ByteArray.toHex(): String {
 
 class Requests {
 
-    val client = HttpClient(CIO) {
+    val client = HttpClient(OkHttp) {
         expectSuccess = true
-        engine {
-            maxConnectionsCount = 2
-        }
+
         install(Logging) {
             level = LogLevel.INFO
             logger = Logger.DEFAULT
@@ -84,7 +76,11 @@ class Requests {
         install(ContentNegotiation) {
             gson()
         }
-        install(WebSockets) { contentConverter = GsonWebsocketContentConverter() }
+
+        install(HttpRequestRetry) {
+            retryOnException(2)
+            exponentialDelay()
+        }
         install(HttpCookies)
 
         defaultRequest {
@@ -94,7 +90,7 @@ class Requests {
                 append(HttpHeaders.Origin, "https://sgo.edu-74.ru")
                 append(
                     HttpHeaders.UserAgent,
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"
+                    "SGO app"
                 )
                 append("X-Requested-With", "XMLHttpRequest")
                 append("Sec-Fetch-Site", "same-origin")
@@ -256,10 +252,13 @@ class Requests {
         client.get("/webapi/grade/assignment/types?all=false").body()
 
     suspend fun sendAnswer(at: String, studentId: Int, assignmentId: Int, answer: String) =
-        client.submitForm(
+        client.post(
             "/webapi/assignments/$assignmentId/answers?studentId=$studentId",
-            Parameters.build { append("", answer) }
-        ) { headers.append("at", at) }
+        ) {
+            contentType(ContentType.Application.Json)
+            headers.append("at", at)
+            setBody(answer)
+        }
 
     suspend fun getMySettings(at: String): MySettingsResponse =
         client.get("/webapi/mysettings") { headers.append("at", at) }.body()
@@ -293,20 +292,67 @@ class Requests {
             setBody(Password(oldPasswordMD5, newPasswordMD5))
         }
 
-    suspend fun studentTotal(at: String): StudentTotalResponse =
-        client.get("/webapi/reports/studenttotal") { header("at", at) }.body()
+    suspend fun getParentInfoLetter(at: String): String =
+        client.submitForm("/asp/Reports/ReportParentInfoLetter.asp", Parameters.build {
+            append("at", at)
+            append("RPNAME", "Информационное письмо для родителей")
+            append("RPTID", "ParentInfoLetter")
+        }).body()
 
-    suspend fun negotiate(at: String): NegotiateResponse =
-        client.get("/WebApi/signalr/negotiate?clientProtocol=1.5&at=$at&connectionData=%5B%7B%22name%22%3A%22queuehub%22%7D%5D")
-            .body()
+    suspend fun getGrades(
+        at: String,
+        pclid: String,
+        reportType: String,
+        termid: String,
+        studentId: String
+    ): List<GradesItem> {
+        val report = client.submitForm("/asp/Reports/ParentInfoLetter.asp", Parameters.build {
+            append("LoginType", "0")
+            append("AT", at)
+            append("PP", "/asp/Reports/ReportParentInfoLetter.asp")
+            append("BACK", "/asp/Reports/ReportParentInfoLetter.asp")
+            append("ThmID", "")
+            append("RPTID", "ParentInfoLetter")
+            append("A", "")
+            append("NA", "")
+            append("TA", "")
+            append("RT", "")
+            append("RP", "")
+            append("dtWeek", "")
+            append("PCLID", pclid)
+            append("ReportType", reportType)
+            append("TERMID", termid)
+            append("SID", studentId)
+        })
 
-    suspend fun gradesWebSocket(at: String, negotiateResponse: NegotiateResponse) {
+        return extractGrades(report.body())
+    }
 
+    suspend fun changeProfilePhoto(at: String, userId: Int, photo: File) {
+        client.post("asp/SetupSchool/PhotoSave.asp?at=$at&ver=1657302916517&_AJAXCALL_=1") {
+            setBody(
+                MultiPartFormDataContent(
+                    formData {
+                        append("fileName", photo.name)
+                        append("userId", userId)
+                        append("file", photo.readBytes(), Headers.build {
+                            append(HttpHeaders.ContentType, ContentType.Image.Any)
+                        })
+                    },
+                    "WebAppBoundary"
+                )
+            )
+        }
     }
 }
 
 
-suspend fun checkUpdates(context: Context, file: File, downloadProgress: MutableLiveData<Int>) {
+suspend fun checkUpdates(
+    context: Context,
+    file: File,
+    downloadProgress: MutableLiveData<Int>,
+    supportFragmentManager: FragmentManager
+) {
     val client = HttpClient(CIO) {
         install(ContentNegotiation) {
             gson()
@@ -317,7 +363,7 @@ suspend fun checkUpdates(context: Context, file: File, downloadProgress: Mutable
             .body()
     withContext(Dispatchers.Main) {
         if (r.tagName != BuildConfig.VERSION_NAME) {
-            updateDialog(context, r.body) {
+            val modalSheet = UpdateBottomSheetFragment(r.body) {
                 CoroutineScope(Dispatchers.IO).launch {
                     r.assets.forEach {
                         if (it.contentType == "application/vnd.android.package-archive") {
@@ -343,12 +389,13 @@ suspend fun checkUpdates(context: Context, file: File, downloadProgress: Mutable
                     }
                 }
             }
+            modalSheet.show(supportFragmentManager, UpdateBottomSheetFragment.TAG)
         }
     }
 }
 
-suspend fun schools(): SchoolsResponse {
-    return HttpClient(CIO) {
+suspend fun schools(): SchoolsResponse =
+    HttpClient(CIO) {
         expectSuccess = true
         install(Logging) {
             level = LogLevel.HEADERS
@@ -357,11 +404,15 @@ suspend fun schools(): SchoolsResponse {
         install(ContentNegotiation) {
             gson()
         }
-    }.get("https://mezhendosina.pythonanywhere.com/schools").body()
-}
+        install(HttpRequestRetry) {
+            retryOnException(2)
+            exponentialDelay()
+        }
+    }.get("https://che-zadali-server.herokuapp.com/schools").body()
 
-suspend fun extractGrades(html: String): List<GradeItem> {
-    return HttpClient(CIO) {
+
+suspend fun getGradesOptions(html: String): GradeOptions =
+    HttpClient(CIO) {
         expectSuccess = true
         install(Logging) {
             level = LogLevel.HEADERS
@@ -370,18 +421,36 @@ suspend fun extractGrades(html: String): List<GradeItem> {
         install(ContentNegotiation) {
             gson()
         }
-    }.submitForm("https://mezhendosina.pythonanywhere.com/extract_grades", Parameters.build {
-        append("html", html)
-    }).body()
-}
+        install(HttpRequestRetry) {
+            retryOnException(2)
+            exponentialDelay()
+        }
+    }.post("https://che-zadali-server.herokuapp.com/grades_options") { setBody(html) }.body()
 
-private fun uriFromFile(context: Context, file: File): Uri? {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+suspend fun extractGrades(html: String): List<GradesItem> =
+    HttpClient(CIO) {
+        expectSuccess = true
+        install(Logging) {
+            level = LogLevel.HEADERS
+            logger = Logger.DEFAULT
+        }
+        install(ContentNegotiation) {
+            gson()
+        }
+        install(HttpRequestRetry) {
+            retryOnException(2)
+            exponentialDelay()
+        }
+    }.post("https://che-zadali-server.herokuapp.com/extract_grades") { setBody(html) }
+        .body()
+
+
+fun uriFromFile(context: Context, file: File): Uri? =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
     } else {
         Uri.fromFile(file)
     }
-}
 
 //fun studentTotalResponseToGradeRequest(
 //    studentTotalResponse: StudentTotalResponse,

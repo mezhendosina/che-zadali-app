@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/grade_count_card"
+    style="@style/CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+
+        <TextView
+            android:id="@+id/five_h"
+            style="@style/captions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/five_grade"
+            android:textColor="?attr/colorOnBackground"
+            app:layout_constraintEnd_toStartOf="@id/four_h"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/five_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lobster"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/five_h"
+            app:layout_constraintStart_toStartOf="@id/five_h"
+            app:layout_constraintTop_toBottomOf="@id/five_h"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/four_h"
+            style="@style/captions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="@string/four_grade"
+            android:textColor="?attr/colorOnBackground"
+            app:layout_constraintEnd_toStartOf="@id/three_h"
+            app:layout_constraintStart_toEndOf="@id/five_h"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/four_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lobster"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/four_h"
+            app:layout_constraintStart_toStartOf="@id/four_h"
+            app:layout_constraintTop_toBottomOf="@id/four_h"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/three_h"
+            style="@style/captions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="@string/three_grade"
+            android:textColor="?attr/colorOnBackground"
+            app:layout_constraintEnd_toStartOf="@id/two_h"
+            app:layout_constraintStart_toEndOf="@id/four_h"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/three_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lobster"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/three_h"
+            app:layout_constraintStart_toStartOf="@id/three_h"
+            app:layout_constraintTop_toBottomOf="@id/three_h"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/two_h"
+            style="@style/captions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="@string/two_grade"
+            android:textColor="?attr/colorOnBackground"
+            app:layout_constraintEnd_toStartOf="@id/one_h"
+            app:layout_constraintStart_toEndOf="@id/three_h"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/two_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lobster"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/two_h"
+            app:layout_constraintStart_toStartOf="@id/two_h"
+            app:layout_constraintTop_toBottomOf="@id/two_h"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/one_h"
+            style="@style/captions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="@string/one_grade"
+            android:textColor="?attr/colorOnBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/two_h"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/one_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lobster"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/one_h"
+            app:layout_constraintStart_toStartOf="@id/one_h"
+            app:layout_constraintTop_toBottomOf="@id/one_h"
+            tools:text="5" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -42,9 +42,9 @@ class JournalViewModel : ViewModel() {
     private fun getPagedDiary(journalPagingSource: JournalPagingSource): Flow<PagingData<Diary>> =
         Pager(
             config = PagingConfig(
-                pageSize = PAGE_SIZE,
+                pageSize = 4,
                 enablePlaceholders = PLACEHOLDERS,
-                initialLoadSize = PAGE_SIZE
+                initialLoadSize = 4
             ),
             pagingSourceFactory = { journalPagingSource }
         ).flow.cachedIn(viewModelScope)

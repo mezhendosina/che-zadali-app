@@ -3,7 +3,7 @@ package com.mezhendosina.sgo.app.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.app.databinding.PastMandatoryItemBinding
+import com.mezhendosina.sgo.app.databinding.ItemPastMandatoryBinding
 import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
 
 class PastMandatoryAdapter : RecyclerView.Adapter<PastMandatoryAdapter.PastMandatoryViewHolder>() {
@@ -14,12 +14,12 @@ class PastMandatoryAdapter : RecyclerView.Adapter<PastMandatoryAdapter.PastManda
             notifyDataSetChanged()
         }
 
-    class PastMandatoryViewHolder(val binding: PastMandatoryItemBinding) :
+    class PastMandatoryViewHolder(val binding: ItemPastMandatoryBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PastMandatoryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = PastMandatoryItemBinding.inflate(inflater, parent, false)
+        val binding = ItemPastMandatoryBinding.inflate(inflater, parent, false)
         return PastMandatoryViewHolder(binding)
     }
 

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.app.databinding.HomeworkGradeItemBinding
+import com.mezhendosina.sgo.app.databinding.ItemHomeworkGradeBinding
 import com.mezhendosina.sgo.data.layouts.diary.diary.Mark
 
 class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkGradeViewHolder>() {
@@ -15,12 +15,12 @@ class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkG
             notifyDataSetChanged()
         }
 
-    class HomeworkGradeViewHolder(val binding: HomeworkGradeItemBinding) :
+    class HomeworkGradeViewHolder(val binding: ItemHomeworkGradeBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeworkGradeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = HomeworkGradeItemBinding.inflate(inflater, parent, false)
+        val binding = ItemHomeworkGradeBinding.inflate(inflater, parent, false)
 
         return HomeworkGradeViewHolder(binding)
     }
@@ -53,6 +53,4 @@ class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkG
     }
 
     override fun getItemCount(): Int = grades.size
-
-
 }

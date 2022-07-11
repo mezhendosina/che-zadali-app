@@ -5,19 +5,19 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialFadeThrough
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.JournalFragmentBinding
+import com.mezhendosina.sgo.app.databinding.FragmentJournalBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.JournalPagerAdapter
 import com.mezhendosina.sgo.app.ui.adapters.CurrentItemListener
+import com.mezhendosina.sgo.app.ui.adapters.LoadingStateAdapter
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class JournalFragment : Fragment(R.layout.journal_fragment) {
+class JournalFragment : Fragment(R.layout.fragment_journal) {
 
-    private lateinit var binding: JournalFragmentBinding
+    private lateinit var binding: FragmentJournalBinding
     private val viewModel: JournalViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,22 +30,25 @@ class JournalFragment : Fragment(R.layout.journal_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = JournalFragmentBinding.bind(view)
+        binding = FragmentJournalBinding.bind(view)
 
         val adapter = JournalPagerAdapter(findTopNavController(), object : CurrentItemListener {
             override fun invoke(): Int = binding.journalPager.currentItem
-        }, viewModel)
+        }, binding.journalPager)
 
+        val footerAdapter = LoadingStateAdapter()
+
+        val adapterWithLoadState =
+            adapter.withLoadStateHeaderAndFooter(footerAdapter, footerAdapter)
 
         binding.journalPager.adapter = adapter
-
-        observeDiary(adapter)
+            observeDiary(adapter)
     }
 
 
     private fun observeDiary(adapter: JournalPagerAdapter) {
         lifecycleScope.launch {
-            viewModel.diary.collect() { pagingData ->
+            viewModel.diary.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }

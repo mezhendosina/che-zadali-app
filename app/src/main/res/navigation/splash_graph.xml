@@ -6,7 +6,6 @@
     app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.mezhendosina.sgo.app.ui.splashScreen.SplashFragment"
         android:label="splash_fragment"
-        tools:layout="@layout/splash_fragment" />
+        tools:layout="@layout/fragment_splash" />
 </navigation>

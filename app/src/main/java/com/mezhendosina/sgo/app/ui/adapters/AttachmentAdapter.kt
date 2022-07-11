@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.app.databinding.AttachmentItemBinding
+import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.layouts.attachments.Attachment
 
 interface AttachmentClickListener {
-    fun onClick(attachment: Attachment, binding: AttachmentItemBinding)
+    fun onClick(attachment: Attachment, binding: ItemAttachmentBinding)
 }
 
 class AttachmentAdapter(
@@ -17,7 +17,7 @@ class AttachmentAdapter(
 ) :
     RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder>(),
     View.OnClickListener {
-    private lateinit var binding: AttachmentItemBinding
+    private lateinit var binding: ItemAttachmentBinding
     var attachments: List<Attachment> = emptyList()
         set(value) {
             field = value
@@ -32,12 +32,12 @@ class AttachmentAdapter(
         actionListener.onClick(attachment, binding)
     }
 
-    class AttachmentViewHolder(val binding: AttachmentItemBinding) :
+    class AttachmentViewHolder(val binding: ItemAttachmentBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttachmentViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        binding = AttachmentItemBinding.inflate(inflater, parent, false)
+        binding = ItemAttachmentBinding.inflate(inflater, parent, false)
 
         binding.root.setOnClickListener(this)
 

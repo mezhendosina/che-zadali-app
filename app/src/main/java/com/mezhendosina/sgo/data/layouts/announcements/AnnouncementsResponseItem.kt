@@ -2,6 +2,7 @@ package com.mezhendosina.sgo.data.layouts.announcements
 
 
 import com.google.gson.annotations.SerializedName
+import com.mezhendosina.sgo.data.layouts.attachments.Attachment
 
 data class AnnouncementsResponseItem(
     @SerializedName("attachments")

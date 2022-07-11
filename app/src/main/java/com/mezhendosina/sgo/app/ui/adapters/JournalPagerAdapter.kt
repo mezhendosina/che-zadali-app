@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.JournalViewpagerItemBinding
-import com.mezhendosina.sgo.app.ui.journal.JournalViewModel
-import com.mezhendosina.sgo.app.ui.journal.paging.currentTime
-import com.mezhendosina.sgo.app.ui.journal.paging.weekStartByTime
+import com.mezhendosina.sgo.app.databinding.ItemJournalViewpagerBinding
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.layouts.diary.Diary
 import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
@@ -25,16 +22,15 @@ typealias CurrentItemListener = () -> Int
 class JournalPagerAdapter(
     private val navController: NavController,
     private val currentItemListener: CurrentItemListener,
-    private val pager: JournalViewModel
+    private val viewPager2: ViewPager2
 ) :
     PagingDataAdapter<Diary, JournalPagerAdapter.ViewHolder>(DiaryDiffCallback()) {
-    class ViewHolder(val binding: JournalViewpagerItemBinding) :
+    class ViewHolder(val binding: ItemJournalViewpagerBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = JournalViewpagerItemBinding.inflate(inflater, parent, false)
-
+        val binding = ItemJournalViewpagerBinding.inflate(inflater, parent, false)
 //        binding.weekSelectorLayout.root.setOnClickListener {
 //            viewPager2.currentItem = snapshot().indexOfFirst {
 //                it?.diaryResponse?.weekStart == weekStartByTime(currentTime())
@@ -47,10 +43,13 @@ class JournalPagerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val diary = getItem(position)
         with(holder.binding) {
-            if (diary != null) this.weekSelectorLayout.weekSelectorTextView.text =
-                "${DateManipulation(diary.diaryResponse.weekStart).dateFormatter()} - ${
-                    DateManipulation(diary.diaryResponse.weekEnd).dateFormatter()
-                }"
+            if (diary != null) {
+
+                this.weekSelectorLayout.weekSelectorTextView.text =
+                    "${DateManipulation(diary.diaryResponse.weekStart).journalDate()} - ${
+                        DateManipulation(diary.diaryResponse.weekEnd).journalDate()
+                    }"
+            }
             if (diary != null && diary.diaryResponse.weekDays.isNotEmpty()) {
                 val pastMandatoryAdapter = PastMandatoryAdapter()
                 val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {

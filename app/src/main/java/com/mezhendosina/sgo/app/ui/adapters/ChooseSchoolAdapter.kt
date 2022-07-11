@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.app.databinding.SchoolItemBinding
+import com.mezhendosina.sgo.app.databinding.ItemSchoolBinding
 import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
 
 typealias OnSchoolClickListener = (SchoolItem) -> Unit
@@ -20,7 +20,7 @@ class ChooseSchoolAdapter(private val onSchoolClickListener: OnSchoolClickListen
         }
 
 
-    class ChooseSchoolViewHolder(val binding: SchoolItemBinding) :
+    class ChooseSchoolViewHolder(val binding: ItemSchoolBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(v: View?) {
@@ -30,7 +30,7 @@ class ChooseSchoolAdapter(private val onSchoolClickListener: OnSchoolClickListen
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseSchoolViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = SchoolItemBinding.inflate(inflater, parent, false)
+        val binding = ItemSchoolBinding.inflate(inflater, parent, false)
 
         binding.root.setOnClickListener(this)
 

@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.activities.LoginActivity
 import com.mezhendosina.sgo.app.activities.MainActivity
-import com.mezhendosina.sgo.app.databinding.LoginFragmentBinding
+import com.mezhendosina.sgo.app.databinding.FragmentLoginBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
@@ -28,7 +28,7 @@ import kotlinx.coroutines.withContext
 class LoginViewModel : ViewModel() {
 
     fun onClickLogin(
-        binding: LoginFragmentBinding,
+        binding: FragmentLoginBinding,
         context: Context,
         activity: FragmentActivity,
         schoolId: Int

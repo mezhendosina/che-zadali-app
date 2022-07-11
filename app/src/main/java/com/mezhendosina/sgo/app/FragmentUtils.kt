@@ -6,19 +6,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.mezhendosina.sgo.app.ui.journal.JournalViewModel
-import com.mezhendosina.sgo.app.ui.lessonItem.LessonViewModel
+import com.mezhendosina.sgo.app.ui.grades.GradesViewModel
+import com.mezhendosina.sgo.app.ui.journal.lessonItem.LessonViewModel
 import com.mezhendosina.sgo.app.ui.login.chooseSchool.ChooseSchoolViewModel
-import com.mezhendosina.sgo.app.ui.main.MainViewModel
+import com.mezhendosina.sgo.app.ui.container.ContainerViewModel
 
 class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val viewModel = when (modelClass) {
-            MainViewModel::class.java -> MainViewModel(
-                app.todayHomeworkService,
-                app.announcementsService,
-                app.gradesService
-            )
+            ContainerViewModel::class.java -> ContainerViewModel(app.announcementsService)
+
+            GradesViewModel::class.java -> GradesViewModel(app.gradesService)
 
             LessonViewModel::class.java -> LessonViewModel(app.lessonService)
 

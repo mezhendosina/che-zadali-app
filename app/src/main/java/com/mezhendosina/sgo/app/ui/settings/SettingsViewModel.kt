@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -84,22 +85,23 @@ class SettingsViewModel : ViewModel() {
         AppCompatDelegate.setDefaultNightMode(themeId)
     }
 
-    fun pickAnImage(context: Context, fragment: SettingsFragment) {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        val a =
-            fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val uri = result.data?.data
-                    val fileString = uri?.path
-                    val thumbnail = BitmapFactory.decodeFile(fileString)
-
-                }
+    fun changePhoto(context: Context, data: Intent) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val singleton = Singleton
+                val file = File(data.data.toString())
+                singleton.requests.changeProfilePhoto(
+                    singleton.at,
+                    Settings(context).currentUserId.first(),
+                    file
+                )
+            } catch (e: Exception) {
+                println(e.stackTraceToString())
             }
+        }
     }
 
     fun sendSettings(context: Context) {
-
         val settingsResponse = _mySettingsResponse.value
         if (email.value != settingsResponse?.email || phoneNumber.value != settingsResponse?.mobilePhone || phoneNumberVisibility.value != settingsResponse?.userSettings?.showMobilePhone || settingsResponse?.userSettings?.recoveryQuestion != controlQuestion.value || settingsResponse?.userSettings?.recoveryAnswer != controlAnswer.value) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -150,7 +152,7 @@ class SettingsViewModel : ViewModel() {
 
         return MySettingsRequest(
             email.value.orEmpty(),
-            phoneNumber.value.orEmpty(),
+            Regex("[^0-9]").replace(phoneNumber.value.orEmpty(), ""),
             Singleton.currentYearId,
             mySettingsResponse?.userId ?: 0,
             UserSettings(
