@@ -14,6 +14,7 @@
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/announcements_item.xml" value="0.39739583333333334" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/diary_item.xml" value="0.32535271483539974" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/grade_item.xml" value="0.25" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/item_announcement.xml" value="0.4548952543822146" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/past_mandatory.xml" value="0.3262077811030355" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/past_mandatory_item.xml" value="0.3262077811030355" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/settings_profile_card.xml" value="0.5" />
@@ -41,6 +42,7 @@
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/grades_item.xml" value="0.4548952543822146" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/homework_grade_item.xml" value="0.4548952543822146" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/homework_item.xml" value="0.4548952543822146" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_announcement.xml" value="0.4548952543822146" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_attachment.xml" value="0.2573749465583583" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_homework_grade.xml" value="0.2774690038477982" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/journal_fragment.xml" value="0.25" />
