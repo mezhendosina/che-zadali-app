@@ -8,7 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.mezhendosina.sgo.app.ui.grades.GradesViewModel
 import com.mezhendosina.sgo.app.ui.journal.lessonItem.LessonViewModel
-import com.mezhendosina.sgo.app.ui.login.chooseSchool.ChooseSchoolViewModel
+import com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolViewModel
 import com.mezhendosina.sgo.app.ui.container.ContainerViewModel
 
 class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {

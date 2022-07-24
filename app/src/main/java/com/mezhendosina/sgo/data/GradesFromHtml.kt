@@ -27,7 +27,7 @@ class GradesFromHtml {
                 val selectedItem = selectTag.getElementsByAttribute("selected")
 
                 optionsItem.forEach { optionItem ->
-                    val selected = optionItem == selectedItem
+                    val selected = selectedItem.first() == optionItem
                     optionsList.add(SelectTag(selected, optionItem.text(), optionItem.`val`()))
                 }
 
@@ -44,11 +44,10 @@ class GradesFromHtml {
                 }
             }
         }
-
         return GradeOptions(PCLID, reportType, sid, termid)
     }
 
-    fun extractGrades(html: String) {
+    fun extractGrades(html: String): List<GradesItem> {
         val jsoup = Jsoup.parse(html)
 
         val grades = mutableListOf<GradesItem>()
@@ -61,11 +60,28 @@ class GradesFromHtml {
         trTags?.forEach { trTag ->
             val tdTags = trTag.getElementsByTag("td")
 
-            val avg = tdTags.last()?.text()?.toDouble()
-            val fiveGrade = tdTags[1].text().toInt()
+            val lessonName = tdTags[0].text()
+            val avg = tdTags.last()?.text()
+            val fiveGrade = tdTags[1].text().toGradeInt()
+            val fourGrade = tdTags[2].text().toGradeInt()
+            val threeGrade = tdTags[3].text().toGradeInt()
+            val twoGrade = tdTags[4].text().toGradeInt()
+//            val oneGrade = if()tdTags[5].text().toInt()
 
-            grades.add(GradesItem())
-
+            grades.add(
+                GradesItem(
+                    lessonName,
+                    fiveGrade,
+                    fourGrade,
+                    twoGrade,
+                    threeGrade,
+                    null,
+                    avg
+                )
+            )
         }
+        return grades
     }
+
+    private fun String.toGradeInt(): Int? = if (this.isNotEmpty()) this.toInt() else null
 }

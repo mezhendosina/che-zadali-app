@@ -9,8 +9,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ItemLessonBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
-import com.mezhendosina.sgo.data.ErrorResponse
 import com.mezhendosina.sgo.data.Settings
+import com.mezhendosina.sgo.data.layouts.Error
 import com.mezhendosina.sgo.data.layouts.assignRequest.AssignResponse
 import com.mezhendosina.sgo.data.layouts.attachments.Attachment
 import com.mezhendosina.sgo.data.layouts.diary.Diary
@@ -106,7 +106,7 @@ class LessonViewModel(private val lessonService: LessonService) : ViewModel() {
                     _loading.value = 0
                     errorDialog(
                         context,
-                        e.response.body<ErrorResponse>().message
+                        e.response.body<Error>().message
                     )
                 }
             }

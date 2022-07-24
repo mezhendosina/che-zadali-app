@@ -64,27 +64,58 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-
-        <Button
+        <!--TODO change button visibility-->
+        <androidx.cardview.widget.CardView
             android:id="@+id/change_photo_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/backgroundColor"
-            android:gravity="start|center_vertical"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="12dp"
-            android:text="@string/change_profile_photo"
-            android:textAppearance="@style/mainText"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:cornerRadius="0dp"
-            app:icon="@drawable/ic_add_photo"
-            app:iconPadding="32dp"
-            app:layout_constraintTop_toBottomOf="@id/profile_card"
-            tools:layout_editor_absoluteX="0dp" />
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="?attr/backgroundColor"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_photo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="?attr/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/change_profile_photo"
+                    android:textAppearance="@style/mainScreenHeaders"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintStart_toEndOf="@id/icon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Размер файла не должен превышать 100 Kb\nРекомендуемая высота фотографии - 100 пиксел"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/icon"
+                    app:layout_constraintTop_toBottomOf="@id/header" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/change_photo_divider"
@@ -189,7 +220,6 @@
             app:layout_constraintTop_toBottomOf="@id/change_password" />
 
         <Button
-
             android:id="@+id/change_control_question"
             style="@style/settingsButton"
             android:layout_width="match_parent"
@@ -260,6 +290,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/change_theme_radio_group" />
 
+        <!--TODO change button visibility-->
         <androidx.cardview.widget.CardView
             android:id="@+id/clear_cache_card"
             android:layout_width="0dp"
@@ -299,6 +330,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
+        <!--TODO change button visibility-->
         <Button
             android:id="@+id/about_app"
             style="@style/ButtonIconOnly"

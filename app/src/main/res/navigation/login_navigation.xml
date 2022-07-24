@@ -6,7 +6,7 @@
     app:startDestination="@id/chooseSchoolFragment">
     <fragment
         android:id="@+id/chooseSchoolFragment"
-        android:name="com.mezhendosina.sgo.app.ui.login.chooseSchool.ChooseSchoolFragment"
+        android:name="com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolFragment"
         android:label="@string/choose_school"
         tools:layout="@layout/fragment_choose_school" >
         <argument

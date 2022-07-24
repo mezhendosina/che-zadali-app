@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.ui.bottomSheets.UpdateBottomSheetFragment
+import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.data.layouts.AssignsId
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponse
 import com.mezhendosina.sgo.data.layouts.assignRequest.AssignResponse
@@ -37,6 +38,7 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.cookies.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.observer.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
@@ -46,6 +48,7 @@ import io.ktor.utils.io.core.*
 import kotlinx.coroutines.*
 import java.io.File
 import java.security.MessageDigest
+import kotlin.math.log
 import kotlin.text.toByteArray
 
 data class GetData(
@@ -54,24 +57,33 @@ data class GetData(
     val ver: String
 )
 
-
+// Стырено со stackOverFlow
 fun String.toMD5(): String {
     val bytes = MessageDigest.getInstance("MD5").digest(this.toByteArray())
     return bytes.toHex()
 }
 
+// Стырено со stackOverFlow
 fun ByteArray.toHex(): String {
     return joinToString("") { "%02x".format(it) }
 }
 
+fun uriFromFile(context: Context, file: File): Uri? =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
+    } else {
+        Uri.fromFile(file)
+    }
+
 class Requests {
 
-    val client = HttpClient(OkHttp) {
-        expectSuccess = true
+    var context: Context? = null
 
+    val client = HttpClient(CIO) {
+        expectSuccess = true
         install(Logging) {
             level = LogLevel.INFO
-            logger = Logger.DEFAULT
+            logger = Logger.SIMPLE
         }
         install(ContentNegotiation) {
             gson()
@@ -88,28 +100,28 @@ class Requests {
             headers {
                 append(HttpHeaders.Host, "sgo.edu-74.ru")
                 append(HttpHeaders.Origin, "https://sgo.edu-74.ru")
-                append(
-                    HttpHeaders.UserAgent,
-                    "SGO app"
-                )
+                append(HttpHeaders.UserAgent, "SGO app")
                 append("X-Requested-With", "XMLHttpRequest")
                 append("Sec-Fetch-Site", "same-origin")
                 append("Sec-Fetch-Mode", "cors")
                 append("Sec-Fetch-Dest", "empty")
-                append("Referer", "https://sgo.edu-74.ru/")
+                append(HttpHeaders.Referrer, "https://sgo.edu-74.ru/")
                 append(
                     "sec-ch-ua",
                     "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Microsoft Edge\";v=\"101\""
                 )
             }
         }
+
+
+
     }
 
     /**
      *  Достать NSSESSIONID
      */
     private suspend fun loginData() {
-        client.get("/webapi/logindata")
+            client.get("/webapi/logindata")
     }
 
     /**
@@ -140,10 +152,9 @@ class Requests {
             append("lt", getData.lt)
             append("pw2", password)
             append("ver", getData.ver)
-        }).body<LoginResponse>()
+        })
 
-        Singleton.at = login.at
-        return login
+        return login.body()
     }
 
     /**
@@ -325,7 +336,7 @@ class Requests {
             append("SID", studentId)
         })
 
-        return extractGrades(report.body())
+        return GradesFromHtml().extractGrades(report.body())
     }
 
     suspend fun changeProfilePhoto(at: String, userId: Int, photo: File) {
@@ -445,12 +456,6 @@ suspend fun extractGrades(html: String): List<GradesItem> =
         .body()
 
 
-fun uriFromFile(context: Context, file: File): Uri? =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
-    } else {
-        Uri.fromFile(file)
-    }
 
 //fun studentTotalResponseToGradeRequest(
 //    studentTotalResponse: StudentTotalResponse,

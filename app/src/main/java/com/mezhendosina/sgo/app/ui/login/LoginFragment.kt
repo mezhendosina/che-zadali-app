@@ -49,7 +49,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 viewModel.onClickLogin(
                     binding,
                     requireContext(),
-                    requireActivity(),
                     schoolId
                 )
 

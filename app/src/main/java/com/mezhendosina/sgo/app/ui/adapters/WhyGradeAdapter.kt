@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemWhyGradeBinding
+import com.mezhendosina.sgo.app.ui.grades.showBadGrade
+import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
+import com.mezhendosina.sgo.app.ui.grades.showMidGrade
 import com.mezhendosina.sgo.data.layouts.grades.WhyGradeItem
 import com.mezhendosina.sgo.data.layouts.homeworkTypes.TypesResponseItem
 
@@ -35,24 +38,26 @@ class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>
     override fun onBindViewHolder(holder: WhyGradeViewHolder, position: Int) {
         val grade = grades[position]
         with(holder.binding) {
-            if (grade.mark.dutyMark) {
-                dutyMark.visibility = View.VISIBLE
+            this.grade.apply {
+                if (grade.mark.dutyMark) {
+                    dutyMark.visibility = View.VISIBLE
 
-            } else {
-                dutyMark.visibility = View.INVISIBLE
+                } else {
+                    dutyMark.visibility = View.INVISIBLE
 
-                when (grade.mark.mark) {
-                    2, 1 -> {
-                        showBadGrade(this)
-                        this.grade.badGrade.text = grade.mark.mark.toString()
-                    }
-                    3 -> {
-                        showMidGrade(this)
-                        this.grade.midGrade.text = grade.mark.mark.toString()
-                    }
-                    4, 5 -> {
-                        showGoodGrade(this)
-                        this.grade.goodGrade.text = grade.mark.mark.toString()
+                    when (grade.mark.mark) {
+                        2, 1 -> {
+                            showBadGrade(this)
+                            badGrade.text = grade.mark.mark.toString()
+                        }
+                        3 -> {
+                            showMidGrade(this)
+                            midGrade.text = grade.mark.mark.toString()
+                        }
+                        4, 5 -> {
+                            showGoodGrade(this)
+                            goodGrade.text = grade.mark.mark.toString()
+                        }
                     }
                 }
             }
@@ -62,22 +67,4 @@ class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>
     }
 
     override fun getItemCount(): Int = grades.size
-
-    private fun showGoodGrade(binding: ItemWhyGradeBinding) {
-        binding.grade.goodGrade.visibility = View.VISIBLE
-        binding.grade.midGrade.visibility = View.GONE
-        binding.grade.badGrade.visibility = View.GONE
-    }
-
-    private fun showMidGrade(binding: ItemWhyGradeBinding) {
-        binding.grade.goodGrade.visibility = View.GONE
-        binding.grade.midGrade.visibility = View.VISIBLE
-        binding.grade.badGrade.visibility = View.GONE
-    }
-
-    private fun showBadGrade(binding: ItemWhyGradeBinding) {
-        binding.grade.goodGrade.visibility = View.GONE
-        binding.grade.midGrade.visibility = View.GONE
-        binding.grade.badGrade.visibility = View.VISIBLE
-    }
 }

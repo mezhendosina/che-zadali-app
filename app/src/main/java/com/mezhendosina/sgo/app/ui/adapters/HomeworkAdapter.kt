@@ -58,39 +58,31 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
             lessonTime.text = "${lesson.startTime}-${lesson.endTime}"
 
             if (!lesson.assignments.isNullOrEmpty()) {
-                var grade = ""
-                var withAttachments = false
                 var withHomework = false
-                for (i in lesson.assignments) {
-                    for (b in attachments) {
-                        if (i.id == b.assignmentId) {
-                            withAttachments = true
-                        }
-                    }
-                    if (i.typeId == 3) {
-                        homework.text = i.assignmentName
-                        withHomework = true
-                    }
-                }
+                val gradesList = mutableListOf<Mark>()
 
-                if (withAttachments) {
-                    attachmentsIcon.visibility = View.VISIBLE
-                } else {
-                    attachmentsIcon.visibility = View.INVISIBLE
-                }
-                if (withHomework) {
-                    homework.visibility = View.VISIBLE
-                } else {
-                    homework.visibility = View.INVISIBLE
-                }
+                assignmentTypes.homeworkAnswer.visibility = View.GONE
+                assignmentTypes.attachment.visibility = View.GONE
 
                 lesson.assignments.forEach { assign ->
-                    grade += if (assign.mark != null) {
-                        "${assign.mark.mark}  "
-                    } else {
-                        ""
+                    if (assign.typeId == 3) {
+                        homework.text = assign.assignmentName
+                        withHomework = true
                     }
+
+                    if (assign.textAnswer != null)
+                        assignmentTypes.homeworkAnswer.visibility = View.VISIBLE
+
+                    if (assign.mark != null) gradesList.add(assign.mark)
+
+                    if (attachments.find { assign.id == it.assignmentId } != null)
+                        assignmentTypes.attachment.visibility = View.VISIBLE
+
                 }
+
+                if (withHomework) homework.visibility = View.VISIBLE
+                else homework.visibility = View.INVISIBLE
+
 
                 val layoutManager =
                     LinearLayoutManager(
@@ -99,13 +91,6 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
                         false
                     )
                 val homeworkAdapter = HomeworkGradeAdapter()
-                val gradesList = mutableListOf<Mark>()
-
-                lesson.assignments.forEach {
-                    if (it.mark != null) {
-                        gradesList.add(it.mark)
-                    }
-                }
                 homeworkAdapter.grades = gradesList
 
                 grades.apply {
@@ -116,7 +101,7 @@ class HomeworkAdapter(private val onHomeworkClickListener: OnHomeworkClickListen
             } else {
                 grades.visibility = View.GONE
                 homework.visibility = View.GONE
-                attachmentsIcon.visibility = View.INVISIBLE
+                assignmentTypes.root.visibility = View.GONE
                 this.root.isClickable = false
             }
         }

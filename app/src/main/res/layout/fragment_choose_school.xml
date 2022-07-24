@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="?android:attr/colorBackground"
-    tools:context="com.mezhendosina.sgo.app.ui.login.chooseSchool.ChooseSchoolFragment"
+    tools:context=".ui.chooseSchool.ChooseSchoolFragment"
     >
 
     <com.google.android.material.textfield.TextInputLayout

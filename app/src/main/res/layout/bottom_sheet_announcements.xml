@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Theme.MaterialComponents.BottomSheetDialog"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/backgroundColor"
+    android:minHeight="250dp"
     android:paddingVertical="16dp">
 
     <TextView
@@ -23,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="32dp"
+        android:background="@color/transperent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/announcements_title"

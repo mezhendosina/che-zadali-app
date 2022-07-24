@@ -4,6 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     android:transitionGroup="true"
     tool:context=".ui.journal.lessonItem.LessonFragment">
 
@@ -44,8 +45,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transperent"
         android:animateLayoutChanges="true"
-        android:background="?attr/backgroundColor"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator

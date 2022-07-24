@@ -1,16 +1,12 @@
-package com.mezhendosina.sgo.app.ui.login.chooseSchool
+package com.mezhendosina.sgo.app.ui.chooseSchool
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.data.layouts.responseExceptionHandler
 import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
-import io.ktor.client.plugins.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class ChooseSchoolViewModel(private val schoolService: ChooseSchoolService) : ViewModel() {
     private val _schools = MutableLiveData<List<SchoolItem>>()
@@ -28,18 +24,18 @@ class ChooseSchoolViewModel(private val schoolService: ChooseSchoolService) : Vi
     fun loadSchools(context: Context, loadingState: MutableLiveData<Boolean>) {
         schoolService.addListener(actionListener)
         loadingState.value = true
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
+        CoroutineScope(Dispatchers.IO).launch(responseExceptionHandler()) {
+//            try {
                 schoolService.loadSchools()
-            } catch (e: ResponseException) {
-                withContext(Dispatchers.Main) {
-                    errorDialog(context, e.message ?: "")
-                }
-            } finally {
-                withContext(Dispatchers.Main) {
-                    loadingState.value = false
-                }
-            }
+//            } catch (e: ResponseException) {
+//                withContext(Dispatchers.Main) {
+//                    errorDialog(context, e.message ?: "")
+//                }
+//            } finally {
+//                withContext(Dispatchers.Main) {
+//                    loadingState.value = false
+//                }
+//            }
         }
     }
 

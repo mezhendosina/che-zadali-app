@@ -17,6 +17,7 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentSettingsBinding
 import com.mezhendosina.sgo.app.ui.settings.changeControlQuestion.ChangeControlQuestionFragment
 import com.mezhendosina.sgo.data.DateManipulation
+import com.mezhendosina.sgo.data.uriFromFile
 import java.io.File
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -71,6 +72,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         binding.changePhotoButton.setOnClickListener {
+            //TODO change photo button
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
@@ -154,7 +156,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         binding.cacheSize.text =
             "Объем кэша: ${(viewModel.calculateCache(requireContext())).toDouble()}"
-        binding.clearCacheCard.setOnClickListener {}
+        binding.clearCacheCard.setOnClickListener { TODO("clear cache") }
 
         binding.changeThemeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             viewModel.changeTheme(checkedId, requireContext())
@@ -165,9 +167,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.logoutButton.setOnClickListener { viewModel.logout(requireContext()) }
     }
 
+
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.sendSettings(requireContext())
     }
-
 }

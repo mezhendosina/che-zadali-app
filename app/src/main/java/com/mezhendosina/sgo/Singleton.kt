@@ -1,11 +1,13 @@
 package com.mezhendosina.sgo
 
+import android.content.Context
 import androidx.paging.PagingData
 import com.mezhendosina.sgo.data.Requests
 import com.mezhendosina.sgo.data.SettingsLoginData
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 import com.mezhendosina.sgo.data.layouts.diary.Diary
 import com.mezhendosina.sgo.data.layouts.diary.diary.DiaryResponse
+import com.mezhendosina.sgo.data.layouts.gradeOptions.GradeOptions
 import com.mezhendosina.sgo.data.layouts.grades.GradesItem
 import com.mezhendosina.sgo.data.layouts.mySettingsRequest.MySettingsRequest
 import com.mezhendosina.sgo.data.layouts.mySettingsResponse.MySettingsResponse
@@ -28,12 +30,14 @@ object Singleton {
         Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
     var schools = mutableListOf<SchoolItem>()
 
+    var gradesOptions: GradeOptions? = null
     var grades: List<GradesItem> = emptyList()
 
     var mySettings: MySettingsResponse? = null
 
     suspend fun login(loginData: SettingsLoginData) {
-        requests.login(loginData)
+        val login = requests.login(loginData)
+        at = login.at
         val currentYearResponse = requests.yearList(at).first { !it.name.contains("(*) ") }
         currentYearId = currentYearResponse.id
     }

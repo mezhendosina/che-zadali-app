@@ -6,10 +6,13 @@ import android.widget.Button
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.perf.ktx.performance
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.data.Settings
+import com.mezhendosina.sgo.data.layouts.gradeOptions.SelectTag
 import com.mezhendosina.sgo.data.layouts.gradeOptions.TERMID
 import com.mezhendosina.sgo.data.layouts.grades.GradesItem
 import io.ktor.client.call.*
@@ -25,8 +28,8 @@ class GradesViewModel(private val gradeServices: GradeService) : ViewModel() {
     private val _grades = MutableLiveData<List<GradesItem>>()
     val grades: LiveData<List<GradesItem>> = _grades
 
-    private val _terms = MutableLiveData<List<TERMID>>()
-    val terms: LiveData<List<TERMID>> = _terms
+    private val _terms = MutableLiveData<List<SelectTag>>()
+    val terms: LiveData<List<SelectTag>> = _terms
 
     private val gradeActionListener: GradeActionListener = {
         _grades.value = it
@@ -45,8 +48,11 @@ class GradesViewModel(private val gradeServices: GradeService) : ViewModel() {
     ) {
         if (reload && Singleton.grades.isNotEmpty()) {
             _grades.value = Singleton.grades
+            _terms.value = Singleton.gradesOptions?.TERMID
             return
         }
+        val trace = Firebase.performance.newTrace("load_grades_trace")
+        trace.start()
         binding?.apply {
             gradesRecyclerView.visibility = View.GONE
             loadGradesText.visibility = View.VISIBLE
@@ -56,7 +62,7 @@ class GradesViewModel(private val gradeServices: GradeService) : ViewModel() {
             val settings = Settings(context)
             try {
                 val gradeOptions = gradeServices.loadGradesOptions()
-
+                Singleton.gradesOptions = gradeOptions
                 val findId = gradeOptions.TERMID.find {
                     it.value == settings.currentTrimId.first().toString()
                 }
@@ -77,6 +83,7 @@ class GradesViewModel(private val gradeServices: GradeService) : ViewModel() {
                         loadGradesText.visibility = View.GONE
                         gradesProgressBar.visibility = View.GONE
                     }
+                    trace.stop()
                 }
             }
         }
@@ -102,7 +109,7 @@ class GradesViewModel(private val gradeServices: GradeService) : ViewModel() {
         }
     }
 
-    fun setCurrentTerm(context: Context, button: Button, termList: List<TERMID>) {
+    fun setCurrentTerm(context: Context, button: Button, termList: List<SelectTag>) {
         val settings = Settings(context)
         CoroutineScope(Dispatchers.Main).launch {
             button.text = termList.first { it.value == settings.currentTrimId.first() }.name

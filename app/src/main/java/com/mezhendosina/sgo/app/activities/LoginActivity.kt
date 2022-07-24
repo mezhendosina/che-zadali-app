@@ -24,41 +24,25 @@ import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity() {
 
-
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val settings = Settings(this)
-        runBlocking {
-            AppCompatDelegate.setDefaultNightMode(settings.theme.first())
-        }
         super.onCreate(savedInstanceState)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            if (settings.loggedIn.first()) {
-                withContext(Dispatchers.Main) {
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                }
-            } else {
-                withContext(Dispatchers.Main) {
-                    val binding = ContainerLoginBinding.inflate(layoutInflater)
-                    setContentView(binding.root)
-                    setSupportActionBar(binding.toolbar)
+        val binding = ContainerLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
-                    val navHost =
-                        supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
-                    navController = navHost.navController
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+        navController = navHost.navController
 
-                    binding.collapsingtoolbarlayout.setupWithNavController(
-                        binding.toolbar,
-                        navController
-                    )
-                }
-            }
-        }
+        binding.collapsingtoolbarlayout.setupWithNavController(
+            binding.toolbar,
+            navController
+        )
     }
+
 
     override fun onBackPressed() {
         if (navController.currentDestination?.id == navController.graph.startDestinationId) {

@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/announcementsFragment"
-        android:name="com.mezhendosina.sgo.app.ui.annoucements.AnnouncementsFragment"
+        android:name="com.mezhendosina.sgo.app.ui.bottomSheets.annoucements.AnnouncementsFragment"
         android:label="announcements_fragment"
         tools:layout="@layout/fragment_announcement_item" />
     <fragment

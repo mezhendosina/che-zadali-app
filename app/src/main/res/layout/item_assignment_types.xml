@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="16dp"
+    >
+
+    <ImageView
+        android:id="@+id/attachment"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:contentDescription="@string/added_attachment"
+        android:src="@drawable/ic_attachment"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/teachers_caption"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:visibility="gone"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/teacher_caption"
+        android:src="@drawable/ic_added_homework_text"
+        app:layout_constraintStart_toEndOf="@id/attachment"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/homework_answer"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:visibility="gone"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/added_homework_answer"
+        android:src="@drawable/ic_added_homework_text_attachment"
+        app:layout_constraintStart_toEndOf="@id/teachers_caption"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

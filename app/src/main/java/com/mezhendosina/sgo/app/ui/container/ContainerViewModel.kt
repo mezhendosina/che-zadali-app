@@ -7,11 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.ui.errorDialog
-import com.mezhendosina.sgo.app.ui.annoucements.AnnouncementsActionListener
-import com.mezhendosina.sgo.app.ui.annoucements.AnnouncementsService
+import com.mezhendosina.sgo.app.ui.bottomSheets.annoucements.AnnouncementsActionListener
+import com.mezhendosina.sgo.app.ui.bottomSheets.annoucements.AnnouncementsService
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
+import io.ktor.util.network.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +43,11 @@ class ContainerViewModel(
                     announcementsService.announcements()
                 } catch (e: ResponseException) {
                     withContext(Dispatchers.Main) {
-                        errorDialog(context, e.response.body())
+                        e.response.body<String>().let { errorDialog(context, it) }
+                    }
+                } catch (e: UnresolvedAddressException) {
+                    withContext(Dispatchers.Main) {
+                        errorDialog(context, "Похоже, что нету итернета :(")
                     }
                 }
             }

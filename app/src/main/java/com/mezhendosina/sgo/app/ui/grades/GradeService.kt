@@ -2,11 +2,8 @@ package com.mezhendosina.sgo.app.ui.grades
 
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.Singleton.at
-import com.mezhendosina.sgo.data.getGradesOptions
+import com.mezhendosina.sgo.data.GradesFromHtml
 import com.mezhendosina.sgo.data.layouts.gradeOptions.GradeOptions
-import com.mezhendosina.sgo.data.layouts.gradeOptions.PCLID
-import com.mezhendosina.sgo.data.layouts.gradeOptions.ReportType
-import com.mezhendosina.sgo.data.layouts.gradeOptions.TERMID
 import com.mezhendosina.sgo.data.layouts.grades.GradesItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -21,7 +18,7 @@ class GradeService {
 
     suspend fun loadGradesOptions(): GradeOptions {
         val parentInfoLetter = Singleton.requests.getParentInfoLetter(at)
-        return getGradesOptions(parentInfoLetter)
+        return GradesFromHtml().getOptions(parentInfoLetter)
     }
 
 

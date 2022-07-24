@@ -4,7 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.app.databinding.ItemHomeworkGradeBinding
+import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
+import com.mezhendosina.sgo.app.ui.grades.showBadGrade
+import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
+import com.mezhendosina.sgo.app.ui.grades.showMidGrade
 import com.mezhendosina.sgo.data.layouts.diary.diary.Mark
 
 class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkGradeViewHolder>() {
@@ -15,12 +18,12 @@ class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkG
             notifyDataSetChanged()
         }
 
-    class HomeworkGradeViewHolder(val binding: ItemHomeworkGradeBinding) :
+    class HomeworkGradeViewHolder(val binding: ItemGradeValueBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeworkGradeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemHomeworkGradeBinding.inflate(inflater, parent, false)
+        val binding = ItemGradeValueBinding.inflate(inflater, parent, false)
 
         return HomeworkGradeViewHolder(binding)
     }
@@ -29,23 +32,20 @@ class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkG
     override fun onBindViewHolder(holder: HomeworkGradeViewHolder, position: Int) {
         val grade = grades[position]
         with(holder.binding) {
-            goodGrade.visibility = View.INVISIBLE
-            threeGrade.visibility = View.INVISIBLE
-            badGrade.visibility = View.INVISIBLE
-            dutyMark.visibility = View.INVISIBLE
+
             if (grade.dutyMark) {
                 dutyMark.visibility = View.VISIBLE
             } else when (grade.mark) {
                 1, 2 -> {
-                    badGrade.visibility = View.VISIBLE
+                    showBadGrade(this)
                     badGrade.text = grade.mark.toString()
                 }
                 3 -> {
-                    threeGrade.visibility = View.VISIBLE
-                    threeGrade.text = "3"
+                    showMidGrade(this)
+                    midGrade.text = "3"
                 }
                 4, 5 -> {
-                    goodGrade.visibility = View.VISIBLE
+                    showGoodGrade(this)
                     goodGrade.text = grade.mark.toString()
                 }
             }

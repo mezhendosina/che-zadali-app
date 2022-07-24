@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.app.ui.annoucements
+package com.mezhendosina.sgo.app.ui.bottomSheets.annoucements
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -6,16 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.ui.errorDialog
-import com.mezhendosina.sgo.data.ErrorResponse
+import com.mezhendosina.sgo.data.layouts.Error
 import com.mezhendosina.sgo.data.layouts.attachments.Attachment
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
+import io.ktor.util.network.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AnnouncementsFragmentViewModel: ViewModel() {
+class AnnouncementsFragmentViewModel : ViewModel() {
 
 
     fun downloadAttachment(
@@ -45,8 +46,12 @@ class AnnouncementsFragmentViewModel: ViewModel() {
                     _loading.value = 0
                     errorDialog(
                         context,
-                        e.response.body<ErrorResponse>().message
+                        e.response.body<Error>().message
                     )
+                }
+            } catch (e: UnresolvedAddressException) {
+                withContext(Dispatchers.Main) {
+                    errorDialog(context, "Похоже, что нету итернета :(")
                 }
             }
         }

@@ -15,7 +15,7 @@ data class Assignment(
     @SerializedName("mark")
     val mark: Mark?,
     @SerializedName("textAnswer")
-    val textAnswer: TextAnswer,
+    val textAnswer: TextAnswer?,
     @SerializedName("typeId")
     val typeId: Int,
     @SerializedName("weight")

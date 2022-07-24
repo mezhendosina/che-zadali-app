@@ -66,7 +66,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
             val adapter =
                 ArrayAdapter(
                     requireContext(),
-                    R.layout.list_popup_window_item,
+                    R.layout.item_list_popup_window,
                     viewModel.terms.value?.map { it.name } ?: emptyList()
                 )
             popup.setAdapter(adapter)

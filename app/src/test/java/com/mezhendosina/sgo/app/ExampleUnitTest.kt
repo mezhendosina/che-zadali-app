@@ -1,11 +1,16 @@
 package com.mezhendosina.sgo.app
 
 import android.app.Instrumentation
+import com.mezhendosina.sgo.data.GradesFromHtml
+import com.mezhendosina.sgo.data.Requests
+import com.mezhendosina.sgo.data.SettingsLoginData
 import io.noties.markwon.Markwon
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Before
+import java.io.File
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -15,10 +20,15 @@ import org.junit.Before
 class ExampleUnitTest {
 
     @Test
-    fun addition_isCorrect() {
-        val a =
-            "<p>Муниципальный центр онлайн-обучения &amp;#171;Челябинская Электронная Школа&amp;#187; организует набор обучающихся на 2022/2023 учебный год в 6-8 классы и в 10 класс универсального профиля для следующих категорий:&amp;#160;</p>\\n<ul>\\n<li>обучающиеся, проживающие заграницей (жители Челябинска);&amp;#160;</li>\\n<li>обучающиеся с высоким уровнем учебных академических достижений (индивидуальный образовательный маршрут);&amp;#160;</li>\\n<li>обучающиеся с высоким уровнем учебных творческих достижений (индивидуальный образовательный маршрут);&amp;#160;</li>\\n<li>обучающиеся с высоким уровнем учебных спортивных достижений (индивидуальный образовательный маршрут);&amp;#160;</li>\\n<li>обучающиеся, находящиеся по состоянию здоровья временно на домашнем обучении;&amp;#160;</li>\\n<li>обучающиеся на семейной форме обучения.&amp;#160;</li>\\n</ul>\\n<p>Консультацию по вопросам обучения в ЧЭШ родители/законные представители<br/>могут получить у директора МАОУ &amp;#171;Лицей № 77 г. Челябинска&amp;#187;<br/><em><strong>Саблиной Марии Александровны по т. 253-38-64.</strong></em></p>\n"
+    fun testExtractGradeOptions() {
+        val f = File("D:/Programming/gradesOptions.html").readText()
+        println(GradesFromHtml().getOptions(f))
 
+    }
 
+    @Test
+    fun testExtractGrades(){
+        val f = File("D:/Programming/extractGrades.html").readText()
+        println(GradesFromHtml().extractGrades(f))
     }
 }

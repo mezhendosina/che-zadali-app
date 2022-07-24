@@ -65,4 +65,17 @@
     <string name="two_grade">Двоек</string>
     <string name="one_grade">Единиц</string>
     <string name="about_app">О приложении</string>
+    <string name="added_homework_answer">Добавлен ответ на домашнее задание</string>
+    <string name="teacher_caption">Есть подробности от учителя</string>
+    <string name="added_attachment">Прикреплен файл</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="duty_mark">Просроченное задание</string>
 </resources>

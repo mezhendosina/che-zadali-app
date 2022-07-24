@@ -147,7 +147,7 @@
     <style name="gradeText" parent="lesson_number">
         <item name="fontFamily">@font/lobster</item>
         <item name="android:gravity">end</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
     <style name="goodGradeText" parent="gradeText">
@@ -161,5 +161,11 @@
     <style name="badGradeText" parent="gradeText">
         <item name="android:textColor">?attr/colorError</item>
     </style>
+    <style name="Theme.SGOApp..NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.SGOApp..AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.SGOApp..PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.app.ui.annoucements
+package com.mezhendosina.sgo.app.ui.bottomSheets.annoucements
 
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem

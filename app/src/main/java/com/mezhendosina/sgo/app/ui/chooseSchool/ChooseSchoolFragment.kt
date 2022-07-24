@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.app.ui.login.chooseSchool
+package com.mezhendosina.sgo.app.ui.chooseSchool
 
 import android.os.Bundle
 import android.view.View
@@ -18,6 +18,7 @@ import com.mezhendosina.sgo.app.ui.adapters.OnSchoolClickListener
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.login.LoginFragment
 import com.mezhendosina.sgo.app.ui.showAnimation
+import com.mezhendosina.sgo.data.layouts.ResponseMessageException
 import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
 
 class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
@@ -28,7 +29,11 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
     private var loading = MutableLiveData(false)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.loadSchools(requireContext(), loading)
+        try {
+            viewModel.loadSchools(requireContext(), loading)
+        } catch (e: ResponseMessageException) {
+            println(e.message)
+        }
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }

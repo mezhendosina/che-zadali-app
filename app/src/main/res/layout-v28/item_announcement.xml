@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/MaterialCardView"
     android:layout_width="match_parent"
-    android:background="@color/transperent"
-    android:focusable="true"
-    android:clickable="true"
-    android:outlineSpotShadowColor="?attr/colorPrimary"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="wrap_content"
-    app:cardElevation="8dp"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp">
+    android:layout_marginVertical="8dp"
+    android:background="@color/transperent"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:outlineSpotShadowColor="?attr/colorPrimary"
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/onCard"

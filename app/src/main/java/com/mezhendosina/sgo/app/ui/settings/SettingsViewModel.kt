@@ -1,13 +1,10 @@
 package com.mezhendosina.sgo.app.ui.settings
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
@@ -25,6 +22,7 @@ import com.mezhendosina.sgo.data.layouts.mySettingsResponse.MySettingsResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -41,32 +39,47 @@ class SettingsViewModel : ViewModel() {
     private val controlQuestion = MutableLiveData<String>()
     private val controlAnswer = MutableLiveData<String>()
 
-    private val file = File.createTempFile("profilePhoto", "index")
 
     fun getMySettings(arguments: Bundle?) {
-        CoroutineScope(Dispatchers.IO).launch() {
-            val settings = Singleton.requests.getMySettings(Singleton.at)
+        CoroutineScope(Dispatchers.IO).launch {
+            val settings = if (Singleton.mySettings == null) {
+                val r = Singleton.requests.getMySettings(Singleton.at)
+                Singleton.mySettings = r
+                r
+            } else Singleton.mySettings
             withContext(Dispatchers.Main) {
                 _mySettingsResponse.value = settings
-                phoneNumber.value = settings.mobilePhone
-                email.value = settings.email
-                phoneNumberVisibility.value = settings.userSettings.showMobilePhone
+                phoneNumber.value = settings?.mobilePhone
+                email.value = settings?.email
+                phoneNumberVisibility.value = settings?.userSettings?.showMobilePhone
 
                 controlQuestion.value =
-                    arguments?.getString(CONTROL_QUESTION) ?: settings.userSettings.recoveryQuestion
+                    arguments?.getString(CONTROL_QUESTION)
+                        ?: settings?.userSettings?.recoveryQuestion
                 controlAnswer.value =
-                    arguments?.getString(CONTROL_ANSWER) ?: settings.userSettings.recoveryAnswer
+                    arguments?.getString(CONTROL_ANSWER) ?: settings?.userSettings?.recoveryAnswer
 
             }
         }
     }
 
     fun loadProfilePhoto(context: Context, photoView: ImageView) {
+        val dir = context.dataDir
+        val photoFile = File(dir, "profilePhoto")
+        val isExist = photoFile.createNewFile()
         CoroutineScope(Dispatchers.IO).launch {
             val settings = Settings(context)
-            Singleton.requests.loadPhoto(Singleton.at, settings.currentUserId.first(), file)
+
+            if (isExist) {
+                Singleton.requests.loadPhoto(
+                    Singleton.at,
+                    settings.currentUserId.first(),
+                    photoFile
+                )
+            }
+
             withContext(Dispatchers.Main) {
-                Glide.with(context).load(file).circleCrop().into(photoView)
+                Glide.with(context).load(photoFile).circleCrop().into(photoView)
             }
         }
     }
@@ -130,12 +143,6 @@ class SettingsViewModel : ViewModel() {
                 startActivity(context, intent, null)
             }
         }
-
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        file.delete()
     }
 
     fun calculateCache(context: Context): Long = context.cacheDir.calculateSizeRecursively()
@@ -170,7 +177,6 @@ class SettingsViewModel : ViewModel() {
             mySettingsResponse?.windowsAccount
         )
     }
-
 
     companion object {
         const val CONTROL_QUESTION = "control_question"

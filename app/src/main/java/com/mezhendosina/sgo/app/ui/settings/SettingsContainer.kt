@@ -8,6 +8,7 @@ import androidx.navigation.NavHost
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.perf.metrics.AddTrace
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerSettingsBinding
 
@@ -43,6 +44,4 @@ class SettingsContainer : Fragment(R.layout.container_settings) {
 
         binding.toolbar.setNavigationOnClickListener { this.activity?.onBackPressed() }
     }
-
-
 }

@@ -9,6 +9,7 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.data.layouts.password.Password
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import java.net.URI
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -34,6 +35,7 @@ class Settings(val context: Context) {
         val CURRENT_USER_ID = intPreferencesKey("current_user_id")
         val THEME = intPreferencesKey("theme")
         val CURRENT_TRIM_ID = stringPreferencesKey("current_trim_id")
+        val PHOTO_FILE_URI = stringPreferencesKey("photo_file_uri")
 
         val CID = stringPreferencesKey("cid")
         val SID = stringPreferencesKey("sid")
@@ -50,6 +52,7 @@ class Settings(val context: Context) {
 
     val currentUserId = context.dataStore.data.map { it[CURRENT_USER_ID] ?: 0 }
     val currentTrimId = context.dataStore.data.map { it[CURRENT_TRIM_ID] }
+    val photoFileUri = context.dataStore.data.map { it[PHOTO_FILE_URI] }
 
     suspend fun saveALl(loginData: SettingsLoginData) {
         context.dataStore.edit { prefs ->
@@ -82,7 +85,6 @@ class Settings(val context: Context) {
             prefs[CN] = ""
             prefs[SFT] = ""
             prefs[SCID] = ""
-            prefs[THEME] = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         }
     }
 
@@ -113,5 +115,9 @@ class Settings(val context: Context) {
 
     suspend fun changeTRIMId(newId: String) = context.dataStore.edit { prefs ->
         prefs[CURRENT_TRIM_ID] = newId
+    }
+
+    suspend fun changePhotoURI(newURI: URI) = context.dataStore.edit {
+        it[PHOTO_FILE_URI] = newURI.toString()
     }
 }

@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.app.ui.login.chooseSchool
+package com.mezhendosina.sgo.app.ui.chooseSchool
 
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.schools

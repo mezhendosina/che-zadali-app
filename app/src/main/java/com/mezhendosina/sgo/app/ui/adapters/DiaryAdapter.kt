@@ -61,9 +61,9 @@ class DiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListener)
             val layoutManager =
                 LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
             val homeworkAdapter = HomeworkAdapter(onHomeworkClickListener)
-
-            homeworkAdapter.lessons = day.lessons
+            println(attachments)
             homeworkAdapter.attachments = attachments
+            homeworkAdapter.lessons = day.lessons
 
             homeworkRecyclerView.apply {
                 adapter = homeworkAdapter

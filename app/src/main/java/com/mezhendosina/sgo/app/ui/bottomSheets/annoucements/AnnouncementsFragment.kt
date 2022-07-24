@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.app.ui.annoucements
+package com.mezhendosina.sgo.app.ui.bottomSheets.annoucements
 
 import android.os.Bundle
 import android.view.View

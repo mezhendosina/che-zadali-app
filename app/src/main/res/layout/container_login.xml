@@ -34,6 +34,14 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <include
+        android:id="@+id/load_error"
+        layout="@layout/item_load_error"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"
         android:name="androidx.navigation.fragment.NavHostFragment"

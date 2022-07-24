@@ -7,8 +7,8 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradeItemBinding
-import com.mezhendosina.sgo.app.databinding.GradeTypeBinding
 import com.mezhendosina.sgo.app.findTopNavController
+import com.mezhendosina.sgo.app.ui.adapters.bindGradeValue
 import com.mezhendosina.sgo.data.layouts.grades.GradesItem
 
 class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
@@ -30,26 +30,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         binding = FragmentGradeItemBinding.bind(view)
         binding.toolbar.setNavigationOnClickListener { findTopNavController().navigateUp() }
         binding.collapsingtoolbarlayout.title = lesson.name
-        with(binding.avgGrade) {
-            if (lesson.avg!! < 2.5) {
-                badGrade.text = lesson.avg.toString()
-                showBadGrade(this)
-            } else if (2.5 <= lesson.avg!! && lesson.avg!! < 3.5) {
-                midGrade.text = lesson.avg.toString()
-                showMidGrade(this)
-            } else if (lesson.avg!! >= 3.5) {
-                goodGrade.text = lesson.avg.toString()
-                showGoodGrade(this)
-            }
-
-            when (lesson.avg) {
-                5.0 -> goodGrade.text = "5"
-                4.0 -> goodGrade.text = "4"
-                3.0 -> midGrade.text = "3"
-                2.0 -> badGrade.text = "2"
-                1.0 -> badGrade.text = "1"
-            }
-        }
+        bindGradeValue(lesson, binding.avgGrade)
         with(binding.countGrade) {
             if (lesson.one == null) {
                 oneH.visibility = View.GONE
@@ -98,29 +79,5 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         }
     }
 
-    private fun showBadGrade(binding: GradeTypeBinding) {
-        binding.apply {
-            midGrade.visibility = View.GONE
-            goodGrade.visibility = View.GONE
-            goodGrade.text = ""
-            badGrade.visibility = View.VISIBLE
-        }
-    }
 
-    private fun showMidGrade(binding: GradeTypeBinding) {
-        binding.apply {
-            goodGrade.text = ""
-            goodGrade.visibility = View.GONE
-            badGrade.visibility = View.GONE
-            midGrade.visibility = View.VISIBLE
-        }
-    }
-
-    private fun showGoodGrade(binding: GradeTypeBinding) {
-        binding.apply {
-            goodGrade.visibility = View.VISIBLE
-            midGrade.visibility = View.GONE
-            badGrade.visibility = View.GONE
-        }
-    }
 }
