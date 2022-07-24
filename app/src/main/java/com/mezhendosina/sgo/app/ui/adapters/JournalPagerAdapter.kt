@@ -9,7 +9,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemJournalViewpagerBinding
@@ -22,7 +21,6 @@ typealias CurrentItemListener = () -> Int
 class JournalPagerAdapter(
     private val navController: NavController,
     private val currentItemListener: CurrentItemListener,
-    private val viewPager2: ViewPager2
 ) :
     PagingDataAdapter<Diary, JournalPagerAdapter.ViewHolder>(DiaryDiffCallback()) {
     class ViewHolder(val binding: ItemJournalViewpagerBinding) :
@@ -31,12 +29,7 @@ class JournalPagerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemJournalViewpagerBinding.inflate(inflater, parent, false)
-//        binding.weekSelectorLayout.root.setOnClickListener {
-//            viewPager2.currentItem = snapshot().indexOfFirst {
-//                it?.diaryResponse?.weekStart == weekStartByTime(currentTime())
-//            }
-//        }
-
+        binding.weekSelectorLayout.root.setOnClickListener { refresh() }
         return ViewHolder(binding)
     }
 
@@ -44,7 +37,6 @@ class JournalPagerAdapter(
         val diary = getItem(position)
         with(holder.binding) {
             if (diary != null) {
-
                 this.weekSelectorLayout.weekSelectorTextView.text =
                     "${DateManipulation(diary.diaryResponse.weekStart).journalDate()} - ${
                         DateManipulation(diary.diaryResponse.weekEnd).journalDate()
@@ -62,7 +54,6 @@ class JournalPagerAdapter(
                                 bundleOf("lessonId" to p1.classmeetingId, "type" to "journal")
                             )
                         }
-
                     }
                 })
                 if (diary.pastMandatory.isNotEmpty()) {
@@ -71,13 +62,16 @@ class JournalPagerAdapter(
                 } else pastMandatory.root.visibility = View.GONE
 
                 diaryAdapter.diary = diary.diaryResponse.weekDays
+                diaryAdapter.attachments = diary.attachmentsResponse
 
-                pastMandatory.pastMandatoryRecyclerView.adapter = pastMandatoryAdapter
-                pastMandatory.pastMandatoryRecyclerView.layoutManager = LinearLayoutManager(
-                    holder.itemView.context,
-                    LinearLayoutManager.VERTICAL,
-                    false
-                )
+                pastMandatory.pastMandatoryRecyclerView.apply {
+                    adapter = pastMandatoryAdapter
+                    layoutManager = LinearLayoutManager(
+                        holder.itemView.context,
+                        LinearLayoutManager.VERTICAL,
+                        false
+                    )
+                }
 
                 this.diary.adapter = diaryAdapter
                 this.diary.layoutManager =

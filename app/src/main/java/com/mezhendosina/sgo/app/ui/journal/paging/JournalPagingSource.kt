@@ -37,13 +37,13 @@ class JournalPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Long, Diary>): Long? {
-        val anchorPos = state.anchorPosition ?: return null
-        val page = state.closestPageToPosition(anchorPos) ?: return null
-
-        return page.prevKey?.plus(7 * 24 * 60 * 60 * 1000)
-            ?: page.nextKey?.minus(7 * 24 * 60 * 60 * 1000)
-    }
+    override fun getRefreshKey(state: PagingState<Long, Diary>): Long? = null
+//        val anchorPos = state.anchorPosition ?: return null
+//        val page = state.closestPageToPosition(anchorPos) ?: return null
+//
+//        return page.prevKey?.plus(7 * 24 * 60 * 60 * 1000)
+//            ?: page.nextKey?.minus(7 * 24 * 60 * 60 * 1000)
+//    }
 }
 
 @SuppressLint("SimpleDateFormat")
