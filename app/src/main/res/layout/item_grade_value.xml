@@ -13,9 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@color/transperent"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="" />
 
@@ -25,8 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transperent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="3.49" />
 
@@ -37,19 +37,18 @@
         android:layout_height="wrap_content"
         android:background="@color/transperent"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-
         tool:text="2.50" />
 
     <ImageView
         android:id="@+id/duty_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/duty_mark"
         android:src="@drawable/ic_duty_mark"
         android:visibility="gone"
-        android:contentDescription="@string/duty_mark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
