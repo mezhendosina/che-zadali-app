@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:padding="16dp">
+    android:foreground="?android:attr/selectableItemBackground"
+    android:padding="16dp"
+    app:layout_constraintCircleRadius="16dp">
 
     <!--    <ImageButton-->
     <!--        android:id="@+id/prev_week_button"-->
