@@ -1,44 +1,57 @@
 package com.mezhendosina.sgo.app.ui.journal
 
 import android.content.Context
-import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.ui.journal.paging.JournalPagingSource
-import com.mezhendosina.sgo.app.ui.journal.paging.PLACEHOLDERS
+import com.mezhendosina.sgo.app.model.journal.entities.DiaryAdapterEntity
+import com.mezhendosina.sgo.app.model.journal.JournalPagingSource
+import com.mezhendosina.sgo.app.model.journal.PLACEHOLDERS
+import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.layouts.diary.Diary
-import com.mezhendosina.sgo.data.layouts.diary.init.Student
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.properties.Delegates
 
-class JournalViewModel : ViewModel() {
+class JournalViewModel(
+    private val settingsRepository: SettingsRepository = Singleton.settingsRepository
+) : ViewModel() {
 
-    lateinit var diary: Flow<PagingData<Diary>>
+    lateinit var diaryEntity: Flow<PagingData<DiaryAdapterEntity>>
 
 
     fun loadDiary(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            val studentId = Settings(context).currentUserId.first()
-            diary = getPagedDiary(studentId)
+            val settings = Settings(context)
+            val studentId = settings.currentUserId.first()
+            val yearId = if (Singleton.currentYearId != null) Singleton.currentYearId
+            else {
+                val years = settingsRepository.getYears().first { !it.name.contains("(*)") }.id
+                Singleton.currentYearId = years
+                years
+            }
+            diaryEntity = getPagedDiary(studentId, yearId!!)
         }
     }
 
-    private fun getPagedDiary(studentId: Int): Flow<PagingData<Diary>> =
+    private fun getPagedDiary(studentId: Int, yearId: Int): Flow<PagingData<DiaryAdapterEntity>> =
         Pager(
             config = PagingConfig(
-                pageSize = 4,
+                pageSize = 2,
                 enablePlaceholders = PLACEHOLDERS,
-                initialLoadSize = 4
+                initialLoadSize = 2
             ),
-            pagingSourceFactory = { JournalPagingSource(studentId) }
+            pagingSourceFactory = {
+                JournalPagingSource(
+                    studentId,
+                    yearId,
+                    Singleton.diarySource,
+                    Singleton.homeworkSource,
+                )
+            }
         ).flow.cachedIn(viewModelScope)
 }
 

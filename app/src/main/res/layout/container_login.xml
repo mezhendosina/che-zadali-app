@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@null"
     tools:context=".activities.LoginActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -34,13 +35,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/load_error"
-        layout="@layout/item_load_error"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"

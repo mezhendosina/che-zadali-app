@@ -6,11 +6,10 @@ import android.view.ViewGroup
 import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemAnnouncementBinding
-import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
-import io.noties.markwon.Markwon
+import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
 import org.jsoup.Jsoup
 
-typealias OnAnnouncementClickListener = (AnnouncementsResponseItem) -> Unit
+typealias OnAnnouncementClickListener = (AnnouncementsResponseEntity) -> Unit
 
 class AnnouncementsAdapter(
     private val onAnnouncementClickListener: OnAnnouncementClickListener,
@@ -18,7 +17,7 @@ class AnnouncementsAdapter(
     RecyclerView.Adapter<AnnouncementsAdapter.AnnouncementsViewHolder>(),
     View.OnClickListener {
 
-    var announcements: List<AnnouncementsResponseItem> = emptyList()
+    var announcements: List<AnnouncementsResponseEntity> = emptyList()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
@@ -29,7 +28,7 @@ class AnnouncementsAdapter(
         RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(p0: View) {
-        val announcement = p0.tag as AnnouncementsResponseItem
+        val announcement = p0.tag as AnnouncementsResponseEntity
         onAnnouncementClickListener(announcement)
     }
 

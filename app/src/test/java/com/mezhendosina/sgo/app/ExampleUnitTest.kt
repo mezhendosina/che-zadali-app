@@ -31,4 +31,7 @@ class ExampleUnitTest {
         val f = File("D:/Programming/extractGrades.html").readText()
         println(GradesFromHtml().extractGrades(f))
     }
+
+
+    
 }

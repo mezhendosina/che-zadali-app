@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="?android:attr/colorBackground"
-    tools:context=".ui.chooseSchool.ChooseSchoolFragment"
-    >
+    tools:context=".ui.chooseSchool.ChooseSchoolFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/choose_school_text_view"
@@ -16,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:background="@color/transperent"
+        android:background="@null"
         android:hint="@string/start_typing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +38,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/choose_school_text_view" />
+
+    <include
+        android:id="@+id/load_error"
+        layout="@layout/item_load_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/school_list"

@@ -17,7 +17,7 @@
         android:id="@+id/update_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transperent"
+        android:background="@null"
         android:fontFamily="@font/roboto_medium"
         android:textSize="18sp"
         android:text="@string/download_update"

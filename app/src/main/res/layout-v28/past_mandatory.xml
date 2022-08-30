@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transperent">
+    android:background="@null"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:contentDescription="@string/past_mandatory_header"
         android:src="@drawable/ic_alert"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,30 +28,17 @@
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        style="@style/MaterialCardView"
-        android:layout_width="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/past_mandatory_recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="17dp"
-        android:outlineSpotShadowColor="?attr/colorError"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="4dp"
+        android:clipToPadding="false"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/past_mandatory_header">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/past_mandatory_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/past_mandatory_header"
-            tools:itemCount="2"
-            tools:listitem="@layout/item_past_mandatory" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toBottomOf="@id/past_mandatory_header"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_past_mandatory" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

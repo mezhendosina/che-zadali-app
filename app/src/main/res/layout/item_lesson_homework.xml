@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null">
+
+    <ImageView
+        android:id="@+id/homework_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_journal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorOnBackground" />
+
+    <TextView
+        android:id="@+id/homework_header"
+        style="@style/captions.gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/homework"
+        android:textColor="?attr/colorOnBackground"
+        app:layout_constraintBottom_toBottomOf="@id/homework_icon"
+        app:layout_constraintStart_toEndOf="@id/homework_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/homework_body"
+        style="@style/mainText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:autoLink="all"
+        android:textIsSelectable="true"
+        app:layout_constraintEnd_toStartOf="@id/copy_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/homework_header"
+        tool:text="Выучить все" />
+
+    <ImageView
+        android:id="@+id/copy_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/homework_body"
+        app:layout_constraintTop_toTopOf="@id/homework_body"
+        app:tint="?attr/colorOnBackground" />
+
+    <TextView
+        android:id="@+id/due_date"
+        style="@style/captions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="?attr/colorOnBackground"
+        app:layout_constraintBottom_toTopOf="@id/comment_divider"
+        app:layout_constraintEnd_toStartOf="@id/copy_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/homework_body"
+        tool:text="Срок сдачи: 04.04.2022" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/comment_divider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/due_date" />
+
+    <ImageView
+        android:id="@+id/comment_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_added_homework_text"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_divider"
+        app:tint="?attr/colorOnBackground" />
+
+    <TextView
+        android:id="@+id/comment_header"
+        style="@style/captions.gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:text="@string/teacher_comment"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/comment_icon"
+        app:layout_constraintStart_toEndOf="@id/comment_icon"
+        app:layout_constraintTop_toTopOf="@id/comment_icon" />
+
+    <TextView
+        android:id="@+id/comment_body"
+        style="@style/mainText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_header"
+        tool:text="Выучить вообще все" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/attachments_divider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_body" />
+
+    <ImageView
+        android:id="@+id/attachments_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_attachment"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/attachments_divider"
+        app:tint="?attr/colorOnBackground" />
+
+    <TextView
+        android:id="@+id/attachments_header"
+        style="@style/captions.gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:text="@string/attachments"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/attachments_icon"
+        app:layout_constraintStart_toEndOf="@id/attachments_icon"
+        app:layout_constraintTop_toTopOf="@id/attachments_icon" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/attachments_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/attachments_header"
+        tool:itemCount="2"
+        tool:listitem="@layout/item_attachment" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemJournalViewpagerBinding
+import com.mezhendosina.sgo.app.model.journal.entities.DiaryAdapterEntity
 import com.mezhendosina.sgo.data.DateManipulation
-import com.mezhendosina.sgo.data.layouts.diary.Diary
-import com.mezhendosina.sgo.data.layouts.diary.diary.Lesson
+import com.mezhendosina.sgo.data.requests.diary.entities.DiaryEntity
+import com.mezhendosina.sgo.data.requests.diary.entities.Lesson
 
 typealias CurrentItemListener = () -> Int
 
@@ -22,9 +23,11 @@ class JournalPagerAdapter(
     private val navController: NavController,
     private val currentItemListener: CurrentItemListener,
 ) :
-    PagingDataAdapter<Diary, JournalPagerAdapter.ViewHolder>(DiaryDiffCallback()) {
+    PagingDataAdapter<DiaryAdapterEntity, JournalPagerAdapter.ViewHolder>(DiaryDiffCallback()) {
     class ViewHolder(val binding: ItemJournalViewpagerBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    private val viewPool = RecyclerView.RecycledViewPool()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -38,17 +41,16 @@ class JournalPagerAdapter(
         with(holder.binding) {
             if (diary != null) {
                 this.weekSelectorLayout.weekSelectorTextView.text =
-                    "${DateManipulation(diary.diaryResponse.weekStart).journalDate()} - ${
-                        DateManipulation(diary.diaryResponse.weekEnd).journalDate()
+                    "${DateManipulation(diary.weekStart).journalDate()} - ${
+                        DateManipulation(diary.weekEnd).journalDate()
                     }"
             }
-            if (diary != null && diary.diaryResponse.weekDays.isNotEmpty()) {
-                val pastMandatoryAdapter = PastMandatoryAdapter()
+            if (diary != null && diary.weekDays.isNotEmpty()) {
                 val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
                     override fun invoke(p1: Lesson) {
                         val d = getItem(currentItemListener.invoke())
                         if (d != null) {
-                            Singleton.diary = d
+//                            Singleton.diaryEntity = d
                             navController.navigate(
                                 R.id.action_containerFragment_to_lessonFragment,
                                 bundleOf("lessonId" to p1.classmeetingId, "type" to "journal")
@@ -57,21 +59,24 @@ class JournalPagerAdapter(
                     }
                 })
                 if (diary.pastMandatory.isNotEmpty()) {
+                    val pastMandatoryAdapter = PastMandatoryAdapter()
                     pastMandatoryAdapter.items = diary.pastMandatory
                     pastMandatory.root.visibility = View.VISIBLE
+                    pastMandatory.pastMandatoryRecyclerView.apply {
+                        adapter = pastMandatoryAdapter
+                        layoutManager = LinearLayoutManager(
+                            holder.itemView.context,
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+                        setRecycledViewPool(viewPool)
+                    }
                 } else pastMandatory.root.visibility = View.GONE
+//
+//                diaryAdapter.diary = diary.diaryResponse.weekDays
+//                diaryAdapter.attachments = diary.attachmentsResponse
 
-                diaryAdapter.diary = diary.diaryResponse.weekDays
-                diaryAdapter.attachments = diary.attachmentsResponse
 
-                pastMandatory.pastMandatoryRecyclerView.apply {
-                    adapter = pastMandatoryAdapter
-                    layoutManager = LinearLayoutManager(
-                        holder.itemView.context,
-                        LinearLayoutManager.VERTICAL,
-                        false
-                    )
-                }
 
                 this.diary.adapter = diaryAdapter
                 this.diary.layoutManager =
@@ -80,25 +85,32 @@ class JournalPagerAdapter(
                         LinearLayoutManager.VERTICAL,
                         false
                     )
-                noHomework.visibility = View.INVISIBLE
-                noHomeworkIcon.visibility = View.INVISIBLE
+                this.diary.setRecycledViewPool(viewPool)
+                emptyState.emptyText.visibility = View.INVISIBLE
+                emptyState.noHomeworkIcon.visibility = View.INVISIBLE
                 this.diary.visibility = View.VISIBLE
             } else {
                 this.diary.visibility = View.INVISIBLE
                 pastMandatory.root.visibility = View.INVISIBLE
-                noHomeworkIcon.visibility = View.VISIBLE
-                noHomework.visibility = View.VISIBLE
+                emptyState.noHomeworkIcon.visibility = View.VISIBLE
+                emptyState.emptyText.visibility = View.VISIBLE
             }
         }
     }
 }
 
-class DiaryDiffCallback : DiffUtil.ItemCallback<Diary>() {
-    override fun areItemsTheSame(oldItem: Diary, newItem: Diary): Boolean {
-        return oldItem.diaryResponse.weekStart == newItem.diaryResponse.weekStart
+class DiaryDiffCallback : DiffUtil.ItemCallback<DiaryAdapterEntity>() {
+    override fun areItemsTheSame(
+        oldItem: DiaryAdapterEntity,
+        newItem: DiaryAdapterEntity
+    ): Boolean {
+        return oldItem.weekStart == newItem.weekStart
     }
 
-    override fun areContentsTheSame(oldItem: Diary, newItem: Diary): Boolean {
+    override fun areContentsTheSame(
+        oldItem: DiaryAdapterEntity,
+        newItem: DiaryAdapterEntity
+    ): Boolean {
         return oldItem == newItem
     }
 }

@@ -1,0 +1,59 @@
+package com.mezhendosina.sgo.data.requests.homework
+
+import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
+import com.mezhendosina.sgo.data.requests.homework.entities.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.Response
+import retrofit2.http.*
+
+interface HomeworkApi {
+
+    @GET("webapi/grade/assignment/types")
+    suspend fun assignmentTypes(
+        @Query("all") all: Boolean = true
+    ): List<AssignmentTypesResponseEntity>
+
+
+    @POST("webapi/student/diary/get-attachments")
+    suspend fun getAttachments(
+        @Query("studentId") studentId: Int,
+        @Body attachmentsIds: AttachmentsRequestEntity
+    ): List<AttachmentsResponseEntity>
+
+    /**
+    Получение прикрепленных ответов на задание
+     */
+    @GET("/webapi/assignments/{assignmentId}/answers")
+    suspend fun getAnswer(
+        @Path("assignmentId") assignmentId: Int,
+        @Query("studentID") studentId: Int
+    ): List<GetAnswerResponseEntity>
+
+    @GET("webapi/student/diary/assigns/{assignID}")
+    suspend fun getAboutAssign(
+        @Path("assignID") assignId: Int,
+        @Query("studentId") studentId: Int
+    ): AssignResponseEntity
+
+    @GET("webapi/attachments/{attachmentId}")
+    @Streaming
+    suspend fun downloadAttachment(
+        @Path("attachmentId") attachmentId: Int
+    ): Response<ResponseBody>
+
+    @POST("webapi/assignments/{assignmentId}/answers")
+    suspend fun sendTextAnswer(
+        @Path("assignmentId") assignmentId: Int,
+        @Query("studentId") studentId: Int,
+        @Body answer: String
+    ): Response<ResponseBody>
+
+    @Multipart
+    @POST("webapi/attachments")
+    suspend fun sendFileAttachment(
+        @Part file: MultipartBody.Part,
+        @Part("data") data: SendFileRequestEntity
+    ): Int
+}

@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.data.layouts.password.Password
+import com.mezhendosina.sgo.app.model.login.LoginEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.net.URI
@@ -14,12 +13,12 @@ import java.net.URI
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 data class SettingsLoginData(
-    val cid: String,
-    val sid: String,
-    val pid: String,
-    val cn: String,
-    val sft: String,
-    val scid: String,
+    val cid: Int,
+    val sid: Int,
+    val pid: Int,
+    val cn: Int,
+    val sft: Int,
+    val scid: Int,
     val UN: String,
     val PW: String,
 )
@@ -37,12 +36,12 @@ class Settings(val context: Context) {
         val CURRENT_TRIM_ID = stringPreferencesKey("current_trim_id")
         val PHOTO_FILE_URI = stringPreferencesKey("photo_file_uri")
 
-        val CID = stringPreferencesKey("cid")
-        val SID = stringPreferencesKey("sid")
-        val pid = stringPreferencesKey("pid")
-        val CN = stringPreferencesKey("cn")
-        val SFT = stringPreferencesKey("sft")
-        val SCID = stringPreferencesKey("scid")
+        val CID = intPreferencesKey("cid")
+        val SID = intPreferencesKey("sid")
+        val pid = intPreferencesKey("pid")
+        val CN = intPreferencesKey("cn")
+        val SFT = intPreferencesKey("sft")
+        val SCID = intPreferencesKey("scid")
     }
 
     val loggedIn = context.dataStore.data.map { it[LOGGED_IN] ?: false }
@@ -54,17 +53,17 @@ class Settings(val context: Context) {
     val currentTrimId = context.dataStore.data.map { it[CURRENT_TRIM_ID] }
     val photoFileUri = context.dataStore.data.map { it[PHOTO_FILE_URI] }
 
-    suspend fun saveALl(loginData: SettingsLoginData) {
+    suspend fun saveALl(loginData: LoginEntity) {
         context.dataStore.edit { prefs ->
             prefs[LOGGED_IN] = true
-            prefs[LOGIN] = loginData.UN
-            prefs[PASSWORD] = loginData.PW
-            prefs[CID] = loginData.cid
-            prefs[SID] = loginData.sid
-            prefs[pid] = loginData.pid
-            prefs[CN] = loginData.cn
-            prefs[SFT] = loginData.sft
-            prefs[SCID] = loginData.scid
+            prefs[LOGIN] = loginData.login
+            prefs[PASSWORD] = loginData.password
+            prefs[CID] = loginData.countryId
+            prefs[SID] = loginData.stateId
+            prefs[pid] = loginData.provinceId
+            prefs[CN] = loginData.cityId
+            prefs[SFT] = loginData.schoolType
+            prefs[SCID] = loginData.schoolId
         }
     }
 
@@ -79,12 +78,12 @@ class Settings(val context: Context) {
             prefs[LOGGED_IN] = false
             prefs[LOGIN] = ""
             prefs[PASSWORD] = ""
-            prefs[CID] = ""
-            prefs[SID] = ""
-            prefs[pid] = ""
-            prefs[CN] = ""
-            prefs[SFT] = ""
-            prefs[SCID] = ""
+            prefs[CID] = 0
+            prefs[SID] = 0
+            prefs[pid] = 0
+            prefs[CN] = 0
+            prefs[SFT] = 0
+            prefs[SCID] = 0
         }
     }
 
@@ -97,12 +96,12 @@ class Settings(val context: Context) {
     suspend fun getLoginData(): SettingsLoginData {
         context.dataStore.data.first().let {
             return SettingsLoginData(
-                it[CID] ?: "0",
-                it[SID] ?: "0",
-                it[pid] ?: "0",
-                it[CN] ?: "0",
-                it[SFT] ?: "0",
-                it[SCID] ?: "0",
+                it[CID] ?: 0,
+                it[SID] ?: 0,
+                it[pid] ?: 0,
+                it[CN] ?: 0,
+                it[SFT] ?: 0,
+                it[SCID] ?: 0,
                 it[LOGIN] ?: "",
                 it[PASSWORD] ?: ""
             )

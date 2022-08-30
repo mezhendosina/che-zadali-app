@@ -8,18 +8,18 @@ import com.mezhendosina.sgo.app.databinding.ItemWhyGradeBinding
 import com.mezhendosina.sgo.app.ui.grades.showBadGrade
 import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
 import com.mezhendosina.sgo.app.ui.grades.showMidGrade
-import com.mezhendosina.sgo.data.layouts.grades.WhyGradeItem
-import com.mezhendosina.sgo.data.layouts.homeworkTypes.TypesResponseItem
+import com.mezhendosina.sgo.data.requests.homework.entities.WhyGradeEntity
+import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
 
 class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>() {
 
-    var grades: List<WhyGradeItem> = emptyList()
+    var grades: List<WhyGradeEntity> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    var types: List<TypesResponseItem> = emptyList()
+    var types: List<AssignmentTypesResponseEntity> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()

@@ -6,12 +6,12 @@
     app:startDestination="@id/settingsFragment">
     <fragment
         android:id="@+id/changePasswordFragment"
-        android:name="com.mezhendosina.sgo.app.ui.settings.changePassword.ChangePasswordFragment"
+        android:name="com.mezhendosina.sgo.app.ui.changePassword.ChangePasswordFragment"
         android:label="@string/change_password"
         tools:layout="@layout/fragment_change_password" />
     <fragment
         android:id="@+id/changeControlQuestionFragment"
-        android:name="com.mezhendosina.sgo.app.ui.settings.changeControlQuestion.ChangeControlQuestionFragment"
+        android:name="com.mezhendosina.sgo.app.ui.changeControlQuestion.ChangeControlQuestionFragment"
         android:label="@string/change_control_question"
         tools:layout="@layout/fragment_change_control_question" >
         <action

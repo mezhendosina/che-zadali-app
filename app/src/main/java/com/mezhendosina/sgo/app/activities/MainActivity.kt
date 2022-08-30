@@ -1,25 +1,22 @@
 package com.mezhendosina.sgo.app.activities
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
-import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.layouts.Error
-import io.ktor.client.call.*
-import io.ktor.client.plugins.*
-import io.ktor.util.network.*
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ContainerMainActivityBinding
     private var navController: NavController? = null
+
+    private val viewModel: MainViewModel by viewModels()
 
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentCreated(
@@ -36,19 +33,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val settings = Settings(this@MainActivity)
-            try {
-                val loginData = settings.getLoginData()
-                Singleton.login(loginData)
-            } catch (response: ResponseException) {
-                withContext(Dispatchers.Main) {
-                    errorDialog(this@MainActivity, response.response.body() ?: "")
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    errorDialog(this@MainActivity, e.message ?: "")
+
+            withContext(Dispatchers.Main) {
+                viewModel.errorMessage.observe(this@MainActivity) {
+                    errorDialog(this@MainActivity, it)
                 }
             }
+            viewModel.login(this@MainActivity)
+
             withContext(Dispatchers.Main) {
                 binding = ContainerMainActivityBinding.inflate(layoutInflater)
                 setContentView(binding.root)
@@ -58,25 +50,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRestart() {
-        val singleton = Singleton
         runBlocking {
-            try {
-                singleton.login(Settings(this@MainActivity).getLoginData())
-            } catch (e: ResponseException) {
-                withContext(Dispatchers.Main) {
-                    errorDialog(this@MainActivity, e.response.body<Error>().message)
-                }
-            } catch (e: UnresolvedAddressException) {
-                withContext(Dispatchers.Main) {
-                    errorDialog(this@MainActivity, "Похоже, что нету итернета :(")
-                }
-            }
+            viewModel.login(this@MainActivity)
         }
         super.onRestart()
     }
 
     override fun onStop() {
-        CoroutineScope(Dispatchers.IO).launch { Singleton.requests.logout() }
+        viewModel.logout()
         super.onStop()
     }
 

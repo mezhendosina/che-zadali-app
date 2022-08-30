@@ -1,29 +1,29 @@
 <resources>
 
     <style name="Theme.SGOApp." parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
-        <item name="colorSecondary">@color/primaryColor</item>
-        <item name="backgroundColor">@color/backgroundWhite</item>
+        <item name="colorPrimary">@color/lightPrimary</item>
+        <item name="colorPrimaryVariant">@color/lightPrimary</item>
+        <item name="colorSecondary">@color/lightSecondary</item>
+        <item name="backgroundColor">@color/lightBackground</item>
 
-        <item name="colorSurface">@color/surface</item>
-        <item name="colorError">@color/error</item>
-        <item name="colorOnPrimary">@color/onPrimary</item>
-        <item name="colorOnBackground">@color/onBackground</item>
-        <item name="colorOnSurface">@color/onSurface</item>
-        <item name="colorOnError">@color/onError</item>
+        <item name="colorSurface">@color/lightSurface</item>
+        <item name="colorError">@color/badGrade</item>
+        <item name="colorOnPrimary">@color/lightBackground</item>
+        <item name="colorOnBackground">@color/lightTextColor</item>
+        <item name="colorOnSurface">@color/lightTextColor</item>
+        <item name="colorOnError">@color/lightTextColor</item>
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
 
-        <item name="android:textColorLink">@color/primaryDarkColor</item>
+        <item name="android:textColorLink">@color/lightPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="windowActionBar">false</item>
         <item name="snackbarStyle">@style/snackBarStyle</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
-    </style>
 
-    <style name="Toolbar">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
+
+        <item name="colorGoodGrade">@color/goodGrade</item>
+        <item name="colorMidGrade">@color/midGrade</item>
+        <item name="colorBadGrade">@color/badGrade</item>
     </style>
 
     <style name="recycler_view">
@@ -33,14 +33,14 @@
     <style name="mainScreenHeaders" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/text_size_large</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
     </style>
 
-    <style name="expandedToolBarText" parent="">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    <style name="expandedToolBarText" parent="mainScreenHeaders">
+        <item name="android:textSize">36sp</item>
     </style>
+
 
     <style name="announcementsToolBarText" parent="mainScreenHeaders">
         <item name="android:textSize">18sp</item>
@@ -53,7 +53,7 @@
     <style name="MaterialCardView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cardCornerRadius">8dp</item>
-        <item name="cardElevation">16dp</item>
+        <item name="cardElevation">8dp</item>
         <item name="cardBackgroundColor">?attr/colorSurface</item>
     </style>
 
@@ -65,9 +65,12 @@
 
     <style name="mainText" parent="TextAppearance.MaterialComponents.Body1" />
 
-    <style name="captions" parent="mainText">
+    <style name="captions" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
-        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="captions.gray" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 
     <style name="dark_captions" parent="captions">
@@ -110,7 +113,7 @@
 
     <style name="ThemeOverlay.App.Snackbar" parent="">
         <item name="colorPrimary">?attr/colorPrimary</item>
-        <item name="colorOnSurface">@color/onSurface</item>
+        <item name="colorOnSurface">?attr/colorOnSurface</item>
     </style>
 
     <style name="settingsTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -145,9 +148,8 @@
     </style>
 
     <style name="gradeText">
-        <item name="fontFamily">@font/lobster</item>
-        <item name="android:gravity">end</item>
-        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/roboto_serif</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
     <style name="goodGradeText" parent="gradeText">
@@ -155,17 +157,11 @@
     </style>
 
     <style name="midGradeText" parent="gradeText">
-        <item name="android:textColor">@color/threeGrade</item>
+        <item name="android:textColor">?attr/colorMidGrade</item>
     </style>
 
     <style name="badGradeText" parent="gradeText">
         <item name="android:textColor">?attr/colorError</item>
     </style>
-    <style name="Theme.SGOApp..NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-    <style name="Theme.SGOApp..AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="Theme.SGOApp..PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

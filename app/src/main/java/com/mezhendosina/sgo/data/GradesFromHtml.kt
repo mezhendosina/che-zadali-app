@@ -1,7 +1,7 @@
 package com.mezhendosina.sgo.data
 
-import com.mezhendosina.sgo.data.layouts.gradeOptions.*
-import com.mezhendosina.sgo.data.layouts.grades.GradesItem
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.*
+import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
 import org.jsoup.Jsoup
 
 class GradesFromHtml {
@@ -66,7 +66,7 @@ class GradesFromHtml {
             val fourGrade = tdTags[2].text().toGradeInt()
             val threeGrade = tdTags[3].text().toGradeInt()
             val twoGrade = tdTags[4].text().toGradeInt()
-//            val oneGrade = if()tdTags[5].text().toInt()
+// TODO            val oneGrade = if()tdTags[5].text().toInt()
 
             grades.add(
                 GradesItem(

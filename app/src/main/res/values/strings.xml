@@ -8,9 +8,9 @@
     <string name="login_title">Вход</string>
     <string name="password">Пароль</string>
     <string name="selected_school">Выбранная школа</string>
-    <string name="start_typing">Школа…</string>
+    <string name="start_typing">Начните вводить…</string>
     <string name="attachments">Прикрепленные файлы</string>
-    <string name="send_homework">Отправить домашнее задание</string>
+    <string name="send_homework">Ответ на задание</string>
     <string name="logout">Выйти</string>
     <string name="in_progress">В разработке</string>
     <string name="selected_theme">Выбранная тема</string>
@@ -69,13 +69,16 @@
     <string name="teacher_caption">Есть подробности от учителя</string>
     <string name="added_attachment">Прикреплен файл</string>
     <string name="title_activity_splash">SplashActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="duty_mark">Просроченное задание</string>
+    <string name="retry_button">Повторить</string>
+    <string name="send_file">Загрузить файл</string>
+    <string name="replace_file">Заменить файл</string>
+    <string name="edit_description">Редактировать описание</string>
+    <string name="delete_file">Удалить файл</string>
+    <string name="choose_file">Выбрать файл</string>
+    <string name="description">Описание</string>
+    <string name="upload">Отправить</string>
+    <string name="upload_file">Прикрепить файл</string>
 </resources>

@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:background="@color/transperent"
+        android:background="@null"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:titleTextColor="?attr/colorOnBackground"

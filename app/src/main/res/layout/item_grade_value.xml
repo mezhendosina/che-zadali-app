@@ -4,26 +4,29 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/grade"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:background="@null">
 
     <TextView
         android:id="@+id/good_grade"
         style="@style/goodGradeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transperent"
+        android:background="@null"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="" />
+        tool:text="5" />
 
     <TextView
         android:id="@+id/mid_grade"
         style="@style/midGradeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transperent"
+        android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +38,7 @@
         style="@style/badGradeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transperent"
+        android:background="@null"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

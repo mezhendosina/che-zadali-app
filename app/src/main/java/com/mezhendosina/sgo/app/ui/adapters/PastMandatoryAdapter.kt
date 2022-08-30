@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemPastMandatoryBinding
-import com.mezhendosina.sgo.data.layouts.pastMandatory.PastMandatoryItem
+import com.mezhendosina.sgo.data.DateManipulation
+import com.mezhendosina.sgo.data.requests.diary.entities.PastMandatoryEntity
 
 class PastMandatoryAdapter : RecyclerView.Adapter<PastMandatoryAdapter.PastMandatoryViewHolder>() {
 
-    var items: List<PastMandatoryItem> = emptyList()
+    var items: List<PastMandatoryEntity> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -26,7 +27,7 @@ class PastMandatoryAdapter : RecyclerView.Adapter<PastMandatoryAdapter.PastManda
     override fun onBindViewHolder(holder: PastMandatoryViewHolder, position: Int) {
         val item = items[position]
         with(holder.binding) {
-            this.dueDate.text = item.dueDate
+            this.dueDate.text = DateManipulation(item.dueDate).dateFormatter()
             this.homework.text = item.assignmentName
             this.lessonName.text = item.subjectName
         }

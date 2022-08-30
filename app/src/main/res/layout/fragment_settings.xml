@@ -25,7 +25,7 @@
                 style="@style/onCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transperent"
+                android:background="@null"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp">
 
@@ -183,7 +183,7 @@
             style="@style/settingsTextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/transperent"
+            android:background="@null"
             android:hint="@string/email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

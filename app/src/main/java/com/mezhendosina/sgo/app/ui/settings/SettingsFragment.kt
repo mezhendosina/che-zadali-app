@@ -15,14 +15,13 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentSettingsBinding
-import com.mezhendosina.sgo.app.ui.settings.changeControlQuestion.ChangeControlQuestionFragment
+import com.mezhendosina.sgo.app.ui.changeControlQuestion.ChangeControlQuestionFragment
 import com.mezhendosina.sgo.data.DateManipulation
-import com.mezhendosina.sgo.data.uriFromFile
 import java.io.File
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
-    val viewModel: SettingsViewModel by viewModels()
+    private val viewModel: SettingsViewModel by viewModels()
     private lateinit var binding: FragmentSettingsBinding
 
     private val pickPhoto =
@@ -57,7 +56,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         )
 
         val regex = """(\d)(\d{3})(\d{3})(\d{2})(\d{2})""".toRegex()
-        viewModel.mySettingsResponse.observe(viewLifecycleOwner) {
+        viewModel.mySettingsResponseEntity.observe(viewLifecycleOwner) {
             binding.userName.text = "${it.lastName} ${it.firstName} ${it.middleName}"
             binding.userLogin.text = it.loginName
             binding.birthday.editText?.setText(DateManipulation(it.birthDate).dateFormatter())
@@ -72,16 +71,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         binding.changePhotoButton.setOnClickListener {
-            //TODO change photo button
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
             pickPhoto.launch(intent)
-//            Snackbar.make(
-//                binding.root,
-//                "Пока так нельзя, но скоро можно будет :)",
-//                Snackbar.LENGTH_LONG
-//            ).show()
         }
 
         // Нагло украдено со StackOverFlow
@@ -144,7 +137,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             findNavController().navigate(R.id.action_settingsFragment4_to_changePasswordFragment)
         }
         binding.changeControlQuestion.setOnClickListener {
-            val userSettings = viewModel.mySettingsResponse.value?.userSettings
+            val userSettings = viewModel.mySettingsResponseEntity.value?.userSettings
             findNavController().navigate(
                 R.id.action_settingsFragment4_to_changeControlQuestionFragment,
                 bundleOf(
@@ -166,7 +159,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         binding.logoutButton.setOnClickListener { viewModel.logout(requireContext()) }
     }
-
 
 
     override fun onDestroy() {

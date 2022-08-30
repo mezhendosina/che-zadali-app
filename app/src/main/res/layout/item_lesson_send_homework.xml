@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:textAlignment="viewStart">
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/send_homework_divider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:dividerThickness="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/send_homework_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_added_homework_text_attachment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/send_homework_divider"
+        app:tint="?attr/colorOnBackground" />
+
+    <TextView
+        android:id="@+id/send_homework_header"
+        style="@style/captions.gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/send_homework"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/send_homework_icon"
+        app:layout_constraintStart_toEndOf="@id/send_homework_icon"
+        app:layout_constraintTop_toTopOf="@id/send_homework_icon" />
+
+    <include
+        android:id="@+id/send_text"
+        layout="@layout/item_lesson_send_homework_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/send_homework_icon" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/send_text_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/send_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/send_attachment_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/send_text_divider"
+        tool:itemCount="3"
+        tool:listitem="@layout/item_uploaded_attachment" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/send_attachment_list" />
+
+    <Button
+        android:id="@+id/select_file"
+        style="@style/ButtonIconOnly"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:gravity="start|center"
+        android:insetLeft="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="@string/send_file"
+        app:icon="@drawable/ic_upload"
+        app:layout_constraintTop_toBottomOf="@id/send_attachment_list" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

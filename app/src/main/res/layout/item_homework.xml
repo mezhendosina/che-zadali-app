@@ -2,36 +2,39 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
-    style="@style/onCard"
+    style="@style/MaterialCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@null"
     android:clickable="true"
-    android:elevation="0dp"
     android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:isScrollContainer="false"
     android:paddingHorizontal="16dp"
-    android:paddingVertical="8dp">
+    android:paddingVertical="4dp"
+    android:foreground="?android:attr/selectableItemBackground">
+
 
     <TextView
         android:id="@+id/lesson_number"
         style="@style/lesson_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transperent"
+        android:background="@null"
         android:fontFamily="@font/roboto_medium"
-        app:layout_constraintBottom_toBottomOf="@id/lesson_time"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="1" />
 
     <TextView
         android:id="@+id/lesson_name"
-        style="@style/mainText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:background="@color/transperent"
+        android:layout_marginTop="4dp"
+        android:background="@null"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorOnBackground"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@id/grades"
         app:layout_constraintStart_toEndOf="@id/lesson_number"
         app:layout_constraintTop_toTopOf="parent"
@@ -42,24 +45,11 @@
         style="@style/captions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transperent"
+        android:background="@null"
+        app:layout_constraintBottom_toTopOf="@id/homework"
         app:layout_constraintStart_toStartOf="@id/lesson_name"
         app:layout_constraintTop_toBottomOf="@id/lesson_name"
-        app:layout_constraintBottom_toBottomOf="@id/assignment_types"
         tool:text="8:00 - 8:40" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/grades"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transperent"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tool:itemCount="1"
-        tool:listitem="@layout/item_grade_value" />
 
     <include
         android:id="@+id/assignment_types"
@@ -67,9 +57,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/lesson_time"
         app:layout_constraintEnd_toStartOf="@id/grades"
         app:layout_constraintStart_toEndOf="@id/lesson_time"
-        app:layout_constraintTop_toBottomOf="@id/lesson_name" />
+        app:layout_constraintTop_toTopOf="@id/lesson_time" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/grades"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:background="@null"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:itemCount="1"
+        tool:listitem="@layout/item_grade_value" />
 
     <TextView
         android:id="@+id/homework"
@@ -78,13 +82,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:autoLink="all"
-        android:background="@color/transperent"
+        android:background="@null"
         android:ellipsize="end"
         android:linksClickable="true"
-        android:maxLines="3"
+        android:maxLines="1"
+        android:textColor="?attr/colorOnBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/grades"
         app:layout_constraintStart_toStartOf="@id/lesson_name"
         app:layout_constraintTop_toBottomOf="@id/assignment_types"
         tool:text="Выучить все" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

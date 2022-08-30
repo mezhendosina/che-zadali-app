@@ -9,7 +9,7 @@ import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
 import com.mezhendosina.sgo.app.ui.grades.showBadGrade
 import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
 import com.mezhendosina.sgo.app.ui.grades.showMidGrade
-import com.mezhendosina.sgo.data.layouts.grades.GradesItem
+import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
 
 typealias OnGradeClickListener = (GradesItem) -> Unit
 

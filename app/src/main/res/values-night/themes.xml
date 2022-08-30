@@ -1,30 +1,30 @@
 <resources>
 
     <style name="Theme.SGOApp." parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
-        <item name="colorSecondary">@color/primaryColor</item>
-        <item name="backgroundColor">@color/backgroundDark</item>
 
-        <item name="colorSurface">@color/surfaceDark</item>
-        <item name="colorError">@color/errorDark</item>
-        <item name="colorOnPrimary">@color/onPrimaryDark</item>
-        <item name="colorOnBackground">@color/onBackgroundDark</item>
-        <item name="colorOnSurface">@color/onSurfaceDark</item>
-        <item name="colorOnError">@color/onErrorDark</item>
-        <item name="android:colorBackground">@color/backgroundDark</item>
+        <item name="colorPrimary">@color/darkPrimary</item>
+        <item name="colorPrimaryVariant">@color/darkPrimary</item>
+        <item name="colorSecondary">@color/darkSecondary</item>
+        <item name="backgroundColor">@color/darkBackground</item>
 
+        <item name="colorSurface">@color/darkSurface</item>
+        <item name="colorError">@color/badGrade</item>
+        <item name="colorOnPrimary">@color/darkBackground</item>
+        <item name="colorOnBackground">@color/lightBackground</item>
+        <item name="colorOnSurface">@color/lightBackground</item>
+        <item name="colorOnError">@color/lightBackground</item>
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
+
+        <item name="android:textColorLink">@color/darkPrimary</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="windowActionBar">false</item>
-
-
-        <item name="materialCardViewStyle">@style/MaterialCardView</item>
+        <item name="snackbarStyle">@style/snackBarStyle</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
 
-        <item name="android:textColorLink">?attr/colorPrimaryVariant</item>
 
-        <item name="snackbarStyle">@style/snackBarStyle</item>
+        <item name="colorGoodGrade">@color/goodGrade</item>
+        <item name="colorMidGrade">@color/midGrade</item>
+        <item name="colorBadGrade">@color/badGrade</item>
     </style>
 
     <style name="snackBarStyle" parent="Widget.MaterialComponents.Snackbar">
@@ -35,15 +35,15 @@
 
     <style name="ThemeOverlay.App.Snackbar" parent="">
         <item name="colorPrimary">?attr/colorPrimary</item>
-        <item name="colorOnSurface">@color/onSurfaceDark</item>
+        <item name="colorOnSurface">?attr/colorOnSurface</item>
     </style>
 
     <style name="goodGradeText" parent="gradeText">
-        <item name="android:textColor">@color/goodGradeDark</item>
+        <item name="android:textColor">?attr/colorGoodGrade</item>
     </style>
 
     <style name="midGradeText" parent="gradeText">
-        <item name="android:textColor">@color/threeGradeDark</item>
+        <item name="android:textColor">?attr/colorMidGrade</item>
     </style>
 
     <style name="badGradeText" parent="gradeText">

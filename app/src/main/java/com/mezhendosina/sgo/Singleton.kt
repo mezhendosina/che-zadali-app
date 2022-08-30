@@ -1,46 +1,109 @@
 package com.mezhendosina.sgo
 
-import android.content.Context
-import androidx.paging.PagingData
-import com.mezhendosina.sgo.data.Requests
-import com.mezhendosina.sgo.data.SettingsLoginData
-import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
-import com.mezhendosina.sgo.data.layouts.diary.Diary
-import com.mezhendosina.sgo.data.layouts.diary.diary.DiaryResponse
-import com.mezhendosina.sgo.data.layouts.gradeOptions.GradeOptions
-import com.mezhendosina.sgo.data.layouts.grades.GradesItem
-import com.mezhendosina.sgo.data.layouts.mySettingsRequest.MySettingsRequest
-import com.mezhendosina.sgo.data.layouts.mySettingsResponse.MySettingsResponse
+import com.mezhendosina.sgo.app.SourcesProvider
+import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
+import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
+import com.mezhendosina.sgo.app.model.login.LoginRepository
+import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
+import com.mezhendosina.sgo.app.model.grades.GradesRepository
+import com.mezhendosina.sgo.app.model.journal.DiarySource
+import com.mezhendosina.sgo.app.model.login.LoginSource
+import com.mezhendosina.sgo.app.model.grades.GradesSource
+import com.mezhendosina.sgo.app.model.homework.HomeworkSource
+import com.mezhendosina.sgo.app.model.journal.entities.DiaryAdapterEntity
+import com.mezhendosina.sgo.app.model.settings.SettingsRepository
+import com.mezhendosina.sgo.app.model.settings.SettingsSource
+import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.requests.diary.entities.DiaryEntity
+import com.mezhendosina.sgo.data.requests.diary.entities.DiaryResponseEntity
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
-import kotlinx.coroutines.flow.Flow
+import com.mezhendosina.sgo.data.requests.SourceProviderHolder
 
 object Singleton {
 
-    val requests = Requests()
+//    val requests = Requests()
 
     var at: String = ""
-    var todayHomework: Diary =
-        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
-    var announcements: List<AnnouncementsResponseItem> = emptyList()
+    var announcements: List<AnnouncementsResponseEntity> = emptyList()
 
 
-    var currentWeek = 0
-    var currentYearId: Int = 0
-    var diary: Diary =
-        Diary(DiaryResponse("", emptyList(), "", emptyList(), "", ""), emptyList(), emptyList())
+    var currentYearId: Int? = null
+    var diaryEntity: DiaryAdapterEntity = DiaryAdapterEntity(
+        "",
+        emptyList(),
+        "",
+        emptyList(),
+        "",
+        "",
+        emptyList()
+    )
     var schools = mutableListOf<SchoolItem>()
 
     var gradesOptions: GradeOptions? = null
     var grades: List<GradesItem> = emptyList()
 
-    var mySettings: MySettingsResponse? = null
+    var mySettings: MySettingsResponseEntity? = null
 
-    suspend fun login(loginData: SettingsLoginData) {
-        val login = requests.login(loginData)
-        at = login.at
-        val currentYearResponse = requests.yearList(at).first { !it.name.contains("(*) ") }
-        currentYearId = currentYearResponse.id
+
+    private val sourcesProvider: SourcesProvider by lazy {
+        SourceProviderHolder.sourcesProvider
     }
+
+    // --- sources
+    val loginSource: LoginSource by lazy {
+        sourcesProvider.getLoginSource()
+    }
+
+    val diarySource: DiarySource by lazy {
+        sourcesProvider.getDiarySource()
+    }
+
+    val homeworkSource: HomeworkSource by lazy {
+        sourcesProvider.getHomeworkSource()
+    }
+
+    private val announcementsSource: AnnouncementsSource by lazy {
+        sourcesProvider.getAnnouncementsSource()
+    }
+
+    private val gradesSource: GradesSource by lazy {
+        sourcesProvider.getGradesSource()
+    }
+
+    private val settingsSource: SettingsSource by lazy {
+        sourcesProvider.getSettingsSource()
+    }
+
+    // --- repositories
+
+    val chooseSchoolRepository: ChooseSchoolRepository by lazy {
+        ChooseSchoolRepository()
+    }
+
+    val loginRepository: LoginRepository by lazy {
+        LoginRepository(loginSource, settingsSource)
+    }
+
+    val announcementsRepository by lazy {
+        AnnouncementsRepository(announcementsSource)
+    }
+
+    val gradesRepository by lazy {
+        GradesRepository(gradesSource)
+    }
+
+    val settingsRepository by lazy {
+        SettingsRepository(settingsSource)
+    }
+//    suspend fun login(loginData: SettingsLoginData) {
+//        val login = requests.login(loginData)
+//        at = login.at
+//        val currentYearResponse = requests.yearList(at).first { !it.name.contains("(*) ") }
+//        currentYearId = currentYearResponse.id
+//    }
 
     const val ANNOUNCEMENTS_ID = "announcementsID"
 }

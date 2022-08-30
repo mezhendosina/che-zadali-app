@@ -15,6 +15,7 @@ class LoadingStateAdapter : LoadStateAdapter<LoadingStateAdapter.LoadingStateHol
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(loadState: LoadState) = with(binding) {
+            println(loadState)
             somethingWentWrong.isVisible = loadState is LoadState.Error
             tryAgainButton.isVisible = loadState is LoadState.Error
 

@@ -9,13 +9,17 @@
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable/journal_selector.xml" value="0.3565" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable/main_container_gradient.xml" value="0.287" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable/profile_photo_shadow.xml" value="0.4805" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable/shapes.xml" value="0.3435" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable/update_sheet_shape.xml" value="0.48" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/font/robot_serif.xml" value="0.412962962962963" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/font/roboto_medium.xml" value="0.41388888888888886" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-night/homework_grade_item.xml" value="0.45404018811457886" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/announcements_item.xml" value="0.39739583333333334" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/diary_item.xml" value="0.32535271483539974" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/grade_item.xml" value="0.25" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/item_announcement.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/item_grade.xml" value="0.3394613082513895" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/item_past_mandatory.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/past_mandatory.xml" value="0.3262077811030355" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/past_mandatory_item.xml" value="0.3262077811030355" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout-v28/settings_profile_card.xml" value="0.5" />
@@ -24,8 +28,11 @@
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/announcements_item.xml" value="0.3262077811030355" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/attachment_item.xml" value="0.3142368533561351" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/bottom_sheet_announcements.xml" value="0.3969571230982019" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/bottom_sheet_upload_file.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/choose_school_fragment.xml" value="0.10287303058387395" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/container_login.xml" value="0.33133817870884996" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/container_main.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/container_main_activity.xml" value="0.4548952543822146" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/container_settings.xml" value="0.25" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/content_splash.xml" value="0.4548952543822146" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/count_grade.xml" value="0.2" />
@@ -35,9 +42,12 @@
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_announcement_item.xml" value="0.2902949978623343" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_change_control_question.xml" value="0.25" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_change_password.xml" value="0.25" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_choose_school.xml" value="0.43744207599629287" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_grade_item.xml" value="0.25" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_grades.xml" value="0.24711415134672937" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_grades.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_item_journal.xml" value="0.25" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_journal.xml" value="0.3103890551517743" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_login.xml" value="0.31936725096194957" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/fragment_splash.xml" value="0.2573749465583583" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/grade_fragment.xml" value="0.25" />
@@ -51,17 +61,24 @@
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_announcement.xml" value="0.4548952543822146" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_assignment_types.xml" value="0.3954681487815306" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_attachment.xml" value="0.2573749465583583" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_diary.xml" value="0.3394613082513895" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_grade.xml" value="0.3394613082513895" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_grade_value.xml" value="0.25" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_diary.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_empty_state.xml" value="0.49166666666666664" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_grade.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_grade_value.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_homework.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_homework_grade.xml" value="0.2774690038477982" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_journal_viewpager.xml" value="0.4548952543822146" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson.xml" value="0.25" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_journal_viewpager.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson_homework.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson_send_homework.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson_send_homework_text.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_list_popup_window.xml" value="0.31936725096194957" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_load_error.xml" value="0.33" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_past_mandatory.xml" value="0.3394613082513895" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_past_mandatory.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_school.xml" value="0.3819444444444444" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_uploaded_attachment.xml" value="0.25" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_why_grade.xml" value="0.3394613082513895" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_why_grade_with_date.xml" value="0.3819444444444444" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/journal_fragment.xml" value="0.25" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/journal_loading_state.xml" value="0.34886703719538265" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/journal_viewpager_item.xml" value="0.1" />
@@ -74,6 +91,7 @@
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/main_container_item.xml" value="0.25" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/main_fragment.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/modal_sheet_photo_select.xml" value="0.3698161607524583" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/modal_sheet_update.xml" value="0.3675925925925926" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/past_mandatory.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/past_mandatory_item.xml" value="0.3262077811030355" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/settings_fragment.xml" value="0.33" />
@@ -82,11 +100,13 @@
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/splash_fragment.xml" value="0.4548952543822146" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/update_modal_sheet.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/update_state.xml" value="0.3420265070542967" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/week_selector.xml" value="0.22" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/week_selector.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/why_grade_item.xml" value="0.4548952543822146" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/why_grade_with_date.xml" value="0.45404018811457886" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/menu-v26/menu_upload_attachment.xml" value="0.5375" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/menu/bottom_nav.xml" value="0.42168674698795183" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/menu/main_toolbar_more_menu.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/menu/menu_upload_attachment.xml" value="0.4777777777777778" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/drawable/ic_attachment.xml" value="0.172" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/drawable/ic_launcher_background.xml" value="0.365" />
         <entry key="..\:/Users/mensh/rewrite9/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.365" />

@@ -3,12 +3,11 @@ package com.mezhendosina.sgo.app.ui.adapters
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemDiaryBinding
-import com.mezhendosina.sgo.data.layouts.attachments.AttachmentsResponseItem
-import com.mezhendosina.sgo.data.layouts.diary.diary.WeekDay
+import com.mezhendosina.sgo.data.requests.homework.entities.AttachmentsResponseEntity
+import com.mezhendosina.sgo.data.requests.diary.entities.WeekDay
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,7 +21,6 @@ fun dateToRussian(date: String): String {
             Locale.getDefault()
         ) else it.toString()
     }
-
 }
 
 class DiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListener) :
@@ -34,7 +32,7 @@ class DiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListener)
             notifyDataSetChanged()
         }
 
-    var attachments: List<AttachmentsResponseItem> = emptyList()
+    var attachments: List<AttachmentsResponseEntity> = emptyList()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
@@ -61,9 +59,8 @@ class DiaryAdapter(private val onHomeworkClickListener: OnHomeworkClickListener)
             val layoutManager =
                 LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
             val homeworkAdapter = HomeworkAdapter(onHomeworkClickListener)
-            println(attachments)
-            homeworkAdapter.attachments = attachments
-            homeworkAdapter.lessons = day.lessons
+//            homeworkAdapter.attachments = attachments
+//            homeworkAdapter.lessons = day.lessons
 
             homeworkRecyclerView.apply {
                 adapter = homeworkAdapter

@@ -16,17 +16,3 @@ data class Error(
     @SerializedName("message")
     val message: String
 )
-
-fun responseExceptionHandler(
-): CoroutineExceptionHandler = CoroutineExceptionHandler { _, error ->
-    CoroutineScope(Dispatchers.Main).launch {
-        val message: String = when (error) {
-            is ResponseException -> error.response.body<Error>().message
-            is UnresolvedAddressException -> "Пропало интернет соединение"
-            else -> ""
-        }
-        throw ResponseMessageException(message)
-    }
-}
-
-class ResponseMessageException(message: String) : Exception(message)

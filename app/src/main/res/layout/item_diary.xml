@@ -5,9 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transperent"
+    android:background="@null"
+    android:clipToPadding="false"
     android:isScrollContainer="false"
-    android:paddingTop="8dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp">
 
 
     <TextView
@@ -16,35 +18,30 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:background="@null"
+        android:letterSpacing="0.002"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="Понедельник, 2 апреля" />
+        tool:text="Вторник, 2 апреля" />
 
-    <androidx.cardview.widget.CardView
-        style="@style/MaterialCardView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homework_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="16dp"
-        android:nestedScrollingEnabled="false"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@null"
+        android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/day">
+        app:layout_constraintTop_toBottomOf="@id/day"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_homework" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/homework_recycler_view"
-            style="@style/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/colorSurface"
-            android:overScrollMode="never"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_homework" />
-    </androidx.cardview.widget.CardView>
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/homework_recycler_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

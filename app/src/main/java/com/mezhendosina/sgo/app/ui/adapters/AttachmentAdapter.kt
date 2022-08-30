@@ -5,8 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
+import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.layouts.attachments.Attachment
+import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
 
 interface AttachmentClickListener {
     fun onClick(attachment: Attachment, binding: ItemAttachmentBinding)
@@ -30,6 +31,7 @@ class AttachmentAdapter(
         showAnimation(binding.progressBar)
 
         actionListener.onClick(attachment, binding)
+
     }
 
     class AttachmentViewHolder(val binding: ItemAttachmentBinding) :

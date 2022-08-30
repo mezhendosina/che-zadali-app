@@ -1,7 +1,6 @@
 package com.mezhendosina.sgo.app.ui.grades
 
 import android.content.Context
-import android.view.View
 import android.widget.Button
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,27 +8,38 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.perf.ktx.performance
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
-import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.app.model.grades.GradeActionListener
+import com.mezhendosina.sgo.app.model.grades.GradesRepository
+import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.layouts.gradeOptions.SelectTag
-import com.mezhendosina.sgo.data.layouts.gradeOptions.TERMID
-import com.mezhendosina.sgo.data.layouts.grades.GradesItem
-import io.ktor.client.call.*
-import io.ktor.client.plugins.*
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.SelectTag
+import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class GradesViewModel(private val gradeServices: GradeService) : ViewModel() {
+class GradesViewModel(
+    private val gradeServices: GradesRepository = Singleton.gradesRepository
+) : ViewModel() {
 
     private val _grades = MutableLiveData<List<GradesItem>>()
     val grades: LiveData<List<GradesItem>> = _grades
 
     private val _terms = MutableLiveData<List<SelectTag>>()
     val terms: LiveData<List<SelectTag>> = _terms
+
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _gradeOptions = MutableLiveData<GradeOptions>()
+
+
+
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
 
     private val gradeActionListener: GradeActionListener = {
         _grades.value = it
@@ -41,72 +51,73 @@ class GradesViewModel(private val gradeServices: GradeService) : ViewModel() {
 
     }
 
-    fun loadGrades(
-        context: Context,
-        binding: FragmentGradesBinding? = null,
-        reload: Boolean = false
-    ) {
-        if (reload && Singleton.grades.isNotEmpty()) {
+    fun load(context: Context, reload: Boolean = false) {
+        if (!reload && Singleton.grades.isNotEmpty()) {
             _grades.value = Singleton.grades
             _terms.value = Singleton.gradesOptions?.TERMID
             return
         }
+
+        // start firebase performance trace
         val trace = Firebase.performance.newTrace("load_grades_trace")
         trace.start()
-        binding?.apply {
-            gradesRecyclerView.visibility = View.GONE
-            loadGradesText.visibility = View.VISIBLE
-            gradesProgressBar.visibility = View.VISIBLE
-        }
+
+
+        _isLoading.value = true
         CoroutineScope(Dispatchers.IO).launch {
-            val settings = Settings(context)
             try {
-                val gradeOptions = gradeServices.loadGradesOptions()
-                Singleton.gradesOptions = gradeOptions
-                val findId = gradeOptions.TERMID.find {
+                val settings = Settings(context)
+
+                // gradesOption request
+                withContext(Dispatchers.Main){
+                    _gradeOptions.value = gradeServices.loadGradesOptions()
+                }
+
+                // save result
+                Singleton.gradesOptions = _gradeOptions.value
+
+                // find saved termId in response
+                val findId = _gradeOptions.value!!.TERMID.find {
                     it.value == settings.currentTrimId.first().toString()
                 }
 
-                if (findId == null) settings.changeTRIMId(gradeOptions.TERMID.first { it.is_selected }.value)
+                // if termId not find save and set selected termId
+                if (findId == null) settings.changeTRIMId(_gradeOptions.value!!.TERMID.first { it.is_selected }.value)
 
-                withContext(Dispatchers.Main) { _terms.value = gradeOptions.TERMID }
+                withContext(Dispatchers.Main) { _terms.value = _gradeOptions.value!!.TERMID }
 
-                gradeServices.loadGrades(gradeOptions, settings.currentTrimId.first().toString())
-            } catch (e: ResponseException) {
+                loadGrades(_gradeOptions.value!!, settings.currentTrimId.first().toString())
+
+            } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    errorDialog(context, e.response.body())
+                    _errorMessage.value = e.toDescription()
                 }
             } finally {
                 withContext(Dispatchers.Main) {
-                    binding?.apply {
-                        gradesRecyclerView.visibility = View.VISIBLE
-                        loadGradesText.visibility = View.GONE
-                        gradesProgressBar.visibility = View.GONE
-                    }
                     trace.stop()
+                    _isLoading.value = false
                 }
             }
         }
     }
 
-    fun reloadGrades(context: Context, binding: FragmentGradesBinding, id: Int) {
+    fun reload(context: Context, termID: Int) {
         val settings = Settings(context)
-        CoroutineScope(Dispatchers.Main).launch {
-
-            binding.apply {
-                termSelector.text = _terms.value?.get(id)?.name
-
-                loadGradesText.visibility = View.VISIBLE
-                gradesProgressBar.visibility = View.VISIBLE
-                gradesRecyclerView.visibility = View.GONE
-            }
-            _terms.value?.get(id)?.value?.let { settings.changeTRIMId(it) }
-
-
-            withContext(Dispatchers.IO) {
-                loadGrades(context, binding)
+        CoroutineScope(Dispatchers.IO).launch {
+            _terms.value?.get(termID)?.value?.let { settings.changeTRIMId(it) }
+            withContext(Dispatchers.Main) {
+                settings.currentTrimId.first()?.let {
+                    loadGrades(
+                        _gradeOptions.value!!,
+                        it
+                    )
+                }
             }
         }
+    }
+
+    private suspend fun loadGrades(gradesOptions: GradeOptions, termID: String) {
+        gradeServices.loadGrades(gradesOptions, termID)
     }
 
     fun setCurrentTerm(context: Context, button: Button, termList: List<SelectTag>) {
@@ -115,6 +126,7 @@ class GradesViewModel(private val gradeServices: GradeService) : ViewModel() {
             button.text = termList.first { it.value == settings.currentTrimId.first() }.name
         }
     }
+
 
     override fun onCleared() {
         super.onCleared()

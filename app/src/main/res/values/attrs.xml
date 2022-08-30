@@ -1,0 +1,5 @@
+<resources>
+    <attr name="colorGoodGrade" format="color" />
+    <attr name="colorMidGrade" format="color" />
+    <attr name="colorBadGrade" format="color" />
+</resources>

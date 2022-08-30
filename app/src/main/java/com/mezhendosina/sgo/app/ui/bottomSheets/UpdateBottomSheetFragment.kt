@@ -21,8 +21,8 @@ class UpdateBottomSheetFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ModalSheetUpdateBinding.bind(view)
-        Markwon.create(requireContext()).setMarkdown(binding.updateLog, updateLog)
 
+        binding.updateLog.text = updateLog
         binding.updateButton.setOnClickListener {
             this.dismiss()
             onUpdateClickListener.invoke()

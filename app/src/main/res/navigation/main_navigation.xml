@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/lessonFragment"
-        android:name="com.mezhendosina.sgo.app.ui.journal.lessonItem.LessonFragment"
+        android:name="com.mezhendosina.sgo.app.ui.lessonItem.LessonFragment"
         android:label="lesson_item"
         tools:layout="@layout/item_lesson" />
     <fragment
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/announcementsFragment"
-        android:name="com.mezhendosina.sgo.app.ui.bottomSheets.annoucements.AnnouncementsFragment"
+        android:name="com.mezhendosina.sgo.app.ui.announcements.AnnouncementsFragment"
         android:label="announcements_fragment"
         tools:layout="@layout/fragment_announcement_item" />
     <fragment

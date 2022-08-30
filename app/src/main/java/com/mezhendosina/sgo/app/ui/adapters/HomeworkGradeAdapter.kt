@@ -5,14 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
+import com.mezhendosina.sgo.app.model.journal.entities.AdapterAssignment
 import com.mezhendosina.sgo.app.ui.grades.showBadGrade
 import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
 import com.mezhendosina.sgo.app.ui.grades.showMidGrade
-import com.mezhendosina.sgo.data.layouts.diary.diary.Mark
+import com.mezhendosina.sgo.data.requests.diary.entities.Assignment
+import com.mezhendosina.sgo.data.requests.diary.entities.Mark
 
 class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkGradeViewHolder>() {
 
-    var grades: List<Mark> = emptyList()
+    var grades: List<AdapterAssignment> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -30,23 +32,24 @@ class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkG
 
 
     override fun onBindViewHolder(holder: HomeworkGradeViewHolder, position: Int) {
-        val grade = grades[position]
+        val grade = grades[position].mark
         with(holder.binding) {
-
-            if (grade.dutyMark) {
-                dutyMark.visibility = View.VISIBLE
-            } else when (grade.mark) {
-                1, 2 -> {
-                    showBadGrade(this)
-                    badGrade.text = grade.mark.toString()
-                }
-                3 -> {
-                    showMidGrade(this)
-                    midGrade.text = "3"
-                }
-                4, 5 -> {
-                    showGoodGrade(this)
-                    goodGrade.text = grade.mark.toString()
+            if (grade != null) {
+                if (grade.dutyMark) {
+                    dutyMark.visibility = View.VISIBLE
+                } else when (grade.mark) {
+                    1, 2 -> {
+                        showBadGrade(this)
+                        badGrade.text = grade.mark.toString()
+                    }
+                    3 -> {
+                        showMidGrade(this)
+                        midGrade.text = "3"
+                    }
+                    4, 5 -> {
+                        showGoodGrade(this)
+                        goodGrade.text = grade.mark.toString()
+                    }
                 }
             }
         }

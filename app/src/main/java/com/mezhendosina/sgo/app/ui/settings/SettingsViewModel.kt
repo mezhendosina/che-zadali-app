@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.startActivity
-import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,22 +14,25 @@ import com.bumptech.glide.Glide
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.activities.LoginActivity
+import com.mezhendosina.sgo.app.model.settings.SettingsRepository
+import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.layouts.mySettingsRequest.MySettingsRequest
-import com.mezhendosina.sgo.data.layouts.mySettingsRequest.UserSettings
-import com.mezhendosina.sgo.data.layouts.mySettingsResponse.MySettingsResponse
+import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsRequestEntity
+import com.mezhendosina.sgo.data.requests.settings.entities.UserSettingsEntity
+import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class SettingsViewModel : ViewModel() {
+class SettingsViewModel(
+    private val settingsRepository: SettingsRepository = Singleton.settingsRepository
+) : ViewModel() {
 
-    private val _mySettingsResponse = MutableLiveData<MySettingsResponse>()
-    val mySettingsResponse: LiveData<MySettingsResponse> = _mySettingsResponse
+    private val _mySettingsResponseEntity = MutableLiveData<MySettingsResponseEntity>()
+    val mySettingsResponseEntity: LiveData<MySettingsResponseEntity> = _mySettingsResponseEntity
 
     val phoneNumber = MutableLiveData<String>()
     val email = MutableLiveData<String>()
@@ -39,26 +41,30 @@ class SettingsViewModel : ViewModel() {
     private val controlQuestion = MutableLiveData<String>()
     private val controlAnswer = MutableLiveData<String>()
 
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
+
 
     fun getMySettings(arguments: Bundle?) {
         CoroutineScope(Dispatchers.IO).launch {
-            val settings = if (Singleton.mySettings == null) {
-                val r = Singleton.requests.getMySettings(Singleton.at)
-                Singleton.mySettings = r
-                r
-            } else Singleton.mySettings
-            withContext(Dispatchers.Main) {
-                _mySettingsResponse.value = settings
-                phoneNumber.value = settings?.mobilePhone
-                email.value = settings?.email
-                phoneNumberVisibility.value = settings?.userSettings?.showMobilePhone
+            try {
+                val settings = settingsRepository.getMySettings()
+                withContext(Dispatchers.Main) {
+                    _mySettingsResponseEntity.value = settings
+                    phoneNumber.value = settings.mobilePhone
+                    email.value = settings.email
+                    phoneNumberVisibility.value = settings.userSettings.showMobilePhone
 
-                controlQuestion.value =
-                    arguments?.getString(CONTROL_QUESTION)
-                        ?: settings?.userSettings?.recoveryQuestion
-                controlAnswer.value =
-                    arguments?.getString(CONTROL_ANSWER) ?: settings?.userSettings?.recoveryAnswer
-
+                    controlQuestion.value =
+                        arguments?.getString(CONTROL_QUESTION)
+                            ?: settings.userSettings.recoveryQuestion
+                    controlAnswer.value =
+                        arguments?.getString(CONTROL_ANSWER) ?: settings.userSettings.recoveryAnswer
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    _errorMessage.value = e.toDescription()
+                }
             }
         }
     }
@@ -68,18 +74,22 @@ class SettingsViewModel : ViewModel() {
         val photoFile = File(dir, "profilePhoto")
         val isExist = photoFile.createNewFile()
         CoroutineScope(Dispatchers.IO).launch {
-            val settings = Settings(context)
+            try {
+                val settings = Settings(context)
 
-            if (isExist) {
-                Singleton.requests.loadPhoto(
-                    Singleton.at,
+                settingsRepository.loadProfilePhoto(
                     settings.currentUserId.first(),
-                    photoFile
+                    photoFile,
+                    isExist
                 )
-            }
 
-            withContext(Dispatchers.Main) {
-                Glide.with(context).load(photoFile).circleCrop().into(photoView)
+                withContext(Dispatchers.Main) {
+                    Glide.with(context).load(photoFile).circleCrop().into(photoView)
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main){
+                    _errorMessage.value = e.toDescription()
+                }
             }
         }
     }
@@ -101,34 +111,37 @@ class SettingsViewModel : ViewModel() {
     fun changePhoto(context: Context, data: Intent) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val singleton = Singleton
                 val file = File(data.data.toString())
-                singleton.requests.changeProfilePhoto(
-                    singleton.at,
-                    Settings(context).currentUserId.first(),
-                    file
+                settingsRepository.changePhoto(
+                    file,
+                    Settings(context).currentUserId.first()
                 )
             } catch (e: Exception) {
-                println(e.stackTraceToString())
+                withContext(Dispatchers.Main){
+                    _errorMessage.value = e.toDescription()
+                }
             }
         }
     }
 
     fun sendSettings(context: Context) {
-        val settingsResponse = _mySettingsResponse.value
+        val settingsResponse = _mySettingsResponseEntity.value
         if (email.value != settingsResponse?.email || phoneNumber.value != settingsResponse?.mobilePhone || phoneNumberVisibility.value != settingsResponse?.userSettings?.showMobilePhone || settingsResponse?.userSettings?.recoveryQuestion != controlQuestion.value || settingsResponse?.userSettings?.recoveryAnswer != controlAnswer.value) {
             CoroutineScope(Dispatchers.IO).launch {
-                val a = fromMySettingsResponseToRequest(settingsResponse, context)
-                Singleton.requests.sendMySettings(
-                    Singleton.at,
-                    a
-                )
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        context.applicationContext,
-                        "Изменения сохранены",
-                        Toast.LENGTH_LONG
-                    ).show()
+                try {
+                    val a = settingsResponse.toRequestEntity(context)
+                    settingsRepository.sendSettings(a)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            context.applicationContext,
+                            "Изменения сохранены",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main){
+                        _errorMessage.value = e.toDescription()
+                    }
                 }
             }
         }
@@ -151,18 +164,15 @@ class SettingsViewModel : ViewModel() {
         return walkBottomUp().fold(0L) { acc, file -> acc + file.length() }
     }
 
-    private suspend fun fromMySettingsResponseToRequest(
-        mySettingsResponse: MySettingsResponse?,
-        context: Context
-    ): MySettingsRequest {
-        val userSettings = mySettingsResponse?.userSettings
+    private suspend fun MySettingsResponseEntity?.toRequestEntity(context: Context): MySettingsRequestEntity {
+        val userSettings = this?.userSettings
 
-        return MySettingsRequest(
+        return MySettingsRequestEntity(
             email.value.orEmpty(),
             Regex("[^0-9]").replace(phoneNumber.value.orEmpty(), ""),
-            Singleton.currentYearId,
-            mySettingsResponse?.userId ?: 0,
-            UserSettings(
+            Singleton.currentYearId ?: 0,
+            this?.userId ?: 0,
+            UserSettingsEntity(
                 phoneNumberVisibility.value ?: false,
                 userSettings?.defaultDesktop ?: 0,
                 userSettings?.favoriteReports ?: emptyList(),
@@ -174,7 +184,7 @@ class SettingsViewModel : ViewModel() {
                 userSettings?.theme ?: 0,
                 userSettings?.userId ?: Settings(context).currentUserId.first()
             ),
-            mySettingsResponse?.windowsAccount
+            this?.windowsAccount
         )
     }
 

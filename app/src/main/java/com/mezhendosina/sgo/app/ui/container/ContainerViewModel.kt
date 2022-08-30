@@ -1,60 +1,25 @@
 package com.mezhendosina.sgo.app.ui.container
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.ui.errorDialog
-import com.mezhendosina.sgo.app.ui.bottomSheets.annoucements.AnnouncementsActionListener
-import com.mezhendosina.sgo.app.ui.bottomSheets.annoucements.AnnouncementsService
-import com.mezhendosina.sgo.data.layouts.announcements.AnnouncementsResponseItem
-import io.ktor.client.call.*
-import io.ktor.client.plugins.*
-import io.ktor.util.network.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ContainerViewModel(
-    private val announcementsService: AnnouncementsService,
+    private val announcementsRepository: AnnouncementsRepository = Singleton.announcementsRepository
 ) : ViewModel() {
 
-    private val _announcements = MutableLiveData<List<AnnouncementsResponseItem>>()
-    val announcements: LiveData<List<AnnouncementsResponseItem>> = _announcements
-
-    private val announcementsListener: AnnouncementsActionListener = {
-        _announcements.value = it
-    }
-
+    private val _errorMessage = MutableLiveData("")
+    val errorMessage: LiveData<String> = _errorMessage
 
     init {
-        announcementsService.addListener(announcementsListener)
+    }
 
-    }
-    fun loadAnnouncements(context: Context) {
-        if (Singleton.announcements.isEmpty()) {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    announcementsService.announcements()
-                } catch (e: ResponseException) {
-                    withContext(Dispatchers.Main) {
-                        e.response.body<String>().let { errorDialog(context, it) }
-                    }
-                } catch (e: UnresolvedAddressException) {
-                    withContext(Dispatchers.Main) {
-                        errorDialog(context, "Похоже, что нету итернета :(")
-                    }
-                }
-            }
-        } else {
-            _announcements.value = Singleton.announcements
-        }
-    }
+
 
     @SuppressLint("SimpleDateFormat")
     fun todayDate(): String {
@@ -70,7 +35,6 @@ class ContainerViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        announcementsService.removeListener(announcementsListener)
 
     }
 }
