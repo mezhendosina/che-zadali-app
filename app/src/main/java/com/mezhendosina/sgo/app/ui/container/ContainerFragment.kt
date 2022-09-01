@@ -33,8 +33,6 @@ class ContainerFragment : Fragment(R.layout.container_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
 
         CoroutineScope(Dispatchers.IO).launch {
             checkUpdates(requireContext(), file, downloadState, childFragmentManager)
