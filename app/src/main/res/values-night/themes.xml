@@ -18,7 +18,6 @@
         <item name="android:textColorLink">@color/darkPrimary</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="windowActionBar">false</item>
-        <item name="snackbarStyle">@style/snackBarStyle</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
 
 
