@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
@@ -65,6 +66,12 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
         observeLoading()
 
         binding.schoolList.adapter = schoolAdapter
+
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+
+        binding.schoolList.addItemDecoration(dividerItemDecoration)
+
         binding.schoolList.layoutManager = LinearLayoutManager(requireContext())
     }
 

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
     android:paddingHorizontal="16dp"
-    android:paddingVertical="8dp"
+    android:paddingVertical="16dp"
     >
 
 
@@ -21,7 +21,8 @@
         app:layout_constraintEnd_toStartOf="@id/grade"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="Литература" />
+        tool:text="Литература"
+        android:textIsSelectable="false" />
 
     <include
         android:id="@+id/grade"

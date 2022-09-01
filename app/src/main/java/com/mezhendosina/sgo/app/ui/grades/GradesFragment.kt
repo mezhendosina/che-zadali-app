@@ -2,12 +2,14 @@ package com.mezhendosina.sgo.app.ui.grades
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
 import com.mezhendosina.sgo.app.R
@@ -23,7 +25,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     lateinit var binding: FragmentGradesBinding
 
-    private val viewModel: GradesViewModel by viewModels()
+    internal val viewModel: GradesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,6 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentGradesBinding.bind(view)
 
 
@@ -63,6 +64,11 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         observeErrors()
         observeLoading()
         observeTerms()
+
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+
+        binding.gradesRecyclerView.addItemDecoration(dividerItemDecoration)
 
         binding.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.gradesRecyclerView.adapter = gradeAdapter
