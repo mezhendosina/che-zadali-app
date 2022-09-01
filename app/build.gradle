@@ -76,8 +76,6 @@ dependencies {
     implementation "io.ktor:ktor-serialization-gson:$ktor_version"
     implementation "io.ktor:ktor-client-logging:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
-    implementation "io.ktor:ktor-client-websockets:$ktor_version"
-    implementation "io.ktor:ktor-client-okhttp:$ktor_version"
 
     //gson
     implementation "com.google.code.gson:gson:$gson_version"
@@ -122,6 +120,6 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-
+    implementation 'com.tinder.scarlet:scarlet:0.1.12'
 
 }

@@ -27,12 +27,8 @@ class JournalViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             val settings = Settings(context)
             val studentId = settings.currentUserId.first()
-            val yearId = if (Singleton.currentYearId != null) Singleton.currentYearId
-            else {
-                val years = settingsRepository.getYears().first { !it.name.contains("(*)") }.id
-                Singleton.currentYearId = years
-                years
-            }
+            val yearId = Singleton.currentYearId
+
             diaryEntity = getPagedDiary(studentId, yearId!!)
         }
     }

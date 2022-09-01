@@ -34,7 +34,7 @@ class LoginViewModel(
             try {
                 val passwordHash = password.toMD5()
                 loginRepository.login(context, schoolId, login, passwordHash)
-
+                loginRepository.logout()
                 withContext(Dispatchers.Main) {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

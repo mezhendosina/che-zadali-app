@@ -35,4 +35,12 @@ interface GradesApi {
         @Field("TERMID") termId: String,
         @Field("SID") sid: String
     ): Response<ResponseBody>
+
+
+    @GET("WebApi/signalr/negotiate")
+    suspend fun negotiateResponse(
+        @Path("clientProtocol") clientProtocol: String = "1.5",
+        @Path("at") at: String,
+        @Path("connectionData") connectionData: String = " [{\"name\":\"queuehub\"}]",
+    )
 }

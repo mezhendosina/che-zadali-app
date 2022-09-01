@@ -41,7 +41,6 @@ class LoginRepository(
             val yearsID = settingsSource.getYearList().first { !it.name.contains("(*)") }.id
             Singleton.currentYearId = yearsID
         }
-        logout()
     }
 
     suspend fun logout() = loginSource.logout(LogoutRequestEntity(at.toString()))

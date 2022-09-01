@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.login.LoginEntity
-import com.mezhendosina.sgo.app.model.login.LoginSource
+import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.SettingsLoginData
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(
-    private val loginSource: LoginSource = Singleton.loginSource
+    private val loginRepository: LoginRepository = Singleton.loginRepository
 ) : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String>()
@@ -26,26 +26,26 @@ class MainViewModel(
 
 
     suspend fun login(context: Context) {
-            try {
-                val settings = Settings(context)
-                val settingsLoginData = settings.getLoginData()
-                loginSource.loginData()
-                val getData = loginSource.getData()
+        try {
+            val settings = Settings(context)
+            val settingsLoginData = settings.getLoginData()
+            loginRepository.login(
+                context,
+                settingsLoginData.scid,
+                settingsLoginData.UN,
+                settingsLoginData.PW
+            )
 
-                val loginEntity = settingsLoginData.toLoginEntity(getData)
-                val login = loginSource.login(loginEntity)
-                Singleton.at = login.at
-
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main){
-                    _errorMessage.value = e.toDescription()
-                }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                _errorMessage.value = e.toDescription()
             }
+        }
     }
 
     fun logout() {
         CoroutineScope(Dispatchers.IO).launch {
-            loginSource.logout(LogoutRequestEntity(Singleton.at))
+            loginRepository.logout()
         }
     }
 

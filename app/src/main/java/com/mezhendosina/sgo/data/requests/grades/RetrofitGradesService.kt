@@ -4,6 +4,7 @@ import com.mezhendosina.sgo.app.model.grades.GradesSource
 import com.mezhendosina.sgo.data.requests.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
 import okhttp3.ResponseBody
+import okhttp3.WebSocket
 import retrofit2.Response
 
 class RetrofitGradesService(config: RetrofitConfig) : BaseRetrofitSource(config), GradesSource {

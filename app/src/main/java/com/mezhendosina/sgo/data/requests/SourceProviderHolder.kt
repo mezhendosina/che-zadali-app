@@ -6,7 +6,6 @@ import com.mezhendosina.sgo.app.Const
 import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.base.RetrofitSourcesProvider
-import io.ktor.client.engine.okhttp.*
 import io.ktor.http.*
 import okhttp3.*
 import okhttp3.Cookie
