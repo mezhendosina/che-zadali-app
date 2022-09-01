@@ -1,6 +1,7 @@
 package com.mezhendosina.sgo.app.ui.journalItem
 
 import android.annotation.SuppressLint
+import android.os.Trace
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,19 +45,21 @@ class DiaryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val day = weekDays[position]
         with(holder.binding) {
+            Trace.beginSection("Binding homework")
             CoroutineScope(Dispatchers.Main).launch {
                 this@with.day.text = day.date
-            }
-            val layoutManager =
-                LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
-            val homeworkAdapter = HomeworkAdapter(onHomeworkClickListener)
-            homeworkAdapter.lessons = day.lessons
+                val layoutManager =
+                    LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
+                val homeworkAdapter = HomeworkAdapter(onHomeworkClickListener)
+                homeworkAdapter.lessons = day.lessons
 
-            homeworkRecyclerView.apply {
-                adapter = homeworkAdapter
-                this.layoutManager = layoutManager
-                setRecycledViewPool(viewPool)
+                homeworkRecyclerView.apply {
+                    adapter = homeworkAdapter
+                    this.layoutManager = layoutManager
+                    setRecycledViewPool(viewPool)
+                }
             }
+            Trace.endSection()
         }
     }
 

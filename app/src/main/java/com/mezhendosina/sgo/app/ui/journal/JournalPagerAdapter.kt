@@ -1,24 +1,26 @@
 package com.mezhendosina.sgo.app.ui.journal
 
+import android.os.Trace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.os.trace
 import androidx.navigation.NavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.tracing.Trace
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemJournalViewpagerBinding
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryAdapterEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonAdapter
+import com.mezhendosina.sgo.app.ui.adapters.PastMandatoryAdapter
 import com.mezhendosina.sgo.app.ui.journalItem.DiaryAdapter
 import com.mezhendosina.sgo.app.ui.journalItem.OnHomeworkClickListener
-import com.mezhendosina.sgo.data.DateManipulation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 typealias CurrentItemListener = () -> Int
 
@@ -47,49 +49,62 @@ class JournalPagerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        android.os.Trace.beginSection("find diary item")
-        // 15000 us
         val diaryItem = getItem(position)
-        android.os.Trace.endSection()
         with(holder.binding) {
-            val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
-                override fun invoke(p1: LessonAdapter) {
-                    val d = getItem(currentItemListener.invoke())
-                    if (d != null) {
-                        Singleton.diaryEntity = d
-                        navController.navigate(
-                            R.id.action_containerFragment_to_lessonFragment,
-                            bundleOf("lessonId" to p1.classmeetingId, "type" to "journal")
-                        )
+            CoroutineScope(Dispatchers.Main).launch {
+
+                val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
+                    override fun invoke(p1: LessonAdapter) {
+                        val d = getItem(currentItemListener.invoke())
+                        if (d != null) {
+                            Singleton.diaryEntity = d
+                            navController.navigate(
+                                R.id.action_containerFragment_to_lessonFragment,
+                                bundleOf("lessonId" to p1.classmeetingId, "type" to "journal")
+                            )
+                        }
+                    }
+                })
+                if (diaryItem != null) {
+                    weekSelectorLayout.weekSelectorTextView.text =
+                        "${diaryItem.weekStart} - ${diaryItem.weekEnd}"
+
+
+                    if (diaryItem.pastMandatory.isEmpty()) {
+                        pastMandatory.root.visibility = View.GONE
+                    } else {
+                        pastMandatory.root.visibility = View.VISIBLE
+                        val pastMandatoryAdapter = PastMandatoryAdapter()
+
+                        pastMandatoryAdapter.items = diaryItem.pastMandatory
+                        pastMandatory.pastMandatoryRecyclerView.apply {
+                            adapter = pastMandatoryAdapter
+                            layoutManager = LinearLayoutManager(
+                                holder.itemView.context,
+                                LinearLayoutManager.VERTICAL,
+                                false
+                            )
+                            setRecycledViewPool(viewPool)
+                        }
+
+                    }
+                    if (diaryItem.weekDays.isNotEmpty()) {
+                        diaryAdapter.weekDays = diaryItem.weekDays
+                        diary.adapter = diaryAdapter
+                        diary.layoutManager =
+                            LinearLayoutManager(
+                                holder.itemView.context,
+                                LinearLayoutManager.VERTICAL,
+                                false
+                            )
+                        diary.setRecycledViewPool(viewPool)
+                        diary.visibility = View.VISIBLE
+                        emptyState.root.visibility = View.GONE
+                    } else {
+                        diary.visibility = View.GONE
+                        emptyState.root.visibility = View.VISIBLE
                     }
                 }
-            })
-            if (diaryItem != null) {
-                weekSelectorLayout.weekSelectorTextView.text =
-                    "${diaryItem.weekStart} - ${diaryItem.weekEnd}"
-            }
-
-            if (diaryItem?.pastMandatory?.isEmpty() == true) {
-                pastMandatory.root.visibility = View.GONE
-            }
-
-            if (diaryItem?.weekDays != null) {
-                diaryAdapter.weekDays = diaryItem.weekDays
-                diary.adapter = diaryAdapter
-                diary.layoutManager =
-                    LinearLayoutManager(
-                        holder.itemView.context,
-                        LinearLayoutManager.VERTICAL,
-                        false
-                    )
-                diary.setRecycledViewPool(viewPool)
-            }
-            if (diaryItem?.weekDays?.isEmpty() == true) {
-                diary.visibility = View.GONE
-                emptyState.root.visibility = View.VISIBLE
-            } else {
-                diary.visibility = View.VISIBLE
-                emptyState.root.visibility = View.GONE
             }
         }
     }
