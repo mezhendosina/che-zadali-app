@@ -88,7 +88,7 @@ fun weekStartByTime(time: Long): String {
 }
 
 @SuppressLint("SimpleDateFormat")
-private fun weekEndByTime(time: Long): String {
+internal fun weekEndByTime(time: Long): String {
     val s = SimpleDateFormat("w.yyyy").format(time)
     val a = SimpleDateFormat("w.yyyy").parse(s)!!.time + 6 * 24 * 60 * 60 * 1000
     return SimpleDateFormat("yyyy-MM-dd").format(a)
@@ -108,7 +108,7 @@ internal fun dateToRussian(date: String): String {
 
 class DiaryResponseMerging(
     private val diaryResponse: DiaryResponseEntity,
-    private val attachmentsResponseEntity: List<AttachmentsResponseEntity>,
+    attachmentsResponseEntity: List<AttachmentsResponseEntity>,
     private val pastMandatoryEntity: List<PastMandatoryEntity>
 ) {
     var attachments = attachmentsResponseEntity.toMutableList()
