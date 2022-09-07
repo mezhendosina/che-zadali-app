@@ -7,7 +7,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
 import com.mezhendosina.sgo.app.model.chooseSchool.schoolsActionListener
 import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
+import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
 import kotlinx.coroutines.*
 
 class ChooseSchoolViewModel(

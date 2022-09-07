@@ -6,8 +6,6 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +17,7 @@ import com.mezhendosina.sgo.app.ui.adapters.OnSchoolClickListener
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.login.LoginFragment
 import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
+import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
 
 class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
 

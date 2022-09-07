@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemSchoolBinding
-import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
+import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
 
 typealias OnSchoolClickListener = (SchoolItem) -> Unit
 
