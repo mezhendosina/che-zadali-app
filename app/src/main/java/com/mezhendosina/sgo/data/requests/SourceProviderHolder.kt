@@ -96,7 +96,7 @@ object SourceProviderHolder {
 
     private fun createLoggingInterceptor(): Interceptor {
         return HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BODY)
+            .setLevel(HttpLoggingInterceptor.Level.BASIC)
     }
 
     private fun List<Cookie?>.toCookieString(): String {
