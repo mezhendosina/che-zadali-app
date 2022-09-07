@@ -2,6 +2,7 @@ package com.mezhendosina.sgo.app.model.journal
 
 import android.annotation.SuppressLint
 import androidx.paging.*
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.entities.AdapterAssignment
 import com.mezhendosina.sgo.app.model.journal.entities.AdapterWeekDay
@@ -19,7 +20,6 @@ const val PLACEHOLDERS = true
 
 class JournalPagingSource(
     private val studentId: Int,
-    private val yearId: Int,
     private val diarySource: DiarySource,
     private val homeworkSource: HomeworkSource,
 ) : PagingSource<Long, DiaryAdapterEntity>() {
@@ -31,7 +31,7 @@ class JournalPagingSource(
                 studentId,
                 weekStartByTime(page),
                 weekEndByTime(page),
-                yearId
+                Singleton.currentYearId.value ?: 0
             )
             diarySource.diaryInit()
             val diary = diarySource.diary(diaryEntity)

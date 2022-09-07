@@ -39,7 +39,9 @@ class LoginRepository(
             settings.setCurrentUserId(loginRequest.accountInfo.user.id)
             Singleton.at = loginRequest.at
             val yearsID = settingsSource.getYearList().first { !it.name.contains("(*)") }.id
-            Singleton.currentYearId = yearsID
+            withContext(Dispatchers.Main) {
+                Singleton.currentYearId.value = yearsID
+            }
         }
     }
 

@@ -81,4 +81,8 @@
     <string name="description">Описание</string>
     <string name="upload">Отправить</string>
     <string name="upload_file">Прикрепить файл</string>
+    <string name="current_year">Текущий учебный год</string>
+    <string name="change_email">Изменить email</string>
+    <string name="change_phone_number">Изменить номер телефона</string>
+    <string name="choose_year">Выберите год</string>
 </resources>

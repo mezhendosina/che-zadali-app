@@ -16,9 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class JournalViewModel(
-    private val settingsRepository: SettingsRepository = Singleton.settingsRepository
-) : ViewModel() {
+class JournalViewModel : ViewModel() {
 
     lateinit var diaryEntity: Flow<PagingData<DiaryAdapterEntity>>
 
@@ -27,13 +25,12 @@ class JournalViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             val settings = Settings(context)
             val studentId = settings.currentUserId.first()
-            val yearId = Singleton.currentYearId
 
-            diaryEntity = getPagedDiary(studentId, yearId!!)
+            diaryEntity = getPagedDiary(studentId)
         }
     }
 
-    private fun getPagedDiary(studentId: Int, yearId: Int): Flow<PagingData<DiaryAdapterEntity>> =
+    private fun getPagedDiary(studentId: Int): Flow<PagingData<DiaryAdapterEntity>> =
         Pager(
             config = PagingConfig(
                 pageSize = 2,
@@ -43,7 +40,6 @@ class JournalViewModel(
             pagingSourceFactory = {
                 JournalPagingSource(
                     studentId,
-                    yearId,
                     Singleton.diarySource,
                     Singleton.homeworkSource,
                 )

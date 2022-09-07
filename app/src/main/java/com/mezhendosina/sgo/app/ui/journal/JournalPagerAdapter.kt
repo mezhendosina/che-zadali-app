@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.navigation.NavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -51,44 +52,45 @@ class JournalPagerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val diaryItem = getItem(position)
         with(holder.binding) {
-            CoroutineScope(Dispatchers.Main).launch {
+            if (diaryItem != null) {
+                weekSelectorLayout.weekSelectorTextView.text =
+                    "${diaryItem.weekStart} - ${diaryItem.weekEnd}"
 
-                val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
-                    override fun invoke(p1: LessonAdapter) {
-                        val d = getItem(currentItemListener.invoke())
-                        if (d != null) {
-                            Singleton.diaryEntity = d
-                            navController.navigate(
-                                R.id.action_containerFragment_to_lessonFragment,
-                                bundleOf("lessonId" to p1.classmeetingId, "type" to "journal")
-                            )
-                        }
+                if (diaryItem.pastMandatory.isEmpty()) {
+                    pastMandatory.root.visibility = View.GONE
+                } else {
+                    pastMandatory.root.visibility = View.VISIBLE
+                    val pastMandatoryAdapter = PastMandatoryAdapter()
+
+                    pastMandatoryAdapter.items = diaryItem.pastMandatory
+                    pastMandatory.pastMandatoryRecyclerView.apply {
+                        adapter = pastMandatoryAdapter
+                        layoutManager = LinearLayoutManager(
+                            holder.itemView.context,
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+                        setRecycledViewPool(viewPool)
                     }
-                })
-                if (diaryItem != null) {
-                    weekSelectorLayout.weekSelectorTextView.text =
-                        "${diaryItem.weekStart} - ${diaryItem.weekEnd}"
 
-
-                    if (diaryItem.pastMandatory.isEmpty()) {
-                        pastMandatory.root.visibility = View.GONE
-                    } else {
-                        pastMandatory.root.visibility = View.VISIBLE
-                        val pastMandatoryAdapter = PastMandatoryAdapter()
-
-                        pastMandatoryAdapter.items = diaryItem.pastMandatory
-                        pastMandatory.pastMandatoryRecyclerView.apply {
-                            adapter = pastMandatoryAdapter
-                            layoutManager = LinearLayoutManager(
-                                holder.itemView.context,
-                                LinearLayoutManager.VERTICAL,
-                                false
-                            )
-                            setRecycledViewPool(viewPool)
-                        }
-
-                    }
+                }
+                CoroutineScope(Dispatchers.Main).launch {
                     if (diaryItem.weekDays.isNotEmpty()) {
+                        val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
+                            override fun invoke(p1: LessonAdapter) {
+                                val d = getItem(currentItemListener.invoke())
+                                if (d != null) {
+                                    Singleton.diaryEntity = d
+                                    navController.navigate(
+                                        R.id.action_containerFragment_to_lessonFragment,
+                                        bundleOf(
+                                            "lessonId" to p1.classmeetingId,
+                                            "type" to "journal"
+                                        )
+                                    )
+                                }
+                            }
+                        })
                         diaryAdapter.weekDays = diaryItem.weekDays
                         diary.adapter = diaryAdapter
                         diary.layoutManager =
