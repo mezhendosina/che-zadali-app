@@ -22,10 +22,7 @@ class DateManipulation(val date: String) {
     fun dateFormatter(): String = SimpleDateFormat("dd.MM.yyyy", locale).format(a!!)
 
 
-    fun journalDate(): String = SimpleDateFormat("dd MMM YYYYг.", locale).format(a!!)
-
-
-    fun dateToTime(): Long = a!!.time
+    fun journalDate(): String = SimpleDateFormat("dd MMM yyyyг.", locale).format(a!!)
 
 
     fun messageDate(): String {
