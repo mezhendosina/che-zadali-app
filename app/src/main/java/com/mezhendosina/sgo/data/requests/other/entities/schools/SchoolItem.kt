@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.data.layouts.schools
+package com.mezhendosina.sgo.data.requests.other.entities.schools
 
 
 import com.google.gson.annotations.SerializedName

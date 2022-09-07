@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.data.layouts.checkUpdates
+package com.mezhendosina.sgo.data.requests.other.entities.checkUpdates
 
 
 import com.google.gson.annotations.SerializedName

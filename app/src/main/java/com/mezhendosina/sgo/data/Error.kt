@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.data.layouts
+package com.mezhendosina.sgo.data
 
 import android.content.Context
 import com.google.gson.annotations.SerializedName
