@@ -45,7 +45,7 @@ class HomeworkAdapter(
     override fun onBindViewHolder(holder: HomeworkViewHolder, position: Int) {
         val lesson = lessons[position]
         with(holder.binding) {
-            CoroutineScope(Dispatchers.Main).launch{
+            CoroutineScope(Dispatchers.Main).launch {
 
                 holder.itemView.tag = lesson
                 lessonNumber.text = lesson.number.toString()
@@ -55,34 +55,40 @@ class HomeworkAdapter(
                 if (lesson.homework != null) {
                     homework.text = lesson.homework.assignmentName
                     homework.visibility = View.VISIBLE
-                } else homework.visibility = View.GONE
+                    root.isClickable = true
+                    root.isFocusable = true
+                } else {
+                    homework.visibility = View.GONE
+                    root.isClickable = false
+                    root.isFocusable = false
+                }
 
-//            assignmentTypes.attachment.visibility =
-//                if (lesson.assignments?.find { it.attachments.isNotEmpty() } != null) {
-//                    View.VISIBLE
-//                } else View.GONE
+                assignmentTypes.attachment.visibility =
+                    if (lesson.assignments?.find { it.attachments.isNotEmpty() } != null) {
+                        View.VISIBLE
+                    } else View.GONE
 
                 assignmentTypes.homeworkAnswer.visibility =
                     if (lesson.homework?.textAnswer != null) {
                         View.VISIBLE
                     } else View.GONE
 
-//            if (lesson.assignments?.isNotEmpty() == true) {
-//                val layoutManager =
-//                    LinearLayoutManager(
-//                        holder.itemView.context,
-//                        LinearLayoutManager.HORIZONTAL,
-//                        false
-//                    )
-//                val homeworkAdapter = HomeworkGradeAdapter()
-//                homeworkAdapter.grades = lesson.assignments
-//
-//                grades.apply {
-//                    adapter = homeworkAdapter
-//                    this.layoutManager = layoutManager
-//                    setRecycledViewPool(JournalPagerAdapter.viewPool)
-//                }
-//            }
+                if (lesson.assignments?.isNotEmpty() == true) {
+                    val layoutManager =
+                        LinearLayoutManager(
+                            holder.itemView.context,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
+                    val homeworkAdapter = HomeworkGradeAdapter()
+                    homeworkAdapter.grades = lesson.assignments
+
+                    grades.apply {
+                        adapter = homeworkAdapter
+                        this.layoutManager = layoutManager
+                        setRecycledViewPool(JournalPagerAdapter.viewPool)
+                    }
+                }
             }
         }
     }
