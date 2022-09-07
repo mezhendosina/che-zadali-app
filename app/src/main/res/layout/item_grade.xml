@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
     android:paddingHorizontal="16dp"
-    android:paddingVertical="16dp"
-    >
+    android:paddingVertical="16dp">
 
 
     <TextView
@@ -16,13 +15,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
+        android:textIsSelectable="false"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/grade"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="Литература"
-        android:textIsSelectable="false" />
+        tool:text="Литература" />
 
     <include
         android:id="@+id/grade"

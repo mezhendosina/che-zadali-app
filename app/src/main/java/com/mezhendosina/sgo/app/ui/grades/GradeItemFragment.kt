@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.CountGradeBinding
 import com.mezhendosina.sgo.app.databinding.FragmentGradeItemBinding
+import com.mezhendosina.sgo.app.databinding.ItemCountGradeBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.bindGradeValue
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
@@ -35,7 +35,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         bindGradeCount(binding.countGrade)
     }
 
-    private fun bindGradeCount(binding: CountGradeBinding) = with(binding) {
+    private fun bindGradeCount(binding: ItemCountGradeBinding) = with(binding) {
         if (lesson.one == null) {
             oneH.visibility = View.GONE
             oneValue.visibility = View.GONE

@@ -55,8 +55,11 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         viewModel.grades.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 gradeAdapter.grades = it
+                binding.emptyState.root.visibility = View.GONE
+                binding.gradesRecyclerView.visibility = View.VISIBLE
             } else {
                 binding.emptyState.root.visibility = View.VISIBLE
+                binding.gradesRecyclerView.visibility = View.GONE
                 binding.emptyState.emptyText.text = "Оценок нету"
             }
         }

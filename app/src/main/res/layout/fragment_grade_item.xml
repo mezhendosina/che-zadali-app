@@ -112,7 +112,7 @@
 
         <include
             android:id="@+id/count_grade"
-            layout="@layout/count_grade"
+            layout="@layout/item_count_grade"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
