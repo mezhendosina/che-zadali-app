@@ -8,6 +8,7 @@ buildscript {
     ext.okhttp_version = "4.10.0"
     ext.nav_version = "2.5.1"
     ext.markwon_version = "4.6.2"
+    ext.preference_version = "1.2.0"
     repositories {
         google()
     }

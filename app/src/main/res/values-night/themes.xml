@@ -1,5 +1,11 @@
 <resources>
 
+    <style name="Theme.SGOApp.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/darkBackground</item>
+        <item name="postSplashScreenTheme">@style/Theme.SGOApp.</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+    </style>
+
     <style name="Theme.SGOApp." parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/darkPrimary</item>

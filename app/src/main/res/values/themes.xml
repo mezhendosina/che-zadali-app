@@ -1,5 +1,11 @@
 <resources>
 
+
+    <style name="Theme.SGOApp.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/lightBackground</item>
+        <item name="postSplashScreenTheme">@style/Theme.SGOApp.</item>
+    </style>
+
     <style name="Theme.SGOApp." parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/lightPrimary</item>
         <item name="colorPrimaryVariant">@color/lightPrimary</item>
@@ -33,7 +39,8 @@
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
+        </item>
     </style>
 
     <style name="expandedToolBarText" parent="mainScreenHeaders">
@@ -116,7 +123,6 @@
     </style>
 
     <style name="settingsTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="expandedHintEnabled">false</item>
         <item name="android:layout_marginStart">12dp</item>
         <item name="android:layout_marginEnd">12dp</item>
         <item name="android:layout_marginTop">12dp</item>
@@ -161,6 +167,14 @@
 
     <style name="badGradeText" parent="gradeText">
         <item name="android:textColor">?attr/colorError</item>
+    </style>
+
+    <style name="settingsButton.withCaption">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
 
 </resources>
