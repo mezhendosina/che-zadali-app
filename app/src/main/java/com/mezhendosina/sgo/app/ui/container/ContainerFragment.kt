@@ -1,5 +1,6 @@
 package com.mezhendosina.sgo.app.ui.container
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -12,15 +13,23 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.transition.MaterialSharedAxis
+import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.announcementsBottomSheet.AnnouncementsBottomSheet
+import com.mezhendosina.sgo.app.ui.bottomSheets.UpdateBottomSheetFragment
 import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.checkUpdates
+import com.mezhendosina.sgo.data.uriFromFile
+import io.ktor.client.call.*
+import io.ktor.client.plugins.*
+import io.ktor.client.request.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class ContainerFragment : Fragment(R.layout.container_main) {
@@ -28,7 +37,8 @@ class ContainerFragment : Fragment(R.layout.container_main) {
     private lateinit var binding: ContainerMainBinding
 
     private val file: File = File.createTempFile("app", "apk")
-    private val downloadState = MutableLiveData(0)
+
+    private val viewModel: ContainerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +47,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
 
         CoroutineScope(Dispatchers.IO).launch {
-            checkUpdates(requireContext(), file, downloadState, childFragmentManager)
+            viewModel.checkUpdates()
         }
     }
 
@@ -59,6 +69,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
         binding.toolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
         observeDownloadState()
+        observeUpdates()
     }
 
     private fun setupOnMenuItemClickListener(menuItem: MenuItem): Boolean {
@@ -84,26 +95,47 @@ class ContainerFragment : Fragment(R.layout.container_main) {
     }
 
 
-    private fun observeDownloadState() {
-        downloadState.observe(viewLifecycleOwner) {
-            val updateProgress = binding.updateProgress.root
+    private fun observeUpdates() {
+        viewModel.latestUpdate.observe(viewLifecycleOwner) { updates ->
+            if (updates.tagName != BuildConfig.VERSION_NAME) {
+                val modalSheet = UpdateBottomSheetFragment(updates.body) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        updates.assets.forEach {
+                            if (it.contentType == "application/vnd.android.package-archive") {
+                                viewModel.downloadUpdate(
+                                    requireContext(),
+                                    file,
+                                    it.browserDownloadUrl
+                                )
 
-            when (it) {
-                100, 0 -> {
-                    updateProgress.visibility = View.GONE
+                            }
+                        }
+                    }
                 }
-                1 -> {
-                    showAnimation(updateProgress)
-                }
-                else -> {
-                    binding.updateProgress.updateProgress.setProgressCompat(it, true)
-                }
+                modalSheet.show(childFragmentManager, UpdateBottomSheetFragment.TAG)
             }
         }
     }
+
+
+    private fun observeDownloadState() {
+        viewModel.downloadState.observe(viewLifecycleOwner) {
+            val updateProgress = binding.updateProgress.root
+
+            if (it) {
+                updateProgress.visibility = View.VISIBLE
+                binding.updateProgress.updateProgress.isIndeterminate = true
+            } else {
+                updateProgress.visibility = View.GONE
+            }
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
         file.delete()
     }
+
+
 }

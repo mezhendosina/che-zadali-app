@@ -1,10 +1,12 @@
 package com.mezhendosina.sgo
 
+import androidx.lifecycle.MutableLiveData
 import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
 import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
+import com.mezhendosina.sgo.app.model.container.ContainerRepository
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.app.model.login.LoginSource
@@ -14,12 +16,10 @@ import com.mezhendosina.sgo.app.model.journal.entities.DiaryAdapterEntity
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.model.settings.SettingsSource
 import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
-import com.mezhendosina.sgo.data.requests.diary.entities.DiaryEntity
-import com.mezhendosina.sgo.data.requests.diary.entities.DiaryResponseEntity
 import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
+import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
 import com.mezhendosina.sgo.data.requests.SourceProviderHolder
 
 object Singleton {
@@ -30,7 +30,7 @@ object Singleton {
     var announcements: List<AnnouncementsResponseEntity> = emptyList()
 
 
-    var currentYearId: Int? = null
+    var currentYearId = MutableLiveData<Int>()
     var diaryEntity: DiaryAdapterEntity = DiaryAdapterEntity(
         "",
         emptyList(),
@@ -51,6 +51,10 @@ object Singleton {
     private val sourcesProvider: SourcesProvider by lazy {
         SourceProviderHolder.sourcesProvider
     }
+
+//    private val otherSourceProvider: OtherSourceProvider by lazy {
+//        OtherRequests.sourcesProvider
+//    }
 
     // --- sources
     val loginSource: LoginSource by lazy {
@@ -97,6 +101,10 @@ object Singleton {
 
     val settingsRepository by lazy {
         SettingsRepository(settingsSource)
+    }
+
+    val containerRepository by lazy {
+        ContainerRepository()
     }
 //    suspend fun login(loginData: SettingsLoginData) {
 //        val login = requests.login(loginData)

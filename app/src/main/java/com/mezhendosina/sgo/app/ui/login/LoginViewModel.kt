@@ -10,7 +10,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.data.layouts.schools.SchoolItem
+import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
 import com.mezhendosina.sgo.data.toMD5
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
