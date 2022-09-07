@@ -48,7 +48,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/user_photo"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Меньшенин Евгений Андреевич" />
+                    tools:text="Меньшенин Евгений Андреевич"
+                    android:textIsSelectable="false" />
 
                 <TextView
                     android:id="@+id/user_login"
@@ -58,7 +59,8 @@
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toEndOf="@id/user_photo"
                     app:layout_constraintTop_toBottomOf="@id/user_name"
-                    tools:text="МеньшенинЕ1" />
+                    tools:text="МеньшенинЕ1"
+                    android:textIsSelectable="false" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -71,6 +73,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="gone"
             app:cardBackgroundColor="?attr/backgroundColor"
             app:cardCornerRadius="0dp"
             app:cardElevation="0dp"
@@ -124,77 +127,158 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/change_photo_button" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/birthday"
-            style="@style/settingsTextInputLayout"
-            android:layout_width="0dp"
+            style="@style/settingsButton.withCaption"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/birthday"
+            android:clickable="false"
+            android:paddingHorizontal="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/change_photo_divider">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/birthday_header"
+                style="@style/mainText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/birthday"
+                app:layout_constraintBottom_toTopOf="@id/birthday_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phone_number"
-            style="@style/settingsTextInputLayout"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/birthday_date"
+                style="@style/captions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/birthday_header"
+                tools:text="22.09.2005"
+                android:textIsSelectable="false" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/phone_number"
+            android:layout_marginStart="18dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/birthday" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/phone_number"
+            style="@style/settingsButton.withCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/birthday">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/phone_number_header"
+                style="@style/mainText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/phone_number"
+                app:layout_constraintBottom_toTopOf="@id/phone_number_value"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_number_visible"
+            <TextView
+                android:id="@+id/phone_number_value"
+                style="@style/captions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_number_header"
+                tools:text="22.09.2005" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
+            android:layout_marginStart="18dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/phone_number" />
 
-        <TextView
-            style="@style/mainText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:text="@string/show_phone_number"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/switch_number_visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/switch_number_visible"
-            app:layout_constraintTop_toTopOf="@id/switch_number_visible" />
-
-        <com.google.android.material.textfield.TextInputLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/email"
-            style="@style/settingsTextInputLayout"
-            android:layout_width="0dp"
+            style="@style/settingsButton.withCaption"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="@string/email"
+            android:paddingHorizontal="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/switch_number_visible">
+            app:layout_constraintTop_toBottomOf="@id/phone_number">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/email_header"
+                style="@style/mainText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailSubject" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/email"
 
+                app:layout_constraintBottom_toTopOf="@id/email_value"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/email_value"
+                style="@style/captions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/email_header"
+                tools:text="22.09.2005" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/email" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/change_year"
+            style="@style/settingsButton.withCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/email">
+
+            <TextView
+                android:id="@+id/change_year_header"
+                style="@style/mainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_year"
+                app:layout_constraintBottom_toTopOf="@id/change_year_value"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/change_year_value"
+                style="@style/captions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/change_year_header"
+                tools:text="22.09.2005" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_year" />
 
         <Button
             android:id="@+id/change_password"
@@ -210,7 +294,7 @@
             app:icon="@drawable/ic_change_password"
             app:iconGravity="start"
             app:iconPadding="16dp"
-            app:layout_constraintTop_toBottomOf="@id/email" />
+            app:layout_constraintTop_toBottomOf="@id/change_year" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
@@ -235,10 +319,12 @@
             app:layout_constraintTop_toBottomOf="@id/change_password" />
 
         <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/change_control_question_divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/change_control_question" />
+
 
         <TextView
             android:id="@+id/change_theme_header"
@@ -246,10 +332,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="@string/select_theme"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/change_control_question" />
+            app:layout_constraintTop_toBottomOf="@id/change_control_question_divider" />
 
         <RadioGroup
             android:id="@+id/change_theme_radio_group"

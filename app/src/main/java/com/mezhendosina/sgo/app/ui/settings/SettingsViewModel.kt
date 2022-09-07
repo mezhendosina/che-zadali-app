@@ -20,6 +20,7 @@ import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsRequestEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.UserSettingsEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
+import com.mezhendosina.sgo.data.requests.settings.entities.YearListResponseEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -33,6 +34,9 @@ class SettingsViewModel(
 
     private val _mySettingsResponseEntity = MutableLiveData<MySettingsResponseEntity>()
     val mySettingsResponseEntity: LiveData<MySettingsResponseEntity> = _mySettingsResponseEntity
+
+    private val _years = MutableLiveData<List<YearListResponseEntity>>()
+    val years: LiveData<List<YearListResponseEntity>> = _years
 
     val phoneNumber = MutableLiveData<String>()
     val email = MutableLiveData<String>()
@@ -49,6 +53,7 @@ class SettingsViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val settings = settingsRepository.getMySettings()
+                val yearList = settingsRepository.getYears()
                 withContext(Dispatchers.Main) {
                     _mySettingsResponseEntity.value = settings
                     phoneNumber.value = settings.mobilePhone
@@ -60,6 +65,7 @@ class SettingsViewModel(
                             ?: settings.userSettings.recoveryQuestion
                     controlAnswer.value =
                         arguments?.getString(CONTROL_ANSWER) ?: settings.userSettings.recoveryAnswer
+                    _years.value = yearList
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -70,7 +76,7 @@ class SettingsViewModel(
     }
 
     fun loadProfilePhoto(context: Context, photoView: ImageView) {
-        val dir = context.dataDir
+        val dir = context.filesDir
         val photoFile = File(dir, "profilePhoto")
         val isExist = photoFile.createNewFile()
         CoroutineScope(Dispatchers.IO).launch {
@@ -87,7 +93,7 @@ class SettingsViewModel(
                     Glide.with(context).load(photoFile).circleCrop().into(photoView)
                 }
             } catch (e: Exception) {
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     _errorMessage.value = e.toDescription()
                 }
             }
@@ -117,7 +123,7 @@ class SettingsViewModel(
                     Settings(context).currentUserId.first()
                 )
             } catch (e: Exception) {
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     _errorMessage.value = e.toDescription()
                 }
             }
@@ -139,7 +145,7 @@ class SettingsViewModel(
                         ).show()
                     }
                 } catch (e: Exception) {
-                    withContext(Dispatchers.Main){
+                    withContext(Dispatchers.Main) {
                         _errorMessage.value = e.toDescription()
                     }
                 }
@@ -170,7 +176,7 @@ class SettingsViewModel(
         return MySettingsRequestEntity(
             email.value.orEmpty(),
             Regex("[^0-9]").replace(phoneNumber.value.orEmpty(), ""),
-            Singleton.currentYearId ?: 0,
+            Singleton.currentYearId.value ?: 0,
             this?.userId ?: 0,
             UserSettingsEntity(
                 phoneNumberVisibility.value ?: false,
@@ -191,5 +197,6 @@ class SettingsViewModel(
     companion object {
         const val CONTROL_QUESTION = "control_question"
         const val CONTROL_ANSWER = "control_answer"
+        const val YEAR = "year"
     }
 }
