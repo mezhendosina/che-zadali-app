@@ -32,5 +32,28 @@
             android:id="@+id/action_settingsFragment_pop3"
             app:popUpTo="@id/settingsFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_settingsFragment_to_changeEmailFragment"
+            app:destination="@id/changeEmailFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_changePhoneFragment"
+            app:destination="@id/changePhoneFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeEmailFragment"
+        android:name="com.mezhendosina.sgo.app.ui.changeEmail.ChangeEmailFragment"
+        android:label="@string/change_email" >
+        <action
+            android:id="@+id/action_changeEmailFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePhoneFragment"
+        android:name="com.mezhendosina.sgo.app.ui.changePhone.ChangePhoneFragment"
+        android:label="@string/change_phone_number"
+        tools:layout="@layout/fragment_change_phone_number" >
+        <action
+            android:id="@+id/action_changePhoneFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
 </navigation>
