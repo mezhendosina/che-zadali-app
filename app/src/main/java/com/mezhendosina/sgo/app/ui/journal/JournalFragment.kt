@@ -5,6 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
@@ -28,7 +30,6 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentJournalBinding.bind(view)
 
         val adapter = JournalPagerAdapter(
@@ -37,8 +38,12 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
                 override fun invoke(): Int = binding.journalPager.currentItem
             }
         )
-        Singleton.currentYearId.observe(viewLifecycleOwner) {
-            adapter.refresh()
+
+        Singleton.updateDiary.observe(viewLifecycleOwner) {
+            if (it) {
+                adapter.refresh()
+                Singleton.updateDiary.value = false
+            }
         }
 
         val footerAdapter = LoadingStateAdapter()
@@ -48,15 +53,15 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
 
         binding.journalPager.adapter = adapterWithLoadState
         observeDiary(adapter)
+//        TabLayoutMediator(binding.tabsLayout, binding.journalPager) { tab, pos ->
+//            tab.text =
+//        }
     }
 
     private fun observeDiary(adapter: JournalPagerAdapter) {
         lifecycleScope.launch {
             viewModel.diaryEntity.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
-            }
-            adapter.loadStateFlow.collectLatest {
-                println(it.refresh)
             }
         }
     }

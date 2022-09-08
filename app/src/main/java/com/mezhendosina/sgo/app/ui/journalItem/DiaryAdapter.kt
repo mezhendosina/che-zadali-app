@@ -1,11 +1,15 @@
 package com.mezhendosina.sgo.app.ui.journalItem
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Trace
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemDiaryBinding
 import com.mezhendosina.sgo.app.model.journal.entities.AdapterWeekDay
 import com.mezhendosina.sgo.app.model.journal.entities.LessonAdapter
@@ -49,8 +53,13 @@ class DiaryAdapter(
             CoroutineScope(Dispatchers.Main).launch {
                 this@with.day.text = day.date
                 val layoutManager =
-                    LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
+                    LinearLayoutManager(
+                        holder.itemView.context,
+                        LinearLayoutManager.VERTICAL,
+                        false
+                    )
                 val homeworkAdapter = HomeworkAdapter(onHomeworkClickListener)
+
                 homeworkAdapter.lessons = day.lessons
 
                 homeworkRecyclerView.apply {

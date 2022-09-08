@@ -86,7 +86,7 @@ class HomeworkAdapter(
                     grades.apply {
                         adapter = homeworkAdapter
                         this.layoutManager = layoutManager
-                        setRecycledViewPool(JournalPagerAdapter.viewPool)
+                        setRecycledViewPool(RecyclerView.RecycledViewPool())
                     }
                 }
             }

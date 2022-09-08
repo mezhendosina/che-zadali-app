@@ -1,8 +1,8 @@
 package com.mezhendosina.sgo.app.ui.journal
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import androidx.paging.*
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryAdapterEntity
@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.*
 
 class JournalViewModel : ViewModel() {
 
@@ -25,7 +26,6 @@ class JournalViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             val settings = Settings(context)
             val studentId = settings.currentUserId.first()
-
             diaryEntity = getPagedDiary(studentId)
         }
     }
@@ -34,8 +34,8 @@ class JournalViewModel : ViewModel() {
         Pager(
             config = PagingConfig(
                 pageSize = 2,
-                enablePlaceholders = PLACEHOLDERS,
-                initialLoadSize = 2
+                enablePlaceholders = true,
+                initialLoadSize = 1
             ),
             pagingSourceFactory = {
                 JournalPagingSource(
@@ -45,5 +45,7 @@ class JournalViewModel : ViewModel() {
                 )
             }
         ).flow.cachedIn(viewModelScope)
+
+
 }
 

@@ -30,6 +30,10 @@ object Singleton {
     var announcements: List<AnnouncementsResponseEntity> = emptyList()
 
 
+    val updateDiary = MutableLiveData<Boolean>(false)
+
+    var firstLoad = true
+
     var currentYearId = MutableLiveData<Int>()
     var diaryEntity: DiaryAdapterEntity = DiaryAdapterEntity(
         "",
