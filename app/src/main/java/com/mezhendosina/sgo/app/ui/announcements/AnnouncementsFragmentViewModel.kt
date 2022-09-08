@@ -15,6 +15,7 @@ import com.mezhendosina.sgo.data.uriFromFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 
@@ -45,9 +46,11 @@ class AnnouncementsFragmentViewModel(
                 }
                 context.startActivity(intent)
             } catch (e: Exception) {
-                _errorMessage.value =
-                    if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
-                    else e.toDescription()
+                withContext(Dispatchers.Main){
+                    _errorMessage.value =
+                        if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
+                        else e.toDescription()
+                }
             }
         }
     }
