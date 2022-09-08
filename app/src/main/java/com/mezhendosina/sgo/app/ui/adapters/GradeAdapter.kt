@@ -11,14 +11,14 @@ import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
 import com.mezhendosina.sgo.app.ui.grades.showMidGrade
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
 
-typealias OnGradeClickListener = (GradesItem) -> Unit
+typealias OnGradeClickListener = (GradesItem, View) -> Unit
 
 class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     RecyclerView.Adapter<GradeAdapter.GradeViewHolder>(), View.OnClickListener {
 
     var grades: List<GradesItem> = emptyList()
         set(newValue) {
-            field = newValue.filter { it.name != "Итого" }
+            field = newValue.filter { it.name != "Итого" && it.avg.toString().isNotEmpty() }
             notifyDataSetChanged()
         }
 
@@ -26,7 +26,7 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
 
     override fun onClick(p0: View) {
         val gradeItem = p0.tag as GradesItem
-        onGradeClickListener(gradeItem)
+        onGradeClickListener(gradeItem, p0)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GradeViewHolder {
@@ -48,8 +48,6 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     }
 
     override fun getItemCount(): Int = grades.size
-
-
 }
 
 fun bindGradeValue(grade: GradesItem, binding: ItemGradeValueBinding) {

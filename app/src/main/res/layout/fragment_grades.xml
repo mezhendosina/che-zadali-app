@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:animateLayoutChanges="true"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.grades.GradesFragment">
@@ -13,28 +14,26 @@
         android:background="@null"
         app:elevation="0dp">
 
-            <Button
-                android:id="@+id/term_selector"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:background="@null"
-                android:minHeight="32dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:textAppearance="@style/mainScreenHeaders"
-                android:textColor="?attr/colorOnBackground"
-                android:textSize="20sp"
-                app:icon="@drawable/ic_expand_more"
-                app:iconGravity="textEnd"
-                app:iconTint="?attr/colorOnBackground"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="123" />
-        <com.google.android.material.divider.MaterialDivider
+        <Button
+            android:id="@+id/term_selector"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="?attr/colorSecondary"
+            android:textAppearance="@style/mainScreenHeaders"
+            android:textColor="?attr/colorOnBackground"
+            app:icon="@drawable/ic_expand_more"
+            app:iconGravity="textEnd"
+            app:iconPadding="12dp"
+            app:iconSize="24dp"
+            app:iconTint="?attr/colorOnBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1 триместр" />
+
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

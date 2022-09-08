@@ -9,6 +9,8 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
@@ -41,26 +43,27 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
 
         val gradeAdapter = GradeAdapter(object : OnGradeClickListener {
-            override fun invoke(p1: GradesItem) {
+            override fun invoke(p1: GradesItem, p2: View) {
                 val a = viewModel.grades.value?.indexOf(p1)
                 findTopNavController().navigate(
                     R.id.action_containerFragment_to_gradeItemFragment,
-                    bundleOf("LESSON_INDEX" to a)
+                    bundleOf("LESSON_INDEX" to a),
+                    null,
+//                    FragmentNavigatorExtras(p2 to "grade")
                 )
             }
         })
 
         binding.termSelector.setOnClickListener(onTermSelectedListener())
-
-        viewModel.grades.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                gradeAdapter.grades = it
+        viewModel.grades.observe(viewLifecycleOwner) { list ->
+            if (list.any { !it.avg.isNullOrEmpty() }) {
+                gradeAdapter.grades = list
                 binding.emptyState.root.visibility = View.GONE
                 binding.gradesRecyclerView.visibility = View.VISIBLE
             } else {
                 binding.emptyState.root.visibility = View.VISIBLE
                 binding.gradesRecyclerView.visibility = View.GONE
-                binding.emptyState.emptyText.text = "Оценок нету"
+                binding.emptyState.emptyText.text = "Оценок нет"
             }
         }
 
@@ -79,8 +82,13 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     private fun observeTerms() {
         viewModel.terms.observe(viewLifecycleOwner) {
-            binding.termSelector.isVisible = !it.isNullOrEmpty()
-            viewModel.setCurrentTerm(requireContext(), binding.termSelector, it)
+            if (it.isNullOrEmpty()) {
+                binding.termSelector.visibility = View.INVISIBLE
+            } else {
+                binding.termSelector.isVisible = !it.isNullOrEmpty()
+                viewModel.setCurrentTerm(requireContext(), binding.termSelector, it)
+                binding.termSelector.visibility = View.VISIBLE
+            }
         }
     }
 
