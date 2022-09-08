@@ -73,13 +73,6 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
-    //ktor
-    implementation "io.ktor:ktor-client-core:$ktor_version"
-    implementation "io.ktor:ktor-client-cio:$ktor_version"
-    implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
-    implementation "io.ktor:ktor-serialization-gson:$ktor_version"
-    implementation "io.ktor:ktor-client-logging:$ktor_version"
-    implementation "ch.qos.logback:logback-classic:$logback_version"
 
     //gson
     implementation "com.google.code.gson:gson:$gson_version"

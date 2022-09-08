@@ -5,7 +5,6 @@ import com.mezhendosina.sgo.data.requests.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.requests.homework.entities.*
-import io.ktor.http.*
 import okhttp3.Headers
 import okhttp3.MediaType
 import okhttp3.MultipartBody

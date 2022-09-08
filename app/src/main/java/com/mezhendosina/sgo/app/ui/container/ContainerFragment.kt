@@ -21,11 +21,7 @@ import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.announcementsBottomSheet.AnnouncementsBottomSheet
 import com.mezhendosina.sgo.app.ui.bottomSheets.UpdateBottomSheetFragment
 import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.checkUpdates
 import com.mezhendosina.sgo.data.uriFromFile
-import io.ktor.client.call.*
-import io.ktor.client.plugins.*
-import io.ktor.client.request.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
