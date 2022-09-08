@@ -45,9 +45,8 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
                 Singleton.updateDiary.value = false
             }
         }
-
+        binding.journalPager.offscreenPageLimit = 6
         val footerAdapter = LoadingStateAdapter()
-
         val adapterWithLoadState =
             adapter.withLoadStateHeaderAndFooter(footerAdapter, footerAdapter)
 

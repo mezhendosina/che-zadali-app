@@ -1,5 +1,6 @@
 package com.mezhendosina.sgo.app.ui.journal
 
+import android.content.Context
 import android.os.Trace
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.mezhendosina.sgo.app.model.journal.entities.DiaryAdapterEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonAdapter
 import com.mezhendosina.sgo.app.ui.adapters.PastMandatoryAdapter
 import com.mezhendosina.sgo.app.ui.journalItem.DiaryAdapter
+import com.mezhendosina.sgo.app.ui.journalItem.HomeworkAdapter
 import com.mezhendosina.sgo.app.ui.journalItem.OnHomeworkClickListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +53,15 @@ class JournalPagerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val diaryItem = getItem(position)
-        with(holder.binding) {
+        bindDiary(diaryItem, holder.binding, holder.itemView.context)
+    }
+
+    private fun bindDiary(
+        diaryItem: DiaryAdapterEntity?,
+        binding: ItemJournalViewpagerBinding,
+        context: Context
+    ) {
+        with(binding) {
             if (diaryItem != null) {
                 weekSelectorLayout.weekSelectorTextView.text =
                     "${diaryItem.weekStart} - ${diaryItem.weekEnd}"
@@ -66,7 +76,7 @@ class JournalPagerAdapter(
                     pastMandatory.pastMandatoryRecyclerView.apply {
                         adapter = pastMandatoryAdapter
                         layoutManager = LinearLayoutManager(
-                            holder.itemView.context,
+                            context,
                             LinearLayoutManager.VERTICAL,
                             false
                         )
@@ -95,7 +105,7 @@ class JournalPagerAdapter(
                         diary.adapter = diaryAdapter
                         diary.layoutManager =
                             LinearLayoutManager(
-                                holder.itemView.context,
+                                context,
                                 LinearLayoutManager.VERTICAL,
                                 false
                             )
