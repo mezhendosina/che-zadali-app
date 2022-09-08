@@ -13,6 +13,7 @@
         android:id="@+id/week_selector_layout"
         layout="@layout/week_selector"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +29,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:animateLayoutChanges="true"
             android:layout_height="match_parent">
 
             <include

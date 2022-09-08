@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable-night/divider_with_margins.xml" value="0.391" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable/divider_with_margins.xml" value="0.391" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable/ic_change_question.xml" value="0.3165" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable/ic_home.xml" value="0.233" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/drawable/ic_main_icon.xml" value="0.3165" />
@@ -71,11 +73,12 @@
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_empty_state.xml" value="0.49166666666666664" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_grade.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_grade_value.xml" value="0.33" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_homework.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_homework.xml" value="0.14545454545454545" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_homework_grade.xml" value="0.2774690038477982" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_journal_header.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_journal_viewpager.xml" value="0.33" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson.xml" value="0.33" />
-        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson_homework.xml" value="0.33" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson.xml" value="0.2" />
+        <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson_homework.xml" value="0.25" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson_send_homework.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_lesson_send_homework_text.xml" value="0.33" />
         <entry key="..\:/Programming/Android/rewrite9/app/src/main/res/layout/item_list_popup_window.xml" value="0.31936725096194957" />

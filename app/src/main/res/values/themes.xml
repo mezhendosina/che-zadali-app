@@ -75,8 +75,8 @@
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
     </style>
 
-    <style name="captions.gray" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="android:textColor">?attr/colorOnBackground</item>
+    <style name="captions.headers" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
     </style>
 
     <style name="dark_captions" parent="captions">
