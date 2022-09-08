@@ -38,6 +38,8 @@ class SettingsViewModel(
     private val _years = MutableLiveData<List<YearListResponseEntity>>()
     val years: LiveData<List<YearListResponseEntity>> = _years
 
+    private val selectedYear = MutableLiveData<Int>()
+
     val phoneNumber = MutableLiveData<String>()
     val email = MutableLiveData<String>()
     val phoneNumberVisibility = MutableLiveData<Boolean>()
@@ -66,6 +68,7 @@ class SettingsViewModel(
                     controlAnswer.value =
                         arguments?.getString(CONTROL_ANSWER) ?: settings.userSettings.recoveryAnswer
                     _years.value = yearList
+                    selectedYear.value = yearList.find { !it.name.contains("(*)") }?.id
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -132,6 +135,7 @@ class SettingsViewModel(
 
     fun sendSettings(context: Context) {
         val settingsResponse = _mySettingsResponseEntity.value
+        if (selectedYear.value != Singleton.currentYearId.value) Singleton.updateDiary.value = true
         if (email.value != settingsResponse?.email || phoneNumber.value != settingsResponse?.mobilePhone || phoneNumberVisibility.value != settingsResponse?.userSettings?.showMobilePhone || settingsResponse?.userSettings?.recoveryQuestion != controlQuestion.value || settingsResponse?.userSettings?.recoveryAnswer != controlAnswer.value) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
