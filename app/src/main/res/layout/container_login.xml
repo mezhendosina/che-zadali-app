@@ -17,11 +17,11 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingtoolbarlayout"
-            style="@style/expandedToolBarText"
             android:layout_width="match_parent"
             android:layout_height="128dp"
             android:nestedScrollingEnabled="true"
             app:expandedTitleMarginStart="16dp"
+            app:maxLines="2"
             app:expandedTitleTextAppearance="@style/expandedToolBarText"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
