@@ -24,7 +24,7 @@ fun Exception.toDescription(): String {
     println(this.stackTraceToString())
     return when (this) {
         is BackendException -> this.message.toString()
-        is ConnectionException -> "Ошибка соединения с интернетом"
+        is ConnectionException -> "Нет подключения к интернету"
         is ParseBackendResponseException -> "Сервер отправил непонятный ответ"
         else -> "Что-то пошло не так"
     }
