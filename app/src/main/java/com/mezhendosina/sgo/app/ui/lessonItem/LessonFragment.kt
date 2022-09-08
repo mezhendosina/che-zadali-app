@@ -170,12 +170,10 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                     attachmentsList.visibility = View.VISIBLE
                     attachmentsDivider.visibility = View.VISIBLE
                     attachmentsHeader.visibility = View.VISIBLE
-                    attachmentsIcon.visibility = View.VISIBLE
                 } else {
                     attachmentsList.visibility = View.GONE
                     attachmentsDivider.visibility = View.GONE
                     attachmentsHeader.visibility = View.GONE
-                    attachmentsIcon.visibility = View.GONE
                 }
             }
         }
@@ -220,7 +218,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                 whyGradeAdapter.grades = it
                 whyGradeAdapter.types = viewModel.types.value ?: emptyList()
                 showWhyGrades(binding)
-
             }
         }
 
@@ -247,7 +244,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             commentBody.visibility = View.VISIBLE
             commentDivider.visibility = View.VISIBLE
             commentHeader.visibility = View.VISIBLE
-            commentIcon.visibility = View.VISIBLE
         }
 
     }

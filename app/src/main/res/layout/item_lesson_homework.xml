@@ -6,35 +6,26 @@
     android:layout_height="wrap_content"
     android:background="@null">
 
-    <ImageView
-        android:id="@+id/homework_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/ic_journal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorOnBackground" />
 
     <TextView
         android:id="@+id/homework_header"
-        style="@style/captions.gray"
+        style="@style/captions.headers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:text="@string/homework"
-        android:textColor="?attr/colorOnBackground"
-        app:layout_constraintBottom_toBottomOf="@id/homework_icon"
-        app:layout_constraintStart_toEndOf="@id/homework_icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
 
     <TextView
         android:id="@+id/homework_body"
         style="@style/mainText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
         android:autoLink="all"
         android:textIsSelectable="true"
         app:layout_constraintEnd_toStartOf="@id/copy_icon"
@@ -84,38 +75,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/due_date" />
 
-    <ImageView
-        android:id="@+id/comment_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/ic_added_homework_text"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/comment_divider"
-        app:tint="?attr/colorOnBackground" />
 
     <TextView
         android:id="@+id/comment_header"
-        style="@style/captions.gray"
+        android:visibility="gone"
+        style="@style/captions.headers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="4dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="18dp"
         android:text="@string/teacher_comment"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/comment_icon"
-        app:layout_constraintStart_toEndOf="@id/comment_icon"
-        app:layout_constraintTop_toTopOf="@id/comment_icon" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_divider" />
 
     <TextView
         android:id="@+id/comment_body"
         style="@style/mainText"
+        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comment_header"
@@ -132,29 +112,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comment_body" />
 
-    <ImageView
-        android:id="@+id/attachments_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/ic_attachment"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/attachments_divider"
-        app:tint="?attr/colorOnBackground" />
 
     <TextView
         android:id="@+id/attachments_header"
-        style="@style/captions.gray"
+        style="@style/captions.headers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="4dp"
-        android:text="@string/attachments"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/attachments_icon"
-        app:layout_constraintStart_toEndOf="@id/attachments_icon"
-        app:layout_constraintTop_toTopOf="@id/attachments_icon" />
+        android:text="@string/attachments"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/attachments_divider" />
 
 
     <androidx.recyclerview.widget.RecyclerView
