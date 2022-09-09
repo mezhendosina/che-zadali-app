@@ -1,7 +1,9 @@
 package com.mezhendosina.sgo.app.ui.login
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -70,8 +72,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         if (!binding.loginEditText.text.isNullOrEmpty() && !binding.passwordEditText.text.isNullOrEmpty()) {
             viewModel.login(requireContext(), schoolId!!, login.toString(), password.toString())
+            val imm =
+                requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
         }
-
     }
-
 }
