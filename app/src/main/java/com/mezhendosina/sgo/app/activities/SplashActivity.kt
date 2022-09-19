@@ -2,15 +2,15 @@ package com.mezhendosina.sgo.app.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.mezhendosina.sgo.app.R
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.Settings
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class SplashActivity : AppCompatActivity() {
@@ -21,6 +21,8 @@ class SplashActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(settings.theme.first())
         }
         super.onCreate(savedInstanceState)
+
+        Singleton.loadContext(applicationContext)
 
         CoroutineScope(Dispatchers.Main).launch {
             val intent = if (settings.loggedIn.first()) {

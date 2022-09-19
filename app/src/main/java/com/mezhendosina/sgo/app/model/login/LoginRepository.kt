@@ -15,7 +15,13 @@ class LoginRepository(
 
     var at: String? = null
 
-    suspend fun login(context: Context, schoolId: Int, login: String, password: String) {
+    suspend fun login(
+        context: Context,
+        schoolId: Int,
+        login: String,
+        password: String,
+        firstLogin: Boolean = true
+    ) {
         loginSource.loginData()
         val getData = loginSource.getData()
         val loginEntity = LoginEntity(
@@ -33,11 +39,13 @@ class LoginRepository(
         )
         val loginRequest = loginSource.login(loginEntity)
         at = loginRequest.at
+        Singleton.at = loginRequest.at
         withContext(Dispatchers.IO) {
-            val settings = Settings(context)
-            settings.saveALl(loginEntity)
-            settings.setCurrentUserId(loginRequest.accountInfo.user.id)
-            Singleton.at = loginRequest.at
+            if (firstLogin) {
+                val settings = Settings(context)
+                settings.saveALl(loginEntity)
+                settings.setCurrentUserId(loginRequest.accountInfo.user.id)
+            }
             val yearsID = settingsSource.getYearList().first { !it.name.contains("(*)") }.id
             withContext(Dispatchers.Main) {
                 Singleton.currentYearId.value = yearsID
