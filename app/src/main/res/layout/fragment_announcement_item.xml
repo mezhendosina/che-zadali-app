@@ -4,6 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionGroup="true"
     tool:context=".ui.announcements.AnnouncementsFragment">
 
     <com.google.android.material.appbar.AppBarLayout

@@ -24,8 +24,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="windowActionBar">false</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
-
-
+        <item name="snackbarStyle">@style/snackBarStyle</item>
         <item name="colorGoodGrade">@color/goodGrade</item>
         <item name="colorMidGrade">@color/midGrade</item>
         <item name="colorBadGrade">@color/badGrade</item>

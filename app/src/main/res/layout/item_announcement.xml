@@ -8,6 +8,7 @@
     android:layout_marginVertical="8dp"
     android:background="@null"
     android:clickable="true"
+    android:clipToPadding="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardElevation="8dp">

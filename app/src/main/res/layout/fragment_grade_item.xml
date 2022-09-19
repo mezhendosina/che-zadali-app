@@ -19,6 +19,7 @@
             app:expandedTitleMarginBottom="16dp"
             app:expandedTitleMarginStart="16dp"
             app:expandedTitleTextAppearance="@style/expandedToolBarText"
+            app:extraMultilineHeightEnabled="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:maxLines="3">
 
@@ -28,7 +29,7 @@
                 android:layout_height="?actionBarSize"
                 app:navigationIcon="@drawable/ic_arrow_back"
                 app:navigationIconTint="?attr/colorOnBackground"
-                tools:title="Русский язык" />
+                tools:title="Русский язык1234язык1234язык1234язык1234язык1234" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

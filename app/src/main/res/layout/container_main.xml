@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@null"
+    android:transitionGroup="true"
     tools:context=".ui.container.ContainerFragment">
 
 
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/backgroundColor"
             app:expanded="true"
+            app:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -39,6 +41,7 @@
                     android:layout_height="?actionBarSize"
                     app:menu="@menu/main_toolbar_more_menu"
                     app:title="123"
+                    app:titleTextAppearance="@style/mainScreenHeaders"
                     app:titleTextColor="?attr/colorOnBackground" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -78,8 +81,10 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:background="?attr/backgroundColor"
+        app:elevation="0dp"
+        app:itemIconSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav" />
 
