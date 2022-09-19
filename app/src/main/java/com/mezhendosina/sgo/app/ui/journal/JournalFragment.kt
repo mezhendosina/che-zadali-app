@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialFadeThrough
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentJournalBinding
 import com.mezhendosina.sgo.app.findTopNavController
@@ -32,12 +33,16 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
         binding.journalPager.offscreenPageLimit = 5
 
 
-        viewModel.weeks.observe(viewLifecycleOwner) {
-            adapter.weeksList = it
+        viewModel.weeks.observe(viewLifecycleOwner) { entityList ->
+            adapter.weeksList = entityList
             TabLayoutMediator(binding.tabsLayout, binding.journalPager) { tab, position ->
-                tab.text = tabDate(it[position].weekStart)
+                tab.text = tabDate(entityList[position].weekStart)
             }
 
+            binding.journalPager.setCurrentItem(
+                entityList.indexOf(entityList.find { it.weekStart == Singleton.currentWeek })        ,
+                false
+            )
         }
     }
 }

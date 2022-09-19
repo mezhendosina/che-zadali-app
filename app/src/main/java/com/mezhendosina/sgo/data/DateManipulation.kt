@@ -115,3 +115,10 @@ fun tabDate(date: String): String {
     val s = SimpleDateFormat("yyyy-MM-dd").parse(date)
     return SimpleDateFormat("dd MMM", locale).format(s!!)
 }
+
+@SuppressLint("SimpleDateFormat")
+fun currentWeekStart(): String {
+    val calendar = Calendar.getInstance()
+    calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    return calendar.time.getDateByTime()
+}

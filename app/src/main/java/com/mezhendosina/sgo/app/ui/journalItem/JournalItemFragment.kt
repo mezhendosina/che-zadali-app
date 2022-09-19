@@ -28,9 +28,9 @@ class JournalItemFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getWeek(weekStartEndEntity)
-
         binding = FragmentItemJournalBinding.bind(view)
+
+        viewModel.getWeek(weekStartEndEntity)
         viewModel.week.observe(viewLifecycleOwner) { diaryItem ->
             with(binding) {
                 if (diaryItem != null) {

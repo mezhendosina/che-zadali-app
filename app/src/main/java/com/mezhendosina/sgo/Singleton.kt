@@ -5,29 +5,29 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
-import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
-import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
+import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
 import com.mezhendosina.sgo.app.model.container.ContainerRepository
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
-import com.mezhendosina.sgo.app.model.journal.DiarySource
-import com.mezhendosina.sgo.app.model.login.LoginSource
 import com.mezhendosina.sgo.app.model.grades.GradesSource
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
+import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.app.model.journal.JournalRepository
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
+import com.mezhendosina.sgo.app.model.login.LoginRepository
+import com.mezhendosina.sgo.app.model.login.LoginSource
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.model.settings.SettingsSource
-import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.WeekStartEndEntity
-import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
-import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
-import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
-import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
+import com.mezhendosina.sgo.data.currentWeekStart
 import com.mezhendosina.sgo.data.requests.SourceProviderHolder
+import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
+import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.room.AppDatabase
 
 object Singleton {
@@ -72,6 +72,7 @@ object Singleton {
     }
 
     val weeks = mutableListOf<WeekStartEndEntity>()
+    val currentWeek = currentWeekStart()
 
     // --- sources
     private val loginSource: LoginSource by lazy {
@@ -145,5 +146,7 @@ object Singleton {
     }
 
     fun getContext(): Context = applicationContext
+
+
 }
 
