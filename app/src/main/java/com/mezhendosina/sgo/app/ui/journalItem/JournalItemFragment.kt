@@ -3,6 +3,7 @@ package com.mezhendosina.sgo.app.ui.journalItem
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -19,7 +20,8 @@ import kotlinx.coroutines.launch
 
 class JournalItemFragment(
     private val weekStartEndEntity: WeekStartEndEntity,
-    private val navController: NavController
+    private val navController: NavController,
+    private val onWeekTextClick: () -> Unit
 ) : Fragment(R.layout.fragment_item_journal) {
 
     private lateinit var binding: FragmentItemJournalBinding
@@ -30,6 +32,7 @@ class JournalItemFragment(
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentItemJournalBinding.bind(view)
 
+        binding.weekSelectorLayout.root.setOnClickListener { onWeekTextClick.invoke() }
         viewModel.getWeek(weekStartEndEntity)
         viewModel.week.observe(viewLifecycleOwner) { diaryItem ->
             with(binding) {
@@ -82,10 +85,15 @@ class JournalItemFragment(
                             emptyState.root.visibility = View.VISIBLE
                         }
                     }
-                } else {
-                    emptyState.root.visibility = View.VISIBLE
                 }
             }
+        }
+        observeLoading()
+    }
+
+    private fun observeLoading() {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.progressBar.isVisible = it
         }
     }
 }

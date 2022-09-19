@@ -8,20 +8,22 @@ import com.mezhendosina.sgo.data.WeekStartEndEntity
 
 class JournalPagerAdapter(
     private val navController: NavController,
-    val fragment: Fragment
+    val fragment: Fragment,
+    val onWeekTextClick: () -> Unit
 ) : FragmentStateAdapter(fragment) {
 
     var weeksList: List<WeekStartEndEntity> = emptyList()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun getItemCount(): Int = weeksList.size
 
     override fun createFragment(position: Int): Fragment =
         JournalItemFragment(
             weeksList[position],
-            navController
+            navController,
+            onWeekTextClick
         )
 }

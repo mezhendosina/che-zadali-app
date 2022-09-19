@@ -6,16 +6,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentJournalBinding
 import com.mezhendosina.sgo.app.findTopNavController
+import com.mezhendosina.sgo.data.currentWeekStart
 import com.mezhendosina.sgo.data.tabDate
 
 class JournalFragment : Fragment(R.layout.fragment_journal) {
 
     private lateinit var binding: FragmentJournalBinding
     private val viewModel: JournalViewModel by viewModels()
+
+    val weekNow = currentWeekStart()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +29,14 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentJournalBinding.bind(view)
 
-        val adapter = JournalPagerAdapter(findTopNavController(), this)
+        val adapter = JournalPagerAdapter(findTopNavController(), this) {
+            binding.journalPager.currentItem =
+                viewModel.weeks.value?.indexOf(viewModel.weeks.value!!.find { it.weekStart == weekNow })
+                    ?: 0
+        }
         binding.journalPager.adapter = adapter
 
-        binding.journalPager.offscreenPageLimit = 5
-
+        binding.journalPager.offscreenPageLimit = 2
 
         viewModel.weeks.observe(viewLifecycleOwner) { entityList ->
             adapter.weeksList = entityList
@@ -40,7 +45,7 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
             }
 
             binding.journalPager.setCurrentItem(
-                entityList.indexOf(entityList.find { it.weekStart == Singleton.currentWeek })        ,
+                entityList.indexOf(entityList.find { it.weekStart == weekNow }),
                 false
             )
         }

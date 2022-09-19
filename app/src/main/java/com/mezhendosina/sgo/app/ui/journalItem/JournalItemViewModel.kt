@@ -22,10 +22,14 @@ class JournalItemViewModel(
     private val _week = MutableLiveData<DiaryUiEntity>()
     val week: LiveData<DiaryUiEntity> = _week
 
+    private val _isLoading = MutableLiveData(true)
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
     fun getWeek(weekStartEndEntity: WeekStartEndEntity) {
+        _isLoading.value = true
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val a = journalRepository.getWeek(
@@ -39,6 +43,10 @@ class JournalItemViewModel(
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     _errorMessage.value = e.toDescription()
+                }
+            } finally {
+                withContext(Dispatchers.Main) {
+                    _isLoading.value = false
                 }
             }
         }

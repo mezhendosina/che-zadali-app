@@ -21,7 +21,6 @@ import com.mezhendosina.sgo.app.model.login.LoginSource
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.model.settings.SettingsSource
 import com.mezhendosina.sgo.data.WeekStartEndEntity
-import com.mezhendosina.sgo.data.currentWeekStart
 import com.mezhendosina.sgo.data.requests.SourceProviderHolder
 import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
@@ -72,7 +71,7 @@ object Singleton {
     }
 
     val weeks = mutableListOf<WeekStartEndEntity>()
-    val currentWeek = currentWeekStart()
+    var currentWeek: String? = null
 
     // --- sources
     private val loginSource: LoginSource by lazy {
