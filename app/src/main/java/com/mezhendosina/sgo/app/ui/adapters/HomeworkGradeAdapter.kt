@@ -5,16 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
-import com.mezhendosina.sgo.app.model.journal.entities.AdapterAssignment
+import com.mezhendosina.sgo.app.model.journal.entities.AssignmentUiEntity
 import com.mezhendosina.sgo.app.ui.grades.showBadGrade
 import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
 import com.mezhendosina.sgo.app.ui.grades.showMidGrade
-import com.mezhendosina.sgo.data.requests.diary.entities.Assignment
-import com.mezhendosina.sgo.data.requests.diary.entities.Mark
 
 class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkGradeViewHolder>() {
 
-    var grades: List<AdapterAssignment> = emptyList()
+    var grades: List<AssignmentUiEntity> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()

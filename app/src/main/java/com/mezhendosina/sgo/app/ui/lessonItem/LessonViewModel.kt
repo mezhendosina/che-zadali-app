@@ -2,35 +2,32 @@ package com.mezhendosina.sgo.app.ui.lessonItem
 
 import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
-import com.mezhendosina.sgo.app.model.journal.entities.DiaryAdapterEntity
-import com.mezhendosina.sgo.app.model.journal.entities.LessonAdapter
+import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.diary.entities.DiaryEntity
-import com.mezhendosina.sgo.data.requests.diary.entities.Lesson
 import com.mezhendosina.sgo.data.requests.homework.entities.WhyGradeEntity
 import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.requests.homework.entities.*
-import com.mezhendosina.sgo.data.uriFromFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 class LessonViewModel(
+    private val attachmentsRepository: AttachmentsRepository = Singleton.attachmentsRepository,
     private val homeworkSource: HomeworkSource = Singleton.homeworkSource
 ) : ViewModel() {
 
-    private val _lesson = MutableLiveData<LessonAdapter>()
-    val lesson: LiveData<LessonAdapter> = _lesson
+    private val _lesson = MutableLiveData<LessonUiEntity>()
+    val lesson: LiveData<LessonUiEntity> = _lesson
 
     private val _homework = MutableLiveData<AssignResponseEntity>()
     val homework: LiveData<AssignResponseEntity> = _homework
@@ -54,53 +51,20 @@ class LessonViewModel(
     val snackbar: LiveData<Boolean> = _snackBar
 
 
-    fun findLesson(lessonId: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            mapLesson(Singleton.diaryEntity, lessonId)
-        }
+    init {
+        _lesson.value = Singleton.lesson
+        viewModelScope.launch { loadGrades() }
     }
 
-    private suspend fun mapLesson(diaryEntity: DiaryAdapterEntity, lessonId: Int) {
-        for (day in diaryEntity.weekDays) {
-            for (lesson in day.lessons) {
-                if (lesson.classmeetingId == lessonId) {
-                    val attachmentsList = mutableListOf<Attachment>()
-
-                    lesson.assignments?.forEach { assignment ->
-                        assignment.attachments.forEach {
-                            attachmentsList.addAll(it.attachments)
-                        }
-                    }
-
-                    withContext(Dispatchers.Main) {
-                        _attachments.value = attachmentsList
-                        _lesson.value = lesson
-                    }
-                }
-            }
-        }
-    }
 
     fun downloadAttachment(context: Context, attachment: Attachment) {
-        val file = File(context.getExternalFilesDir(null), attachment.originalFileName)
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val downloadedFile = homeworkSource.downloadAttachment(attachment.id, file)
-
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    setDataAndType(uriFromFile(context, file), downloadedFile)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }
-                context.startActivity(intent)
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    _errorMessage.value = if (e is ActivityNotFoundException) {
-                        _snackBar.value = true
-                        "Похоже,что на устройстве не установлено приложение для открытия этого файла"
-                    } else e.toDescription()
-                }
-            }
+        try {
+            attachmentsRepository.downloadAttachment(context, attachment)
+        } catch (e: Exception) {
+            _errorMessage.value =
+                if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
+                else e.toDescription()
+        } finally {
         }
     }
 
@@ -141,6 +105,7 @@ class LessonViewModel(
                         withContext(Dispatchers.Main) {
                             _homework.value = response
                             _answerFiles.value = answerFiles
+                            _attachments.value = response.attachments
                         }
                     } catch (e: Exception) {
                         withContext(Dispatchers.Main) {

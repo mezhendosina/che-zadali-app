@@ -1,40 +1,39 @@
 package com.mezhendosina.sgo.app.ui.journalItem
 
-import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.os.Trace
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemDiaryBinding
-import com.mezhendosina.sgo.app.model.journal.entities.AdapterWeekDay
-import com.mezhendosina.sgo.app.model.journal.entities.LessonAdapter
-import com.mezhendosina.sgo.app.ui.journal.JournalPagerAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
+import com.mezhendosina.sgo.app.model.journal.entities.WeekDayUiEntity
 
 class DiaryAdapter(
     private val onHomeworkClickListener: OnHomeworkClickListener
 ) : RecyclerView.Adapter<DiaryAdapter.ViewHolder>() {
 
-    var weekDays: List<AdapterWeekDay> = emptyList()
+    var weekDays: List<WeekDayUiEntity> = emptyList()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
         }
 
 
-    class ViewHolder(val binding: ItemDiaryBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(
+        val binding: ItemDiaryBinding,
+        private val onHomeworkClickListener: OnHomeworkClickListener
+    ) :
+        RecyclerView.ViewHolder(binding.root) {
+        val homeworkAdapter = HomeworkAdapter(onHomeworkClickListener)
 
-    private val viewPool = RecyclerView.RecycledViewPool()
+        val layoutManager = LinearLayoutManager(
+            itemView.context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        val viewPool = RecyclerView.RecycledViewPool()
+
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -43,30 +42,21 @@ class DiaryAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemDiaryBinding.inflate(inflater, parent, false)
 
-        return ViewHolder(binding)
+        return ViewHolder(binding, onHomeworkClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val day = weekDays[position]
         with(holder.binding) {
             Trace.beginSection("Binding homework")
-            CoroutineScope(Dispatchers.Main).launch {
-                this@with.day.text = day.date
-                val layoutManager =
-                    LinearLayoutManager(
-                        holder.itemView.context,
-                        LinearLayoutManager.VERTICAL,
-                        false
-                    )
-                val homeworkAdapter = HomeworkAdapter(onHomeworkClickListener)
+            this@with.day.text = day.date
 
-                homeworkAdapter.lessons = day.lessons
+            holder.homeworkAdapter.lessons = day.lessons
 
-                homeworkRecyclerView.apply {
-                    adapter = homeworkAdapter
-                    this.layoutManager = layoutManager
-                    setRecycledViewPool(viewPool)
-                }
+            homeworkRecyclerView.apply {
+                adapter = holder.homeworkAdapter
+                this.layoutManager = holder.layoutManager
+                setRecycledViewPool(holder.viewPool)
             }
             Trace.endSection()
         }

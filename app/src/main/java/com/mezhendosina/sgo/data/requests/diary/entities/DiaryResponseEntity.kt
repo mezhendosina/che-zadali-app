@@ -16,7 +16,19 @@ data class DiaryResponseEntity(
     val weekEnd: String,
     @SerializedName("weekStart")
     val weekStart: String,
-)
+) {
+    fun getAttachmentIDs(): List<Int> {
+        val listAttachmentsId = mutableListOf<Int>()
+        this.weekDays.forEach { weekDay ->
+            weekDay.lessons.forEach { lesson ->
+                lesson.assignments?.forEach {
+                    listAttachmentsId.add(it.id)
+                }
+            }
+        }
+        return listAttachmentsId
+    }
+}
 
 data class WeekDay(
     @SerializedName("date")
@@ -79,6 +91,7 @@ data class Mark(
     @SerializedName("studentId")
     val studentId: Int
 )
+
 data class TextAnswer(
     @SerializedName("answer")
     val answer: String,

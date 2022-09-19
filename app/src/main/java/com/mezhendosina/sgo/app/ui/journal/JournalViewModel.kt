@@ -1,51 +1,72 @@
 package com.mezhendosina.sgo.app.ui.journal
 
-import android.content.Context
-import androidx.lifecycle.*
-import androidx.lifecycle.Observer
-import androidx.paging.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.model.journal.entities.DiaryAdapterEntity
-import com.mezhendosina.sgo.app.model.journal.JournalPagingSource
-import com.mezhendosina.sgo.app.model.journal.PLACEHOLDERS
-import com.mezhendosina.sgo.app.model.settings.SettingsRepository
-import com.mezhendosina.sgo.data.Settings
+import com.mezhendosina.sgo.data.WeekStartEndEntity
+import com.mezhendosina.sgo.data.getWeeksList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import java.util.*
+import kotlinx.coroutines.withContext
 
 class JournalViewModel : ViewModel() {
+    private val _weeks = MutableLiveData<List<WeekStartEndEntity>>()
+    val weeks: LiveData<List<WeekStartEndEntity>> = _weeks
 
-    lateinit var diaryEntity: Flow<PagingData<DiaryAdapterEntity>>
-
-
-    fun loadDiary(context: Context) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val settings = Settings(context)
-            val studentId = settings.currentUserId.first()
-            diaryEntity = getPagedDiary(studentId)
-        }
+    init {
+        loadWeeks()
     }
 
-    private fun getPagedDiary(studentId: Int): Flow<PagingData<DiaryAdapterEntity>> =
-        Pager(
-            config = PagingConfig(
-                pageSize = 2,
-                enablePlaceholders = true,
-                initialLoadSize = 1
-            ),
-            pagingSourceFactory = {
-                JournalPagingSource(
-                    studentId,
-                    Singleton.diarySource,
-                    Singleton.homeworkSource,
-                )
+    private fun loadWeeks() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (Singleton.weeks.isNotEmpty()) {
+                withContext(Dispatchers.Main) {
+                    _weeks.value = Singleton.weeks
+                }
+            } else {
+                val a = getWeeksList()
+                println(a)
+                withContext(Dispatchers.Main) {
+                    _weeks.value = a
+                }
+
             }
-        ).flow.cachedIn(viewModelScope)
 
-
+        }
+    }
+//    val diaryEntity: Flow<PagingData<DiaryUiEntity>> = runBlocking {
+//        val settings = Settings(context.applicationContext)
+//        val studentId = settings.currentUserId.first()
+//
+//        return@runBlocking getPagedDiary(studentId)
+//    }
+//
+//
+//    private fun getPagedDiary(studentId: Int): Flow<PagingData<DiaryUiEntity>> = Pager(
+//        config = PagingConfig(
+//            pageSize = 1,
+//            enablePlaceholders = true,
+//            initialLoadSize = 1,
+//        ),
+////        remoteMediator = JournalRemoteMediator(
+////            studentId,
+////            Singleton.database.getJournalDao(),
+////            Singleton.diarySource,
+////            Singleton.homeworkSource
+////        ),
+//        pagingSourceFactory = {
+//            JournalPagingSource(
+//                studentId,
+//                Singleton.diarySource,
+//                Singleton.homeworkSource
+//            )
+////            Singleton.database.getJournalDao().getWeek()
+//        },
+//    ).flow
+//        .cachedIn(viewModelScope)
+////        .map { pagingData ->
+////            pagingData.map { it.diaryResponseEntity }
+////        }
 }
-

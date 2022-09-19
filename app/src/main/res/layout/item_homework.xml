@@ -4,6 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     style="@style/MaterialCardView"
     android:layout_width="match_parent"
+    android:id="@+id/homework_item"
     android:layout_height="wrap_content"
     android:background="@null"
     android:clickable="true"

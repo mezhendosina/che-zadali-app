@@ -13,9 +13,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.databinding.ItemLessonBinding
+import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.*
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.app.ui.hideAnimation
@@ -31,7 +33,7 @@ import java.text.SimpleDateFormat
 
 class LessonFragment : Fragment(R.layout.item_lesson) {
 
-    private val viewModel: LessonViewModel by viewModels()
+    internal val viewModel: LessonViewModel by viewModels()
     private lateinit var binding: ItemLessonBinding
 
     private val whyGradeAdapter = WhyGradeAdapter()
@@ -69,7 +71,7 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-        viewModel.findLesson(arguments?.getInt("lessonId") ?: 0)
+        viewModel.loadHomework(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,7 +87,10 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             hideAnimation(binding.progressBar, View.GONE)
         }
         with(binding) {
-            toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
+            toolbar.setNavigationOnClickListener {
+                Singleton.transition.value = null
+                findTopNavController().popBackStack()
+            }
 
             sendHomework.sendText.sendHomeworkTextLayout.setEndIconOnClickListener {
                 val answer = sendHomework.sendText.sendHomeworkTextLayout.editText?.text.toString()
@@ -127,7 +132,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                 ).show()
             }
         }
-
 
 
         observeAttachment()

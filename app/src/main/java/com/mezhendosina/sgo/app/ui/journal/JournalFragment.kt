@@ -4,17 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentJournalBinding
 import com.mezhendosina.sgo.app.findTopNavController
-import com.mezhendosina.sgo.app.ui.adapters.LoadingStateAdapter
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import com.mezhendosina.sgo.data.tabDate
 
 class JournalFragment : Fragment(R.layout.fragment_journal) {
 
@@ -25,43 +20,24 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialFadeThrough()
         exitTransition = MaterialFadeThrough()
-        viewModel.loadDiary(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentJournalBinding.bind(view)
 
-        val adapter = JournalPagerAdapter(
-            findTopNavController(),
-            object : CurrentItemListener {
-                override fun invoke(): Int = binding.journalPager.currentItem
-            }
-        )
+        val adapter = JournalPagerAdapter(findTopNavController(), this)
+        binding.journalPager.adapter = adapter
 
-        Singleton.updateDiary.observe(viewLifecycleOwner) {
-            if (it) {
-                adapter.refresh()
-                Singleton.updateDiary.value = false
-            }
-        }
-        binding.journalPager.offscreenPageLimit = 6
-        val footerAdapter = LoadingStateAdapter()
-        val adapterWithLoadState =
-            adapter.withLoadStateHeaderAndFooter(footerAdapter, footerAdapter)
+        binding.journalPager.offscreenPageLimit = 5
 
-        binding.journalPager.adapter = adapterWithLoadState
-        observeDiary(adapter)
-//        TabLayoutMediator(binding.tabsLayout, binding.journalPager) { tab, pos ->
-//            tab.text =
-//        }
-    }
 
-    private fun observeDiary(adapter: JournalPagerAdapter) {
-        lifecycleScope.launch {
-            viewModel.diaryEntity.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
+        viewModel.weeks.observe(viewLifecycleOwner) {
+            adapter.weeksList = it
+            TabLayoutMediator(binding.tabsLayout, binding.journalPager) { tab, position ->
+                tab.text = tabDate(it[position].weekStart)
             }
+
         }
     }
 }
