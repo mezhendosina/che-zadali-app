@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+/cpu-perfetto-20220823T122855.trace
+/cpu-perfetto-20220828T132534.trace
+/cpu-perfetto-20220908T212318.trace
