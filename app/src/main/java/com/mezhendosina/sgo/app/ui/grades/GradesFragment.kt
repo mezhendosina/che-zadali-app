@@ -2,18 +2,18 @@ package com.mezhendosina.sgo.app.ui.grades
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
 import androidx.core.os.bundleOf
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 import com.mezhendosina.sgo.app.findTopNavController
@@ -31,42 +31,30 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.load(requireContext())
-
-        exitTransition = MaterialFadeThrough()
         enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
     }
+
+    private val gradeAdapter = GradeAdapter(object : OnGradeClickListener {
+        override fun invoke(p1: GradesItem, p2: View) {
+            val a = viewModel.grades.value?.indexOf(p1)
+            findTopNavController().navigate(
+                R.id.action_containerFragment_to_gradeItemFragment,
+                bundleOf("LESSON_INDEX" to a),
+                null,
+                FragmentNavigatorExtras(p2 to p1.name),
+            )
+        }
+    })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGradesBinding.bind(view)
 
-
-        val gradeAdapter = GradeAdapter(object : OnGradeClickListener {
-            override fun invoke(p1: GradesItem, p2: View) {
-                val a = viewModel.grades.value?.indexOf(p1)
-                findTopNavController().navigate(
-                    R.id.action_containerFragment_to_gradeItemFragment,
-                    bundleOf("LESSON_INDEX" to a),
-                    null,
-//                    FragmentNavigatorExtras(p2 to "grade")
-                )
-            }
-        })
+        viewModel.load(requireContext())
 
         binding.termSelector.setOnClickListener(onTermSelectedListener())
-        viewModel.grades.observe(viewLifecycleOwner) { list ->
-            if (list.any { !it.avg.isNullOrEmpty() }) {
-                gradeAdapter.grades = list
-                binding.emptyState.root.visibility = View.GONE
-                binding.gradesRecyclerView.visibility = View.VISIBLE
-            } else {
-                binding.emptyState.root.visibility = View.VISIBLE
-                binding.gradesRecyclerView.visibility = View.GONE
-                binding.emptyState.emptyText.text = "Оценок нет"
-            }
-        }
-
+        observeGrades()
         observeErrors()
         observeLoading()
         observeTerms()
@@ -78,6 +66,26 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
         binding.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.gradesRecyclerView.adapter = gradeAdapter
+
+
+    }
+
+    private fun observeGrades() {
+        viewModel.grades.observe(viewLifecycleOwner) { list ->
+            if (list.any { !it.avg.isNullOrEmpty() }) {
+                gradeAdapter.grades = list
+                binding.emptyState.root.visibility = View.GONE
+                binding.gradesRecyclerView.visibility = View.VISIBLE
+
+            } else {
+                binding.emptyState.root.visibility = View.VISIBLE
+                binding.gradesRecyclerView.visibility = View.GONE
+                binding.emptyState.emptyText.text = "Оценок нет"
+            }
+           binding.gradesRecyclerView.doOnPreDraw {
+                Singleton.transition.value = true
+            }
+        }
     }
 
     private fun observeTerms() {
@@ -85,7 +93,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
             if (it.isNullOrEmpty()) {
                 binding.termSelector.visibility = View.INVISIBLE
             } else {
-                binding.termSelector.isVisible = !it.isNullOrEmpty()
+                binding.termSelector.isVisible = it.isNotEmpty()
                 viewModel.setCurrentTerm(requireContext(), binding.termSelector, it)
                 binding.termSelector.visibility = View.VISIBLE
             }

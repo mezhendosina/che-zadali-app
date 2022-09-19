@@ -3,10 +3,8 @@ package com.mezhendosina.sgo.app
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.model.login.LoginEntity
-import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.data.GradesFromHtml
 import com.mezhendosina.sgo.data.requests.SourceProviderHolder
-import com.mezhendosina.sgo.data.requests.login.entities.LogoutRequestEntity
 import com.mezhendosina.sgo.data.toMD5
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -19,7 +17,7 @@ class RequestsUnitTest {
 
     private val loginSource = sourcesProvider.getLoginSource()
     private val gradesSource = sourcesProvider.getGradesSource()
-    private val loginRepository = LoginRepository(loginSource)
+//    private val loginRepository = LoginRepository(loginSource)
 
     private val singleton = Singleton
 
@@ -45,7 +43,7 @@ class RequestsUnitTest {
                 )
             )
             singleton.at = login.at
-            loginRepository.at = login.at
+//            loginRepository.at = login.at
         }
     }
 
@@ -72,7 +70,7 @@ class RequestsUnitTest {
     @After
     fun logout() {
         runBlocking {
-            loginRepository.logout()
+//            loginRepository.logout()
 
         }
     }

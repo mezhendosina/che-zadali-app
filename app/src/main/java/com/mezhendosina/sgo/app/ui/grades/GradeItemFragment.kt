@@ -3,7 +3,7 @@ package com.mezhendosina.sgo.app.ui.grades
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.MaterialContainerTransform
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradeItemBinding
@@ -21,16 +21,17 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lesson = Singleton.grades[arguments?.getInt("LESSON_INDEX") ?: 0]
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+        sharedElementEnterTransition = MaterialContainerTransform()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentGradeItemBinding.bind(view)
-        binding.toolbar.setNavigationOnClickListener { findTopNavController().navigateUp() }
+
+        binding.root.transitionName = lesson.name
+
         binding.collapsingtoolbarlayout.title = lesson.name
+        binding.toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
         bindGradeValue(lesson, binding.avgGrade)
         bindGradeCount(binding.countGrade)
     }

@@ -1,15 +1,7 @@
 package com.mezhendosina.sgo.app
 
-import android.app.Instrumentation
 import com.mezhendosina.sgo.data.GradesFromHtml
-import com.mezhendosina.sgo.data.Requests
-import com.mezhendosina.sgo.data.SettingsLoginData
-import io.noties.markwon.Markwon
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
-
-import org.junit.Assert.*
-import org.junit.Before
 import java.io.File
 
 /**

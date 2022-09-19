@@ -7,9 +7,6 @@ import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.base.RetrofitSourcesProvider
 import okhttp3.*
-import okhttp3.Cookie
-import okhttp3.Headers
-import okhttp3.internal.cookieToString
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -82,7 +79,7 @@ object SourceProviderHolder {
                 .add("Referer", "https://sgo.edu-74.ru/")
                 .add(
                     "sec-ch-ua",
-                    "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Microsoft Edge\";v=\"101\""
+                    "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"105\", \"Microsoft Edge\";v=\"105\""
                 )
                 .add("Cookie", cookiesList.toCookieString())
                 .add("at", Singleton.at)

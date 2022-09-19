@@ -37,7 +37,6 @@ class GradesViewModel(
     private val _gradeOptions = MutableLiveData<GradeOptions>()
 
 
-
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
@@ -69,8 +68,9 @@ class GradesViewModel(
                 val settings = Settings(context)
 
                 // gradesOption request
-                withContext(Dispatchers.Main){
-                    _gradeOptions.value = gradeServices.loadGradesOptions()
+                val gradeOptions = gradeServices.loadGradesOptions()
+                withContext(Dispatchers.Main) {
+                    _gradeOptions.value = gradeOptions
                 }
 
                 // save result
@@ -116,9 +116,10 @@ class GradesViewModel(
         }
     }
 
-    private suspend fun loadGrades(gradesOptions: GradeOptions, termID: String) {
-        gradeServices.loadGrades(gradesOptions, termID)
-    }
+    private suspend fun loadGrades(gradesOptions: GradeOptions, termID: String) =
+        withContext(Dispatchers.IO) {
+            gradeServices.loadGrades(gradesOptions, termID)
+        }
 
     fun setCurrentTerm(context: Context, button: Button, termList: List<SelectTag>) {
         val settings = Settings(context)

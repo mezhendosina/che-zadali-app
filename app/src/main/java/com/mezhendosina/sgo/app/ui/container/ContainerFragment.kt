@@ -1,17 +1,16 @@
 package com.mezhendosina.sgo.app.ui.container
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
@@ -20,12 +19,9 @@ import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.announcementsBottomSheet.AnnouncementsBottomSheet
 import com.mezhendosina.sgo.app.ui.bottomSheets.UpdateBottomSheetFragment
-import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.uriFromFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 
 class ContainerFragment : Fragment(R.layout.container_main) {
@@ -38,10 +34,11 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+//        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.checkUpdates()
         }
@@ -49,9 +46,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = ContainerMainBinding.bind(view)
-
 
         val navHost = childFragmentManager.findFragmentById(R.id.tabs_container) as NavHostFragment
         val navController = navHost.navController
@@ -66,6 +61,12 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         binding.toolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
         observeDownloadState()
         observeUpdates()
+        Singleton.transition.observe(viewLifecycleOwner) {
+            if (it == true) {
+                println("ok")
+                Singleton.transition.value = false
+            }
+        }
     }
 
     private fun setupOnMenuItemClickListener(menuItem: MenuItem): Boolean {

@@ -3,7 +3,9 @@ package com.mezhendosina.sgo.app.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemGradeBinding
 import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
 import com.mezhendosina.sgo.app.ui.grades.showBadGrade
@@ -19,6 +21,7 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     var grades: List<GradesItem> = emptyList()
         set(newValue) {
             field = newValue.filter { it.name != "Итого" && it.avg.toString().isNotEmpty() }
+                .sortedBy { it.name }
             notifyDataSetChanged()
         }
 
@@ -26,12 +29,14 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
 
     override fun onClick(p0: View) {
         val gradeItem = p0.tag as GradesItem
-        onGradeClickListener(gradeItem, p0)
+        val view = p0.rootView.findViewById<ConstraintLayout>(R.id.grade_item)
+        onGradeClickListener(gradeItem, view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GradeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemGradeBinding.inflate(inflater, parent, false)
+
 
         binding.root.setOnClickListener(this)
 
@@ -41,8 +46,9 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     override fun onBindViewHolder(holder: GradeViewHolder, position: Int) {
         val grade = grades[position]
         with(holder.binding) {
+            root.transitionName = grade.name
             holder.itemView.tag = grade
-            lessonName.text = grade.name
+            gradeName.text = grade.name
             bindGradeValue(grade, this.grade)
         }
     }

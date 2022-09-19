@@ -1,19 +1,11 @@
 package com.mezhendosina.sgo.app
 
 import android.content.Context
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.mezhendosina.sgo.data.Requests
-import com.mezhendosina.sgo.data.SettingsLoginData
+import androidx.test.platform.app.InstrumentationRegistry
 import com.mezhendosina.sgo.data.uriFromFile
-import io.noties.markwon.Markwon
-import io.noties.markwon.html.HtmlPlugin
-import kotlinx.coroutines.runBlocking
-
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 import java.io.File
 
 /**
