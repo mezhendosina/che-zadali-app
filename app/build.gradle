@@ -4,6 +4,8 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.firebase-perf'
     id 'com.google.firebase.crashlytics'
+
+    id "kotlin-kapt"
 }
 
 android {
@@ -23,6 +25,12 @@ android {
         versionName '1.9.2'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        kapt {
+            arguments {
+                arg("room.shemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -48,6 +56,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.mezhendosina.sgo.app'
 }
 
 dependencies {
@@ -55,16 +64,16 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.8.0-alpha01'
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'androidx.navigation:navigation-fragment:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment:2.5.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'androidx.fragment:fragment:1.5.2'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.1'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.4'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
@@ -73,10 +82,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
-
     //gson
     implementation "com.google.code.gson:gson:$gson_version"
-
 
     //datastore
     implementation "androidx.datastore:datastore:1.0.0"
@@ -85,15 +92,12 @@ dependencies {
 
     //html parser
     implementation 'org.jsoup:jsoup:1.14.3'
+
     //swipe refresh layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     //viewpager 2
     implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
-
-
-    //jetpack paging
-    implementation "androidx.paging:paging-runtime:3.1.1"
 
     //markdown support
     implementation "io.noties.markwon:core:$markwon_version"
@@ -121,4 +125,12 @@ dependencies {
 
     //Splashscreen api
     implementation 'androidx.core:core-splashscreen:1.0.0'
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-paging:2.4.3"
+    implementation "androidx.room:room-ktx:$room_version"
+
 }
