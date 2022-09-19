@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -16,8 +15,6 @@ import com.mezhendosina.sgo.app.databinding.FragmentAnnouncementItemBinding
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentAdapter
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentClickListener
-import com.mezhendosina.sgo.app.ui.errorDialog
-import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
 import io.noties.markwon.Markwon
@@ -29,7 +26,7 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
 
     private lateinit var binding: FragmentAnnouncementItemBinding
 
-    private val viewModel: AnnouncementsFragmentViewModel by viewModels()
+    internal val viewModel: AnnouncementsFragmentViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +59,8 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
                         ) {
                             viewModel.downloadAttachment(
                                 requireContext(),
-                                attachment
+                                attachment,
+                                binding
                             )
                         }
                     }
@@ -83,7 +81,7 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
 
     private fun observeErrors() {
         viewModel.errorMessage.observe(viewLifecycleOwner) {
-            errorDialog(requireContext(), it, false)
+            Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
         }
     }
 
