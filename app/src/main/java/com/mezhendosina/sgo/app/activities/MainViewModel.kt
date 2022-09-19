@@ -5,13 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.model.login.LoginEntity
 import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.SettingsLoginData
-import com.mezhendosina.sgo.data.requests.login.entities.GetDataResponseEntity
-import com.mezhendosina.sgo.data.requests.login.entities.LogoutRequestEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +29,8 @@ class MainViewModel(
                 context,
                 settingsLoginData.scid,
                 settingsLoginData.UN,
-                settingsLoginData.PW
+                settingsLoginData.PW,
+                false
             )
 
         } catch (e: Exception) {
@@ -48,20 +45,4 @@ class MainViewModel(
             loginRepository.logout()
         }
     }
-
-    private fun SettingsLoginData.toLoginEntity(
-        getDataResponseEntity: GetDataResponseEntity
-    ): LoginEntity = LoginEntity(
-        this.cn,
-        this.sid,
-        this.pid,
-        this.cn,
-        this.sft,
-        this.scid,
-        this.UN,
-        this.PW,
-        getDataResponseEntity.lt,
-        getDataResponseEntity.salt,
-        getDataResponseEntity.ver
-    )
 }

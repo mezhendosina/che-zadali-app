@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         CoroutineScope(Dispatchers.IO).launch {
 
             withContext(Dispatchers.Main) {
@@ -50,10 +49,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRestart() {
-        runBlocking {
+        super.onRestart()
+        CoroutineScope(Dispatchers.IO).launch {
             viewModel.login(this@MainActivity)
         }
-        super.onRestart()
     }
 
     override fun onStop() {
