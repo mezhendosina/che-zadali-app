@@ -9,7 +9,7 @@ data class AssignResponseEntity(
     @SerializedName("assignmentName")
     val assignmentName: String,
     @SerializedName("attachments")
-    val attachments: List<Any>,
+    val attachments: List<Attachment>,
     @SerializedName("date")
     val date: String,
     @SerializedName("description")

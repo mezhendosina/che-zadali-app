@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
-import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
 
@@ -15,8 +14,7 @@ interface AttachmentClickListener {
 
 class AttachmentAdapter(
     private val actionListener: AttachmentClickListener
-) :
-    RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder>(),
+) : RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder>(),
     View.OnClickListener {
     private lateinit var binding: ItemAttachmentBinding
     var attachments: List<Attachment> = emptyList()
