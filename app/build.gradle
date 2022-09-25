@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "com.mezhendosina.sgo.app"
-        minSdk 23
+        minSdk 24
         targetSdk 33
         versionCode 8
         versionName '1.9.2'
@@ -71,7 +71,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.5.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.2.0'
-    implementation 'androidx.fragment:fragment:1.5.2'
+    implementation 'androidx.fragment:fragment:1.5.3'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.4'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
