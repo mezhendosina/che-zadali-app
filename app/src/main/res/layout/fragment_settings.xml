@@ -45,11 +45,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:textIsSelectable="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/user_photo"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Меньшенин Евгений Андреевич"
-                    android:textIsSelectable="false" />
+                    tools:text="Меньшенин Евгений Андреевич" />
 
                 <TextView
                     android:id="@+id/user_login"
@@ -57,10 +57,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:textIsSelectable="false"
                     app:layout_constraintStart_toEndOf="@id/user_photo"
                     app:layout_constraintTop_toBottomOf="@id/user_name"
-                    tools:text="МеньшенинЕ1"
-                    android:textIsSelectable="false" />
+                    tools:text="МеньшенинЕ1" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -153,10 +153,10 @@
                 style="@style/captions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textIsSelectable="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/birthday_header"
-                tools:text="22.09.2005"
-                android:textIsSelectable="false" />
+                tools:text="22.09.2005" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.divider.MaterialDivider
@@ -240,6 +240,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/email" />
 
@@ -249,6 +250,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="18dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/email">

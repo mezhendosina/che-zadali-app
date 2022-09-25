@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="?attr/backgroundColor"
-        app:elevation="0dp"
+        app:elevation="4dp"
         app:itemIconSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav" />
