@@ -11,6 +11,9 @@ import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class AnnouncementsFragmentViewModel(
@@ -25,14 +28,16 @@ class AnnouncementsFragmentViewModel(
         attachment: Attachment,
         binding: ItemAttachmentBinding
     ) {
-        try {
-            attachmentsRepository.downloadAttachment(context, attachment)
-        } catch (e: Exception) {
-            _errorMessage.value =
-                if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
-                else e.toDescription()
-        } finally {
-            binding.progressBar.visibility = View.GONE
+        CoroutineScope(Dispatchers.Main).launch{
+            try {
+                attachmentsRepository.downloadAttachment(context, attachment)
+            } catch (e: Exception) {
+                _errorMessage.value =
+                    if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
+                    else e.toDescription()
+            } finally {
+                binding.progressBar.visibility = View.GONE
+            }
         }
     }
 

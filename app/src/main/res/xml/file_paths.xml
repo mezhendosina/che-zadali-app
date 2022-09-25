@@ -4,8 +4,15 @@
         path="." />
     <external-path
         name="sgo app"
-        path="." />
+        path="/" />
     <external-files-path
         name="sgo app"
-        path="."/>
+        path="/" />
+    <external-cache-path
+        name="sgo app"
+        path="/" />
+    <files-path
+        name="sgo app"
+        path="/"/>
+
 </paths>

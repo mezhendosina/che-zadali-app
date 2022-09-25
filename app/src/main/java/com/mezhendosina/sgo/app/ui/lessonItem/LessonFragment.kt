@@ -1,13 +1,16 @@
 package com.mezhendosina.sgo.app.ui.lessonItem
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +43,17 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
     private val attachmentAdapter = AttachmentAdapter(
         object : AttachmentClickListener {
             override fun onClick(attachment: Attachment, binding: ItemAttachmentBinding) {
-                viewModel.downloadAttachment(requireContext(), attachment)
+
+                val checkPermission =
+                    requireContext().checkSelfPermission(Manifest.permission_group.STORAGE)
+                if (checkPermission == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission_group.STORAGE),
+                        1100
+                    )
+                }
+                viewModel.downloadAttachment(requireContext(), attachment, binding)
             }
         }
     )
