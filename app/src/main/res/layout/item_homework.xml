@@ -2,16 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
-    style="@style/MaterialCardView"
-    android:layout_width="match_parent"
     android:id="@+id/homework_item"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@null"
     android:clickable="true"
     android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:minHeight="60dp"
     android:paddingHorizontal="16dp"
-    android:paddingVertical="8dp"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:paddingVertical="8dp">
 
 
     <TextView
@@ -20,7 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="sans-serif-black"
+        android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,10 +34,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:background="@null"
-        android:fontFamily="sans-serif-medium"
         android:textColor="?attr/colorOnBackground"
+        android:textIsSelectable="false"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@id/grades"
+        app:layout_constraintBottom_toTopOf="@id/homework"
+        app:layout_constraintEnd_toStartOf="@id/assignment_types"
         app:layout_constraintStart_toEndOf="@id/lesson_number"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="Литература" />
@@ -47,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/lesson_name"
         app:layout_constraintTop_toBottomOf="@id/lesson_name"
         tool:text="8:00 - 8:40" />
@@ -54,13 +57,14 @@
     <include
         android:id="@+id/assignment_types"
         layout="@layout/item_assignment_types"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/lesson_time"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/grades"
-        app:layout_constraintStart_toEndOf="@id/lesson_time"
-        app:layout_constraintTop_toTopOf="@id/lesson_time" />
+        app:layout_constraintStart_toEndOf="@id/lesson_name"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/grades"
@@ -79,21 +83,19 @@
         android:id="@+id/homework"
         style="@style/mainText"
         android:layout_width="0dp"
-        android:visibility="gone"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
         android:autoLink="all"
         android:background="@null"
         android:ellipsize="end"
         android:linksClickable="true"
-        android:maxLines="1"
-        android:textColor="?attr/colorOnBackground"
+        android:maxLines="2"
+        android:textColor="?attr/colorPrimary"
+        android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/grades"
+        app:layout_constraintEnd_toStartOf="@id/assignment_types"
         app:layout_constraintStart_toStartOf="@id/lesson_name"
-        app:layout_constraintTop_toBottomOf="@id/assignment_types"
-        tool:text="Выучить все" />
-
+        app:layout_constraintTop_toBottomOf="@+id/lesson_name"
+        tool:text="Выучить" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
