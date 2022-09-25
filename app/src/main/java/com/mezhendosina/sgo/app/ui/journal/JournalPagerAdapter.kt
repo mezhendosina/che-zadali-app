@@ -9,7 +9,7 @@ import com.mezhendosina.sgo.data.WeekStartEndEntity
 class JournalPagerAdapter(
     private val navController: NavController,
     val fragment: Fragment,
-    val onWeekTextClick: () -> Unit
+    private val onWeekTextClick: () -> Unit
 ) : FragmentStateAdapter(fragment) {
 
     var weeksList: List<WeekStartEndEntity> = emptyList()

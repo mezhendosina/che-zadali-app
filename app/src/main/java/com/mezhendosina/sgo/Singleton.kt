@@ -71,7 +71,7 @@ object Singleton {
     }
 
     val weeks = mutableListOf<WeekStartEndEntity>()
-    var currentWeek: String? = null
+    var currentWeek: Int? = null
 
     // --- sources
     private val loginSource: LoginSource by lazy {
