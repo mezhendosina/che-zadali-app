@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@null"
-    android:padding="16dp">
+    android:background="@null">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:contentDescription="@string/past_mandatory_header"
         android:src="@drawable/ic_alert"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorError" />
+        app:tint="?attr/colorOnBackground" />
 
     <TextView
         android:id="@+id/past_mandatory_header"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/past_mandatory_header"
-        android:textColor="?attr/colorError"
+        android:textColor="?attr/colorOnBackground"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent" />
 

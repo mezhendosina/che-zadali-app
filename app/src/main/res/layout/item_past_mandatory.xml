@@ -4,20 +4,20 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:background="@null"
     android:clickable="true"
-    app:cardUseCompatPadding="true"
     android:focusable="true"
     app:cardCornerRadius="8dp"
-    android:background="@null"
     app:cardElevation="4dp"
-    app:cardPreventCornerOverlap="false">
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp"
-        >
+        android:paddingVertical="12dp">
 
         <TextView
             android:id="@+id/lesson_name"
