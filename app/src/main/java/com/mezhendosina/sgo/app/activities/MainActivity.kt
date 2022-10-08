@@ -1,15 +1,21 @@
 package com.mezhendosina.sgo.app.activities
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionManager
+import com.google.android.material.transition.MaterialFadeThrough
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,8 +35,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        binding = ContainerMainActivityBinding.inflate(layoutInflater)
+
+        binding.splashScreen.root.visibility = View.VISIBLE
+        binding.container.visibility = View.GONE
+
+        setContentView(binding.root)
         CoroutineScope(Dispatchers.IO).launch {
 
             withContext(Dispatchers.Main) {
@@ -41,8 +56,12 @@ class MainActivity : AppCompatActivity() {
             viewModel.login(this@MainActivity)
 
             withContext(Dispatchers.Main) {
-                binding = ContainerMainActivityBinding.inflate(layoutInflater)
-                setContentView(binding.root)
+                TransitionManager.beginDelayedTransition(
+                    binding.root,
+                    MaterialFadeThrough()
+                )
+                binding.splashScreen.root.visibility = View.GONE
+                binding.container.visibility = View.VISIBLE
             }
         }
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
