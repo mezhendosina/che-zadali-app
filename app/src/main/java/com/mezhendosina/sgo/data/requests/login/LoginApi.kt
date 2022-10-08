@@ -1,9 +1,7 @@
 package com.mezhendosina.sgo.data.requests.login
 
-import com.mezhendosina.sgo.data.requests.login.entities.GetDataResponseEntity
-import com.mezhendosina.sgo.data.requests.login.entities.LoginRequestEntity
-import com.mezhendosina.sgo.data.requests.login.entities.LoginResponseEntity
-import com.mezhendosina.sgo.data.requests.login.entities.LogoutRequestEntity
+import com.mezhendosina.sgo.data.requests.login.entities.*
+import retrofit2.Response
 import retrofit2.http.*
 
 interface LoginApi {
@@ -29,6 +27,9 @@ interface LoginApi {
         @Field("pw2") pw2: String,
         @Field("ver") ver: String
     ): LoginResponseEntity
+
+    @GET("webapi/context/students")
+    suspend fun getStudents(): Response<List<StudentResponseEntity>>
 
     @POST("asp/logout.asp")
     @FormUrlEncoded

@@ -18,19 +18,19 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingtoolbarlayout"
             android:layout_width="match_parent"
-            android:layout_height="128dp"
+            android:layout_height="158dp"
             android:nestedScrollingEnabled="true"
             app:expandedTitleMarginStart="16dp"
-            app:maxLines="2"
             app:expandedTitleTextAppearance="@style/expandedToolBarText"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:extraMultilineHeightEnabled="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:maxLines="3">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="?actionBarSize"
                 android:elevation="0dp"
-                app:layout_collapseMode="pin"
                 app:navigationIconTint="?attr/colorPrimary" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

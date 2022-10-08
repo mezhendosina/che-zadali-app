@@ -12,7 +12,7 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentLoginBinding
-import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
 
@@ -31,6 +31,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
@@ -56,6 +57,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
+
     private fun observeLoading() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) showAnimation(binding.progressIndicator)
@@ -71,7 +73,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         if (password.isNullOrEmpty()) binding.passwordTextField.error = "Не введен пароль"
 
         if (!binding.loginEditText.text.isNullOrEmpty() && !binding.passwordEditText.text.isNullOrEmpty()) {
-            viewModel.login(requireContext(), schoolId!!, login.toString(), password.toString())
+            viewModel.login(
+                requireContext(),
+                schoolId!!,
+                login.toString(),
+                password.toString(),
+                findTopNavController()
+            )
             val imm =
                 requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(binding.root.windowToken, 0)

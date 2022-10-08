@@ -8,7 +8,7 @@
         android:id="@+id/chooseSchoolFragment"
         android:name="com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolFragment"
         android:label="@string/choose_school"
-        tools:layout="@layout/fragment_choose_school" >
+        tools:layout="@layout/fragment_choose_school">
         <argument
             android:name="schoolId"
             app:argType="integer" />
@@ -21,5 +21,14 @@
         android:id="@+id/loginFragment"
         android:name="com.mezhendosina.sgo.app.ui.login.LoginFragment"
         android:label="@string/log_in"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_chooseUserIdFragment"
+            app:destination="@id/chooseUserIdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseUserIdFragment"
+        android:name="com.mezhendosina.sgo.app.ui.chooseUserId.ChooseUserIdFragment"
+        android:label="@string/choose_user"
+        tools:layout="@layout/fragment_choose_user_id" />
 </navigation>

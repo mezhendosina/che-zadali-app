@@ -7,6 +7,7 @@ import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.login.entities.GetDataResponseEntity
 import com.mezhendosina.sgo.data.requests.login.entities.LoginResponseEntity
 import com.mezhendosina.sgo.data.requests.login.entities.LogoutRequestEntity
+import com.mezhendosina.sgo.data.requests.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.toMD5
 
 class RetrofitLoginSource(
@@ -40,6 +41,11 @@ class RetrofitLoginSource(
                 lt = loginEntity.lt,
                 ver = loginEntity.ver
             )
+        }
+
+    override suspend fun getStudents(): List<StudentResponseEntity>? =
+        wrapRetrofitExceptions {
+            loginApi.getStudents().body()
         }
 
     override suspend fun logout(logoutRequestEntity: LogoutRequestEntity) =

@@ -14,7 +14,6 @@ import com.mezhendosina.sgo.app.model.grades.GradesSource
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.app.model.journal.JournalRepository
-import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.model.login.LoginSource
@@ -25,6 +24,7 @@ import com.mezhendosina.sgo.data.requests.SourceProviderHolder
 import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.requests.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.room.AppDatabase
@@ -39,13 +39,8 @@ object Singleton {
     val updateDiary = MutableLiveData<Boolean>(false)
 
     var currentYearId = MutableLiveData<Int>()
-    var diaryEntity: DiaryUiEntity = DiaryUiEntity(
-        emptyList(),
-        "",
-        "",
-        emptyList()
-    )
 
+    var users: List<StudentResponseEntity> = emptyList()
     var lesson = LessonUiEntity(
         emptyList(),
         null,
