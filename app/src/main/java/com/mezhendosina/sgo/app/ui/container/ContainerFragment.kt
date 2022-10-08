@@ -18,7 +18,7 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.announcementsBottomSheet.AnnouncementsBottomSheet
-import com.mezhendosina.sgo.app.ui.bottomSheets.UpdateBottomSheetFragment
+import com.mezhendosina.sgo.app.ui.updateBottomSheet.UpdateBottomSheetFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,6 +59,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         )
 
         binding.toolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
+
         observeDownloadState()
         observeUpdates()
         Singleton.transition.observe(viewLifecycleOwner) {
@@ -66,6 +67,14 @@ class ContainerFragment : Fragment(R.layout.container_main) {
                 println("ok")
                 Singleton.transition.value = false
             }
+        }
+    }
+
+    private fun setupNavigationIcon() {
+        binding.toolbar.setNavigationIcon(R.drawable.profile_icon)
+
+        binding.toolbar.setNavigationOnClickListener {
+
         }
     }
 

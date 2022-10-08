@@ -8,7 +8,14 @@ import java.util.*
 data class WeekStartEndEntity(
     val weekStart: String,
     val weekEnd: String
-)
+) {
+    fun toUI(): WeekStartEndEntity =
+        WeekStartEndEntity(
+            dateToJournalDate(this.weekStart),
+            dateToJournalDate(this.weekEnd)
+        )
+
+}
 
 @SuppressLint("SimpleDateFormat")
 class DateManipulation(val date: String) {
@@ -28,7 +35,7 @@ class DateManipulation(val date: String) {
     fun dateFormatter(): String = SimpleDateFormat("dd.MM.yyyy", locale).format(a!!)
 
 
-    fun journalDate(): String = SimpleDateFormat("dd MMM yyyyг.", locale).format(a!!)
+    fun journalDate(): String = SimpleDateFormat("dd MMMM yyyyг.", locale).format(a!!)
 
 
     fun messageDate(): String {
@@ -56,6 +63,14 @@ fun dateToRussian(date: String): String {
             Locale.getDefault()
         ) else it.toString()
     }
+}
+
+@SuppressLint("SimpleDateFormat")
+fun dateToJournalDate(string: String): String {
+    val a = SimpleDateFormat("yyyy-MM-dd").parse(string)
+    val locale = Locale("ru", "RU")
+
+    return SimpleDateFormat("dd MMMM yyyyг.", locale).format(a!!)
 }
 
 fun getWeeksList(): List<WeekStartEndEntity> {

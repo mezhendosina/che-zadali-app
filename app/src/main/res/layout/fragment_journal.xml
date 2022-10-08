@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     android:isScrollContainer="true"
     tools:context=".ui.journal.JournalFragment">
 
@@ -12,10 +13,20 @@
         android:id="@+id/tabs_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:background="?attr/backgroundColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabMode="scrollable" />
+        app:tabBackground="@null"
+        app:tabMode="scrollable"
+        app:tabTextAppearance="@style/mainText" />
+
+    <include
+        android:id="@+id/week_selector_layout"
+        layout="@layout/week_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tabs_layout" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/journal_pager"
@@ -23,6 +34,6 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabs_layout" />
+        app:layout_constraintTop_toBottomOf="@id/week_selector_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

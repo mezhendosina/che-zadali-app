@@ -83,8 +83,13 @@ class HomeworkAdapter(
             lessonTime.text = "${lesson.startTime} - ${lesson.endTime}"
 
             if (lesson.homework != null) {
-                homework.text = lesson.homework.assignmentName
-                homework.visibility = View.VISIBLE
+                if (lesson.homework.assignmentName.isNotEmpty()) {
+                    homework.visibility = View.VISIBLE
+                    homework.text = lesson.homework.assignmentName
+                } else {
+                    homework.visibility = View.GONE
+                    homework.text = null
+                }
                 root.isClickable = true
                 root.isFocusable = true
             } else {
@@ -95,7 +100,6 @@ class HomeworkAdapter(
 
             assignmentTypes.attachment.visibility =
                 if (lesson.assignments?.find { it.attachments.isNotEmpty() } != null) {
-                    println(lesson.assignments.find { it.attachments.isNotEmpty()}?.attachments)
                     View.VISIBLE
                 } else View.GONE
 

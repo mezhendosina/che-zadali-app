@@ -6,22 +6,18 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentItemJournalBinding
+import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.ui.adapters.PastMandatoryAdapter
-import com.mezhendosina.sgo.data.WeekStartEndEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class JournalItemFragment(
-    private val weekStartEndEntity: WeekStartEndEntity,
-    private val navController: NavController,
-    private val onWeekTextClick: () -> Unit
 ) : Fragment(R.layout.fragment_item_journal) {
 
     private lateinit var binding: FragmentItemJournalBinding
@@ -31,14 +27,11 @@ class JournalItemFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentItemJournalBinding.bind(view)
-
-        binding.weekSelectorLayout.root.setOnClickListener { onWeekTextClick.invoke() }
-        viewModel.getWeek(weekStartEndEntity)
+        viewModel.getWeek(arguments?.getString(WEEK_START), arguments?.getString(WEEK_END))
         viewModel.week.observe(viewLifecycleOwner) { diaryItem ->
             with(binding) {
                 if (diaryItem != null) {
-                    weekSelectorLayout.weekSelectorTextView.text =
-                        "${diaryItem.weekStart} - ${diaryItem.weekEnd}"
+
 
                     if (diaryItem.pastMandatory.isEmpty()) {
                         pastMandatory.root.visibility = View.GONE
@@ -62,7 +55,7 @@ class JournalItemFragment(
                             val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
                                 override fun invoke(p1: LessonUiEntity, p2: View) {
                                     Singleton.lesson = p1
-                                    navController.navigate(
+                                    findTopNavController().navigate(
                                         R.id.action_containerFragment_to_lessonFragment,
                                         bundleOf(),
                                         null,
@@ -95,5 +88,10 @@ class JournalItemFragment(
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.progressBar.isVisible = it
         }
+    }
+
+    companion object {
+        const val WEEK_START = "week_start"
+        const val WEEK_END = "week_end"
     }
 }

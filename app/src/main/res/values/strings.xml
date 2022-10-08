@@ -85,4 +85,5 @@
     <string name="change_email">Изменить email</string>
     <string name="change_phone_number">Изменить номер телефона</string>
     <string name="choose_year">Выберите год</string>
+    <string name="choose_user">Выберите пользователя</string>
 </resources>

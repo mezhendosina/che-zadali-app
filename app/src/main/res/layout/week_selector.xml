@@ -7,7 +7,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:padding="16dp"
+    android:paddingVertical="16dp"
     app:layout_constraintCircleRadius="16dp">
 
     <!--    <ImageButton-->
@@ -38,9 +38,10 @@
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="11.11.2019 - 18.11.2019" />
+        tools:text="11 октября 2023г. - 11 октября 2023г." />
 </androidx.constraintlayout.widget.ConstraintLayout>

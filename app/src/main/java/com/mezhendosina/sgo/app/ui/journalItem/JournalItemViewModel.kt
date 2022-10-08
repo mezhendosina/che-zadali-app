@@ -28,13 +28,15 @@ class JournalItemViewModel(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-    fun getWeek(weekStartEndEntity: WeekStartEndEntity) {
+    val settings = Settings(Singleton.getContext())
+
+    fun getWeek(weekStart: String?, weekEnd: String?) {
         _isLoading.value = true
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val a = journalRepository.getWeek(
-                    Settings(Singleton.getContext()).currentUserId.first(),
-                    weekStartEndEntity,
+                    settings.currentUserId.first(),
+                    WeekStartEndEntity(weekStart!!, weekEnd!!),
                     Singleton.currentYearId.value ?: 0
                 )
                 withContext(Dispatchers.Main) {
