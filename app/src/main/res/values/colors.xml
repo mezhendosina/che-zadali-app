@@ -1,7 +1,7 @@
 <resources>
     <color name="lightPrimary">#2C72BC</color>
     <color name="lightSecondary">#B1D5FF</color>
-    <color name="lightBackground">#FCFCFC</color>
+    <color name="lightBackground">#F9F9F9</color>
     <color name="lightSurface">#FFFFFF</color>
     <color name="lightTextColor">#262323</color>
 
