@@ -13,12 +13,9 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentSettingsBinding
-import com.mezhendosina.sgo.app.ui.changeBirthday.ChangeBirthdayFragment
 import com.mezhendosina.sgo.app.ui.changeControlQuestion.ChangeControlQuestionFragment
 import com.mezhendosina.sgo.app.ui.changeEmail.ChangeEmailFragment
 import com.mezhendosina.sgo.app.ui.changePhone.ChangePhoneFragment
-import com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolFragment
-import com.mezhendosina.sgo.app.ui.chooseYearBottomSheet.ChooseYearAdapter
 import com.mezhendosina.sgo.app.ui.chooseYearBottomSheet.ChooseYearBottomSheet
 import com.mezhendosina.sgo.data.DateManipulation
 import java.io.File
@@ -141,8 +138,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             binding.userLogin.text = it.loginName
             val birthday = DateManipulation(it.birthDate).dateFormatter()
             binding.birthdayDate.text = birthday
-            binding.phoneNumberValue.text = regex.replace(it.mobilePhone, "+$1 ($2) $3-$4$5")
-            binding.emailValue.text = it.email
+
+            if (it.mobilePhone.isNotEmpty()) binding.phoneNumberValue.text =
+                regex.replace(it.mobilePhone, "+$1 ($2) $3-$4$5")
+            else binding.phoneNumberValue.visibility = View.GONE
+
+            if (it.email.isNotEmpty()) binding.emailValue.text = it.email
+            else binding.emailValue.visibility = View.GONE
         }
     }
 

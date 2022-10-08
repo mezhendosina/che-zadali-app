@@ -53,9 +53,9 @@ class Settings(val context: Context) {
     val currentTrimId = context.dataStore.data.map { it[CURRENT_TRIM_ID] }
     val photoFileUri = context.dataStore.data.map { it[PHOTO_FILE_URI] }
 
-    suspend fun saveALl(loginData: LoginEntity) {
+    suspend fun saveALl(loginData: LoginEntity, loggedId: Boolean = true) {
         context.dataStore.edit { prefs ->
-            prefs[LOGGED_IN] = true
+            prefs[LOGGED_IN] = loggedId
             prefs[LOGIN] = loginData.login
             prefs[PASSWORD] = loginData.password
             prefs[CID] = loginData.countryId
@@ -72,6 +72,9 @@ class Settings(val context: Context) {
             prefs[CURRENT_USER_ID] = id
         }
     }
+
+    suspend fun changeLoggedIn(loggedId: Boolean) =
+        context.dataStore.edit { it[LOGGED_IN] = loggedId }
 
     suspend fun logout() {
         context.dataStore.edit { prefs ->

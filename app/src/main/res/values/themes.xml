@@ -173,6 +173,7 @@
         <item name="android:focusable">true</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:paddingTop">12dp</item>
+        <item name="android:minHeight">60dp</item>
         <item name="android:paddingBottom">12dp</item>
     </style>
 

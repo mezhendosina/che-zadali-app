@@ -38,7 +38,8 @@ class MyCookieJar : CookieJar {
 object SourceProviderHolder {
 
     val sourcesProvider: SourcesProvider by lazy<SourcesProvider> {
-        val gson = Gson()
+        val gson = Gson().newBuilder().setLenient().create()
+
         val config = RetrofitConfig(
             retrofit = createRetrofit(gson),
             gson = gson
