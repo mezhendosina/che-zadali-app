@@ -1,11 +1,10 @@
-package com.mezhendosina.sgo.app.ui.bottomSheets
+package com.mezhendosina.sgo.app.ui.updateBottomSheet
 
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ModalSheetUpdateBinding
-import io.noties.markwon.Markwon
 
 typealias onUpdateClickListener = () -> Unit
 
