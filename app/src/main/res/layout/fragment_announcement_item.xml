@@ -4,6 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     android:transitionGroup="true"
     tool:context=".ui.announcements.AnnouncementsFragment">
 
@@ -11,22 +12,21 @@
         android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/backgroundColor"
+        android:background="@null"
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingtoolbarlayout"
-            style="@style/expandedToolBarText"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:nestedScrollingEnabled="true"
-            app:expandedTitleMarginBottom="16dp"
             app:expandedTitleMarginStart="16dp"
             app:expandedTitleTextAppearance="@style/announcementsToolBarText"
+            app:extraMultilineHeightEnabled="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:maxLines="4">
+            app:maxLines="10">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -36,7 +36,7 @@
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_back"
                 app:navigationIconTint="?attr/colorOnBackground"
-                tool:title="Русский языкРусский языкРусский языкРусский языкРусский языкРусский языкРусский языкРусский языкРусский языкРусский языкР" />
+                tool:title="Олимпиада РАНХиГС" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -68,102 +68,76 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:autoLink="all"
+                android:background="@null"
                 android:textIsSelectable="true"
                 android:transitionName="announcement_body"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tool:text="Выучить все" />
+                tool:text="@string/test_announcements_item" />
 
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/attachments_divider"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homework_body" />
 
-            <TextView
-                android:id="@+id/attachments_header"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:text="@string/attachments"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/attachments_divider" />
-
-
-            <androidx.recyclerview.widget.RecyclerView
+            <include
                 android:id="@+id/attachments_list"
-                android:layout_width="0dp"
+                layout="@layout/item_attachments_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/attachments_header"
-                tool:itemCount="2"
-                tool:listitem="@layout/item_attachment" />
+                app:layout_constraintTop_toBottomOf="@id/attachments_divider" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/author_divider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/attachments_list" />
 
             <TextView
                 android:id="@+id/author_header"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/captions.headers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/author"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/author_divider" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/author_card"
+            <ImageView
+                android:id="@+id/author_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/author_profile_photo"
+                android:paddingTop="20dp"
+                android:paddingBottom="16dp"
+                android:src="@drawable/profile_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/author_header" />
+
+            <TextView
+                android:id="@+id/author"
+                style="@style/mainText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:cardElevation="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/author_header">
+                android:layout_marginStart="16dp"
+                android:textIsSelectable="true"
+                app:layout_constraintBottom_toBottomOf="@id/author_image"
+                app:layout_constraintStart_toEndOf="@id/author_image"
+                app:layout_constraintTop_toTopOf="@id/author_image"
+                tool:text="Нафикова Елена Владимировна" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/backgroundColor"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/author_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/author_profile_photo"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/author"
-                        style="@style/mainText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/author_image"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tool:text="Нафикова Елена Владимировна" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/date"
@@ -171,8 +145,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:textIsSelectable="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/author_card"
+                app:layout_constraintTop_toBottomOf="@id/author_image"
                 tool:text="Дата публикации: 12.01.22 12:50" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

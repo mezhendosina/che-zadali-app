@@ -19,8 +19,8 @@ import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
+import org.jsoup.Jsoup
 
-//TODO formatting announcement body
 
 class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
 
@@ -45,11 +45,15 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
         val markwon = Markwon.builder(requireContext())
             .usePlugin(HtmlPlugin.create())
             .build()
-
         with(binding) {
             collapsingtoolbarlayout.title = announcement?.name
             toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
-            announcement?.description?.let { markwon.setMarkdown(homeworkBody, it) }
+            if (announcement?.description != null) {
+                val jsoup = markwon.toMarkdown(announcement.description).toString()
+                homeworkBody.text = Jsoup.parse(jsoup).wholeText()
+            } else {
+                homeworkBody.visibility = View.GONE
+            }
             if (!announcement?.attachments.isNullOrEmpty()) {
                 val attachmentAdapter = AttachmentAdapter(
                     object : AttachmentClickListener {
@@ -66,8 +70,8 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
                     }
                 )
                 attachmentAdapter.attachments = announcement?.attachments ?: emptyList()
-                attachmentsList.adapter = attachmentAdapter
-                attachmentsList.layoutManager =
+                attachmentsList.attachmentsList.adapter = attachmentAdapter
+                attachmentsList.attachmentsList.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
                 showAttachments(this)
@@ -87,8 +91,7 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
 
 
     private fun showAttachments(binding: FragmentAnnouncementItemBinding) {
-        binding.attachmentsList.isVisible = true
+        binding.attachmentsList.root.isVisible = true
         binding.attachmentsDivider.isVisible = true
-        binding.attachmentsHeader.isVisible = true
     }
 }

@@ -28,9 +28,13 @@ class AnnouncementsFragmentViewModel(
         attachment: Attachment,
         binding: ItemAttachmentBinding
     ) {
-        CoroutineScope(Dispatchers.Main).launch{
+        CoroutineScope(Dispatchers.Main).launch {
             try {
-                attachmentsRepository.downloadAttachment(context, attachment)
+                attachmentsRepository.downloadAttachment(
+                    context,
+                    attachment.id,
+                    attachment.originalFileName
+                )
             } catch (e: Exception) {
                 _errorMessage.value =
                     if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
