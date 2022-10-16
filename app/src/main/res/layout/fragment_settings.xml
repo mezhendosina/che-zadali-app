@@ -243,6 +243,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/email" />
 
+        <!--TODO change button visibility-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/change_year"
             style="@style/settingsButton.withCaption"
