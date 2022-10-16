@@ -1,31 +1,23 @@
 package com.mezhendosina.sgo.app.ui.adapters
 
-import android.content.Context
-import android.graphics.drawable.InsetDrawable
-import android.os.Build
-import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemUploadedAttachmentBinding
-import com.mezhendosina.sgo.data.requests.homework.entities.AnswerFile
 import com.mezhendosina.sgo.data.requests.homework.entities.File
-import com.mezhendosina.sgo.data.requests.homework.entities.GetAnswerResponseEntity
 
 typealias OnFileClickListener = (file: File) -> Unit
 
 interface FileActionListener {
 
-    fun deleteFile(assignmentId: Int)
+    fun deleteFile(attachmentId: Int)
 
-    fun editDescription(assignmentId: Int)
+    fun editDescription(attachmentId: Int)
 
-    fun replaceFile(assignmentId: Int)
+    fun replaceFile(attachmentId: Int)
 }
 
 
@@ -82,8 +74,25 @@ class AnswerFileAdapter(
 
     private fun showMoreMenu(v: View) {
         val popup = PopupMenu(v.context, v)
-        popup.setForceShowIcon(true)
-
+//        popup.setForceShowIcon(true)
+        popup.setOnMenuItemClickListener {
+            val file = v.tag as File
+            when (it.itemId) {
+                1 -> {
+                    fileActionListener.replaceFile(file.id)
+                    true
+                }
+                2 -> {
+                    fileActionListener.editDescription(file.id)
+                    true
+                }
+                3 -> {
+                    fileActionListener.deleteFile(file.id)
+                    true
+                }
+                else -> true
+            }
+        }
         popup.menuInflater.inflate(R.menu.menu_upload_attachment, popup.menu)
         popup.show()
     }

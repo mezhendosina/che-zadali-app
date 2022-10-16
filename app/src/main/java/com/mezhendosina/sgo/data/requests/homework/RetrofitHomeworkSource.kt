@@ -6,9 +6,7 @@ import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.requests.homework.entities.*
 import okhttp3.Headers
-import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
@@ -74,5 +72,18 @@ class RetrofitHomeworkSource(config: RetrofitConfig) :
             request.body()?.byteStream()?.readBytes()
                 ?.let { file.writeBytes(it) }
             return@wrapRetrofitExceptions request.headers()["Content-Type"]
+        }
+
+    override suspend fun deleteAttachment(assignmentId: Int, attachmentId: Int) =
+        wrapRetrofitExceptions {
+            homeworkSource.deleteAttachment(
+                attachmentId,
+                DeleteAttachmentRequestEntity(assignmentId)
+            )
+        }
+
+    override suspend fun editAttachmentDescription(attachmentId: Int, description: String): String =
+        wrapRetrofitExceptions {
+            homeworkSource.editAttachmentDescription(attachmentId, description)
         }
 }

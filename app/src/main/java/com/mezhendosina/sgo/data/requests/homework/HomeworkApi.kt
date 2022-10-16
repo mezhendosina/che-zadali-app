@@ -3,7 +3,6 @@ package com.mezhendosina.sgo.data.requests.homework
 import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.requests.homework.entities.*
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -37,11 +36,24 @@ interface HomeworkApi {
         @Query("studentId") studentId: Int
     ): AssignResponseEntity
 
+    //TODO move attachments requests into AttachmentsApi.kt
     @GET("webapi/attachments/{attachmentId}")
     @Streaming
     suspend fun downloadAttachment(
         @Path("attachmentId") attachmentId: Int
     ): Response<ResponseBody>
+
+    @POST("/webapi/attachments/{attachmentId}/delete")
+    suspend fun deleteAttachment(
+        @Path("attachmentId") attachmentId: Int,
+        @Body deleteAttachmentRequestEntity: DeleteAttachmentRequestEntity
+    )
+
+    @POST("/webapi/attachments/{attachmentId}/description")
+    suspend fun editAttachmentDescription(
+        @Path("attachmentId") attachmentId: Int,
+        @Body description: String
+    ): String
 
     @POST("webapi/assignments/{assignmentId}/answers")
     suspend fun sendTextAnswer(

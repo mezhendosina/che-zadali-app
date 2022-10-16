@@ -53,6 +53,8 @@ class LessonViewModel(
     val snackbar: LiveData<Boolean> = _snackBar
 
 
+
+
     init {
         _lesson.value = Singleton.lesson
         viewModelScope.launch { loadGrades() }
@@ -67,7 +69,11 @@ class LessonViewModel(
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 withContext(Dispatchers.IO) {
-                    attachmentsRepository.downloadAttachment(context, attachment)
+                    attachmentsRepository.downloadAttachment(
+                        context,
+                        attachment.id,
+                        attachment.originalFileName
+                    )
                 }
             } catch (e: Exception) {
                 _errorMessage.value =
@@ -78,6 +84,25 @@ class LessonViewModel(
             }
         }
     }
+
+    fun downloadFile(fileId: Int, name: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    attachmentsRepository.downloadAttachment(
+                        Singleton.getContext(),
+                        fileId,
+                        name
+                    )
+                }
+            } catch (e: Exception) {
+                _errorMessage.value =
+                    if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
+                    else e.toDescription()
+            }
+        }
+    }
+
 
     fun sendAnswer(context: Context, answer: String) {
         val settings = Settings(context)

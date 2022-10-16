@@ -6,7 +6,6 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
-import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
 import kotlinx.coroutines.*
 import java.io.File
 
@@ -15,10 +14,11 @@ class AttachmentsRepository(
 ) {
     suspend fun downloadAttachment(
         context: Context,
-        attachment: Attachment
+        attachmentId: Int,
+        attachmentName: String,
     ) {
         val dir = context.filesDir
-        val file = File(dir, attachment.originalFileName)
+        val file = File(dir, attachmentName.addAttachmentId(attachmentId))
 
         val isExist = withContext(Dispatchers.IO) {
             file.createNewFile()
@@ -27,7 +27,7 @@ class AttachmentsRepository(
 
         val a = if (isExist) CoroutineScope(Dispatchers.IO).async {
             homeworkSource.downloadAttachment(
-                attachment.id,
+                attachmentId,
                 file
             )
         } else null
@@ -49,6 +49,14 @@ class AttachmentsRepository(
 
     }
 
+    suspend fun deleteAttachment(assignmentId: Int, attachmentId: Int) {
+        homeworkSource.deleteAttachment(assignmentId, attachmentId)
+    }
+
+    suspend fun editDescription(attachmentId: Int, description: String): String =
+        homeworkSource.editAttachmentDescription(attachmentId, description)
+
+
     private fun getMimeType(url: String?): String? {
         var type: String? = null
         val extension = MimeTypeMap.getFileExtensionFromUrl(url)
@@ -57,4 +65,8 @@ class AttachmentsRepository(
         }
         return type
     }
+
+    private fun String.addAttachmentId(id: Int): String =
+        this.replaceAfterLast(".", "").dropLast(1) + id.toString() + this.replaceBefore(".", "")
+
 }

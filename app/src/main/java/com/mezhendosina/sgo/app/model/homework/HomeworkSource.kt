@@ -18,6 +18,10 @@ interface HomeworkSource {
 
     suspend fun downloadAttachment(attachmentId: Int, file: File): String?
 
+    suspend fun deleteAttachment(assignmentId: Int, attachmentId: Int)
+
+    suspend fun editAttachmentDescription(attachmentId: Int, description: String): String
+
     suspend fun sendTextAnswer(
         assignmentId: Int,
         studentId: Int,

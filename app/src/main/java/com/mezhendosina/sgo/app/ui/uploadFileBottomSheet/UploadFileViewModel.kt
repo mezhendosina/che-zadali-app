@@ -1,7 +1,6 @@
 package com.mezhendosina.sgo.app.ui.uploadFileBottomSheet
 
-import android.content.Intent
-import androidx.activity.result.contract.ActivityResultContracts
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,10 +21,14 @@ class UploadFileViewModel(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-    fun sendFile(assignmentID: Int, filePath: String, description: String) {
+    fun sendFile(assignmentID: Int, filePath: Uri, description: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val file = File(filePath)
+                println(filePath.path)
+                println(filePath.normalizeScheme())
+                println(filePath.encodedPath)
+
+                val file = File(filePath.path!!.replace("/document/raw:", ""))
                 homeworkSource.sendFileAttachment(
                     file,
                     SendFileRequestEntity(

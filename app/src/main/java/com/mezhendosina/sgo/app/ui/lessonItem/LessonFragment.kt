@@ -43,7 +43,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
     private val attachmentAdapter = AttachmentAdapter(
         object : AttachmentClickListener {
             override fun onClick(attachment: Attachment, binding: ItemAttachmentBinding) {
-
                 val checkPermission =
                     requireContext().checkSelfPermission(Manifest.permission_group.STORAGE)
                 if (checkPermission == PackageManager.PERMISSION_DENIED) {
@@ -58,22 +57,22 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
         }
     )
 
+
     private val answerFileAdapter = AnswerFileAdapter(
         object : OnFileClickListener {
             override fun invoke(file: File) {
-                TODO("Not yet implemented")
+                viewModel.downloadFile(file.id, file.fileName)
             }
-        },
-        object : FileActionListener {
-            override fun deleteFile(assignmentId: Int) {
+        }, object : FileActionListener {
+            override fun deleteFile(attachmentId: Int) {
+
+            }
+
+            override fun editDescription(attachmentId: Int) {
                 TODO("Not yet implemented")
             }
 
-            override fun editDescription(assignmentId: Int) {
-                TODO("Not yet implemented")
-            }
-
-            override fun replaceFile(assignmentId: Int) {
+            override fun replaceFile(attachmentId: Int) {
                 TODO("Not yet implemented")
             }
 
@@ -122,8 +121,9 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                 ).show(childFragmentManager, "UPLOAD_FRAGMENT")
             }
 
-            homework.attachmentsList.adapter = attachmentAdapter
-            homework.attachmentsList.layoutManager = LinearLayoutManager(requireContext())
+            homework.attachmentsList.attachmentsList.adapter = attachmentAdapter
+            homework.attachmentsList.attachmentsList.layoutManager =
+                LinearLayoutManager(requireContext())
 
             whyGradeRecyclerView.adapter = whyGradeAdapter
             whyGradeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -184,13 +184,13 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             attachmentAdapter.attachments = it
             with(binding.homework) {
                 if (it.isNotEmpty()) {
-                    attachmentsList.visibility = View.VISIBLE
+                    attachmentsList.attachmentsList.visibility = View.VISIBLE
                     attachmentsDivider.visibility = View.VISIBLE
-                    attachmentsHeader.visibility = View.VISIBLE
+                    attachmentsList.attachmentsHeader.visibility = View.VISIBLE
                 } else {
-                    attachmentsList.visibility = View.GONE
+                    attachmentsList.attachmentsList.visibility = View.GONE
                     attachmentsDivider.visibility = View.GONE
-                    attachmentsHeader.visibility = View.GONE
+                    attachmentsList.attachmentsHeader.visibility = View.GONE
                 }
             }
         }
@@ -214,7 +214,7 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                         }
                     }
                     sendAttachmentList.visibility = View.VISIBLE
-//                    answerFileAdapter.files = answerFiles[0].files
+                    answerFileAdapter.files = answerFiles[0].files
                 }
             }
         }
