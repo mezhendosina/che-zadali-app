@@ -1,33 +1,26 @@
 package com.mezhendosina.sgo.app.activities
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerLoginBinding
-import com.mezhendosina.sgo.data.Settings
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.first
-import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        firebaseAnalytics = Firebase.analytics
 
         val binding = ContainerLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)

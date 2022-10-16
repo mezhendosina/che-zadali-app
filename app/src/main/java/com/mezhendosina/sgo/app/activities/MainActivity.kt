@@ -10,6 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialFadeThrough
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
 import com.mezhendosina.sgo.app.ui.errorDialog
 import kotlinx.coroutines.CoroutineScope
@@ -35,11 +38,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private lateinit var analytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        analytics = Firebase.analytics
+        analytics.setAnalyticsCollectionEnabled(true)
         binding = ContainerMainActivityBinding.inflate(layoutInflater)
 
         binding.splashScreen.root.visibility = View.VISIBLE
