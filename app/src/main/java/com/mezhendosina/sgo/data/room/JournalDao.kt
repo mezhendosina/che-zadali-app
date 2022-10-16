@@ -8,7 +8,7 @@ import com.mezhendosina.sgo.data.room.entities.JournalRoomEntity
 interface JournalDao {
 
     @Query("SELECT * FROM journal ORDER BY time")
-    fun getWeek(): PagingSource<Int, JournalRoomEntity>
+    fun getWeek(): JournalRoomEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(weeks: JournalRoomEntity)
