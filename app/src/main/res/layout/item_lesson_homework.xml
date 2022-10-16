@@ -78,24 +78,24 @@
 
     <TextView
         android:id="@+id/comment_header"
-        android:visibility="gone"
         style="@style/captions.headers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="18dp"
         android:text="@string/teacher_comment"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comment_divider" />
 
     <TextView
         android:id="@+id/comment_body"
         style="@style/mainText"
-        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comment_header"
@@ -112,29 +112,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comment_body" />
 
-
-    <TextView
-        android:id="@+id/attachments_header"
-        style="@style/captions.headers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="12dp"
-        android:visibility="gone"
-        android:text="@string/attachments"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/attachments_divider" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
+    <include
         android:id="@+id/attachments_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        layout="@layout/item_attachments_list"
+        android:layout_width="match_parent"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/attachments_header"
-        tool:itemCount="2"
-        tool:listitem="@layout/item_attachment" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/attachments_divider" />
 </androidx.constraintlayout.widget.ConstraintLayout>

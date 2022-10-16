@@ -40,7 +40,6 @@
             android:id="@+id/lesson_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:background="@null"
             android:textColor="?attr/colorOnBackground"
             android:textIsSelectable="false"
@@ -106,6 +105,14 @@
             app:layout_constraintStart_toStartOf="@id/lesson_name"
             app:layout_constraintTop_toBottomOf="@+id/lesson_name"
             tool:text="Выучить" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="278dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
 

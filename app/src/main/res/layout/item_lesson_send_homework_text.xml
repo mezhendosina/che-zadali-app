@@ -13,6 +13,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
+        android:visibility="gone"
         app:cardBackgroundColor="?attr/backgroundColor"
         app:cardElevation="0dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +49,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/send_homework_text_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -64,9 +66,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/send_homework_edit_text"
             android:layout_width="match_parent"
-            android:imeOptions="actionDone"
             android:layout_height="wrap_content"
-            android:background="@null" />
+            android:background="@null"
+            android:imeOptions="actionDone" />
 
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

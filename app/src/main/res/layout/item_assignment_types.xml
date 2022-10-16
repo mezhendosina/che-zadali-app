@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/attachment"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/added_attachment"
         android:src="@drawable/ic_attachment"
         android:visibility="gone"
@@ -18,8 +18,8 @@
 
     <ImageView
         android:id="@+id/teachers_caption"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/teacher_caption"
         android:src="@drawable/ic_added_homework_text"
@@ -30,8 +30,8 @@
 
     <ImageView
         android:id="@+id/homework_answer"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/added_homework_answer"
         android:src="@drawable/ic_added_homework_text_attachment"
