@@ -10,6 +10,7 @@ import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 data class JournalRoomEntity(
     @PrimaryKey val time: Int,
     val diaryResponseEntity: DiaryUiEntity,
+    val lastUpdate: Long
 )
 
 class Converters {

@@ -1,5 +1,6 @@
 package com.mezhendosina.sgo.app.model.journal
 
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.entities.AssignmentUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
