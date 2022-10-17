@@ -21,8 +21,8 @@ android {
         applicationId "com.mezhendosina.sgo.app"
         minSdk 24
         targetSdk 33
-        versionCode 8
-        versionName '1.10.1'
+        versionCode 21
+        versionName '1.10.4'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -31,6 +31,7 @@ android {
                 arg("room.shemaLocation", "$projectDir/schemas")
             }
         }
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
@@ -91,7 +92,7 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences-core:1.0.0"
 
     //html parser
-    implementation 'org.jsoup:jsoup:1.14.3'
+    implementation 'org.jsoup:jsoup:1.15.3'
 
     //swipe refresh layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
@@ -105,12 +106,12 @@ dependencies {
     implementation "io.noties.markwon:recycler:$markwon_version"
 
     //glide
-    implementation("com.github.bumptech.glide:glide:4.13.0") {
+    implementation('com.github.bumptech.glide:glide:4.14.2') {
         exclude group: "com.android.support"
     }
 
     //firebase
-    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation platform('com.google.firebase:firebase-bom:31.0.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-perf-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
@@ -120,7 +121,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.tinder.scarlet:scarlet:0.1.12'
 
     //Splashscreen api

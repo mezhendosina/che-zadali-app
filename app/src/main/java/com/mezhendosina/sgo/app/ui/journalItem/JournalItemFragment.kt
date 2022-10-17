@@ -17,8 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class JournalItemFragment(
-) : Fragment(R.layout.fragment_item_journal) {
+class JournalItemFragment: Fragment(R.layout.fragment_item_journal) {
 
     private lateinit var binding: FragmentItemJournalBinding
 

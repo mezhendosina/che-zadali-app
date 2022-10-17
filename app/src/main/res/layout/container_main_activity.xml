@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@null"
     app:defaultNavHost="true"
+    android:fitsSystemWindows="true"
     app:navGraph="@navigation/main_navigation"
     tools:context=".activities.MainActivity">
 
