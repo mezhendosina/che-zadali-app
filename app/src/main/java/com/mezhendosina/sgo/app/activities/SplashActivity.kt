@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.firebase.FirebaseApp
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.Settings
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +26,7 @@ class SplashActivity : AppCompatActivity() {
         Singleton.loadContext(applicationContext)
 
         CoroutineScope(Dispatchers.Main).launch {
+            FirebaseApp.initializeApp(this@SplashActivity)
             val intent = if (settings.loggedIn.first()) {
                 Intent(this@SplashActivity, MainActivity::class.java)
             } else {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -37,16 +38,14 @@ class MainActivity : AppCompatActivity() {
             if (f.findNavController() != navController) navController = f.findNavController()
         }
     }
-
     private lateinit var analytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        analytics = Firebase.analytics
-        analytics.setAnalyticsCollectionEnabled(true)
         binding = ContainerMainActivityBinding.inflate(layoutInflater)
-
+        analytics = Firebase.analytics
+        analytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundleOf())
         binding.splashScreen.root.visibility = View.VISIBLE
         binding.container.visibility = View.GONE
 
