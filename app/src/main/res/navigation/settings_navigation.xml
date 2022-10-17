@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_changePhoneFragment"
             app:destination="@id/changePhoneFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_aboutAppFragment"
+            app:destination="@id/aboutAppFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeEmailFragment"
@@ -56,4 +59,9 @@
             android:id="@+id/action_changePhoneFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="com.mezhendosina.sgo.app.ui.about.AboutAppFragment"
+        android:label="@string/about_app"
+        tools:layout="@layout/fragment_about_app" />
 </navigation>

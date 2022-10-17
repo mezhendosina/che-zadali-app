@@ -86,4 +86,22 @@
     <string name="change_phone_number">Изменить номер телефона</string>
     <string name="choose_year">Выберите год</string>
     <string name="choose_user">Выберите пользователя</string>
+
+    <string name="test_announcements_item">Общероссийская олимпиада школьников РАНХиГС по обществознанию, английскому языку, немецкому языку, китайскому языку, истории, журналистике, политологии, экономике и финансовой грамотности.
+
+Олимпиада проходит в два этапа: отборочный (дистанционный формат);
+
+- заключительный этап олимпиады (на площадке Челябинского филиала РАНХиГС).
+
+Регистрация проходит до 25.10.2022 года на сайте Академии (https://olymp.ranepa.ru/?register).
+
+Более подробная информация на сайте Академии (https://www.ranepa.ru/podgotovka-k-postupleniyu/olimpiada-shkolnikov-rankhigs/) или по тел.: 214-52-25.
+    </string>
+    <string name="made_with_love_by_mezhendosina">Made with ♥ by @mezhendosina</string>
+    <string name="idea_author">Автор идеи</string>
+    <string name="idea_author_text">Никита Лапшин</string>
+    <string name="special_thanks_header">За активную помощь в тестировании спасибо</string>
+    <string name="special_thanks">Даниилу Барменкову\nВячеславу Сумину\nМарии Левчановой</string>
+    <string name="telegram_channel">Telegram-канал приложения</string>
+    <string name="github_repo">GitHub-репозиторий</string>
 </resources>

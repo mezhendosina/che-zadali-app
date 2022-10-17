@@ -42,6 +42,10 @@
         </item>
     </style>
 
+    <style name="specialThanksHeader" parent="mainScreenHeaders">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="expandedToolBarText" parent="mainScreenHeaders">
         <item name="android:textSize">36sp</item>
     </style>

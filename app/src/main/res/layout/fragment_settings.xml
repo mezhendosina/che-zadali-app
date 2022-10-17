@@ -418,7 +418,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <!--TODO change button visibility-->
         <Button
             android:id="@+id/about_app"
             style="@style/ButtonIconOnly"
@@ -429,7 +428,6 @@
             android:paddingVertical="16dp"
             android:text="@string/about_app"
             android:textColor="?attr/colorOnBackground"
-            android:visibility="gone"
             app:icon="@drawable/ic_info"
             app:iconTint="?attr/colorOnBackground"
             app:layout_constraintEnd_toEndOf="parent"

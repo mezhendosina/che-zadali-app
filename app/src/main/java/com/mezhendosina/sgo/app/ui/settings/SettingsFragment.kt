@@ -114,7 +114,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             viewModel.changeTheme(checkedId, requireContext())
         }
 
-        binding.aboutApp.setOnClickListener { TODO("Navigate to AboutAppFragment") }
+        binding.aboutApp.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_aboutAppFragment)
+        }
 
         binding.logoutButton.setOnClickListener { viewModel.logout(requireContext()) }
 
