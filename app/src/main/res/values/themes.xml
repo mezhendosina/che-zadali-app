@@ -18,7 +18,7 @@
         <item name="colorOnBackground">@color/lightTextColor</item>
         <item name="colorOnSurface">@color/lightTextColor</item>
         <item name="colorOnError">@color/lightTextColor</item>
-        <item name="android:statusBarColor">?android:attr/colorBackground</item>
+        <item name="android:statusBarColor">?attr/backgroundColor</item>
 
         <item name="android:textColorLink">@color/lightPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -157,6 +157,7 @@
     <style name="gradeText">
         <item name="fontFamily">@font/roboto_serif</item>
         <item name="android:textSize">24sp</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
     <style name="goodGradeText" parent="gradeText">
