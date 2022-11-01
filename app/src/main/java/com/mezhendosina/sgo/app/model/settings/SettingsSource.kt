@@ -4,7 +4,6 @@ import com.mezhendosina.sgo.data.requests.settings.entities.ChangePasswordEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsRequestEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.YearListResponseEntity
-import retrofit2.Response
 import java.io.File
 
 interface SettingsSource {

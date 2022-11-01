@@ -8,7 +8,7 @@
         android:id="@+id/chooseSchoolFragment"
         android:name="com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolFragment"
         android:label="@string/choose_school"
-        tools:layout="@layout/fragment_choose_school">
+        tools:layout="@layout/fragment_choose_school_or_region">
         <argument
             android:name="schoolId"
             app:argType="integer" />
@@ -31,4 +31,12 @@
         android:name="com.mezhendosina.sgo.app.ui.chooseUserId.ChooseUserIdFragment"
         android:label="@string/choose_user"
         tools:layout="@layout/fragment_choose_user_id" />
+    <fragment
+        android:id="@+id/chooseRegionFragment"
+        android:name="com.mezhendosina.sgo.app.ui.chooseRegion.ChooseRegionFragment"
+        android:label="@string/choose_region">
+        <action
+            android:id="@+id/action_chooseRegionFragment_to_chooseSchoolFragment"
+            app:destination="@id/chooseSchoolFragment" />
+    </fragment>
 </navigation>

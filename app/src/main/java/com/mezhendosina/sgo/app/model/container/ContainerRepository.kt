@@ -1,13 +1,9 @@
 package com.mezhendosina.sgo.app.model.container
 
 import com.google.gson.Gson
-import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolApi
 import com.mezhendosina.sgo.data.requests.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.other.entities.checkUpdates.CheckUpdates
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,7 +23,7 @@ interface UpdateApi {
 
 }
 
-class ContainerRepository() {
+class ContainerRepository {
     private val loginInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
     private val client = OkHttpClient.Builder()

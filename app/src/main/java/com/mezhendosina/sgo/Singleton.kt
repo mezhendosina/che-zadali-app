@@ -8,6 +8,8 @@ import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
 import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
+import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
+import com.mezhendosina.sgo.app.model.chooseSchool.SchoolsSource
 import com.mezhendosina.sgo.app.model.container.ContainerRepository
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.model.grades.GradesSource
@@ -25,7 +27,6 @@ import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEnt
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
 import com.mezhendosina.sgo.data.requests.login.entities.StudentResponseEntity
-import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.room.AppDatabase
 
@@ -42,18 +43,9 @@ object Singleton {
 
     var users: List<StudentResponseEntity> = emptyList()
     var lesson = LessonUiEntity(
-        emptyList(),
-        null,
-        0,
-        "",
-        "",
-        false,
-        0,
-        0,
-        "",
-        ""
+        emptyList(), null, 0, "", "", false, 0, 0, "", ""
     )
-    var schools = mutableListOf<SchoolItem>()
+    var schools = mutableListOf<SchoolUiEntity>()
 
     var gradesOptions: GradeOptions? = null
     var grades: List<GradesItem> = emptyList()
@@ -61,14 +53,20 @@ object Singleton {
     var mySettings: MySettingsResponseEntity? = null
 
     val transition = MutableLiveData<Boolean>(null)
+    val weeks = mutableListOf<WeekStartEndEntity>()
+
+    var currentWeek: Int? = null
+
+    var baseUrl = "https://sgo.edu-74.ru/"
     private val sourcesProvider: SourcesProvider by lazy {
         SourceProviderHolder.sourcesProvider
     }
 
-    val weeks = mutableListOf<WeekStartEndEntity>()
-    var currentWeek: Int? = null
-
     // --- sources
+    private val schoolsSource: SchoolsSource by lazy {
+        sourcesProvider.getSchoolsSource()
+    }
+
     private val loginSource: LoginSource by lazy {
         sourcesProvider.getLoginSource()
     }
@@ -96,7 +94,7 @@ object Singleton {
     // --- repositories
 
     val chooseSchoolRepository: ChooseSchoolRepository by lazy {
-        ChooseSchoolRepository()
+        ChooseSchoolRepository(schoolsSource)
     }
 
     val loginRepository: LoginRepository by lazy {
@@ -129,18 +127,17 @@ object Singleton {
 
     // --- database
     val database: AppDatabase by lazy {
-        Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database.db")
-            .build()
+        Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database.db").build()
     }
     val ANNOUNCEMENTS_ID = "announcementsID"
 
 
     fun loadContext(context: Context) {
         applicationContext = context
+//        baseUrl = Settings(applicationContext).regionUrl.asLiveData().value.toString()
+
     }
 
     fun getContext(): Context = applicationContext
-
-
 }
 

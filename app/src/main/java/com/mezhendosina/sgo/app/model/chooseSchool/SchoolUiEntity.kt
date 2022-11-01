@@ -1,9 +1,9 @@
-package com.mezhendosina.sgo.data.requests.other.entities.schools
+package com.mezhendosina.sgo.app.model.chooseSchool
 
 
 import com.google.gson.annotations.SerializedName
 
-data class SchoolItem(
+data class SchoolUiEntity(
     @SerializedName("city")
     val city: String,
     @SerializedName("city_id")

@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemSchoolBinding
-import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
+import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 
-typealias OnSchoolClickListener = (SchoolItem) -> Unit
+typealias OnSchoolClickListener = (SchoolUiEntity) -> Unit
 
 class ChooseSchoolAdapter(private val onSchoolClickListener: OnSchoolClickListener) :
     RecyclerView.Adapter<ChooseSchoolAdapter.ChooseSchoolViewHolder>(),
     View.OnClickListener {
 
-    var schools = emptyList<SchoolItem>()
+    var schools = emptyList<SchoolUiEntity>()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
@@ -24,7 +24,7 @@ class ChooseSchoolAdapter(private val onSchoolClickListener: OnSchoolClickListen
         RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(v: View?) {
-        val school = v?.tag as SchoolItem
+        val school = v?.tag as SchoolUiEntity
         onSchoolClickListener(school)
     }
 

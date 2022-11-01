@@ -1,13 +1,10 @@
 package com.mezhendosina.sgo.app.model.settings
 
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.settings.entities.ChangePasswordEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsRequestEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.YearListResponseEntity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.File
 
 class SettingsRepository(private val settingsSource: SettingsSource) {

@@ -5,16 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
+import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 import com.mezhendosina.sgo.app.model.chooseSchool.schoolsActionListener
 import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ChooseSchoolViewModel(
     private val schoolService: ChooseSchoolRepository = Singleton.chooseSchoolRepository
 ) : ViewModel() {
-    private val _schools = MutableLiveData<List<SchoolItem>>()
-    val schools: LiveData<List<SchoolItem>> = _schools
+    private val _schools = MutableLiveData<List<SchoolUiEntity>>()
+    val schools: LiveData<List<SchoolUiEntity>> = _schools
 
     private val actionListener: schoolsActionListener = {
         _schools.value = it
@@ -34,7 +37,7 @@ class ChooseSchoolViewModel(
     }
 
 
-    fun findSchool(string: String): List<SchoolItem>? {
+    fun findSchool(string: String): List<SchoolUiEntity>? {
         return _schools.value?.filter { it.school.contains(string) }
     }
 
@@ -43,8 +46,9 @@ class ChooseSchoolViewModel(
         _isLoading.value = true
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                withContext(Dispatchers.Main){
-                    if (Singleton.schools != emptyList<SchoolItem>()) _schools.value = Singleton.schools
+                withContext(Dispatchers.Main) {
+                    if (Singleton.schools != emptyList<SchoolUiEntity>()) _schools.value =
+                        Singleton.schools
                     else schoolService.loadSchools()
                 }
             } catch (e: Exception) {

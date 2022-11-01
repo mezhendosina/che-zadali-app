@@ -104,4 +104,9 @@
     <string name="special_thanks">Даниилу Барменкову\nВячеславу Сумину\nМарии Левчановой</string>
     <string name="telegram_channel">Telegram-канал приложения</string>
     <string name="github_repo">GitHub-репозиторий</string>
+    <string name="choose_region">Выберите регион</string>
+    <string name="not_found_question">Не нашел своего региона в списке? Напиши сюда!</string>
+    <string name="grade_calculator_header">Сколько оценок до…</string>
+    <string name="or">или</string>
+    <string name="too_many_grades">Очень много оценок</string>
 </resources>

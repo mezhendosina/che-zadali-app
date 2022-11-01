@@ -10,11 +10,11 @@ import androidx.navigation.NavController
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.activities.MainActivity
+import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.requests.login.entities.StudentResponseEntity
-import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
 import com.mezhendosina.sgo.data.toMD5
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -76,7 +76,7 @@ class LoginViewModel(
     }
 
 
-    fun findSchool(schoolId: Int): SchoolItem? {
+    fun findSchool(schoolId: Int): SchoolUiEntity? {
         return Singleton.schools.find { it.schoolId == schoolId }
     }
 }

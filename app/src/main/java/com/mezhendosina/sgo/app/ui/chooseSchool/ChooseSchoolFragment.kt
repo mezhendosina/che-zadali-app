@@ -11,28 +11,27 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolBinding
+import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolOrRegionBinding
+import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 import com.mezhendosina.sgo.app.ui.adapters.ChooseSchoolAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnSchoolClickListener
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.login.LoginFragment
 import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.requests.other.entities.schools.SchoolItem
 
-class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
+class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region) {
 
-    private lateinit var binding: FragmentChooseSchoolBinding
+    private lateinit var binding: FragmentChooseSchoolOrRegionBinding
     private val viewModel: ChooseSchoolViewModel by viewModels()
 
     private val schoolAdapter = ChooseSchoolAdapter(object : OnSchoolClickListener {
-        override fun invoke(p1: SchoolItem) {
+        override fun invoke(p1: SchoolUiEntity) {
             findNavController().navigate(
                 R.id.action_chooseSchoolFragment_to_loginFragment,
                 bundleOf(LoginFragment.ARG_SCHOOL_ID to p1.schoolId)
             )
         }
     })
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +43,8 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentChooseSchoolBinding.bind(view)
+
+        binding = FragmentChooseSchoolOrRegionBinding.bind(view)
         if (!binding.schoolEditText.text.isNullOrEmpty()) {
             schoolAdapter.schools =
                 viewModel.findSchool(binding.schoolEditText.text.toString()) ?: emptyList()
@@ -71,6 +71,7 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
         binding.schoolList.addItemDecoration(dividerItemDecoration)
 
         binding.schoolList.layoutManager = LinearLayoutManager(requireContext())
+
     }
 
     private fun observeSchools() {

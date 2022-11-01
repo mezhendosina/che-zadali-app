@@ -26,6 +26,8 @@ data class SettingsLoginData(
 class Settings(val context: Context) {
 
     companion object {
+        val REGION_URL = stringPreferencesKey("region")
+
         val LOGGED_IN = booleanPreferencesKey("logged_in")
 
         val LOGIN = stringPreferencesKey("login")
@@ -52,6 +54,13 @@ class Settings(val context: Context) {
     val currentUserId = context.dataStore.data.map { it[CURRENT_USER_ID] ?: 0 }
     val currentTrimId = context.dataStore.data.map { it[CURRENT_TRIM_ID] }
     val photoFileUri = context.dataStore.data.map { it[PHOTO_FILE_URI] }
+    val regionUrl = context.dataStore.data.map { it[REGION_URL] }
+
+    suspend fun setRegion(regionUrl: String) {
+        context.dataStore.edit {
+            it[REGION_URL] = regionUrl
+        }
+    }
 
     suspend fun saveALl(loginData: LoginEntity, loggedId: Boolean = true) {
         context.dataStore.edit { prefs ->

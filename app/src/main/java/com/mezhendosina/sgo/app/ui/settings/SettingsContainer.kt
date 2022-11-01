@@ -1,6 +1,5 @@
 package com.mezhendosina.sgo.app.ui.settings
 
-import android.os.Binder
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -8,7 +7,6 @@ import androidx.navigation.NavHost
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.firebase.perf.metrics.AddTrace
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerSettingsBinding
 

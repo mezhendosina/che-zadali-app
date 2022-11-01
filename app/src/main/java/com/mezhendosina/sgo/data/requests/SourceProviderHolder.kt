@@ -2,7 +2,8 @@ package com.mezhendosina.sgo.data.requests
 
 import com.google.gson.Gson
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.Const
+import com.mezhendosina.sgo.Singleton.baseUrl
+import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.base.RetrofitSourcesProvider
@@ -40,16 +41,20 @@ object SourceProviderHolder {
     val sourcesProvider: SourcesProvider by lazy<SourcesProvider> {
         val gson = Gson().newBuilder().setLenient().create()
 
+
         val config = RetrofitConfig(
             retrofit = createRetrofit(gson),
             gson = gson
         )
+
         RetrofitSourcesProvider(config)
     }
 
+
     private fun createRetrofit(gson: Gson): Retrofit {
+        println(baseUrl)
         return Retrofit.Builder()
-            .baseUrl(Const.BASE_URL)
+            .baseUrl(baseUrl)
             .client(createOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
@@ -70,14 +75,14 @@ object SourceProviderHolder {
             val newBuilder = chain.request().newBuilder()
 
             val headers = Headers.Builder()
-                .add("Host", "sgo.edu-74.ru")
-                .add("Origin", "https://sgo.edu-74.ru")
-                .add("UserAgent", "SGO app")
+                .add("Host", baseUrl.replace("https://", "").dropLast(1))
+                .add("Origin", baseUrl)
+                .add("UserAgent", "SGO app v${BuildConfig.VERSION_NAME}")
                 .add("X-Requested-With", "XMLHttpRequest")
                 .add("Sec-Fetch-Site", "same-origin")
                 .add("Sec-Fetch-Mode", "cors")
                 .add("Sec-Fetch-Dest", "empty")
-                .add("Referer", "https://sgo.edu-74.ru/")
+                .add("Referer", baseUrl)
                 .add(
                     "sec-ch-ua",
                     "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"105\", \"Microsoft Edge\";v=\"105\""
@@ -93,7 +98,7 @@ object SourceProviderHolder {
 
     private fun createLoggingInterceptor(): Interceptor {
         return HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BASIC)
+            .setLevel(HttpLoggingInterceptor.Level.HEADERS)
     }
 
     private fun List<Cookie?>.toCookieString(): String {
