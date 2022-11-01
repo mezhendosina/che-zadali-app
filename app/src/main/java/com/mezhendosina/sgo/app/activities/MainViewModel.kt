@@ -42,7 +42,10 @@ class MainViewModel(
 
     fun logout() {
         CoroutineScope(Dispatchers.IO).launch {
-            loginRepository.logout()
+            try {
+                loginRepository.logout()
+            } catch (_: Exception) {
+            }
         }
     }
 }
