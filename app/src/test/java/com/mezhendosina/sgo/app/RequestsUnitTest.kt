@@ -3,7 +3,7 @@ package com.mezhendosina.sgo.app
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.model.login.LoginEntity
-import com.mezhendosina.sgo.data.GradesFromHtml
+import com.mezhendosina.sgo.data.grades.GradesFromHtml
 import com.mezhendosina.sgo.data.requests.SourceProviderHolder
 import com.mezhendosina.sgo.data.toMD5
 import kotlinx.coroutines.runBlocking

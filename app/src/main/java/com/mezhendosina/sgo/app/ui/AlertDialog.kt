@@ -1,14 +1,7 @@
 package com.mezhendosina.sgo.app.ui
 
 import android.content.Context
-import android.content.DialogInterface
-import android.view.View
-import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.SnackbarViewBinding
 
 fun errorDialog(
     context: Context,

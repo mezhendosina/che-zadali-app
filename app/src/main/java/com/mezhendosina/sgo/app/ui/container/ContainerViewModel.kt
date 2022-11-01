@@ -1,15 +1,12 @@
 package com.mezhendosina.sgo.app.ui.container
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.model.container.ContainerRepository
 import com.mezhendosina.sgo.data.requests.other.entities.checkUpdates.CheckUpdates
 import com.mezhendosina.sgo.data.uriFromFile
@@ -18,8 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ContainerViewModel(
     private val containerRepository: ContainerRepository = Singleton.containerRepository

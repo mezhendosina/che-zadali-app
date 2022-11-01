@@ -1,6 +1,6 @@
 package com.mezhendosina.sgo.app
 
-import com.mezhendosina.sgo.data.GradesFromHtml
+import com.mezhendosina.sgo.data.grades.GradesFromHtml
 import org.junit.Test
 import java.io.File
 
@@ -19,11 +19,29 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun testExtractGrades(){
+    fun testExtractGrades() {
         val f = File("D:/Programming/extractGrades.html").readText()
         println(GradesFromHtml().extractGrades(f))
     }
+//
+//    @Test
+//    fun testGradesCalculator() {
+//        println(
+//            GradesCalculator(
+//                GradesItem(
+//                    "123",
+//                    4,
+//                    7,
+//                    0,
+//                    0,
+//                    0,
+//                    "3,43"
+//                )
+//            ).calculateGrade(
+//                GradesCalculator.FIVE_GRADE,
+//                4.5f
+//            )
+//        )
+//    }
 
-
-    
 }

@@ -24,10 +24,6 @@ class UploadFileViewModel(
     fun sendFile(assignmentID: Int, filePath: Uri, description: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                println(filePath.path)
-                println(filePath.normalizeScheme())
-                println(filePath.encodedPath)
-
                 val file = File(filePath.path!!.replace("/document/raw:", ""))
                 homeworkSource.sendFileAttachment(
                     file,

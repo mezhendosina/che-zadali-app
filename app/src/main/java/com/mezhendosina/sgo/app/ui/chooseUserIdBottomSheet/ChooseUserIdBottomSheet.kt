@@ -12,8 +12,7 @@ import com.mezhendosina.sgo.app.ui.chooseUserId.toUiEntity
 import com.mezhendosina.sgo.data.Settings
 import kotlinx.coroutines.launch
 
-class ChooseUserIdBottomSheet(
-) : BottomSheetDialogFragment(R.layout.fragment_choose_user_id) {
+class ChooseUserIdBottomSheet : BottomSheetDialogFragment(R.layout.fragment_choose_user_id) {
 
     private lateinit var binding: FragmentChooseUserIdBinding
 
