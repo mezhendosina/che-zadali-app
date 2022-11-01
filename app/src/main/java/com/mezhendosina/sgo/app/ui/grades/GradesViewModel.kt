@@ -12,9 +12,9 @@ import com.mezhendosina.sgo.app.model.grades.GradeActionListener
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.SelectTag
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.SelectTag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -35,7 +35,6 @@ class GradesViewModel(
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _gradeOptions = MutableLiveData<GradeOptions>()
-
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage

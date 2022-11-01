@@ -2,9 +2,9 @@ package com.mezhendosina.sgo.app.model.grades
 
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.Singleton.at
-import com.mezhendosina.sgo.data.GradesFromHtml
-import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.grades.GradesFromHtml
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

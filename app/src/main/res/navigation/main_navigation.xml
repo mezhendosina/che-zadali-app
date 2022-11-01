@@ -40,7 +40,7 @@
         tools:layout="@layout/container_settings" />
     <fragment
         android:id="@+id/gradeItemFragment"
-        android:name="com.mezhendosina.sgo.app.ui.grades.GradeItemFragment"
+        android:name="com.mezhendosina.sgo.app.ui.itemGrade.GradeItemFragment"
         android:label="grade_fragment"
         tools:layout="@layout/fragment_grade_item" />
 </navigation>

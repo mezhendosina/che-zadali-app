@@ -1,9 +1,6 @@
 package com.mezhendosina.sgo.data.requests.diary
 
-import com.mezhendosina.sgo.data.requests.diary.entities.PastMandatoryEntity
 import com.mezhendosina.sgo.data.requests.diary.entities.*
-import com.mezhendosina.sgo.data.requests.homework.entities.AttachmentsRequestEntity
-import com.mezhendosina.sgo.data.requests.homework.entities.AttachmentsResponseEntity
 import retrofit2.http.*
 
 interface DiaryApi {

@@ -1,7 +1,9 @@
-package com.mezhendosina.sgo.data
+package com.mezhendosina.sgo.data.grades
 
-import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.*
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.InputTag
+import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.SelectTag
 import org.jsoup.Jsoup
 
 class GradesFromHtml {

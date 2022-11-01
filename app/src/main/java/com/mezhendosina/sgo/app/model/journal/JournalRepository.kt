@@ -1,6 +1,5 @@
 package com.mezhendosina.sgo.app.model.journal
 
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.entities.AssignmentUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
@@ -9,7 +8,10 @@ import com.mezhendosina.sgo.app.model.journal.entities.WeekDayUiEntity
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.dateToRussian
-import com.mezhendosina.sgo.data.requests.diary.entities.*
+import com.mezhendosina.sgo.data.requests.diary.entities.Assignment
+import com.mezhendosina.sgo.data.requests.diary.entities.DiaryResponseEntity
+import com.mezhendosina.sgo.data.requests.diary.entities.Lesson
+import com.mezhendosina.sgo.data.requests.diary.entities.PastMandatoryEntity
 import com.mezhendosina.sgo.data.requests.homework.entities.AttachmentsRequestEntity
 import com.mezhendosina.sgo.data.requests.homework.entities.AttachmentsResponseEntity
 

@@ -4,7 +4,9 @@ import com.mezhendosina.sgo.app.model.journal.DiaryModelRequestEntity
 import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.data.requests.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
-import com.mezhendosina.sgo.data.requests.diary.entities.*
+import com.mezhendosina.sgo.data.requests.diary.entities.DiaryInitResponseEntity
+import com.mezhendosina.sgo.data.requests.diary.entities.DiaryResponseEntity
+import com.mezhendosina.sgo.data.requests.diary.entities.PastMandatoryEntity
 
 class RetrofitDiarySource(config: RetrofitConfig) : BaseRetrofitSource(config), DiarySource {
 

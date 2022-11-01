@@ -94,7 +94,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             showAnimation(binding.progressBar)
             withContext(Dispatchers.IO) {
                 viewModel.loadHomework(requireContext())
-                viewModel.loadGrades()
             }
             hideAnimation(binding.progressBar, View.GONE)
         }

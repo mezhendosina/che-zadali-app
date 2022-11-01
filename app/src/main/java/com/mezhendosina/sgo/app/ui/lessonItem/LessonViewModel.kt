@@ -14,9 +14,11 @@ import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.homework.entities.WhyGradeEntity
 import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
-import com.mezhendosina.sgo.data.requests.homework.entities.*
+import com.mezhendosina.sgo.data.requests.homework.entities.AssignResponseEntity
+import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
+import com.mezhendosina.sgo.data.requests.homework.entities.GetAnswerResponseEntity
+import com.mezhendosina.sgo.data.requests.homework.entities.WhyGradeEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first

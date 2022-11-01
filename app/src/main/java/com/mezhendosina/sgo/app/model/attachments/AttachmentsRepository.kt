@@ -6,7 +6,10 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class AttachmentsRepository(

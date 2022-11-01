@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.grades.GradeItemFragment">
+    tools:context=".ui.itemGrade.GradeItemFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -125,12 +125,31 @@
             android:id="@+id/grade_count_divider"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
             android:layout_marginTop="16dp"
-            android:visibility="gone"
+            app:dividerThickness="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/count_grade" />
+
+        <TextView
+            android:id="@+id/grade_calculator_header"
+            style="@style/captions.headers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/grade_calculator_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/grade_count_divider" />
+
+        <include
+            android:id="@+id/grade_calculator"
+            layout="@layout/item_grade_calculator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/grade_calculator_header" />
 
         <!--TODO why grade -->
         <TextView

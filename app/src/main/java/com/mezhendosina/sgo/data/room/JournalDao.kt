@@ -1,6 +1,5 @@
 package com.mezhendosina.sgo.data.room
 
-import androidx.paging.PagingSource
 import androidx.room.*
 import com.mezhendosina.sgo.data.room.entities.JournalRoomEntity
 

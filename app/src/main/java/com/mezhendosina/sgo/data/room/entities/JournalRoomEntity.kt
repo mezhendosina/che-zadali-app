@@ -1,6 +1,8 @@
 package com.mezhendosina.sgo.data.room.entities
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 

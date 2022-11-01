@@ -72,11 +72,11 @@ fun bindGradeValue(grade: GradesItem, binding: ItemGradeValueBinding) {
             }
 
             when (grade.avg) {
-                "5,0" -> goodGrade.text = "5"
-                "4,0" -> goodGrade.text = "4"
-                "3,0" -> midGrade.text = "3"
-                "2,0" -> badGrade.text = "2"
-                "1,0" -> badGrade.text = "1"
+                "5,00" -> goodGrade.text = "5"
+                "4,00" -> goodGrade.text = "4"
+                "3,00" -> midGrade.text = "3"
+                "2,00" -> badGrade.text = "2"
+                "1,00" -> badGrade.text = "1"
             }
         }
     }

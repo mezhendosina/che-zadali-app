@@ -8,4 +8,10 @@ data class GradesItem(
     val three: Int?,
     val one: Int?,
     val avg: String?
-)
+) {
+    fun avgGrade(): Float = avg?.replace(",", ".")?.toFloat() ?: 0f
+
+
+    fun countGrades(): Int = (five ?: 0) + (four ?: 0) + (three ?: 0) + (two ?: 0) + (one ?: 0)
+
+}

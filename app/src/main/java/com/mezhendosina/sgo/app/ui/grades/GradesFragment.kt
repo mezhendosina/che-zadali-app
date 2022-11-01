@@ -67,7 +67,6 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         binding.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.gradesRecyclerView.adapter = gradeAdapter
 
-
     }
 
     private fun observeGrades() {
@@ -82,7 +81,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
                 binding.gradesRecyclerView.visibility = View.GONE
                 binding.emptyState.emptyText.text = "Оценок нет"
             }
-           binding.gradesRecyclerView.doOnPreDraw {
+            binding.gradesRecyclerView.doOnPreDraw {
                 Singleton.transition.value = true
             }
         }

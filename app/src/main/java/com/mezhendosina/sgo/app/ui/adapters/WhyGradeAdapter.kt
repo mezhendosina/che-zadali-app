@@ -8,8 +8,8 @@ import com.mezhendosina.sgo.app.databinding.ItemWhyGradeBinding
 import com.mezhendosina.sgo.app.ui.grades.showBadGrade
 import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
 import com.mezhendosina.sgo.app.ui.grades.showMidGrade
-import com.mezhendosina.sgo.data.requests.homework.entities.WhyGradeEntity
 import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
+import com.mezhendosina.sgo.data.requests.homework.entities.WhyGradeEntity
 
 class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>() {
 
@@ -61,8 +61,14 @@ class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>
                     }
                 }
             }
-            this.gradeText.text = grade.assignmentName
-            this.gradeType.text = types.find { it.id == grade.typeId }?.name
+            if (grade.assignmentName != "---Не указана---") {
+                gradeText.text = grade.assignmentName
+                gradeType.text = types.find { it.id == grade.typeId }?.name
+                gradeType.visibility = View.VISIBLE
+            } else {
+                gradeText.text = types.find { it.id == grade.typeId }?.name
+                gradeType.visibility = View.GONE
+            }
         }
     }
 
