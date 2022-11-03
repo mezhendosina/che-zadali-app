@@ -1,19 +1,20 @@
 package com.mezhendosina.sgo.data.room.entities
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.Embedded
+import androidx.room.Relation
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 
-@Entity(
-    tableName = "journal"
-)
 data class JournalRoomEntity(
-    @PrimaryKey val time: Int,
-    val diaryResponseEntity: DiaryUiEntity,
-    val lastUpdate: Long
+    @Embedded val lessonRoomEntity: LessonRoomEntity,
+
+    @Relation(
+        parentColumn = "classMeetingId",
+        entityColumn = "classMeetingId"
+    ) val assignmentsRoomEntity: List<AssignmentsWithMarkAndAttachments>?
 )
+
 
 class Converters {
 
