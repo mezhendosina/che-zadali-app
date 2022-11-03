@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
@@ -37,10 +36,10 @@ class ChooseRegionViewModel : ViewModel() {
         try {
             _errorMessage.value = ""
             _isLoading.value = true
-            val remoteConfig = Firebase.remoteConfig
-            val configSettings = remoteConfigSettings {
+            val remoteConfig = FirebaseRemoteConfig.getInstance()
+            val configSettings = FirebaseRemoteConfigSettings.Builder().apply {
                 minimumFetchIntervalInSeconds = 5
-            }
+            }.build()
             remoteConfig.setConfigSettingsAsync(configSettings)
             remoteConfig.fetchAndActivate().addOnCompleteListener {
                 _regions.value = Gson().fromJson(

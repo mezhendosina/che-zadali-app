@@ -155,7 +155,7 @@ class LessonViewModel(
         }
     }
 
-    suspend fun loadGrades() {
+    private suspend fun loadGrades() {
         try {
             val gradesList = mutableListOf<WhyGradeEntity>()
             val types = homeworkSource.assignmentTypes()
