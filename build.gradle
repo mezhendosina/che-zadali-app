@@ -4,9 +4,9 @@
 buildscript {
     ext.ktor_version = "2.0.1"
     ext.logback_version = "1.2.11"
-    ext.gson_version = '2.9.1'
+    ext.gson_version = '2.10'
     ext.okhttp_version = '5.0.0-alpha.10'
-    ext.nav_version = "2.5.2"
+    ext.nav_version = '2.5.3'
     ext.markwon_version = "4.6.2"
     ext.preference_version = "1.2.0"
     ext.room_version = "2.4.3"
