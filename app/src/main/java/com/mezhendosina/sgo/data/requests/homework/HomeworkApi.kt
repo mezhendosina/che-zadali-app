@@ -47,7 +47,7 @@ interface HomeworkApi {
     suspend fun deleteAttachment(
         @Path("attachmentId") attachmentId: Int,
         @Body deleteAttachmentRequestEntity: DeleteAttachmentRequestEntity
-    )
+    ): Response<ResponseBody>?
 
     @POST("/webapi/attachments/{attachmentId}/description")
     suspend fun editAttachmentDescription(

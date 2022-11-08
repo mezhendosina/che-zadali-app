@@ -55,8 +55,6 @@ class LessonViewModel(
     val snackbar: LiveData<Boolean> = _snackBar
 
 
-
-
     init {
         _lesson.value = Singleton.lesson
         viewModelScope.launch { loadGrades() }
@@ -101,6 +99,23 @@ class LessonViewModel(
                 _errorMessage.value =
                     if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
                     else e.toDescription()
+            }
+        }
+    }
+
+    fun deleteFile(fileId: Int, onComplete: () -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    val assignmentId = _lesson.value?.assignments?.find { it.typeId == 3 }?.id ?: 0
+                    attachmentsRepository.deleteAttachment(assignmentId, fileId)
+                    withContext(Dispatchers.Main) {
+                        onComplete.invoke()
+                    }
+                    loadHomework(Singleton.getContext())
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.toDescription()
             }
         }
     }

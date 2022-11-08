@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     android:nestedScrollingEnabled="true"
+    android:animateLayoutChanges="true"
     tool:context=".ui.lessonItem.LessonFragment">
 
 

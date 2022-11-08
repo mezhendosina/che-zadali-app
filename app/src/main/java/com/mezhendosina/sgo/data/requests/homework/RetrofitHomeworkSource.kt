@@ -5,9 +5,7 @@ import com.mezhendosina.sgo.data.requests.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.requests.homework.entities.*
-import okhttp3.Headers
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 
@@ -21,17 +19,10 @@ class RetrofitHomeworkSource(config: RetrofitConfig) :
             homeworkSource.sendTextAnswer(assignmentId, studentId, answer)
         }
 
-    override suspend fun sendFileAttachment(file: File, data: SendFileRequestEntity) =
+    override suspend fun sendFileAttachment(file: MultipartBody.Part, data: SendFileRequestEntity) =
         wrapRetrofitExceptions {
-            val fileHeadersBuilder = Headers.Builder()
-
-            val filePart =
-                MultipartBody.Part.create(
-                    fileHeadersBuilder.build(), file.asRequestBody()
-                )
-
             homeworkSource.sendFileAttachment(
-                filePart,
+                file,
                 data
             )
         }
@@ -74,7 +65,7 @@ class RetrofitHomeworkSource(config: RetrofitConfig) :
             return@wrapRetrofitExceptions request.headers()["Content-Type"]
         }
 
-    override suspend fun deleteAttachment(assignmentId: Int, attachmentId: Int) =
+    override suspend fun deleteAttachment(assignmentId: Int, attachmentId: Int): Unit =
         wrapRetrofitExceptions {
             homeworkSource.deleteAttachment(
                 attachmentId,

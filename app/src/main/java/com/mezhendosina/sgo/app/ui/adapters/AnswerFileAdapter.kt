@@ -36,13 +36,12 @@ class AnswerFileAdapter(
         RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(v: View) {
-        val file = v.tag as File?
+        val file = v.tag as File
         when (v.id) {
             R.id.more -> {
-                println()
-                showMoreMenu(v)
+                showMoreMenu(v, file)
             }
-            else -> onFileClickListener.invoke(file!!)
+            else -> onFileClickListener.invoke(file)
         }
     }
 
@@ -61,6 +60,7 @@ class AnswerFileAdapter(
         val file = files[position]
         with(holder.binding) {
             holder.itemView.tag = file
+            more.tag = file
             fileName.text = file.fileName
             if (!file.description.isNullOrEmpty()) {
                 fileDescription.text = file.description
@@ -72,28 +72,28 @@ class AnswerFileAdapter(
 
     override fun getItemCount(): Int = files.size
 
-    private fun showMoreMenu(v: View) {
+    private fun showMoreMenu(v: View, file: File) {
         val popup = PopupMenu(v.context, v)
 //        popup.setForceShowIcon(true)
+        val context = v.context
+        popup.menu.add(0, REPLACE_FILE, 0, context.getString(R.string.replace_file))
+        popup.menu.add(0, EDIT_DESCRIPTION, 0, context.getString(R.string.edit_description))
+        popup.menu.add(0, DELETE_FILE, 0, context.getString(R.string.delete_file))
         popup.setOnMenuItemClickListener {
-            val file = v.tag as File
             when (it.itemId) {
-                1 -> {
+                REPLACE_FILE -> {
                     fileActionListener.replaceFile(file.id)
-                    true
                 }
-                2 -> {
+                EDIT_DESCRIPTION -> {
                     fileActionListener.editDescription(file.id)
-                    true
                 }
-                3 -> {
+                DELETE_FILE -> {
                     fileActionListener.deleteFile(file.id)
-                    true
                 }
-                else -> true
             }
+            return@setOnMenuItemClickListener true
         }
-        popup.menuInflater.inflate(R.menu.menu_upload_attachment, popup.menu)
+
         popup.show()
     }
 

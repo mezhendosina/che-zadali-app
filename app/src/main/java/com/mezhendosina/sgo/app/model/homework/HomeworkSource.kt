@@ -2,6 +2,7 @@ package com.mezhendosina.sgo.app.model.homework
 
 import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.requests.homework.entities.*
+import okhttp3.MultipartBody
 import java.io.File
 
 interface HomeworkSource {
@@ -28,5 +29,5 @@ interface HomeworkSource {
         answer: String
     )
 
-    suspend fun sendFileAttachment(file: File, data: SendFileRequestEntity): Int
+    suspend fun sendFileAttachment(file: MultipartBody.Part, data: SendFileRequestEntity): Int
 }

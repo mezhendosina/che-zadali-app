@@ -65,11 +65,13 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             }
         }, object : FileActionListener {
             override fun deleteFile(attachmentId: Int) {
-
+                viewModel.deleteFile(attachmentId) {
+                    Snackbar.make(binding.root, "Файл удален", Snackbar.LENGTH_LONG).show()
+                }
             }
 
             override fun editDescription(attachmentId: Int) {
-                TODO("Not yet implemented")
+                TODO()
             }
 
             override fun replaceFile(attachmentId: Int) {
@@ -103,23 +105,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                 findTopNavController().popBackStack()
             }
 
-            sendHomework.sendText.sendHomeworkTextLayout.setEndIconOnClickListener {
-                val answer = sendHomework.sendText.sendHomeworkTextLayout.editText?.text.toString()
-                viewModel.sendAnswer(requireContext(), answer)
-                Toast.makeText(requireContext(), "Ответ отправлен", Toast.LENGTH_LONG).show()
-                val inputManager =
-                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputManager.hideSoftInputFromWindow(
-                    sendHomework.sendText.sendHomeworkEditText.windowToken,
-                    InputMethodManager.HIDE_NOT_ALWAYS
-                )
-            }
-            sendHomework.selectFile.setOnClickListener {
-                UploadFileBottomSheet(
-                    viewModel.lesson.value?.assignments?.first { it.typeId == 3 }?.id ?: 0
-                ).show(childFragmentManager, "UPLOAD_FRAGMENT")
-            }
-
             homework.attachmentsList.attachmentsList.adapter = attachmentAdapter
             homework.attachmentsList.attachmentsList.layoutManager =
                 LinearLayoutManager(requireContext())
@@ -130,21 +115,11 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             sendHomework.sendAttachmentList.adapter = answerFileAdapter
             sendHomework.sendAttachmentList.layoutManager =
                 LinearLayoutManager(requireContext())
-
-            homework.copyIcon.setOnClickListener {
-                val clipboard =
-                    requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("homework", homework.homeworkBody.text)
-                clipboard.setPrimaryClip(clip)
-
-                Toast.makeText(
-                    requireContext(),
-                    "Домашнее задание скоприровано в буфер обмена",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
         }
 
+        observeOnUploadFileButtonClick()
+        observeOnCopyIconClick()
+        observeOnSendTextClick()
 
         observeAttachment()
         observeGrades()
@@ -152,6 +127,49 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
         observeHomework()
         observeAnswers()
         observeErrors()
+
+    }
+
+    private fun observeOnSendTextClick() {
+        binding.sendHomework.sendText.sendHomeworkTextLayout.setEndIconOnClickListener {
+            val answer =
+                binding.sendHomework.sendText.sendHomeworkTextLayout.editText?.text.toString()
+            viewModel.sendAnswer(requireContext(), answer)
+            Toast.makeText(requireContext(), "Ответ отправлен", Toast.LENGTH_LONG).show()
+            val inputManager =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                binding.sendHomework.sendText.sendHomeworkEditText.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
+    }
+
+    private fun observeOnCopyIconClick() {
+        binding.homework.copyIcon.setOnClickListener {
+            val clipboard =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("homework", binding.homework.homeworkBody.text)
+            clipboard.setPrimaryClip(clip)
+
+            Toast.makeText(
+                requireContext(),
+                "Домашнее задание скоприровано в буфер обмена",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun observeOnUploadFileButtonClick() {
+        binding.sendHomework.selectFile.setOnClickListener {
+            UploadFileBottomSheet(
+                UploadFileBottomSheet.UPLOAD_FILE,
+                viewModel.lesson.value?.assignments?.first { it.typeId == 3 }?.id ?: 0
+            ) {
+                Toast.makeText(requireContext(), "Файл загружен", Toast.LENGTH_LONG).show()
+                viewModel.loadHomework(requireContext())
+            }.show(childFragmentManager, "UPLOAD_FRAGMENT")
+        }
     }
 
     private fun observeLesson() {
@@ -213,8 +231,10 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                         }
                     }
                     sendAttachmentList.visibility = View.VISIBLE
-                    answerFileAdapter.files = answerFiles[0].files
                 }
+                answerFileAdapter.files = answerFiles[0].files
+            } else {
+                answerFileAdapter.files = emptyList()
             }
         }
     }

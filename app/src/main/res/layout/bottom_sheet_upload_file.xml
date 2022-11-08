@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="32dp"
-        android:backgroundTint="?attr/colorSecondary"
+        android:backgroundTint="?attr/colorPrimary"
         android:letterSpacing="0"
         android:paddingVertical="10dp"
         android:text="@string/upload"

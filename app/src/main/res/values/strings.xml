@@ -75,7 +75,7 @@
     <string name="retry_button">Повторить</string>
     <string name="send_file">Загрузить файл</string>
     <string name="replace_file">Заменить файл</string>
-    <string name="edit_description">Редактировать описание</string>
+    <string name="edit_description">Изменить описание</string>
     <string name="delete_file">Удалить файл</string>
     <string name="choose_file">Выбрать файл</string>
     <string name="description">Описание</string>
