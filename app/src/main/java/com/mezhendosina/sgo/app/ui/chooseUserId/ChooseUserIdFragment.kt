@@ -36,7 +36,6 @@ class ChooseUserIdFragment : Fragment(R.layout.fragment_choose_user_id) {
     private fun observeUsers() {
         viewModel.usersId.observe(viewLifecycleOwner) {
             adapter.users = it
-            println(it)
         }
     }
 }

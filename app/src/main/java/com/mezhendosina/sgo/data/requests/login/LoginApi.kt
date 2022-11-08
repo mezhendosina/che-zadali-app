@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface LoginApi {
-    @GET("webapi/logindata") //TODO nssessionid
+    @GET("webapi/logindata")
     suspend fun loginData()
 
     @POST("webapi/auth/getdata")

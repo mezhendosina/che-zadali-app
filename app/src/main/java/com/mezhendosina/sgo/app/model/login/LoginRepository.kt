@@ -51,7 +51,6 @@ class LoginRepository(
                 val settings = Settings(context)
                 withContext(Dispatchers.Main) {
                     if (studentsRequest != null) {
-                        println(studentsRequest.size)
                         if (studentsRequest.size <= 1) {
                             settings.setCurrentUserId(studentsRequest.first().id)
                             onOneUser.invoke()

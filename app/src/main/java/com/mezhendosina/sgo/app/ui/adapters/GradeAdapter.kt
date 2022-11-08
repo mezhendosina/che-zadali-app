@@ -59,7 +59,7 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
 fun bindGradeValue(grade: GradesItem, binding: ItemGradeValueBinding) {
     binding.apply {
         if (!grade.avg.isNullOrEmpty()) {
-            val avgDouble = grade.avg.replace(",", ".").toDouble()
+            val avgDouble = grade.avgGrade()
             if (avgDouble < 2.5) {
                 badGrade.text = grade.avg
                 showBadGrade(this)

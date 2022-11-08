@@ -88,7 +88,6 @@ fun getWeeksList(): List<WeekStartEndEntity> {
 
     val outputList = mutableListOf<WeekStartEndEntity>()
 
-    println(calendar.dateToSting())
     while (nextYear.after(calendar.time)) {
         outputList.add(
             WeekStartEndEntity(
@@ -97,10 +96,8 @@ fun getWeeksList(): List<WeekStartEndEntity> {
             )
         )
         calendar.add(Calendar.DAY_OF_YEAR, 1)
-        println(outputList)
 
     }
-    println(outputList)
     return outputList
 }
 

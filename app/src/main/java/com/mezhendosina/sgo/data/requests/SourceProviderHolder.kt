@@ -52,7 +52,6 @@ object SourceProviderHolder {
 
 
     private fun createRetrofit(gson: Gson): Retrofit {
-        println(baseUrl)
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(createOkHttpClient())
@@ -98,7 +97,7 @@ object SourceProviderHolder {
 
     private fun createLoggingInterceptor(): Interceptor {
         return HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.HEADERS)
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
     private fun List<Cookie?>.toCookieString(): String {

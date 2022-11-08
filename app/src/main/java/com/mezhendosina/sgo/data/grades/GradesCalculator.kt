@@ -8,10 +8,7 @@ data class ChangeGradeItem(
     val four: Int,
     val three: Int,
     val avg: Double
-) {
-    fun avgGrade(countTwo: Int): Float =
-        (this.five * 5 + this.five * 4 + this.three * 3 + countTwo * 2).toFloat() / (this.five + this.four + this.three + countTwo).toFloat()
-}
+)
 
 class GradesCalculator(
     private val gradesItem: GradesItem
@@ -43,14 +40,10 @@ class GradesCalculator(
         return ((gradesItem.countGrades() * (gradesItem.avgGrade() - changeTo)) / (changeTo - i)).roundToInt()
     }
 
-    private fun List<Int>.avgGrade(): Float =
-        (this[0] * 5 + this[1] * 4 + this[2] * 3 + this[3] * 2).toFloat() / (this[0] + this[1] + this[2] + this[3]).toFloat()
-
     companion object {
         const val FIVE_GRADE = 5
         const val FOUR_GRADE = 4
         const val THREE_GRADE = 3
-        const val TWO_GRADE = 3
     }
 
 }

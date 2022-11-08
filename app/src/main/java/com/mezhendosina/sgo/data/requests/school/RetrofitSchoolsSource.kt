@@ -10,8 +10,6 @@ class RetrofitSchoolsSource(config: RetrofitConfig) : BaseRetrofitSource(config)
     private val schoolsApi = retrofit.create(SchoolsApi::class.java)
 
     override suspend fun getSchools(): List<SchoolResponseEntity> = wrapRetrofitExceptions {
-        val a = schoolsApi.getSchools()
-        println(a)
-        a
+        schoolsApi.getSchools()
     }
 }

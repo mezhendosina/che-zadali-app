@@ -64,7 +64,6 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         observeUpdates()
         Singleton.transition.observe(viewLifecycleOwner) {
             if (it == true) {
-                println("ok")
                 Singleton.transition.value = false
             }
         }
