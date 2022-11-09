@@ -27,7 +27,7 @@ import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.app.ui.uploadFileBottomSheet.UploadFileBottomSheet
 import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
-import com.mezhendosina.sgo.data.requests.homework.entities.File
+import com.mezhendosina.sgo.data.requests.homework.entities.FileUiEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,7 +60,7 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
 
     private val answerFileAdapter = AnswerFileAdapter(
         object : OnFileClickListener {
-            override fun invoke(file: File) {
+            override fun invoke(file: FileUiEntity) {
                 viewModel.downloadFile(file.id, file.fileName)
             }
         }, object : FileActionListener {
@@ -71,7 +71,16 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             }
 
             override fun editDescription(attachmentId: Int) {
-                TODO()
+                val file =
+                    viewModel.answerFiles.value?.get(0)?.files?.first { it.id == attachmentId }
+
+                UploadFileBottomSheet(
+                    UploadFileBottomSheet.EDIT_DESCRIPTION,
+                    viewModel.lesson.value?.assignments?.first { it.typeId == 3 }?.id ?: 0,
+                    file
+                ) {
+                    Snackbar.make(binding.root, "Описание изменено", Snackbar.LENGTH_LONG).show()
+                }.show(childFragmentManager, "UPLOAD_FRAGMENT")
             }
 
             override fun replaceFile(attachmentId: Int) {

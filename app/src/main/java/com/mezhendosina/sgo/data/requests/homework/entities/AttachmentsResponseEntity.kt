@@ -24,7 +24,7 @@ data class Attachment(
 )
 
 data class AnswerFile(
-    val attachment: File,
+    val attachment: FileUiEntity,
     val attachmentDate: String,
     val studentId: Int
 )

@@ -13,12 +13,12 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.BottomSheetUploadFileBinding
-import com.mezhendosina.sgo.data.requests.homework.entities.File
+import com.mezhendosina.sgo.data.requests.homework.entities.FileUiEntity
 
 class UploadFileBottomSheet(
     private val actionType: Int,
     private val assignmentId: Int,
-    private val file: File? = null,
+    private val file: FileUiEntity? = null,
     private val onSuccess: () -> Unit
 ) :
     BottomSheetDialogFragment(R.layout.bottom_sheet_upload_file) {
@@ -44,12 +44,12 @@ class UploadFileBottomSheet(
 
         if (file != null) {
             binding.description.editText?.setText(file.description)
-            binding.sendFile.text = file.fileName
+            binding.selectFile.text = file.fileName
         }
         when (actionType) {
             EDIT_DESCRIPTION -> {
                 binding.header.setText(R.string.edit_description)
-                binding.selectFile.isClickable = false
+                binding.selectFile.isEnabled = false
                 binding.sendFile.setText(R.string.edit_description)
                 binding.sendFile.setOnClickListener { editDescription(binding.description.editText?.text.toString()) }
             }

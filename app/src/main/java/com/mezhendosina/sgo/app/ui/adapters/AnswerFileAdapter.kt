@@ -7,9 +7,9 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemUploadedAttachmentBinding
-import com.mezhendosina.sgo.data.requests.homework.entities.File
+import com.mezhendosina.sgo.data.requests.homework.entities.FileUiEntity
 
-typealias OnFileClickListener = (file: File) -> Unit
+typealias OnFileClickListener = (file: FileUiEntity) -> Unit
 
 interface FileActionListener {
 
@@ -26,7 +26,7 @@ class AnswerFileAdapter(
     private val fileActionListener: FileActionListener
 ) : RecyclerView.Adapter<AnswerFileAdapter.ViewHolder>(), View.OnClickListener {
 
-    var files: List<File> = emptyList()
+    var files: List<FileUiEntity> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -36,7 +36,7 @@ class AnswerFileAdapter(
         RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(v: View) {
-        val file = v.tag as File
+        val file = v.tag as FileUiEntity
         when (v.id) {
             R.id.more -> {
                 showMoreMenu(v, file)
@@ -72,11 +72,11 @@ class AnswerFileAdapter(
 
     override fun getItemCount(): Int = files.size
 
-    private fun showMoreMenu(v: View, file: File) {
+    private fun showMoreMenu(v: View, file: FileUiEntity) {
         val popup = PopupMenu(v.context, v)
 //        popup.setForceShowIcon(true)
         val context = v.context
-        popup.menu.add(0, REPLACE_FILE, 0, context.getString(R.string.replace_file))
+//        popup.menu.add(0, REPLACE_FILE, 0, context.getString(R.string.replace_file)) TODO
         popup.menu.add(0, EDIT_DESCRIPTION, 0, context.getString(R.string.edit_description))
         popup.menu.add(0, DELETE_FILE, 0, context.getString(R.string.delete_file))
         popup.setOnMenuItemClickListener {

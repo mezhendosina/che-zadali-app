@@ -26,6 +26,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="?attr/colorSurface"
+        android:elevation="12dp"
         android:gravity="start|center"
         android:letterSpacing="0"
         android:paddingVertical="12dp"
@@ -34,7 +35,6 @@
         android:textColor="?attr/colorOnSurface"
         android:textSize="18sp"
         app:cornerRadius="12dp"
-        android:elevation="12dp"
         app:icon="@drawable/ic_file"
         app:iconTint="?attr/colorOnSurface"
         app:layout_constraintTop_toBottomOf="@id/header"
@@ -68,10 +68,8 @@
         android:paddingVertical="10dp"
         android:text="@string/upload"
         android:textAllCaps="false"
+        android:textColor="?attr/backgroundColor"
         android:textSize="18sp"
-        app:icon="@drawable/ic_send"
-        app:iconGravity="end"
-        app:iconPadding="8dp"
         app:layout_constraintTop_toBottomOf="@id/description"
         tool:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
