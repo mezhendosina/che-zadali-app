@@ -98,13 +98,23 @@ class HomeworkAdapter(
                 root.isFocusable = false
             }
 
+            val findAttachments =
+                lesson.assignments?.find { assignmentUiEntity ->
+                    assignmentUiEntity.attachments.isNotEmpty() && assignmentUiEntity.attachments.find { it.attachments.isNotEmpty() } != null
+                }
             assignmentTypes.attachment.visibility =
-                if (lesson.assignments?.find { it.attachments.isNotEmpty() } != null) {
+                if (findAttachments != null) {
                     View.VISIBLE
                 } else View.GONE
 
+
+            val findFilesAnswer =
+                lesson.assignments?.find { assignmentUiEntity ->
+                    assignmentUiEntity.attachments.isNotEmpty() && assignmentUiEntity.attachments.find { it.answerFiles.isNotEmpty() } != null
+                }
+
             assignmentTypes.homeworkAnswer.visibility =
-                if (lesson.homework?.textAnswer != null) {
+                if (lesson.homework?.textAnswer != null || findFilesAnswer != null) {
                     View.VISIBLE
                 } else View.GONE
 

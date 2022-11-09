@@ -53,6 +53,7 @@ object Singleton {
     var mySettings: MySettingsResponseEntity? = null
 
     val transition = MutableLiveData<Boolean>(null)
+
     val weeks = mutableListOf<WeekStartEndEntity>()
 
     var currentWeek: Int? = null
@@ -134,10 +135,10 @@ object Singleton {
 
     fun loadContext(context: Context) {
         applicationContext = context
-//        baseUrl = Settings(applicationContext).regionUrl.asLiveData().value.toString()
-
     }
 
     fun getContext(): Context = applicationContext
+
+
 }
 

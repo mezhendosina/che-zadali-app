@@ -19,6 +19,7 @@ class ParseBackendResponseException(
     cause: Throwable
 ) : AppException(cause = cause)
 
+class TooManyCountGrades : AppException("Too many count grades")
 
 fun Exception.toDescription(): String {
     println(this.stackTraceToString())

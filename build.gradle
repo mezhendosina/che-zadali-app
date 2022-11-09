@@ -2,6 +2,9 @@
 
 
 buildscript {
+    ext {
+        kotlin_version = '1.7.20'
+    }
     ext.ktor_version = "2.0.1"
     ext.logback_version = "1.2.11"
     ext.gson_version = '2.10'
@@ -12,12 +15,14 @@ buildscript {
     ext.room_version = "2.4.3"
     repositories {
         google()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.14'
         classpath 'com.android.tools.build:gradle:7.3.1'
         classpath 'com.google.firebase:perf-plugin:1.4.2'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
     }
 }
