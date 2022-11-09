@@ -6,28 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@null"
-    tools:context=".ui.chooseSchool.ChooseSchoolFragment">
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/choose_school_text_view"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@null"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/school_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/choose_school" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+    tools:context=".ui.chooseRegion.ChooseRegionFragment">
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_indicator"
@@ -38,7 +17,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/choose_school_text_view" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/load_error"
@@ -54,12 +33,26 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/school_list"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progress_indicator"
         tools:listitem="@layout/item_school" />
 
+    <TextView
+        android:id="@+id/no_find_question"
+        style="@style/captions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:minHeight="48dp"
+        android:text="@string/not_found_question"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/school_list" />
 </androidx.constraintlayout.widget.ConstraintLayout>

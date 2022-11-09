@@ -35,10 +35,15 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
         viewModel.loadSchools()
 
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

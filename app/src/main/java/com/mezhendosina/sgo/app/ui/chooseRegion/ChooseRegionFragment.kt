@@ -8,14 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolOrRegionBinding
+import com.mezhendosina.sgo.app.databinding.FragmentChooseRegionBinding
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
 
-class ChooseRegionFragment : Fragment(R.layout.fragment_choose_school_or_region) {
+class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
-    private lateinit var binding: FragmentChooseSchoolOrRegionBinding
+    private lateinit var binding: FragmentChooseRegionBinding
 
     internal val viewModel: ChooseRegionViewModel by viewModels()
     private val adapter = ChooseRegionAdapter(
@@ -29,12 +30,16 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_school_or_region)
         }
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentChooseSchoolOrRegionBinding.bind(view)
+        binding = FragmentChooseRegionBinding.bind(view)
 
-        binding.schoolEditText.hint = "Выберите регион"
-        binding.chooseSchoolTextView.visibility = View.GONE
 
         binding.noFindQuestion.visibility = View.VISIBLE
         binding.noFindQuestion.setOnClickListener {

@@ -57,7 +57,7 @@ class ChooseRegionViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
                 Settings(Singleton.getContext()).setRegion(regionUrl)
-//                Singleton.baseUrl = regionUrl
+                Singleton.baseUrl = regionUrl
                 navController.navigate(R.id.action_chooseRegionFragment_to_chooseSchoolFragment)
             }
         }

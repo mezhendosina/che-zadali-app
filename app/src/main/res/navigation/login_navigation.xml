@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_navigation"
-    app:startDestination="@id/chooseSchoolFragment">
+    app:startDestination="@id/chooseRegionFragment">
     <fragment
         android:id="@+id/chooseSchoolFragment"
         android:name="com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolFragment"
@@ -34,7 +34,8 @@
     <fragment
         android:id="@+id/chooseRegionFragment"
         android:name="com.mezhendosina.sgo.app.ui.chooseRegion.ChooseRegionFragment"
-        android:label="@string/choose_region">
+        android:label="@string/choose_region"
+        tools:layout="@layout/fragment_choose_region">
         <action
             android:id="@+id/action_chooseRegionFragment_to_chooseSchoolFragment"
             app:destination="@id/chooseSchoolFragment" />

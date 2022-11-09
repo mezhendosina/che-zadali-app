@@ -53,7 +53,7 @@ object SourceProviderHolder {
 
     private fun createRetrofit(gson: Gson): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl("https://localhost/")
             .client(createOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
@@ -64,6 +64,7 @@ object SourceProviderHolder {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL)
         return OkHttpClient.Builder()
             .cookieJar(MyCookieJar())
+            .addInterceptor(createBaseUrlInterceptor())
             .addInterceptor(createHeadersInterceptor())
             .addInterceptor(createLoggingInterceptor())
             .build()
@@ -72,7 +73,6 @@ object SourceProviderHolder {
     private fun createHeadersInterceptor(): Interceptor {
         return Interceptor { chain ->
             val newBuilder = chain.request().newBuilder()
-
             val headers = Headers.Builder()
                 .add("Host", baseUrl.replace("https://", "").dropLast(1))
                 .add("Origin", baseUrl)
@@ -92,6 +92,17 @@ object SourceProviderHolder {
             newBuilder.headers(headers)
 
             return@Interceptor chain.proceed(newBuilder.build())
+        }
+    }
+
+    private fun createBaseUrlInterceptor(): Interceptor {
+        return Interceptor { chain ->
+
+            val newBuilder = chain.request().newBuilder()
+            val url = chain.request().url.toString()
+
+            val a = newBuilder.url(url.replace("https://localhost/", baseUrl)).build()
+            return@Interceptor chain.proceed(a)
         }
     }
 

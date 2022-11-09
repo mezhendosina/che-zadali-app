@@ -21,6 +21,7 @@ import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.model.login.LoginSource
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.model.settings.SettingsSource
+import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.requests.SourceProviderHolder
 import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
@@ -29,6 +30,10 @@ import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOpti
 import com.mezhendosina.sgo.data.requests.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.room.AppDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 object Singleton {
 
@@ -58,7 +63,7 @@ object Singleton {
 
     var currentWeek: Int? = null
 
-    var baseUrl = "https://sgo.edu-74.ru/"
+    var baseUrl = ""
     private val sourcesProvider: SourcesProvider by lazy {
         SourceProviderHolder.sourcesProvider
     }
@@ -135,10 +140,13 @@ object Singleton {
 
     fun loadContext(context: Context) {
         applicationContext = context
+        CoroutineScope(Dispatchers.IO).launch {
+            val settings = Settings(context)
+            baseUrl = settings.regionUrl.first() ?: ""
+        }
     }
 
     fun getContext(): Context = applicationContext
-
 
 }
 

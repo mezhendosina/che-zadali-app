@@ -47,9 +47,7 @@ class ChooseSchoolViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 withContext(Dispatchers.Main) {
-                    if (Singleton.schools != emptyList<SchoolUiEntity>()) _schools.value =
-                        Singleton.schools
-                    else schoolService.loadSchools()
+                    schoolService.loadSchools()
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
