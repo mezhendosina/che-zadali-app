@@ -3,6 +3,7 @@ package com.mezhendosina.sgo.app.ui.container
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
@@ -79,6 +80,12 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
     private fun setupOnMenuItemClickListener(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
+            R.id.update_available -> {
+                UpdateBottomSheetFragment.newInstance(
+                    viewModel.latestUpdate.value!!, viewModel, file
+                ).show(childFragmentManager, UpdateBottomSheetFragment.TAG)
+                true
+            }
             R.id.settings -> {
                 findTopNavController().navigate(
                     R.id.action_containerFragment_to_settingsContainer,
@@ -103,21 +110,9 @@ class ContainerFragment : Fragment(R.layout.container_main) {
     private fun observeUpdates() {
         viewModel.latestUpdate.observe(viewLifecycleOwner) { updates ->
             if (updates.tagName != BuildConfig.VERSION_NAME) {
-                val modalSheet = UpdateBottomSheetFragment(updates.body) {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        updates.assets.forEach {
-                            if (it.contentType == "application/vnd.android.package-archive") {
-                                viewModel.downloadUpdate(
-                                    requireContext(),
-                                    file,
-                                    it.browserDownloadUrl
-                                )
-
-                            }
-                        }
-                    }
-                }
-                modalSheet.show(childFragmentManager, UpdateBottomSheetFragment.TAG)
+//                val modalSheet = UpdateBottomSheetFragment.newInstance(updates, viewModel, file)
+//                modalSheet.show(childFragmentManager, UpdateBottomSheetFragment.TAG)
+                binding.toolbar.menu[0].isVisible = true
             }
         }
     }
@@ -135,7 +130,6 @@ class ContainerFragment : Fragment(R.layout.container_main) {
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
