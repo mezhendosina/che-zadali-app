@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@null"
-    app:defaultNavHost="true"
     android:fitsSystemWindows="true"
+    app:defaultNavHost="true"
     app:navGraph="@navigation/main_navigation"
     tools:context=".activities.MainActivity">
 
     <include
         android:id="@+id/splash_screen"
-        layout="@layout/activity_splash" />
+        layout="@layout/activity_splash"
+        android:visibility="gone" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"

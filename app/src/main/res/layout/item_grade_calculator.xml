@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="4dp"
         android:stepSize="0"
         android:valueFrom="2.01"
         android:valueTo="4.99"

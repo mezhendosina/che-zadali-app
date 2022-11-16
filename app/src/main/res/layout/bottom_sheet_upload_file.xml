@@ -34,7 +34,7 @@
         android:textAllCaps="false"
         android:textColor="?attr/colorOnSurface"
         android:textSize="18sp"
-        app:cornerRadius="12dp"
+        app:cornerRadius="8dp"
         app:icon="@drawable/ic_file"
         app:iconTint="?attr/colorOnSurface"
         app:layout_constraintTop_toBottomOf="@id/header"
@@ -56,20 +56,50 @@
             android:autofillHints="" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <Button
+    <androidx.cardview.widget.CardView
         android:id="@+id/send_file"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="32dp"
-        android:backgroundTint="?attr/colorPrimary"
-        android:letterSpacing="0"
-        android:paddingVertical="10dp"
-        android:text="@string/upload"
-        android:textAllCaps="false"
-        android:textColor="?attr/backgroundColor"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/description"
-        tool:layout_editor_absoluteX="16dp" />
+        android:backgroundTint="?attr/colorSecondary"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="14dp">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/send_file_progress"
+                style="@style/Widget.Material3.CircularProgressIndicator.ExtraSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/send_file_header"
+                style="@style/mainText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/send_file"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

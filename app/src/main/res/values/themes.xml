@@ -62,7 +62,7 @@
 
     <style name="lesson_number">
         <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="mainText" parent="TextAppearance.MaterialComponents.Body1" />
@@ -75,7 +75,7 @@
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
     </style>
 
-    <style name="dark_captions" parent="captions">
+    <style name="captions.dark" parent="captions">
         <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 
