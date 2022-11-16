@@ -78,7 +78,8 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
     private fun observeChangeToGrade() {
         viewModel.changeToGrade.observe(viewLifecycleOwner) {
-            if (it != null)
+            if (it != null) {
+                binding.gradeCalculator.calculatorSlider.value = it.toFloat()
                 bindGradeValue(
                     GradesItem(
                         "",
@@ -91,6 +92,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
                     ),
                     binding.gradeCalculator.calculatedGrade
                 )
+            }
         }
     }
 

@@ -27,7 +27,6 @@ class GradeItemViewModel : ViewModel() {
         CoroutineScope(Dispatchers.Main).launch {
             if (gradeItem.avg != null) {
                 val avgGrade = gradeItem.avg.replace(",", ".").toFloat()
-                _tooManyGrades.value = false
                 if (avgGrade < 2.5) {
                     _changeGradeItem.value =
                         gradesCalculator.calculateGrade(2.5f)
