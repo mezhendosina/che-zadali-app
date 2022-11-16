@@ -41,8 +41,11 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
             viewModel.calculateGrade(value)
         }
 
-        if (lesson.avg == "5,00")
+        if (lesson.avg == "5,00") {
+            binding.gradeCalculatorHeader.visibility = View.GONE
+            binding.gradeCountDivider.visibility = View.GONE
             binding.gradeCalculator.root.visibility = View.GONE
+        }
 
         bindGradeValue(lesson, binding.avgGrade)
         bindGradeCount(binding.countGrade)

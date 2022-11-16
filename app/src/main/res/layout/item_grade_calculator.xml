@@ -8,25 +8,25 @@
 
     <com.google.android.material.slider.Slider
         android:id="@+id/calculator_slider"
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:stepSize="0"
         android:valueFrom="2.01"
         android:valueTo="4.99"
+        app:layout_constraintEnd_toStartOf="@id/calculated_grade"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/calculated_grade"
         layout="@layout/item_grade_value"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@id/calculator_slider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/calculator_slider"
         app:layout_constraintTop_toTopOf="@id/calculator_slider" />
 
     <TextView

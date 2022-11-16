@@ -56,7 +56,7 @@ class ChooseRegionViewModel : ViewModel() {
         }
     }
 
-    fun setRegion(fragmentFrom: Int, regionUrl: String, navController: NavController) {
+    fun setRegion(fragmentFrom: Int?, regionUrl: String, navController: NavController) {
         CoroutineScope(Dispatchers.IO).launch {
             Settings(Singleton.getContext()).setRegion(regionUrl)
             withContext(Dispatchers.Main) {

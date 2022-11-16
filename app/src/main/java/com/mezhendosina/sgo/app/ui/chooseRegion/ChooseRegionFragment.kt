@@ -23,9 +23,8 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
     private val adapter = ChooseRegionAdapter(
         object : OnRegionClickListener {
             override fun invoke(id: String) {
-                if (arguments?.getInt("from") != null)
                     viewModel.setRegion(
-                        arguments?.getInt("from")!!,
+                        arguments?.getInt("from"),
                         id,
                         findNavController()
                     )
