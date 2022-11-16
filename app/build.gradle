@@ -21,8 +21,8 @@ android {
         applicationId "com.mezhendosina.sgo.app"
         minSdk 24
         targetSdk 33
-        versionCode 23
-        versionName '1.10.4'
+        versionCode 25
+        versionName '2.0.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -135,5 +135,6 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-paging:2.4.3"
     implementation "androidx.room:room-ktx:$room_version"
+
 
 }
