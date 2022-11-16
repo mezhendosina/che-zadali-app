@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -50,17 +51,21 @@ class UploadFileBottomSheet(
             EDIT_DESCRIPTION -> {
                 binding.header.setText(R.string.edit_description)
                 binding.selectFile.isEnabled = false
-                binding.sendFile.setText(R.string.edit_description)
-                binding.sendFile.setOnClickListener { editDescription(binding.description.editText?.text.toString()) }
+                binding.sendFileHeader.setText(R.string.edit_description)
+                binding.sendFile.setOnClickListener {
+                    editDescription(binding.description.editText?.text.toString())
+                }
             }
             REPLACE_FILE -> {
                 binding.header.setText(R.string.replace_file)
-                binding.sendFile.setText(R.string.replace_file)
+                binding.sendFileHeader.setText(R.string.replace_file)
                 binding.sendFile.setOnClickListener { replaceFile() }
             }
             else -> {
                 binding.header.setText(R.string.upload_file)
-                binding.sendFile.setOnClickListener { sendFile() }
+                binding.sendFile.setOnClickListener {
+                    sendFile()
+                }
             }
         }
 
@@ -75,7 +80,7 @@ class UploadFileBottomSheet(
                     requestPermission.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             }
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.type = "*/*"
             selectFile.launch(intent)
@@ -83,9 +88,16 @@ class UploadFileBottomSheet(
 
         filePath.observe(viewLifecycleOwner) {
             if (it != null) {
-                val path = it.data?.data?.normalizeScheme()?.path
+                val path =
+                    viewModel.getFileNameFromUri(requireContext(), filePath.value?.data?.data)
                 binding.selectFile.text = path?.substring(path.lastIndexOf("/") + 1)
             }
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.sendFileHeader.isVisible = !it
+            binding.sendFileProgress.isVisible = it
+
         }
 
         observeErrors()

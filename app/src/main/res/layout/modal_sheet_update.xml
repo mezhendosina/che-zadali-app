@@ -11,15 +11,26 @@
         android:id="@+id/header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/roboto_medium"
-        android:gravity="center"
+        android:gravity="start"
         android:text="@string/new_version_available"
         android:textColor="?attr/colorOnBackground"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/app_version"
+        style="@style/captions"
+        android:textColor="?attr/colorOnBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/header"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        tools:text="v1.10.4  ➡  v2.0.0" />
 
     <TextView
         android:id="@+id/whats_new"
@@ -30,7 +41,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/whats_new"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header" />
+        app:layout_constraintTop_toBottomOf="@id/app_version" />
 
     <TextView
         android:id="@+id/update_log"
@@ -51,9 +62,9 @@
         android:layout_marginTop="16dp"
         android:backgroundTint="?attr/colorPrimary"
         android:paddingVertical="12dp"
-        android:textColor="?attr/backgroundColor"
         android:text="@string/update"
         android:textAllCaps="false"
+        android:textColor="?attr/backgroundColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

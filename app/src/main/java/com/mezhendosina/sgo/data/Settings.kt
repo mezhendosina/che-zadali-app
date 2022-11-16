@@ -8,7 +8,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.mezhendosina.sgo.app.model.login.LoginEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import java.net.URI
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -36,7 +35,10 @@ class Settings(val context: Context) {
         val CURRENT_USER_ID = intPreferencesKey("current_user_id")
         val THEME = intPreferencesKey("theme")
         val CURRENT_TRIM_ID = stringPreferencesKey("current_trim_id")
-        val PHOTO_FILE_URI = stringPreferencesKey("photo_file_uri")
+        val SHOW_LESSON_TIME = booleanPreferencesKey("show_lesson_time")
+        val SHOW_LESSON_NUMBER = booleanPreferencesKey("show_lesson_time")
+        val LAST_VERSION_NUMBER = intPreferencesKey("last_version_number")
+        val SHOW_UPDATE_DIALOG = booleanPreferencesKey("show_update_dialog")
 
         val CID = intPreferencesKey("cid")
         val SID = intPreferencesKey("sid")
@@ -53,8 +55,11 @@ class Settings(val context: Context) {
 
     val currentUserId = context.dataStore.data.map { it[CURRENT_USER_ID] ?: 0 }
     val currentTrimId = context.dataStore.data.map { it[CURRENT_TRIM_ID] }
-    val photoFileUri = context.dataStore.data.map { it[PHOTO_FILE_URI] }
     val regionUrl = context.dataStore.data.map { it[REGION_URL] }
+    val showLessonTime = context.dataStore.data.map { it[SHOW_LESSON_TIME] }
+    val showLessonNumber = context.dataStore.data.map { it[SHOW_LESSON_NUMBER] }
+    val lastVersionNumber = context.dataStore.data.map { it[LAST_VERSION_NUMBER] }
+    val showUpdateDialog = context.dataStore.data.map { it[SHOW_UPDATE_DIALOG] }
 
     suspend fun setRegion(regionUrl: String) {
         context.dataStore.edit {
@@ -128,7 +133,19 @@ class Settings(val context: Context) {
         prefs[CURRENT_TRIM_ID] = newId
     }
 
-    suspend fun changePhotoURI(newURI: URI) = context.dataStore.edit {
-        it[PHOTO_FILE_URI] = newURI.toString()
+    suspend fun changeLessonTime(b: Boolean) = context.dataStore.edit {
+        it[SHOW_LESSON_TIME] = b
+    }
+
+    suspend fun changeLessonNumber(b: Boolean) = context.dataStore.edit {
+        it[SHOW_LESSON_NUMBER] = b
+    }
+
+    suspend fun changeLastVersionNumber(versionNumber: Int) = context.dataStore.edit {
+        it[LAST_VERSION_NUMBER] = versionNumber
+    }
+
+    suspend fun changeShowUpdateDialog(b: Boolean) = context.dataStore.edit {
+        it[SHOW_UPDATE_DIALOG] = b
     }
 }

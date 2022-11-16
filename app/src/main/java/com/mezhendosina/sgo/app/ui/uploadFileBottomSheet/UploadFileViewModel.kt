@@ -1,6 +1,9 @@
 package com.mezhendosina.sgo.app.ui.uploadFileBottomSheet
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.net.Uri
+import android.provider.OpenableColumns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,6 +27,9 @@ class UploadFileViewModel(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private val _success = MutableLiveData<Boolean>()
     val success: LiveData<Boolean> = _success
 
@@ -35,14 +41,14 @@ class UploadFileViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 withContext(Dispatchers.Main) {
+                    _isLoading.value = true
                     _success.value = false
                 }
                 val contentResolver = Singleton.getContext().contentResolver
                 val a = contentResolver.openInputStream(filePath)
 
                 val body = a?.readBytes()?.toRequestBody("*/*".toMediaTypeOrNull())
-                val path = filePath.normalizeScheme().path.toString()
-                val fileName = path.substring(path.lastIndexOf("/") + 1)
+                val fileName = getFileNameFromUri(Singleton.getContext(), filePath)
                 if (body != null) {
                     val part = MultipartBody.Part.createFormData("file", fileName, body)
 
@@ -52,7 +58,7 @@ class UploadFileViewModel(
                             true,
                             assignmentID,
                             description,
-                            fileName
+                            fileName ?: ""
                         )
                     )
                 }
@@ -63,6 +69,10 @@ class UploadFileViewModel(
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     _errorMessage.value = e.toDescription()
+                }
+            } finally {
+                withContext(Dispatchers.Main) {
+                    _isLoading.value = false
                 }
             }
         }
@@ -79,6 +89,20 @@ class UploadFileViewModel(
             } catch (e: Exception) {
                 _errorMessage.value = e.toDescription()
             }
+        }
+    }
+
+    @SuppressLint("Range")
+    fun getFileNameFromUri(context: Context, uri: Uri?): String? {
+        return if (uri != null) {
+            val fileName: String?
+            val cursor = context.contentResolver.query(uri, null, null, null, null)
+            cursor?.moveToFirst()
+            fileName = cursor?.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+            cursor?.close()
+            fileName
+        } else {
+            ""
         }
     }
 }

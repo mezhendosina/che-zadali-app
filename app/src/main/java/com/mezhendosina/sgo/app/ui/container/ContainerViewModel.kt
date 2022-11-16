@@ -7,11 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.container.ContainerRepository
+import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.other.entities.checkUpdates.CheckUpdates
 import com.mezhendosina.sgo.data.uriFromFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -29,10 +32,39 @@ class ContainerViewModel(
     private val _downloadState = MutableLiveData(false)
     val downloadState: LiveData<Boolean> = _downloadState
 
+    private val _showUpdateDialog = MutableLiveData(true)
+    val showUpdateDialog: LiveData<Boolean> = _showUpdateDialog
+
+    private val settings = Settings(Singleton.getContext())
+
+
+    init {
+        showUpdateDialog()
+    }
+
     fun checkUpdates() {
         viewModelScope.launch {
             _latestUpdate.value = containerRepository.checkUpdates()
 
+        }
+    }
+
+    fun showUpdateDialog() {
+        viewModelScope.launch {
+            if (BuildConfig.VERSION_CODE > (settings.lastVersionNumber.first() ?: 0)) {
+                settings.changeShowUpdateDialog(false)
+                settings.changeLastVersionNumber(BuildConfig.VERSION_CODE)
+            } else if (settings.showUpdateDialog.first() != false) {
+                _showUpdateDialog.value = true
+            } else if (settings.showUpdateDialog.first() == false) {
+                _showUpdateDialog.value = false
+            }
+        }
+    }
+
+    fun changeUpdateDialogState(b: Boolean) {
+        viewModelScope.launch {
+            settings.changeShowUpdateDialog(b)
         }
     }
 

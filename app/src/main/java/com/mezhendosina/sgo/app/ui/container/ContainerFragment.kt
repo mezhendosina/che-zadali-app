@@ -109,11 +109,13 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
     private fun observeUpdates() {
         viewModel.latestUpdate.observe(viewLifecycleOwner) { updates ->
-            if (updates.tagName != BuildConfig.VERSION_NAME) {
-//                val modalSheet = UpdateBottomSheetFragment.newInstance(updates, viewModel, file)
-//                modalSheet.show(childFragmentManager, UpdateBottomSheetFragment.TAG)
-                binding.toolbar.menu[0].isVisible = true
+            if (updates.tagName != BuildConfig.VERSION_NAME && viewModel.showUpdateDialog.value != false) {
+                val modalSheet = UpdateBottomSheetFragment.newInstance(updates, viewModel, file)
+                modalSheet.show(childFragmentManager, UpdateBottomSheetFragment.TAG)
             }
+            if (updates.tagName != BuildConfig.VERSION_NAME)
+                binding.toolbar.menu[0].isVisible = true
+
         }
     }
 

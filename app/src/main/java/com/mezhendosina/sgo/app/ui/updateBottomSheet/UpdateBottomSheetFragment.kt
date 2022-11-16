@@ -1,9 +1,11 @@
 package com.mezhendosina.sgo.app.ui.updateBottomSheet
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ModalSheetUpdateBinding
 import com.mezhendosina.sgo.app.ui.container.ContainerViewModel
@@ -16,8 +18,9 @@ import java.io.File
 typealias onUpdateClickListener = () -> Unit
 
 class UpdateBottomSheetFragment(
-    private val updateLog: String,
-    private val onUpdateClickListener: onUpdateClickListener
+    private val updateLog: CheckUpdates,
+    private val onUpdateClickListener: onUpdateClickListener,
+    private val onCancel: () -> Unit
 ) :
     BottomSheetDialogFragment(R.layout.modal_sheet_update) {
 
@@ -28,11 +31,17 @@ class UpdateBottomSheetFragment(
         super.onViewCreated(view, savedInstanceState)
         binding = ModalSheetUpdateBinding.bind(view)
 
-        binding.updateLog.text = updateLog
+        binding.appVersion.text = BuildConfig.VERSION_NAME + " ➡ " + updateLog.tagName
+        binding.updateLog.text = updateLog.body
         binding.updateButton.setOnClickListener {
             this.dismiss()
             onUpdateClickListener.invoke()
         }
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        onCancel.invoke()
     }
 
     companion object {
@@ -43,19 +52,25 @@ class UpdateBottomSheetFragment(
             viewModel: ContainerViewModel,
             file: File
         ): UpdateBottomSheetFragment {
-            val modalSheet = UpdateBottomSheetFragment(updates.body) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    updates.assets.forEach {
-                        if (it.contentType == "application/vnd.android.package-archive") {
-                            viewModel.downloadUpdate(
-                                Singleton.getContext(),
-                                file,
-                                it.browserDownloadUrl
-                            )
+            val modalSheet = UpdateBottomSheetFragment(
+                updates,
+                onUpdateClickListener = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        updates.assets.forEach {
+                            if (it.contentType == "application/vnd.android.package-archive") {
+                                viewModel.downloadUpdate(
+                                    Singleton.getContext(),
+                                    file,
+                                    it.browserDownloadUrl
+                                )
+                            }
                         }
                     }
+                },
+                onCancel = {
+                    viewModel.changeUpdateDialogState(false)
                 }
-            }
+            )
             return modalSheet
         }
     }
