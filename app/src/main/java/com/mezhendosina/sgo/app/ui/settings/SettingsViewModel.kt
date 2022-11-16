@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
@@ -18,8 +19,8 @@ import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsRequestEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.UserSettingsEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
+import com.mezhendosina.sgo.data.requests.settings.entities.UserSettingsEntity
 import com.mezhendosina.sgo.data.requests.settings.entities.YearListResponseEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,6 +47,9 @@ class SettingsViewModel(
 
     private val controlQuestion = MutableLiveData<String>()
     private val controlAnswer = MutableLiveData<String>()
+
+    val showTime = MutableLiveData<Boolean>()
+    val showNumber = MutableLiveData<Boolean>()
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
@@ -157,6 +161,18 @@ class SettingsViewModel(
         }
     }
 
+    fun changeLessonTime(b: Boolean) {
+        viewModelScope.launch {
+            Settings(Singleton.getContext()).changeLessonTime(b)
+        }
+    }
+
+    fun changeLessonNumber(b: Boolean) {
+        viewModelScope.launch {
+            Settings(Singleton.getContext()).changeLessonNumber(b)
+        }
+    }
+
     fun logout(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             Settings(context).logout()
@@ -167,6 +183,7 @@ class SettingsViewModel(
             }
         }
     }
+
 
     fun calculateCache(context: Context): Long = context.cacheDir.calculateSizeRecursively()
 

@@ -114,6 +114,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             viewModel.changeTheme(checkedId, requireContext())
         }
 
+        binding.journalSettings.showHideTimeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.changeLessonTime(isChecked)
+        }
+
+        binding.journalSettings.showHideNumberSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.changeLessonNumber(isChecked)
+        }
+
         binding.aboutApp.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_aboutAppFragment)
         }
@@ -130,6 +138,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 binding.changeYearValue.text =
                     viewModel.years.value!!.first { it.id == id }.name.replace("(*) ", "")
             }
+        }
+    }
+
+    private fun observeShowTime() {
+        viewModel.showTime.observe(viewLifecycleOwner) {
+
         }
     }
 
