@@ -39,5 +39,12 @@
         <action
             android:id="@+id/action_chooseRegionFragment_to_chooseSchoolFragment"
             app:destination="@id/chooseSchoolFragment" />
+        <action
+            android:id="@+id/action_chooseRegionFragment_to_requestRegionFragment"
+            app:destination="@id/requestRegionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/requestRegionFragment"
+        android:name="com.mezhendosina.sgo.app.ui.requestRegion.RequestRegionFragment"
+        android:label="@string/request_region" />
 </navigation>

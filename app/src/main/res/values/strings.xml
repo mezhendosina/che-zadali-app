@@ -110,4 +110,10 @@
     <string name="or">или</string>
     <string name="too_many_grades">Очень много оценок</string>
     <string name="update_available">Доступно обновление</string>
+    <string name="show_se_time">Отображать время начала и конца урока</string>
+    <string name="show_lesson_number">Показывать номер урока</string>
+    <string name="region_name">Название региона</string>
+    <string name="regon_url">URL СГО этого региона</string>
+    <string name="send_request">Отправить запрос</string>
+    <string name="request_region">Предложить регион</string>
 </resources>

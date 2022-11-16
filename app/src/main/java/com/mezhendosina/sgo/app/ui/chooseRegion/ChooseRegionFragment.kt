@@ -4,15 +4,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseRegionBinding
-import com.mezhendosina.sgo.app.ui.hideAnimation
-import com.mezhendosina.sgo.app.ui.showAnimation
 
 class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
@@ -22,10 +23,12 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
     private val adapter = ChooseRegionAdapter(
         object : OnRegionClickListener {
             override fun invoke(id: String) {
-                viewModel.setRegion(
-                    id,
-                    findNavController()
-                )
+                if (arguments?.getInt("from") != null)
+                    viewModel.setRegion(
+                        arguments?.getInt("from")!!,
+                        id,
+                        findNavController()
+                    )
             }
         }
     )
@@ -39,9 +42,9 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentChooseRegionBinding.bind(view)
+        val remoteConfig = FirebaseRemoteConfig.getInstance()
 
-
-        binding.noFindQuestion.visibility = View.VISIBLE
+        binding.noFindQuestion.isVisible = remoteConfig.getBoolean("enableRequestRegion")
         binding.noFindQuestion.setOnClickListener {
             val intent =
                 Intent(
@@ -79,12 +82,22 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
     private fun observeLoading() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.progressIndicator.isVisible = it
             if (it) {
-                showAnimation(binding.progressIndicator)
                 binding.loadError.root.visibility = View.GONE
-            } else {
-                hideAnimation(binding.progressIndicator, View.GONE)
             }
+        }
+    }
+
+    companion object {
+        const val FROM_MAIN_ACTIVITY = 0
+
+        fun newInstance(from: Int): ChooseRegionFragment {
+            val args = bundleOf("from" to from)
+
+            val fragment = ChooseRegionFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.mezhendosina.sgo.app.ui.chooseRegion
 
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +11,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
+import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.app.ui.chooseRegion.entities.ChooseRegionUiEntity
 import com.mezhendosina.sgo.data.Settings
@@ -53,12 +56,18 @@ class ChooseRegionViewModel : ViewModel() {
         }
     }
 
-    fun setRegion(regionUrl: String, navController: NavController) {
+    fun setRegion(fragmentFrom: Int, regionUrl: String, navController: NavController) {
         CoroutineScope(Dispatchers.IO).launch {
+            Settings(Singleton.getContext()).setRegion(regionUrl)
             withContext(Dispatchers.Main) {
-                Settings(Singleton.getContext()).setRegion(regionUrl)
                 Singleton.baseUrl = regionUrl
-                navController.navigate(R.id.action_chooseRegionFragment_to_chooseSchoolFragment)
+                if (fragmentFrom == ChooseRegionFragment.FROM_MAIN_ACTIVITY) {
+                    val intent = Intent(Singleton.getContext(), MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(Singleton.getContext(), intent, null)
+                } else {
+                    navController.navigate(R.id.action_chooseRegionFragment_to_chooseSchoolFragment)
+                }
             }
         }
     }

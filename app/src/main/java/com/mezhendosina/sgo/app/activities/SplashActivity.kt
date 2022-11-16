@@ -2,10 +2,14 @@ package com.mezhendosina.sgo.app.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.FirebaseApp
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.R
+import com.mezhendosina.sgo.app.databinding.ContainerLoginBinding
+import com.mezhendosina.sgo.app.ui.chooseRegion.ChooseRegionFragment
 import com.mezhendosina.sgo.data.Settings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,14 +31,27 @@ class SplashActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             FirebaseApp.initializeApp(this@SplashActivity)
-            val intent = if (settings.loggedIn.first()) {
-                Intent(this@SplashActivity, MainActivity::class.java)
+            if (settings.regionUrl.first().isNullOrEmpty() && settings.loggedIn.first()) {
+                val binding =
+                    ContainerLoginBinding.inflate(LayoutInflater.from(this@SplashActivity))
+                setContentView(binding.root)
+                binding.collapsingtoolbarlayout.title = "Выберите регион"
+                supportFragmentManager
+                    .beginTransaction()
+                    .add(
+                        R.id.fragmentContainer,
+                        ChooseRegionFragment.newInstance(ChooseRegionFragment.FROM_MAIN_ACTIVITY)
+                    ).commit()
             } else {
-                Intent(this@SplashActivity, LoginActivity::class.java)
+                val intent = if (settings.loggedIn.first()) {
+                    Intent(this@SplashActivity, MainActivity::class.java)
+                } else {
+                    Intent(this@SplashActivity, LoginActivity::class.java)
+                }
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                overridePendingTransition(0, 0)
             }
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            overridePendingTransition(0, 0)
         }
     }
 }
