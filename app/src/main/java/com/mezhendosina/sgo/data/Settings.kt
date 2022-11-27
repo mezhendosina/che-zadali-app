@@ -39,6 +39,8 @@ class Settings(val context: Context) {
         val SHOW_LESSON_NUMBER = booleanPreferencesKey("show_lesson_time")
         val LAST_VERSION_NUMBER = intPreferencesKey("last_version_number")
         val SHOW_UPDATE_DIALOG = booleanPreferencesKey("show_update_dialog")
+        val SORT_GRADES_BY = intPreferencesKey("sort_grades_by")
+
 
         val CID = intPreferencesKey("cid")
         val SID = intPreferencesKey("sid")

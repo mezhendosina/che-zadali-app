@@ -3,7 +3,7 @@ package com.mezhendosina.sgo.app.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemGradeBinding
@@ -29,7 +29,7 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
 
     override fun onClick(p0: View) {
         val gradeItem = p0.tag as GradesItem
-        val view = p0.rootView.findViewById<ConstraintLayout>(R.id.grade_item)
+        val view = p0.rootView.findViewById<CardView>(R.id.grade_item)
         onGradeClickListener(gradeItem, view)
     }
 

@@ -62,7 +62,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
 
-        binding.gradesRecyclerView.addItemDecoration(dividerItemDecoration)
+//        binding.gradesRecyclerView.addItemDecoration(dividerItemDecoration)
 
         binding.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.gradesRecyclerView.adapter = gradeAdapter
@@ -147,4 +147,6 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         }
         popup.show()
     }
+
+
 }

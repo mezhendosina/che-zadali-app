@@ -116,4 +116,7 @@
     <string name="regon_url">URL СГО этого региона</string>
     <string name="send_request">Отправить запрос</string>
     <string name="request_region">Предложить регион</string>
+    <string name="grades_settings">Настройки оценок</string>
+    <string name="sort_grades_by">Сортировка оценок</string>
+    <string name="year_grade_header">Оценки за</string>
 </resources>

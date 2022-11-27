@@ -4,7 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
+    android:background="?attr/colorSurface"
     android:transitionGroup="true"
     tool:context=".ui.announcements.AnnouncementsFragment">
 
