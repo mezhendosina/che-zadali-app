@@ -1,21 +1,70 @@
 package com.mezhendosina.sgo.data.grades
 
+import com.mezhendosina.sgo.app.ui.itemGrade.GradeItemFragment
 import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
 import kotlin.math.roundToInt
 
-data class ChangeGradeItem(
-    val five: Int,
-    val four: Int,
-    val three: Int,
-    val avg: Double
-)
+data class CalculateGradeItem(
+    val countFive: Int,
+    val countFour: Int,
+    val countThree: Int,
+    val countTwo: Int,
+) {
+    private fun count(): Int = countFive + countFour + countThree + countTwo
+    fun avg(): Float =
+        (countFive * 5 + countFour * 4 + countThree * 3 + countTwo * 2).toFloat() / count().toFloat()
+
+    fun changeGrade(grade: Int, delta: Int): CalculateGradeItem {
+        println(grade)
+        return when (grade) {
+            GradeItemFragment.FIVE_GRADE -> CalculateGradeItem(
+                countFive + delta,
+                countFour,
+                countThree,
+                countTwo
+            )
+            GradeItemFragment.FOUR_GRADE -> CalculateGradeItem(
+                countFive,
+                countFour + delta,
+                countThree,
+                countTwo
+            )
+            GradeItemFragment.THREE_GRADE -> CalculateGradeItem(
+                countFive,
+                countFour,
+                countThree + delta,
+                countTwo
+            )
+            GradeItemFragment.TWO_GRADE -> CalculateGradeItem(
+                countFive,
+                countFour,
+                countThree,
+                countTwo + delta
+            )
+            else -> this
+        }
+    }
+
+    fun toList(): MutableList<Int> = mutableListOf(countFive, countFour, countThree, countTwo)
+    fun toGradeItem(): GradesItem =
+        GradesItem(
+            "",
+            countFive,
+            countFour,
+            countThree,
+            countTwo,
+            0,
+            avg().toString().replace(".", ",")
+        )
+}
+
 
 class GradesCalculator(
     private val gradesItem: GradesItem
 ) {
-    fun calculateGrade(
+    fun autoCalculateGrade(
         changeTo: Float
-    ): ChangeGradeItem {
+    ): CalculateGradeItem {
         val changeGradeItem = mutableListOf(0, 0, 0)
         if (changeTo <= 2.5f) {
             changeGradeItem[0] = doCalc(FIVE_GRADE, changeTo)
@@ -27,11 +76,11 @@ class GradesCalculator(
         } else if (changeTo > 4.0f)
             changeGradeItem[0] = doCalc(FIVE_GRADE, changeTo)
 
-        return ChangeGradeItem(
+        return CalculateGradeItem(
             changeGradeItem[0],
             changeGradeItem[1],
             changeGradeItem[2],
-            changeTo.toDouble()
+            gradesItem.two ?: 0
         )
     }
 
@@ -47,3 +96,5 @@ class GradesCalculator(
     }
 
 }
+
+

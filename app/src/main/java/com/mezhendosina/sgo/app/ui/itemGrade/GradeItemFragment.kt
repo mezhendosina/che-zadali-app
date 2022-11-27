@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialContainerTransform
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
@@ -19,7 +20,22 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
     private lateinit var lesson: GradesItem
 
-    private val viewModel: GradeItemViewModel by viewModels()
+    internal val viewModel: GradeItemViewModel by viewModels()
+
+    private val calculateGradeAdapter = CalculateGradeAdapter(object : ChangeGradeClickListener {
+        override fun plusGrade(grade: Int) {
+            viewModel.editGrade(grade, 1)
+        }
+
+        override fun minusGrade(grade: Int) {
+            viewModel.editGrade(grade, -1)
+        }
+
+        override fun manualEditGrade(grade: Int, value: Int) {
+            viewModel.editGrade(grade, value)
+        }
+
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +53,13 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         binding.collapsingtoolbarlayout.title = lesson.name
         binding.toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
 
-        binding.gradeCalculator.calculatorSlider.addOnChangeListener { _, value, _ ->
-            viewModel.calculateGrade(value)
+        binding.gradeOldCalculator.calculatorSlider.addOnChangeListener { _, value, _ ->
+//            viewModel.calculateGrade(value)
         }
+
+        binding.gradeCalculator.calculateGrade.adapter = calculateGradeAdapter
+        binding.gradeCalculator.calculateGrade.layoutManager = LinearLayoutManager(requireContext())
+        binding.gradeCalculator.calculateGrade.itemAnimator = null
 
         if (lesson.avg == "5,00") {
             binding.gradeCalculatorHeader.visibility = View.GONE
@@ -49,28 +69,29 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
         bindGradeValue(lesson, binding.avgGrade)
         bindGradeCount(binding.countGrade)
-        observeChangeToGrade()
         observeCalculatedGrade()
-        observeCalculateError()
+        observeChangeToGrade()
+        observeOldCalculatedGrade()
     }
 
-    private fun observeCalculatedGrade() {
-        viewModel.changeGradeItem.observe(viewLifecycleOwner) {
-            with(binding.gradeCalculator) {
-                if (it.five > 0) {
-                    reqFiveCount.text = it.five.toString()
+    private fun observeOldCalculatedGrade() {
+        viewModel.oldCalculatedGrade.observe(viewLifecycleOwner) {
+            println(it.toString())
+            with(binding.gradeOldCalculator) {
+                if (it.countFive > 0) {
+                    reqFiveCount.text = it.countFive.toString()
                     showHideFiveCount(View.VISIBLE)
                 } else {
                     showHideFiveCount(View.GONE)
                 }
-                if (it.four > 0) {
-                    reqFourCount.text = it.four.toString()
+                if (it.countFour > 0) {
+                    reqFourCount.text = it.countFour.toString()
                     showHideFourCount(View.VISIBLE)
                 } else {
                     showHideFourCount(View.GONE)
                 }
-                if (it.three > 0) {
-                    reqThreeCount.text = it.three.toString()
+                if (it.countThree > 0) {
+                    reqThreeCount.text = it.countThree.toString()
                     showHideThreeCount(View.VISIBLE)
                 } else {
                     showHideThreeCount(View.GONE)
@@ -80,9 +101,10 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
     }
 
     private fun observeChangeToGrade() {
-        viewModel.changeToGrade.observe(viewLifecycleOwner) {
+        viewModel.oldChangeToGrade.observe(viewLifecycleOwner) {
             if (it != null) {
-                binding.gradeCalculator.calculatorSlider.value = it.toFloat()
+                println(it)
+                binding.gradeOldCalculator.calculatorSlider.value = it.toFloat()
                 bindGradeValue(
                     GradesItem(
                         "",
@@ -99,14 +121,18 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         }
     }
 
-    private fun observeCalculateError() {
-        viewModel.tooManyGrades.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.gradeCalculator.tooManyGradesError.visibility = View.VISIBLE
-            } else {
-                binding.gradeCalculator.tooManyGradesError.visibility = View.GONE
-            }
+    private fun observeCalculatedGrade() {
+        viewModel.calculatedGrade.observe(viewLifecycleOwner) {
+            calculateGradeAdapter.grades = it.toList()
+            calculateGradeAdapter.initGrades =
+                viewModel.grade.value?.toList() ?: listOf(0, 0, 0, 0, 0)
+            println(it.toList())
+            bindGradeValue(
+                it.toGradeItem(),
+                binding.gradeCalculator.calculatedGrade
+            )
         }
+
     }
 
     private fun bindGradeCount(binding: ItemCountGradeBinding) = with(binding) {
@@ -157,7 +183,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
     }
 
     private fun showHideFiveCount(visibility: Int) {
-        with(binding.gradeCalculator) {
+        with(binding.gradeOldCalculator) {
             reqFiveCount.visibility = visibility
             reqFiveCountHeader.visibility = visibility
             fiveOrFour.visibility = visibility
@@ -166,7 +192,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
     }
 
     private fun showHideFourCount(visibility: Int) {
-        with(binding.gradeCalculator) {
+        with(binding.gradeOldCalculator) {
             reqFourCount.visibility = visibility
             reqFourCountHeader.visibility = visibility
             fiveOrFour.visibility = visibility
@@ -177,11 +203,18 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
     }
 
     private fun showHideThreeCount(visibility: Int) {
-        with(binding.gradeCalculator) {
+        with(binding.gradeOldCalculator) {
             reqThreeCount.visibility = visibility
             reqThreeCountHeader.visibility = visibility
             fourOrThree.visibility = visibility
             fourOrThreeDivider.visibility = visibility
         }
+    }
+
+    companion object {
+        const val FIVE_GRADE = 0
+        const val FOUR_GRADE = 1
+        const val THREE_GRADE = 2
+        const val TWO_GRADE = 3
     }
 }

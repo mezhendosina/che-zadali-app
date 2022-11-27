@@ -75,8 +75,8 @@ class GradesFromHtml {
                     lessonName,
                     fiveGrade,
                     fourGrade,
-                    twoGrade,
                     threeGrade,
+                    twoGrade,
                     null,
                     avg
                 )

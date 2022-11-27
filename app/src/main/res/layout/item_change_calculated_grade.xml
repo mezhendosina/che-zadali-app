@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/header"
+        style="@style/mainText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textIsSelectable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Пятерок" />
+
+
+    <Button
+        android:id="@+id/minus_grade"
+        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        app:icon="@drawable/ic_minus_button"
+        app:layout_constraintBottom_toBottomOf="@id/grade_value"
+        app:layout_constraintEnd_toStartOf="@id/grade_value"
+        app:layout_constraintTop_toTopOf="@id/grade_value"
+        app:rippleColor="@null" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/grade_value"
+        style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:inputType="number"
+        android:paddingHorizontal="12dp"
+        android:singleLine="true"
+        android:textAppearance="@style/gradeText"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@id/plus_grade"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="5" />
+
+    <Button
+        android:id="@+id/plus_grade"
+        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:icon="@drawable/ic_plus_button"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/grade_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/grade_value"
+        app:rippleColor="@null" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
