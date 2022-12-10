@@ -12,11 +12,10 @@
         <item name="colorOnBackground">@color/lightTextColor</item>
         <item name="colorOnSurface">@color/lightTextColor</item>
         <item name="colorOnError">@color/lightTextColor</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
 
         <item name="android:textColorLink">@color/lightPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="windowActionBar">false</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
 
         <item name="colorGoodGrade">@color/goodGrade</item>
@@ -81,8 +80,7 @@
 
 
     <style name="AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
-        <item name="android:background">?android:attr/colorBackground</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:background">?attr/colorSurface</item>
     </style>
 
     <style name="onCard">
@@ -135,13 +133,15 @@
         <item name="android:layout_marginTop">12dp</item>
     </style>
 
-    <style name="settingsButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+    <style name="settingsButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:gravity">start|center_vertical</item>
         <item name="textAllCaps">false</item>
         <item name="android:textAppearance">@style/mainText</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="iconGravity">end</item>
         <item name="iconPadding">32dp</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="android:elevation">0dp</item>
         <item name="iconTint">?attr/colorOnBackground</item>
     </style>
 
@@ -184,6 +184,10 @@
         <item name="android:paddingTop">12dp</item>
         <item name="android:minHeight">60dp</item>
         <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="bottomBar" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="elevation">8dp</item>
     </style>
 
 </resources>

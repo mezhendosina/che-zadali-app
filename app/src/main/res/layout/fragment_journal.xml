@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
-    android:isScrollContainer="true"
     tools:context=".ui.journal.JournalFragment">
 
 
@@ -13,10 +11,11 @@
         android:id="@+id/tabs_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/backgroundColor"
+        android:elevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabBackground="@null"
+        app:tabBackground="?attr/colorSurface"
+        android:visibility="gone"
         app:tabMode="scrollable"
         app:tabTextAppearance="@style/mainText" />
 

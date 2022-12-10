@@ -3,21 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:nestedScrollingEnabled="true"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
+    android:nestedScrollingEnabled="true"
     tools:context=".ui.settings.SettingsContainer">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:background="@null"
         android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:titleTextColor="?attr/colorOnBackground"
-        app:layout_scrollFlags="scroll|enterAlways"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:titleTextColor="?attr/colorOnBackground" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/settings_fragment_container"
@@ -27,5 +28,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:navGraph="@navigation/settings_navigation" />
+        app:navGraph="@navigation/settings_navigation"
+        tools:layout="@layout/fragment_settings" />
 </androidx.constraintlayout.widget.ConstraintLayout>

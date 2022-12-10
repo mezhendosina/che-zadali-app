@@ -5,7 +5,9 @@
     style="@style/Theme.MaterialComponents.BottomSheetDialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorSurface">
+    android:background="?attr/colorSurface"
+    android:minHeight="360dp"
+    tools:context=".ui.gradesFilter.GradesFilterBottomSheet">
 
     <TextView
         android:id="@+id/header"
@@ -18,6 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/year"
         android:layout_width="0dp"
@@ -26,7 +29,6 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:visibility="gone"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

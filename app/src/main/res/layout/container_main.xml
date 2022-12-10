@@ -5,7 +5,6 @@
     android:id="@+id/main_activity_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:background="@null"
     android:transitionGroup="true"
     tools:context=".ui.container.ContainerFragment">
@@ -19,10 +18,11 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_layout"
+            style="@style/AppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/backgroundColor"
-            app:expanded="true"
+            android:animateLayoutChanges="true"
+            android:clipChildren="false"
             app:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +31,8 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?attr/colorSurface"
+                android:elevation="8dp"
                 android:nestedScrollingEnabled="true"
                 app:layout_scrollFlags="scroll"
                 app:titleEnabled="false">
@@ -49,8 +51,16 @@
                 android:id="@+id/update_progress"
                 layout="@layout/update_state"
                 android:visibility="gone" />
-        </com.google.android.material.appbar.AppBarLayout>
 
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabBackground="?attr/colorSurface"
+                app:tabMode="scrollable"
+                app:tabTextAppearance="@style/mainText" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/tabs_container"
@@ -80,11 +90,9 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
+        style="@style/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="?attr/backgroundColor"
-        app:elevation="4dp"
-        app:itemIconSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav" />
 

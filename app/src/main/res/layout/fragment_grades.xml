@@ -10,6 +10,7 @@
     tools:context=".ui.grades.GradesFragment">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -18,6 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
 
             <Button
                 android:id="@+id/term_selector"
@@ -30,7 +32,7 @@
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="18sp"
                 app:backgroundTint="?attr/colorSecondary"
-                app:cornerRadius="8dp"
+                app:cornerRadius="12dp"
                 app:icon="@drawable/ic_expand_more"
                 app:iconGravity="textEnd"
                 app:iconSize="24dp"
@@ -46,8 +48,8 @@
                 android:insetLeft="16dp"
                 android:insetTop="12dp"
                 android:insetRight="16dp"
-                android:visibility="gone"
                 android:insetBottom="12dp"
+                android:visibility="gone"
                 app:icon="@drawable/ic_filter"
                 app:iconGravity="start|end|textStart"
                 app:iconPadding="0dp"
@@ -60,6 +62,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@null"
@@ -78,15 +81,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/grades_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
+        <include
+            android:id="@+id/loading"
+            layout="@layout/item_grades_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/load_grades_text" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/grades_recycler_view"

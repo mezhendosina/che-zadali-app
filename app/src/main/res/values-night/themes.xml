@@ -19,7 +19,7 @@
         <item name="colorOnBackground">@color/lightBackground</item>
         <item name="colorOnSurface">@color/lightBackground</item>
         <item name="colorOnError">@color/lightBackground</item>
-        <item name="android:statusBarColor">?attr/backgroundColor</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
 
         <item name="android:textColorLink">@color/darkPrimary</item>
         <item name="android:windowLightStatusBar">false</item>
@@ -53,5 +53,9 @@
 
     <style name="badGradeText" parent="gradeText">
         <item name="android:textColor">?attr/colorError</item>
+    </style>
+
+    <style name="bottomBar" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="elevation">0dp</item>
     </style>
 </resources>
