@@ -4,15 +4,21 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.Fragment
-import com.google.android.material.transition.MaterialSharedAxis
+import androidx.fragment.app.viewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAboutAppBinding
+import com.mezhendosina.sgo.data.toMD5
 
 class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
 
     private lateinit var binding: FragmentAboutAppBinding
+
+    private val viewModel: AboutAppViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +40,20 @@ class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
             startActivity(telegramIntent)
         }
 
+        val editText = EditText(requireContext())
+        binding.specialThanks.setOnLongClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setView(editText)
+                .setPositiveButton("Ок") { dialog, _ ->
+                    if (editText.text.toString().toMD5() == "b72e9e251683b5b92c4fbc82d5d354d5") {
+                        viewModel.registerUser()
+                        dialog.dismiss()
+                        editText.invalidate()
+                    }
+                }
+                .show()
+            true
+        }
         binding.githubRepoButton.setOnClickListener {
             val githubIntent = Intent(
                 Intent.ACTION_VIEW,
