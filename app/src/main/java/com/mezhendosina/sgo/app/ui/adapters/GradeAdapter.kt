@@ -11,7 +11,7 @@ import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
 import com.mezhendosina.sgo.app.ui.grades.showBadGrade
 import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
 import com.mezhendosina.sgo.app.ui.grades.showMidGrade
-import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 typealias OnGradeClickListener = (GradesItem, View) -> Unit
 
@@ -30,6 +30,7 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     override fun onClick(p0: View) {
         val gradeItem = p0.tag as GradesItem
         val view = p0.rootView.findViewById<CardView>(R.id.grade_item)
+        view.transitionName = gradeItem.name
         onGradeClickListener(gradeItem, view)
     }
 

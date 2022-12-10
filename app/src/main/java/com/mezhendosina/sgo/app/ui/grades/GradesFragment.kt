@@ -1,6 +1,7 @@
 package com.mezhendosina.sgo.app.ui.grades
 
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
@@ -12,16 +13,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.GradeAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnGradeClickListener
-import com.mezhendosina.sgo.app.ui.hideAnimation
-import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 class GradesFragment : Fragment(R.layout.fragment_grades) {
 
@@ -29,11 +29,6 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     internal val viewModel: GradesViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough()
-        exitTransition = MaterialFadeThrough()
-    }
 
     private val gradeAdapter = GradeAdapter(object : OnGradeClickListener {
         override fun invoke(p1: GradesItem, p2: View) {
@@ -51,8 +46,6 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGradesBinding.bind(view)
 
-        viewModel.load(requireContext())
-
         binding.termSelector.setOnClickListener(onTermSelectedListener())
         observeGrades()
         observeErrors()
@@ -67,7 +60,15 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         binding.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.gradesRecyclerView.adapter = gradeAdapter
 
+        viewModel.load(requireContext())
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        TransitionManager.endTransitions(binding.mainLayout)
+        TransitionManager.endTransitions(binding.topBar)
+    }
+
 
     private fun observeGrades() {
         viewModel.grades.observe(viewLifecycleOwner) { list ->
@@ -75,7 +76,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
                 gradeAdapter.grades = list
                 binding.emptyState.root.visibility = View.GONE
                 binding.gradesRecyclerView.visibility = View.VISIBLE
-
+                binding.termSelector.visibility = View.VISIBLE
             } else {
                 binding.emptyState.root.visibility = View.VISIBLE
                 binding.gradesRecyclerView.visibility = View.GONE
@@ -100,11 +101,21 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
     }
 
     private fun observeLoading() {
+        val fadeThrough = MaterialFadeThrough()
+        val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+
+        TransitionManager.beginDelayedTransition(binding.mainLayout, fadeThrough)
+        TransitionManager.beginDelayedTransition(binding.topBar, sharedAxis)
+
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {
-                showAnimation(binding.gradesProgressBar)
+                binding.loading.root.visibility = View.VISIBLE
+                binding.gradesRecyclerView.visibility = View.INVISIBLE
+                binding.termSelector.visibility = View.GONE
+                binding.loading.root.startShimmer()
             } else {
-                hideAnimation(binding.gradesProgressBar, View.INVISIBLE)
+                binding.loading.root.visibility = View.GONE
+                binding.loading.root.stopShimmer()
             }
         }
     }
@@ -113,10 +124,9 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         viewModel.errorMessage.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 binding.errorMessage.errorDescription.text = it
-                showAnimation(binding.errorMessage.root)
                 binding.errorMessage.retryButton.setOnClickListener {
                     viewModel.load(requireContext())
-                    hideAnimation(binding.errorMessage.root, View.GONE)
+                    binding.errorMessage.root.visibility = View.GONE
                 }
             }
         }

@@ -8,7 +8,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.settings.entities.ChangePasswordEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.ChangePasswordEntity
 import com.mezhendosina.sgo.data.toMD5
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolOrRegionBinding
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity

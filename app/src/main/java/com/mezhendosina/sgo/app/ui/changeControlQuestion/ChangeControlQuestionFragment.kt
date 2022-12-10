@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChangeControlQuestionBinding
 import com.mezhendosina.sgo.app.ui.settings.SettingsViewModel
