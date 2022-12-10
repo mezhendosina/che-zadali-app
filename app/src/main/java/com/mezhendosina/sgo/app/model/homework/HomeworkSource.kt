@@ -1,7 +1,7 @@
 package com.mezhendosina.sgo.app.model.homework
 
-import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
-import com.mezhendosina.sgo.data.requests.homework.entities.*
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.AssignmentTypesResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.*
 import okhttp3.MultipartBody
 import java.io.File
 

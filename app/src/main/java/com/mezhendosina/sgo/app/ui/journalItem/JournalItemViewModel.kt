@@ -9,10 +9,8 @@ import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.WeekStartEndEntity
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class JournalItemViewModel(
@@ -28,23 +26,35 @@ class JournalItemViewModel(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-    val settings = Settings(Singleton.getContext())
-
-    fun getWeek(weekStart: String?, weekEnd: String?) {
-        _isLoading.value = true
-        CoroutineScope(Dispatchers.IO).launch {
+    suspend fun getWeek(weekStart: String?, weekEnd: String?) {
+        val settings = Settings(Singleton.getContext())
+        withContext(Dispatchers.Main) {
+            _isLoading.value = true
+            _errorMessage.value = ""
+        }
+        withContext(Dispatchers.IO) {
             try {
-                val a = journalRepository.getWeek(
-                    settings.currentUserId.first(),
-                    WeekStartEndEntity(weekStart!!, weekEnd!!),
-                    Singleton.currentYearId.value ?: 0
-                )
+                val findDiaryUiEntity =
+                    Singleton.loadedDiaryUiEntity.firstOrNull { it.weekStart == weekStart }
+                val a =
+                    if (findDiaryUiEntity == null) {
+                        val getWeek = journalRepository.getWeek(
+                            settings.currentUserId.first(),
+                            WeekStartEndEntity(weekStart!!, weekEnd!!),
+                            Singleton.currentYearId.value ?: 0
+                        )
+                        Singleton.loadedDiaryUiEntity.add(getWeek)
+                        getWeek
+                    } else {
+                        findDiaryUiEntity
+                    }
                 withContext(Dispatchers.Main) {
                     _week.value = a
                 }
             } catch (e: Exception) {
+                val errorDescription = e.toDescription()
                 withContext(Dispatchers.Main) {
-                    _errorMessage.value = e.toDescription()
+                    _errorMessage.value = errorDescription
                 }
             } finally {
                 withContext(Dispatchers.Main) {

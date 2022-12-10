@@ -56,7 +56,6 @@ class DiaryAdapter(
             homeworkRecyclerView.apply {
                 adapter = holder.homeworkAdapter
                 layoutManager = holder.layoutManager
-                setRecycledViewPool(holder.viewPool)
             }
             Trace.endSection()
         }

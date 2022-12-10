@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.mezhendosina.sgo.app.model.login.LoginEntity
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -23,6 +24,7 @@ data class SettingsLoginData(
 )
 
 class Settings(val context: Context) {
+
 
     companion object {
         val REGION_URL = stringPreferencesKey("region")
@@ -56,12 +58,20 @@ class Settings(val context: Context) {
     }
 
     val currentUserId = context.dataStore.data.map { it[CURRENT_USER_ID] ?: 0 }
-    val currentTrimId = context.dataStore.data.map { it[CURRENT_TRIM_ID] }
-    val regionUrl = context.dataStore.data.map { it[REGION_URL] }
-    val showLessonTime = context.dataStore.data.map { it[SHOW_LESSON_TIME] }
-    val showLessonNumber = context.dataStore.data.map { it[SHOW_LESSON_NUMBER] }
-    val lastVersionNumber = context.dataStore.data.map { it[LAST_VERSION_NUMBER] }
-    val showUpdateDialog = context.dataStore.data.map { it[SHOW_UPDATE_DIALOG] }
+    val currentTrimId = CURRENT_TRIM_ID.getValue()
+    val regionUrl = REGION_URL.getValue()
+    val showLessonTime = SHOW_LESSON_TIME.getValue()
+    val showLessonNumber = SHOW_LESSON_NUMBER.getValue()
+    val lastVersionNumber = LAST_VERSION_NUMBER.getValue()
+    val showUpdateDialog = SHOW_UPDATE_DIALOG.getValue()
+    val sortGradesBy = SORT_GRADES_BY.getValue()
+
+    private fun <T> Preferences.Key<T>.getValue(): Flow<T?> =
+        context.dataStore.data.map { it[this] }
+
+    suspend fun <T> setPreference(key: Preferences.Key<T>, value: T) = context.dataStore.edit {
+        it[key] = value
+    }
 
     suspend fun setRegion(regionUrl: String) {
         context.dataStore.edit {
@@ -150,4 +160,5 @@ class Settings(val context: Context) {
     suspend fun changeShowUpdateDialog(b: Boolean) = context.dataStore.edit {
         it[SHOW_UPDATE_DIALOG] = b
     }
+
 }
