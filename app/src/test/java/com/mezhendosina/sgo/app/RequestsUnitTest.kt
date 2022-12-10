@@ -4,7 +4,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.model.login.LoginEntity
 import com.mezhendosina.sgo.data.grades.GradesFromHtml
-import com.mezhendosina.sgo.data.requests.SourceProviderHolder
+import com.mezhendosina.sgo.data.requests.sgo.SourceProviderHolder
 import com.mezhendosina.sgo.data.toMD5
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -23,6 +23,7 @@ class RequestsUnitTest {
 
     @Before
     fun login() {
+        singleton.baseUrl = "https://sgo.edu-74.ru/"
         runBlocking {
             loginSource.loginData()
             val getData = loginSource.getData()

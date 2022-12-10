@@ -14,7 +14,7 @@ import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.data.requests.login.entities.StudentResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.toMD5
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -2,7 +2,7 @@ package com.mezhendosina.sgo.data.room.entities
 
 import androidx.room.*
 import com.mezhendosina.sgo.app.model.journal.entities.AssignmentUiEntity
-import com.mezhendosina.sgo.data.requests.diary.entities.TextAnswer
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.TextAnswer
 
 data class AssignmentsWithMarkAndAttachments(
     @Embedded val assignmentsRoomEntity: AssignmentsRoomEntity,

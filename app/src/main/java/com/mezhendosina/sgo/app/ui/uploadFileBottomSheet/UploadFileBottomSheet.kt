@@ -14,7 +14,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.BottomSheetUploadFileBinding
-import com.mezhendosina.sgo.data.requests.homework.entities.FileUiEntity
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.FileUiEntity
 
 class UploadFileBottomSheet(
     private val actionType: Int,

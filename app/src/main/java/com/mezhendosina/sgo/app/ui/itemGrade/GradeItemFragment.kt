@@ -5,14 +5,14 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradeItemBinding
 import com.mezhendosina.sgo.app.databinding.ItemCountGradeBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.bindGradeValue
-import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
@@ -42,6 +42,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         lesson = Singleton.grades[arguments?.getInt("LESSON_INDEX") ?: 0]
         viewModel.initCalculator(lesson)
         sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

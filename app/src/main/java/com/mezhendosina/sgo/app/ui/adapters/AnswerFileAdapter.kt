@@ -7,7 +7,7 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemUploadedAttachmentBinding
-import com.mezhendosina.sgo.data.requests.homework.entities.FileUiEntity
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.FileUiEntity
 
 typealias OnFileClickListener = (file: FileUiEntity) -> Unit
 

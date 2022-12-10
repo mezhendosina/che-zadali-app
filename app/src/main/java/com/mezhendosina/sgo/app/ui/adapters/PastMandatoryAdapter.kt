@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemPastMandatoryBinding
 import com.mezhendosina.sgo.data.DateManipulation
-import com.mezhendosina.sgo.data.requests.diary.entities.PastMandatoryEntity
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
 
 class PastMandatoryAdapter : RecyclerView.Adapter<PastMandatoryAdapter.PastMandatoryViewHolder>() {
 

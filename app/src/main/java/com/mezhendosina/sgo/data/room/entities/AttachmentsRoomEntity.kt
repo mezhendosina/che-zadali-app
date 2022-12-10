@@ -3,7 +3,7 @@ package com.mezhendosina.sgo.data.room.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.mezhendosina.sgo.data.requests.homework.entities.AttachmentsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.AttachmentsResponseEntity
 
 @Entity(tableName = "attachments_database")
 data class AttachmentsRoomEntity(

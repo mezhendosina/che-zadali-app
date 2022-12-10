@@ -1,9 +1,9 @@
 package com.mezhendosina.sgo.app.model.journal.entities
 
-import com.mezhendosina.sgo.data.requests.diary.entities.Mark
-import com.mezhendosina.sgo.data.requests.diary.entities.PastMandatoryEntity
-import com.mezhendosina.sgo.data.requests.diary.entities.TextAnswer
-import com.mezhendosina.sgo.data.requests.homework.entities.AttachmentsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.Mark
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.TextAnswer
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.AttachmentsResponseEntity
 
 data class DiaryUiEntity(
     val weekDays: List<WeekDayUiEntity>,

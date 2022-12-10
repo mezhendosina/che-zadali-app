@@ -11,7 +11,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.model.user.UserUIEntity
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.login.entities.StudentResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
 import kotlinx.coroutines.launch
 
 class ChooseUserIdViewModel : ViewModel() {

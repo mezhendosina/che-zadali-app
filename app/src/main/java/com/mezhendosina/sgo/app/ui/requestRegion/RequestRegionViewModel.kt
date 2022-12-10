@@ -3,8 +3,8 @@ package com.mezhendosina.sgo.app.ui.requestRegion
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import com.mezhendosina.sgo.data.requests.base.BaseRetrofitSource
-import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
+import com.mezhendosina.sgo.data.requests.sgo.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitConfig
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

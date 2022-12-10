@@ -12,7 +12,7 @@ import com.mezhendosina.sgo.app.databinding.BottomSheetAnnouncementsBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.AnnouncementsAdapter
 import com.mezhendosina.sgo.app.ui.adapters.OnAnnouncementClickListener
-import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
 
 class AnnouncementsBottomSheet :
     BottomSheetDialogFragment(R.layout.bottom_sheet_announcements) {

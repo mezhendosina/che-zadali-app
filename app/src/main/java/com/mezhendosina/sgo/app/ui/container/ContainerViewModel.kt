@@ -10,7 +10,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.container.ContainerRepository
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.other.entities.checkUpdates.CheckUpdates
+import com.mezhendosina.sgo.data.requests.sgo.checkUpdates.CheckUpdates
 import com.mezhendosina.sgo.data.uriFromFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +49,7 @@ class ContainerViewModel(
         }
     }
 
-    fun showUpdateDialog() {
+    private fun showUpdateDialog() {
         viewModelScope.launch {
             if (BuildConfig.VERSION_CODE > (settings.lastVersionNumber.first() ?: 0)) {
                 settings.changeShowUpdateDialog(false)

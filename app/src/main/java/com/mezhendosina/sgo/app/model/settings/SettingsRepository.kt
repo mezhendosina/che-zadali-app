@@ -1,10 +1,10 @@
 package com.mezhendosina.sgo.app.model.settings
 
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.data.requests.settings.entities.ChangePasswordEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsRequestEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.YearListResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.ChangePasswordEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsRequestEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
 import java.io.File
 
 class SettingsRepository(private val settingsSource: SettingsSource) {

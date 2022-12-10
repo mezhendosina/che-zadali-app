@@ -8,8 +8,8 @@ import com.mezhendosina.sgo.app.databinding.ItemWhyGradeBinding
 import com.mezhendosina.sgo.app.ui.grades.showBadGrade
 import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
 import com.mezhendosina.sgo.app.ui.grades.showMidGrade
-import com.mezhendosina.sgo.data.requests.diary.entities.AssignmentTypesResponseEntity
-import com.mezhendosina.sgo.data.requests.homework.entities.WhyGradeEntity
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.AssignmentTypesResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.WhyGradeEntity
 
 class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>() {
 

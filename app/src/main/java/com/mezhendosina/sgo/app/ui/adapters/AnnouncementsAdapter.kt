@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemAnnouncementBinding
-import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
 import org.jsoup.Jsoup
 
 typealias OnAnnouncementClickListener = (AnnouncementsResponseEntity) -> Unit

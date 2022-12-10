@@ -7,7 +7,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.BottomSheetChooseYearBinding
-import com.mezhendosina.sgo.data.requests.settings.entities.YearListResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
 
 class ChooseYearBottomSheet(
     private val yearList: List<YearListResponseEntity>

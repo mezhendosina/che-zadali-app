@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mezhendosina.sgo.data.grades.CalculateGradeItem
 import com.mezhendosina.sgo.data.grades.GradesCalculator
 import com.mezhendosina.sgo.data.grades.GradesFromHtml
-import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 import org.junit.Test
 import java.io.File
 

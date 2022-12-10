@@ -18,10 +18,10 @@ import com.mezhendosina.sgo.app.activities.LoginActivity
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsRequestEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.UserSettingsEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.YearListResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsRequestEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.UserSettingsEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first

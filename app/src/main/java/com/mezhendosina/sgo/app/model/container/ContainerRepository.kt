@@ -1,9 +1,9 @@
 package com.mezhendosina.sgo.app.model.container
 
 import com.google.gson.Gson
-import com.mezhendosina.sgo.data.requests.base.BaseRetrofitSource
-import com.mezhendosina.sgo.data.requests.base.RetrofitConfig
-import com.mezhendosina.sgo.data.requests.other.entities.checkUpdates.CheckUpdates
+import com.mezhendosina.sgo.data.requests.sgo.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitConfig
+import com.mezhendosina.sgo.data.requests.sgo.checkUpdates.CheckUpdates
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor

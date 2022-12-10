@@ -7,7 +7,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsActionListener
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

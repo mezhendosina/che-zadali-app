@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAnnouncementItemBinding
@@ -16,7 +16,7 @@ import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentAdapter
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentClickListener
 import com.mezhendosina.sgo.data.DateManipulation
-import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.Attachment
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
 import org.jsoup.Jsoup

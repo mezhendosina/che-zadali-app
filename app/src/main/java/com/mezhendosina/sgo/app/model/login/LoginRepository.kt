@@ -4,8 +4,8 @@ import android.content.Context
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.settings.SettingsSource
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.login.entities.LogoutRequestEntity
-import com.mezhendosina.sgo.data.requests.login.entities.StudentResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.login.entities.LogoutRequestEntity
+import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

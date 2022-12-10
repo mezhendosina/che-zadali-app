@@ -1,9 +1,9 @@
 package com.mezhendosina.sgo.app.model.settings
 
-import com.mezhendosina.sgo.data.requests.settings.entities.ChangePasswordEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsRequestEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.YearListResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.ChangePasswordEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsRequestEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
 import java.io.File
 
 interface SettingsSource {
@@ -20,4 +20,5 @@ interface SettingsSource {
 
     suspend fun changeProfilePhoto(file: File, userId: Int)
 
+    suspend fun setYear(id: Int)
 }

@@ -3,6 +3,7 @@ package com.mezhendosina.sgo
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
+import com.google.android.material.tabs.TabLayout
 import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
@@ -16,6 +17,7 @@ import com.mezhendosina.sgo.app.model.grades.GradesSource
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.app.model.journal.JournalRepository
+import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.model.login.LoginSource
@@ -23,12 +25,12 @@ import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.model.settings.SettingsSource
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.WeekStartEndEntity
-import com.mezhendosina.sgo.data.requests.SourceProviderHolder
-import com.mezhendosina.sgo.data.requests.announcements.AnnouncementsResponseEntity
-import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
-import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
-import com.mezhendosina.sgo.data.requests.login.entities.StudentResponseEntity
-import com.mezhendosina.sgo.data.requests.settings.entities.MySettingsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.SourceProviderHolder
+import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.room.AppDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -62,8 +64,13 @@ object Singleton {
     val weeks = mutableListOf<WeekStartEndEntity>()
 
     var currentWeek: Int? = null
+    val loadedDiaryUiEntity: MutableList<DiaryUiEntity> = mutableListOf()
+
+    var journalTabsLayout: TabLayout? = null
 
     var baseUrl = ""
+
+
     private val sourcesProvider: SourcesProvider by lazy {
         SourceProviderHolder.sourcesProvider
     }

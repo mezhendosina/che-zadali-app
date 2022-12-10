@@ -10,7 +10,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
 import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.Attachment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

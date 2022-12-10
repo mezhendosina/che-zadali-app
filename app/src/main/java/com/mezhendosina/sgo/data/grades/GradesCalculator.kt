@@ -1,7 +1,7 @@
 package com.mezhendosina.sgo.data.grades
 
 import com.mezhendosina.sgo.app.ui.itemGrade.GradeItemFragment
-import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 import kotlin.math.roundToInt
 
 data class CalculateGradeItem(

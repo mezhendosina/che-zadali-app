@@ -12,9 +12,9 @@ import com.mezhendosina.sgo.app.model.grades.GradeActionListener
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.grades.entities.GradesItem
-import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.GradeOptions
-import com.mezhendosina.sgo.data.requests.grades.entities.gradeOptions.SelectTag
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.SelectTag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -46,7 +46,6 @@ class GradesViewModel(
 
     init {
         gradeServices.addListener(gradeActionListener)
-
     }
 
     fun load(context: Context, reload: Boolean = false) {
@@ -105,10 +104,10 @@ class GradesViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             _terms.value?.get(termID)?.value?.let { settings.changeTRIMId(it) }
             withContext(Dispatchers.Main) {
-                settings.currentTrimId.first()?.let {
+                settings.currentTrimId.first().let {
                     loadGrades(
                         _gradeOptions.value!!,
-                        it
+                        it!!
                     )
                 }
             }

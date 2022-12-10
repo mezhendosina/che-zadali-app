@@ -11,7 +11,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.Singleton.attachmentsRepository
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.data.requests.homework.entities.SendFileRequestEntity
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.SendFileRequestEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

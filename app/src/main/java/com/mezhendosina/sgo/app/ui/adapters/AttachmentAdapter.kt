@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.ui.showAnimation
-import com.mezhendosina.sgo.data.requests.homework.entities.Attachment
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.Attachment
 
 interface AttachmentClickListener {
     fun onClick(attachment: Attachment, binding: ItemAttachmentBinding)

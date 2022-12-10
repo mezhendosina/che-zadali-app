@@ -8,12 +8,12 @@ import com.mezhendosina.sgo.app.model.journal.entities.WeekDayUiEntity
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.dateToRussian
-import com.mezhendosina.sgo.data.requests.diary.entities.Assignment
-import com.mezhendosina.sgo.data.requests.diary.entities.DiaryResponseEntity
-import com.mezhendosina.sgo.data.requests.diary.entities.Lesson
-import com.mezhendosina.sgo.data.requests.diary.entities.PastMandatoryEntity
-import com.mezhendosina.sgo.data.requests.homework.entities.AttachmentsRequestEntity
-import com.mezhendosina.sgo.data.requests.homework.entities.AttachmentsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.Assignment
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.DiaryResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.Lesson
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.AttachmentsRequestEntity
+import com.mezhendosina.sgo.data.requests.sgo.homework.entities.AttachmentsResponseEntity
 
 class JournalRepository(
     private val homeworkSource: HomeworkSource,
