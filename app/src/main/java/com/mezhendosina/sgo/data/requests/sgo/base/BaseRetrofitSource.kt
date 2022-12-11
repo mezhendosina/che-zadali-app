@@ -34,5 +34,4 @@ open class BaseRetrofitSource(retrofitConfig: RetrofitConfig) {
             throw ParseBackendResponseException(e)
         }
     }
-
 }

@@ -38,7 +38,6 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemGradeBinding.inflate(inflater, parent, false)
 
-
         binding.root.setOnClickListener(this)
 
         return GradeViewHolder(binding)
@@ -47,7 +46,7 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     override fun onBindViewHolder(holder: GradeViewHolder, position: Int) {
         val grade = grades[position]
         with(holder.binding) {
-            root.transitionName = grade.name
+//            root.transitionName = grade.name
             holder.itemView.tag = grade
             gradeName.text = grade.name
             bindGradeValue(grade, this.grade)
