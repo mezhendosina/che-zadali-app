@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.container.ContainerRepository
+import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.sgo.checkUpdates.CheckUpdates
 import com.mezhendosina.sgo.data.uriFromFile
@@ -43,9 +44,18 @@ class ContainerViewModel(
     }
 
     fun checkUpdates() {
-        viewModelScope.launch {
-            _latestUpdate.value = containerRepository.checkUpdates()
-
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val checkUpdates = containerRepository.checkUpdates()
+                withContext(Dispatchers.Main) {
+                    _latestUpdate.value = checkUpdates
+                }
+            } catch (e: Exception) {
+                val errorDescription = e.toDescription()
+                withContext(Dispatchers.Main) {
+                    _errorMessage.value = errorDescription
+                }
+            }
         }
     }
 
@@ -70,6 +80,7 @@ class ContainerViewModel(
 
     fun downloadUpdate(context: Context, file: File, url: String) {
         CoroutineScope(Dispatchers.IO).launch {
+            //TODO exception handling
             withContext(Dispatchers.Main) { _downloadState.value = true }
             val bytes = containerRepository.downloadFile(url)
 
