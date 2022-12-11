@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.material.transition.platform.MaterialSharedAxis
@@ -29,6 +28,11 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     internal val viewModel: GradesViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+    }
 
     private val gradeAdapter = GradeAdapter(object : OnGradeClickListener {
         override fun invoke(p1: GradesItem, p2: View) {
@@ -51,11 +55,6 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         observeErrors()
         observeLoading()
         observeTerms()
-
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-
-//        binding.gradesRecyclerView.addItemDecoration(dividerItemDecoration)
 
         binding.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.gradesRecyclerView.adapter = gradeAdapter
@@ -104,8 +103,8 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         val fadeThrough = MaterialFadeThrough()
         val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, false)
 
-        TransitionManager.beginDelayedTransition(binding.mainLayout, fadeThrough)
-        TransitionManager.beginDelayedTransition(binding.topBar, sharedAxis)
+//        TransitionManager.beginDelayedTransition(binding.mainLayout, fadeThrough)
+//        TransitionManager.beginDelayedTransition(binding.topBar, sharedAxis)
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {

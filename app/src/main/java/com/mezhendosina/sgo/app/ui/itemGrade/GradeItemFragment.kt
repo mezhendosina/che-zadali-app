@@ -41,22 +41,17 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         super.onCreate(savedInstanceState)
         lesson = Singleton.grades[arguments?.getInt("LESSON_INDEX") ?: 0]
         viewModel.initCalculator(lesson)
-        sharedElementEnterTransition = MaterialContainerTransform()
-        sharedElementReturnTransition = MaterialContainerTransform()
+        enterTransition = MaterialContainerTransform()
+        returnTransition = MaterialContainerTransform()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGradeItemBinding.bind(view)
-
         binding.root.transitionName = lesson.name
 
         binding.collapsingtoolbarlayout.title = lesson.name
         binding.toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
-
-        binding.gradeOldCalculator.calculatorSlider.addOnChangeListener { _, value, _ ->
-//            viewModel.calculateGrade(value)
-        }
 
         binding.gradeCalculator.calculateGrade.adapter = calculateGradeAdapter
         binding.gradeCalculator.calculateGrade.layoutManager = LinearLayoutManager(requireContext())
@@ -77,7 +72,6 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
     private fun observeOldCalculatedGrade() {
         viewModel.oldCalculatedGrade.observe(viewLifecycleOwner) {
-            println(it.toString())
             with(binding.gradeOldCalculator) {
                 if (it.countFive > 0) {
                     reqFiveCount.text = it.countFive.toString()
@@ -104,7 +98,6 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
     private fun observeChangeToGrade() {
         viewModel.oldChangeToGrade.observe(viewLifecycleOwner) {
             if (it != null) {
-                println(it)
                 binding.gradeOldCalculator.calculatorSlider.value = it.toFloat()
                 bindGradeValue(
                     GradesItem(
@@ -127,7 +120,6 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
             calculateGradeAdapter.grades = it.toList()
             calculateGradeAdapter.initGrades =
                 viewModel.grade.value?.toList() ?: listOf(0, 0, 0, 0, 0)
-            println(it.toList())
             bindGradeValue(
                 it.toGradeItem(),
                 binding.gradeCalculator.calculatedGrade
