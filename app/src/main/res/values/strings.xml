@@ -119,4 +119,5 @@
     <string name="grades_settings">Настройки оценок</string>
     <string name="sort_grades_by">Сортировка оценок</string>
     <string name="year_grade_header">Оценки за</string>
+    <string name="sort_by">Сортировать по</string>
 </resources>
