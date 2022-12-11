@@ -8,6 +8,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
@@ -49,6 +50,12 @@ class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
                         viewModel.registerUser()
                         dialog.dismiss()
                         editText.invalidate()
+                        Snackbar.make(
+                            requireContext(),
+                            binding.root,
+                            "Уведомелния о новых оценках включены",
+                            Snackbar.LENGTH_LONG
+                        ).show()
                     }
                 }
                 .show()
