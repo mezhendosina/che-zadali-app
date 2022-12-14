@@ -46,10 +46,10 @@ class ChooseSchoolViewModel(
         _isLoading.value = true
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                withContext(Dispatchers.Main) {
-                    schoolService.loadSchools()
-                }
+                schoolService.loadSchools()
+
             } catch (e: Exception) {
+
                 withContext(Dispatchers.Main) {
                     _errorMessage.value = e.toDescription()
                     _isError.value = true

@@ -15,6 +15,7 @@ class ChooseSchoolRepository(private val schoolsSource: SchoolsSource) {
     suspend fun loadSchools() {
 
         val schoolsList = schoolsSource.getSchools().map { it.toUiEntity() }
+
         withContext(Dispatchers.Main) {
             schools = schoolsList.toMutableList()
             Singleton.schools = schools
