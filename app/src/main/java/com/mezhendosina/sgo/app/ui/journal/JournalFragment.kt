@@ -16,7 +16,7 @@ import com.mezhendosina.sgo.data.tabDate
 
 class JournalFragment : Fragment(R.layout.fragment_journal) {
 
-    private lateinit var binding: FragmentJournalBinding
+    private var binding: FragmentJournalBinding? = null
     internal val viewModel: JournalViewModel by viewModels()
 
     private val weekNow = currentWeekStart()
@@ -36,27 +36,28 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
         binding = FragmentJournalBinding.bind(view)
 
         val adapter = JournalPagerAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
+        if (binding != null) {
+            binding!!.journalPager.adapter = adapter
+            binding!!.journalPager.registerOnPageChangeCallback(onPageChangeCallback)
 
-        binding.journalPager.adapter = adapter
-        binding.journalPager.registerOnPageChangeCallback(onPageChangeCallback)
+            val tabLayout = Singleton.journalTabsLayout
+            viewModel.weeks.observe(viewLifecycleOwner) { entityList ->
+                adapter.weeksList = entityList
+                if (Singleton.currentWeek == null) binding!!.journalPager.setCurrentItem(
+                    entityList.indexOf(entityList.find { it.weekStart == weekNow }),
+                    false
+                ) else binding!!.journalPager.setCurrentItem(Singleton.currentWeek!!, false)
 
-        val tabLayout = Singleton.journalTabsLayout
-        viewModel.weeks.observe(viewLifecycleOwner) { entityList ->
-            adapter.weeksList = entityList
-            if (Singleton.currentWeek == null) binding.journalPager.setCurrentItem(
-                entityList.indexOf(entityList.find { it.weekStart == weekNow }),
-                false
-            ) else binding.journalPager.setCurrentItem(Singleton.currentWeek!!, false)
-
-            if (tabLayout != null) {
-                tabLayoutMediator = TabLayoutMediator(
-                    tabLayout,
-                    binding.journalPager
-                ) { tab, position ->
-                    tab.text =
-                        "${tabDate(entityList[position].weekStart)} - ${tabDate(entityList[position].weekEnd)}"
+                if (tabLayout != null) {
+                    tabLayoutMediator = TabLayoutMediator(
+                        tabLayout,
+                        binding!!.journalPager
+                    ) { tab, position ->
+                        tab.text =
+                            "${tabDate(entityList[position].weekStart)} - ${tabDate(entityList[position].weekEnd)}"
+                    }
+                    tabLayoutMediator?.attach()
                 }
-                tabLayoutMediator?.attach()
             }
         }
 
@@ -65,14 +66,18 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
 
     private fun observeUserId() {
         Settings(requireContext()).currentUserId.asLiveData().observe(viewLifecycleOwner) {
-            binding.journalPager.invalidate()
+            if (binding != null)
+                binding!!.journalPager.invalidate()
         }
     }
 
     override fun onDestroyView() {
-        binding.journalPager.adapter = null
-        binding.journalPager.unregisterOnPageChangeCallback(onPageChangeCallback)
-        tabLayoutMediator?.detach()
         super.onDestroyView()
+        if (binding != null) {
+            binding!!.journalPager.adapter = null
+            binding!!.journalPager.unregisterOnPageChangeCallback(onPageChangeCallback)
+            tabLayoutMediator?.detach()
+            binding = null
+        }
     }
 }
