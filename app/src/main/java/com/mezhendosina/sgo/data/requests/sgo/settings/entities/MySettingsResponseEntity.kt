@@ -15,4 +15,8 @@ data class MySettingsResponseEntity(
     val userId: Int,
     val userSettings: UserSettingsEntity,
     val windowsAccount: Any
-)
+) {
+    fun toRequestEntity(): MySettingsRequestEntity = MySettingsRequestEntity(
+        email, mobilePhone, schoolyearId, userId, userSettings, windowsAccount
+    )
+}

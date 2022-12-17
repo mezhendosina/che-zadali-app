@@ -9,13 +9,18 @@ import retrofit2.http.POST
 
 interface NotificationsApi {
 
-    @POST("/register_user")
+    @POST("register_user")
     suspend fun registerUser(
         @Body user: NotificationUserEntity
     ): Response<ResponseBody>
 
-    @POST("/unregister_user")
+    @POST("unregister_user")
     suspend fun unregisterUser(
         @Body unregisterUserEntity: UnregisterUserEntity
     ): Response<ResponseBody>
+
+    @POST("is_user_exist")
+    suspend fun isUserExist(
+        @Body body: UnregisterUserEntity
+    ): Boolean
 }

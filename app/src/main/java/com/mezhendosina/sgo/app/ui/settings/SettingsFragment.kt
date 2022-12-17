@@ -1,6 +1,6 @@
 package com.mezhendosina.sgo.app.ui.settings
 
-import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -9,15 +9,17 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentSettingsBinding
 import com.mezhendosina.sgo.app.ui.changeControlQuestion.ChangeControlQuestionFragment
 import com.mezhendosina.sgo.app.ui.changeEmail.ChangeEmailFragment
 import com.mezhendosina.sgo.app.ui.changePhone.ChangePhoneFragment
-import com.mezhendosina.sgo.app.ui.chooseYearBottomSheet.ChooseYearBottomSheet
 import com.mezhendosina.sgo.data.DateManipulation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -25,10 +27,21 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val viewModel: SettingsViewModel by viewModels()
     private lateinit var binding: FragmentSettingsBinding
 
-    private val pickPhoto =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            it.data?.let { it1 -> viewModel.changePhoto(requireContext(), it1) }
+    private val checkNotificationsPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it && viewModel.enableGradeNotifications.value == false) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.changeGradeNotifications()
+                }
+            } else if (!it) {
+                Snackbar.make(
+                    binding.root,
+                    "Нет разрешения на отправку уведомлений уведомления",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
         }
+
     val file: File = File.createTempFile("profile_photo", "tmp")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +49,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
 
-        viewModel.getMySettings(arguments)
-
     }
 
+    override fun onResume() {
+        super.onResume()
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.getMySettings(arguments)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,7 +70,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         viewModel.loadProfilePhoto(
             requireContext(),
-            binding.userPhoto
+            binding.profileCard.userPhoto
         )
 
         binding.phoneNumber.setOnClickListener {
@@ -78,13 +95,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             )
         }
 
-        binding.changePhotoButton.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            pickPhoto.launch(intent)
-        }
-
         binding.changePassword.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment4_to_changePasswordFragment)
         }
@@ -99,27 +109,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             )
         }
 
-        binding.changeYear.setOnClickListener {
-            if (viewModel.years.value != null)
-                ChooseYearBottomSheet(
-                    viewModel.years.value!!
-                ).show(childFragmentManager, ChooseYearBottomSheet.TAG)
-        }
-
-        binding.cacheSize.text =
-            "Объем кэша: ${(viewModel.calculateCache(requireContext())).toDouble()}"
-        binding.clearCacheCard.setOnClickListener { TODO("clear cache") }
-
         binding.changeThemeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             viewModel.changeTheme(checkedId, requireContext())
-        }
-
-        binding.journalSettings.showHideTimeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.changeLessonTime(isChecked)
-        }
-
-        binding.journalSettings.showHideNumberSwitch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.changeLessonNumber(isChecked)
         }
 
         binding.aboutApp.setOnClickListener {
@@ -129,29 +120,45 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.logoutButton.setOnClickListener { viewModel.logout(requireContext()) }
 
         observeMySettings()
-        observeYears()
+        observeGradesNotifications()
+        observeErrors()
+        observeLoading()
     }
 
-    private fun observeYears() {
-        Singleton.currentYearId.observe(viewLifecycleOwner) { id ->
-            viewModel.years.observe(viewLifecycleOwner) {
-                binding.changeYearValue.text =
-                    viewModel.years.value!!.first { it.id == id }.name.replace("(*) ", "")
+    private fun observeGradesNotifications() {
+        binding.newGradeNotification.root.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && viewModel.enableGradeNotifications.value == false) {
+                    checkNotificationsPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    viewModel.changeGradeNotifications()
+                }
             }
+        }
+
+        viewModel.enableGradeNotifications.observe(viewLifecycleOwner) {
+            binding.newGradeNotification.newGradeNotificationSwitch.isChecked = it
+        }
+
+        viewModel.gradesNotificationsLoading.observe(viewLifecycleOwner) {
+            binding.newGradeNotification.newGradeNotificationSwitch.isEnabled = !it
+            binding.newGradeNotification.root.isClickable = !it
         }
     }
 
-    private fun observeShowTime() {
-        viewModel.showTime.observe(viewLifecycleOwner) {
-
+    private fun observeErrors() {
+        viewModel.errorMessage.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 
     private fun observeMySettings() {
         val regex = """(\d)(\d{3})(\d{3})(\d{2})(\d{2})""".toRegex()
         viewModel.mySettingsResponseEntity.observe(viewLifecycleOwner) {
-            binding.userName.text = "${it.lastName} ${it.firstName} ${it.middleName}"
-            binding.userLogin.text = it.loginName
+            binding.profileCard.userName.text = "${it.lastName} ${it.firstName} ${it.middleName}"
+            binding.profileCard.userLogin.text = it.loginName
             val birthday = DateManipulation(it.birthDate).dateFormatter()
             binding.birthdayDate.text = birthday
 
@@ -164,8 +171,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.sendSettings(requireContext())
+    private fun observeLoading() {
+        viewModel.loading.observe(viewLifecycleOwner) {
+        }
     }
 }

@@ -120,4 +120,5 @@
     <string name="sort_grades_by">Сортировка оценок</string>
     <string name="year_grade_header">Оценки за</string>
     <string name="sort_by">Сортировать по</string>
+    <string name="new_grade_notification">Уведомления о новых оценках</string>
 </resources>

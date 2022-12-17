@@ -37,12 +37,9 @@ class Settings(val context: Context) {
         val CURRENT_USER_ID = intPreferencesKey("current_user_id")
         val THEME = intPreferencesKey("theme")
         val CURRENT_TRIM_ID = stringPreferencesKey("current_trim_id")
-        val SHOW_LESSON_TIME = booleanPreferencesKey("show_lesson_time")
-        val SHOW_LESSON_NUMBER = booleanPreferencesKey("show_lesson_time")
         val LAST_VERSION_NUMBER = intPreferencesKey("last_version_number")
         val SHOW_UPDATE_DIALOG = booleanPreferencesKey("show_update_dialog")
         val SORT_GRADES_BY = intPreferencesKey("sort_grades_by")
-
 
         val CID = intPreferencesKey("cid")
         val SID = intPreferencesKey("sid")
@@ -60,8 +57,6 @@ class Settings(val context: Context) {
     val currentUserId = context.dataStore.data.map { it[CURRENT_USER_ID] ?: 0 }
     val currentTrimId = CURRENT_TRIM_ID.getValue()
     val regionUrl = REGION_URL.getValue()
-    val showLessonTime = SHOW_LESSON_TIME.getValue()
-    val showLessonNumber = SHOW_LESSON_NUMBER.getValue()
     val lastVersionNumber = LAST_VERSION_NUMBER.getValue()
     val showUpdateDialog = SHOW_UPDATE_DIALOG.getValue()
     val sortGradesBy = SORT_GRADES_BY.getValue()
@@ -145,14 +140,6 @@ class Settings(val context: Context) {
         prefs[CURRENT_TRIM_ID] = newId
     }
 
-    suspend fun changeLessonTime(b: Boolean) = context.dataStore.edit {
-        it[SHOW_LESSON_TIME] = b
-    }
-
-    suspend fun changeLessonNumber(b: Boolean) = context.dataStore.edit {
-        it[SHOW_LESSON_NUMBER] = b
-    }
-
     suspend fun changeLastVersionNumber(versionNumber: Int) = context.dataStore.edit {
         it[LAST_VERSION_NUMBER] = versionNumber
     }
@@ -160,5 +147,4 @@ class Settings(val context: Context) {
     suspend fun changeShowUpdateDialog(b: Boolean) = context.dataStore.edit {
         it[SHOW_UPDATE_DIALOG] = b
     }
-
 }

@@ -4,24 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
+import com.google.firebase.messaging.FirebaseMessaging
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.activities.LoginActivity
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.toDescription
+import com.mezhendosina.sgo.app.toLiveData
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsRequestEntity
+import com.mezhendosina.sgo.data.requests.notifications.entities.NotificationUserEntity
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.UserSettingsEntity
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -36,11 +34,6 @@ class SettingsViewModel(
     private val _mySettingsResponseEntity = MutableLiveData<MySettingsResponseEntity>()
     val mySettingsResponseEntity: LiveData<MySettingsResponseEntity> = _mySettingsResponseEntity
 
-    private val _years = MutableLiveData<List<YearListResponseEntity>>()
-    val years: LiveData<List<YearListResponseEntity>> = _years
-
-    private val selectedYear = MutableLiveData<Int>()
-
     val phoneNumber = MutableLiveData<String>()
     val email = MutableLiveData<String>()
     val phoneNumberVisibility = MutableLiveData<Boolean>()
@@ -48,36 +41,46 @@ class SettingsViewModel(
     private val controlQuestion = MutableLiveData<String>()
     private val controlAnswer = MutableLiveData<String>()
 
-    val showTime = MutableLiveData<Boolean>()
-    val showNumber = MutableLiveData<Boolean>()
+    private val _enableGradeNotifications = MutableLiveData<Boolean>()
+    val enableGradeNotifications: LiveData<Boolean> = _enableGradeNotifications
+
+    private val _gradesNotificationsLoading = MutableLiveData<Boolean>(false)
+    val gradesNotificationsLoading = _gradesNotificationsLoading.toLiveData()
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
+    private val _loading = MutableLiveData<Boolean>(false)
+    val loading = _loading.toLiveData()
 
-    fun getMySettings(arguments: Bundle?) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val settings = settingsRepository.getMySettings()
-                val yearList = settingsRepository.getYears()
-                withContext(Dispatchers.Main) {
-                    _mySettingsResponseEntity.value = settings
-                    phoneNumber.value = settings.mobilePhone
-                    email.value = settings.email
-                    phoneNumberVisibility.value = settings.userSettings.showMobilePhone
+    var firebaseToken: String? = null
 
-                    controlQuestion.value =
-                        arguments?.getString(CONTROL_QUESTION)
-                            ?: settings.userSettings.recoveryQuestion
-                    controlAnswer.value =
-                        arguments?.getString(CONTROL_ANSWER) ?: settings.userSettings.recoveryAnswer
-                    _years.value = yearList
-                    selectedYear.value = yearList.find { !it.name.contains("(*)") }?.id
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    _errorMessage.value = e.toDescription()
-                }
+    suspend fun getMySettings(arguments: Bundle?) {
+        try {
+            withContext(Dispatchers.Main) {
+                _loading.value = true
+            }
+            val settingsResponse = settingsRepository.getMySettings()
+            val settings = Settings(Singleton.getContext())
+            isGradesNotifySignIn(settings)
+            withContext(Dispatchers.Main) {
+                _mySettingsResponseEntity.value = settingsResponse
+                phoneNumber.value = settingsResponse.mobilePhone
+                email.value = settingsResponse.email
+                phoneNumberVisibility.value = settingsResponse.userSettings.showMobilePhone
+
+                controlQuestion.value = arguments?.getString(CONTROL_QUESTION)
+                    ?: settingsResponse.userSettings.recoveryQuestion
+                controlAnswer.value = arguments?.getString(CONTROL_ANSWER)
+                    ?: settingsResponse.userSettings.recoveryAnswer
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                _errorMessage.value = e.toDescription()
+            }
+        } finally {
+            withContext(Dispatchers.Main) {
+                _loading.value = false
             }
         }
     }
@@ -91,9 +94,7 @@ class SettingsViewModel(
                 val settings = Settings(context)
 
                 settingsRepository.loadProfilePhoto(
-                    settings.currentUserId.first(),
-                    photoFile,
-                    isExist
+                    settings.currentUserId.first(), photoFile, isExist
                 )
 
                 withContext(Dispatchers.Main) {
@@ -121,55 +122,52 @@ class SettingsViewModel(
         AppCompatDelegate.setDefaultNightMode(themeId)
     }
 
-    fun changePhoto(context: Context, data: Intent) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val file = File(data.data.toString())
-                settingsRepository.changePhoto(
-                    file,
-                    Settings(context).currentUserId.first()
-                )
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    _errorMessage.value = e.toDescription()
+    suspend fun changeGradeNotifications() {
+
+        val settings = Settings(Singleton.getContext())
+        withContext(Dispatchers.Main) {
+            _gradesNotificationsLoading.value = true
+        }
+        try {
+            val token =
+                if (firebaseToken != null) firebaseToken
+                else {
+                    isGradesNotifySignIn(settings)
+                    firebaseToken
                 }
+            val loginData = settings.getLoginData()
+            val userId = settings.currentUserId.first()
+            val user = NotificationUserEntity(
+                userId,
+                token ?: "",
+                loginData.UN,
+                loginData.PW,
+                settings.regionUrl.first()?.dropLast(1) ?: "",
+                loginData.cid,
+                loginData.sid,
+                loginData.pid,
+                loginData.cn,
+                loginData.sft,
+                loginData.scid,
+                1
+            )
+            if (!_enableGradeNotifications.value!!) {
+                settingsRepository.registerGradesNotifications(user)
+            } else {
+                settingsRepository.unregisterGradesNotifications(userId, token ?: "")
             }
-        }
-    }
-
-    fun sendSettings(context: Context) {
-        val settingsResponse = _mySettingsResponseEntity.value
-        if (selectedYear.value != Singleton.currentYearId.value) Singleton.updateDiary.value = true
-        if (email.value != settingsResponse?.email || phoneNumber.value != settingsResponse?.mobilePhone || phoneNumberVisibility.value != settingsResponse?.userSettings?.showMobilePhone || settingsResponse?.userSettings?.recoveryQuestion != controlQuestion.value || settingsResponse?.userSettings?.recoveryAnswer != controlAnswer.value) {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val a = settingsResponse.toRequestEntity(context)
-                    settingsRepository.sendSettings(a)
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(
-                            context.applicationContext,
-                            "Изменения сохранены",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main) {
-                        _errorMessage.value = e.toDescription()
-                    }
-                }
+            withContext(Dispatchers.Main) {
+                _enableGradeNotifications.value = !_enableGradeNotifications.value!!
             }
-        }
-    }
-
-    fun changeLessonTime(b: Boolean) {
-        viewModelScope.launch {
-            Settings(Singleton.getContext()).changeLessonTime(b)
-        }
-    }
-
-    fun changeLessonNumber(b: Boolean) {
-        viewModelScope.launch {
-            Settings(Singleton.getContext()).changeLessonNumber(b)
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                _errorMessage.value = e.toDescription()
+                _enableGradeNotifications.value = _enableGradeNotifications.value!!
+            }
+        } finally {
+            withContext(Dispatchers.Main) {
+                _gradesNotificationsLoading.value = false
+            }
         }
     }
 
@@ -184,40 +182,43 @@ class SettingsViewModel(
         }
     }
 
-
-    fun calculateCache(context: Context): Long = context.cacheDir.calculateSizeRecursively()
-
-    private fun File.calculateSizeRecursively(): Long {
-        return walkBottomUp().fold(0L) { acc, file -> acc + file.length() }
-    }
-
-    private suspend fun MySettingsResponseEntity?.toRequestEntity(context: Context): MySettingsRequestEntity {
-        val userSettings = this?.userSettings
-
-        return MySettingsRequestEntity(
-            email.value.orEmpty(),
-            Regex("[^0-9]").replace(phoneNumber.value.orEmpty(), ""),
-            Singleton.currentYearId.value ?: 0,
-            this?.userId ?: 0,
-            UserSettingsEntity(
-                phoneNumberVisibility.value ?: false,
-                userSettings?.defaultDesktop ?: 0,
-                userSettings?.favoriteReports ?: emptyList(),
-                userSettings?.language ?: "ru",
-                userSettings?.passwordExpired ?: 0,
-                controlAnswer.value ?: "",
-                controlQuestion.value ?: "0",
-                userSettings?.showNetSchoolApp ?: true,
-                userSettings?.theme ?: 0,
-                userSettings?.userId ?: Settings(context).currentUserId.first()
-            ),
-            this?.windowsAccount
-        )
+    private suspend fun isGradesNotifySignIn(settings: Settings) {
+        if (firebaseToken == null) {
+            withContext(Dispatchers.Main) {
+                _gradesNotificationsLoading.value = true
+            }
+            FirebaseMessaging.getInstance().token.addOnSuccessListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val isExist = settingsRepository.isGradesNotifyUserExist(
+                        settings.currentUserId.first(),
+                        it
+                    )
+                    withContext(Dispatchers.Main) {
+                        _enableGradeNotifications.value = isExist
+                        firebaseToken = it
+                        _gradesNotificationsLoading.value = false
+                    }
+                }
+            }
+        } else {
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.Main) {
+                    _gradesNotificationsLoading.value = true
+                }
+                val isExist = settingsRepository.isGradesNotifyUserExist(
+                    settings.currentUserId.first(),
+                    firebaseToken ?: ""
+                )
+                withContext(Dispatchers.Main) {
+                    _enableGradeNotifications.value = isExist
+                    _gradesNotificationsLoading.value = false
+                }
+            }
+        }
     }
 
     companion object {
         const val CONTROL_QUESTION = "control_question"
         const val CONTROL_ANSWER = "control_answer"
-        const val YEAR = "year"
     }
 }

@@ -7,4 +7,22 @@ data class MySettingsRequestEntity(
     val userId: Int,
     val userSettings: UserSettingsEntity,
     val windowsAccount: Any?
-)
+) {
+    fun changeEmail(email: String): MySettingsRequestEntity = MySettingsRequestEntity(
+        email,
+        this.mobilePhone,
+        this.schoolyearId,
+        this.userId,
+        this.userSettings,
+        this.windowsAccount
+    )
+
+    fun changeMobilePhone(phoneNumber: String): MySettingsRequestEntity = MySettingsRequestEntity(
+        this.email,
+        phoneNumber,
+        this.schoolyearId,
+        this.userId,
+        this.userSettings,
+        this.windowsAccount
+    )
+}

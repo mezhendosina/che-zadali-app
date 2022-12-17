@@ -23,4 +23,8 @@ class RetrofitNotificationsSource(
             notificationsApi.unregisterUser(unregisterUserEntity)
         }
 
+    override suspend fun isUserExist(body: UnregisterUserEntity): Boolean =
+        wrapRetrofitExceptions {
+            notificationsApi.isUserExist(body)
+        }
 }

@@ -44,8 +44,6 @@ object Singleton {
     var at: String = ""
     var announcements: List<AnnouncementsResponseEntity> = emptyList()
 
-    val updateDiary = MutableLiveData<Boolean>(false)
-
     var currentYearId = MutableLiveData<Int>()
 
     var users: List<StudentResponseEntity> = emptyList()
@@ -57,7 +55,7 @@ object Singleton {
     var gradesOptions: GradeOptions? = null
     var grades: List<GradesItem> = emptyList()
 
-    var mySettings: MySettingsResponseEntity? = null
+    var mySettings: MutableLiveData<MySettingsResponseEntity> = MutableLiveData()
 
     val transition = MutableLiveData<Boolean>(null)
 
