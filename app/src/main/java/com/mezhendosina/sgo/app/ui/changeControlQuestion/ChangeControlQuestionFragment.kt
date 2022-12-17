@@ -43,14 +43,6 @@ class ChangeControlQuestionFragment : Fragment(R.layout.fragment_change_control_
             binding.selectedQuestionText.text = question
         }
 
-        val answer = arguments?.getString(ANSWER)
-        if (answer != null) {
-            binding.answerTextLayout.apply {
-                editText?.setText(answer)
-                endIconMode = TextInputLayout.END_ICON_NONE
-            }
-        }
-
         binding.selectedQuestionCard.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Выберите вопрос")
