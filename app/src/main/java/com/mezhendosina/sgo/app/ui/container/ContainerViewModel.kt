@@ -62,7 +62,7 @@ class ContainerViewModel(
     private fun showUpdateDialog() {
         viewModelScope.launch {
             if (BuildConfig.VERSION_CODE > (settings.lastVersionNumber.first() ?: 0)) {
-                settings.changeShowUpdateDialog(false)
+                settings.changeShowUpdateDialog(true)
                 settings.changeLastVersionNumber(BuildConfig.VERSION_CODE)
             } else if (settings.showUpdateDialog.first() != false) {
                 _showUpdateDialog.value = true
