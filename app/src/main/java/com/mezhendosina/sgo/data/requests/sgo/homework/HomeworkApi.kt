@@ -24,7 +24,7 @@ interface HomeworkApi {
     /**
     Получение прикрепленных ответов на задание
      */
-    @GET("/webapi/assignments/{assignmentId}/answers")
+    @GET("webapi/assignments/{assignmentId}/answers")
     suspend fun getAnswer(
         @Path("assignmentId") assignmentId: Int,
         @Query("studentID") studentId: Int
@@ -43,13 +43,13 @@ interface HomeworkApi {
         @Path("attachmentId") attachmentId: Int
     ): Response<ResponseBody>
 
-    @POST("/webapi/attachments/{attachmentId}/delete")
+    @POST("webapi/attachments/{attachmentId}/delete")
     suspend fun deleteAttachment(
         @Path("attachmentId") attachmentId: Int,
         @Body deleteAttachmentRequestEntity: DeleteAttachmentRequestEntity
     ): Response<ResponseBody>?
 
-    @POST("/webapi/attachments/{attachmentId}/description")
+    @POST("webapi/attachments/{attachmentId}/description")
     suspend fun editAttachmentDescription(
         @Path("attachmentId") attachmentId: Int,
         @Body description: String

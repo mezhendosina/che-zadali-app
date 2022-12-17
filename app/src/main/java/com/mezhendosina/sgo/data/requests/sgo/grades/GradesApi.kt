@@ -7,7 +7,7 @@ import retrofit2.http.*
 interface GradesApi {
 
     @Headers("Referer: https://sgo.edu-74.ru/angular/school/reports/")
-    @POST("/asp/Reports/ReportParentInfoLetter.asp")
+    @POST("asp/Reports/ReportParentInfoLetter.asp")
     @FormUrlEncoded
     suspend fun getParentInfoLetter(
         @Field("at") at: String,
@@ -15,7 +15,7 @@ interface GradesApi {
         @Field("RPTID") rptid: String = "ParentInfoLetter"
     ): Response<ResponseBody>
 
-    @POST("/asp/Reports/ParentInfoLetter.asp")
+    @POST("asp/Reports/ParentInfoLetter.asp")
     @FormUrlEncoded
     suspend fun getGrades(
         @Field("LoginType") loginType: String = "0",
