@@ -18,10 +18,14 @@ import com.mezhendosina.sgo.app.ui.adapters.OnSchoolClickListener
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.login.LoginFragment
 import com.mezhendosina.sgo.app.ui.showAnimation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region) {
 
-    private lateinit var binding: FragmentChooseSchoolOrRegionBinding
+    private var binding: FragmentChooseSchoolOrRegionBinding? = null
+
     private val viewModel: ChooseSchoolViewModel by viewModels()
 
     private val schoolAdapter = ChooseSchoolAdapter(object : OnSchoolClickListener {
@@ -38,45 +42,49 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.loadSchools()
-
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.loadSchools()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentChooseSchoolOrRegionBinding.bind(view)
-        if (!binding.schoolEditText.text.isNullOrEmpty()) {
+        if (!binding!!.schoolEditText.text.isNullOrEmpty()) {
             schoolAdapter.schools =
-                viewModel.findSchool(binding.schoolEditText.text.toString()) ?: emptyList()
+                viewModel.findSchool(binding!!.schoolEditText.text.toString()) ?: emptyList()
         }
 
-        binding.schoolEditText.addTextChangedListener(onTextChanged = { it, _, _, _ ->
+        binding!!.schoolEditText.addTextChangedListener(onTextChanged = { it, _, _, _ ->
             schoolAdapter.schools = viewModel.findSchool(it.toString()) ?: emptyList()
         })
 
-        binding.loadError.retryButton.setOnClickListener {
-            binding.schoolList.visibility = View.VISIBLE
-            viewModel.loadSchools()
+        binding!!.loadError.retryButton.setOnClickListener {
+            binding!!.schoolList.visibility = View.VISIBLE
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.loadSchools()
+            }
         }
 
-        observeSchools()
-        observeErrors()
-        observeLoading()
 
-        binding.schoolList.adapter = schoolAdapter
+        binding!!.schoolList.adapter = schoolAdapter
 
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
 
-        binding.schoolList.addItemDecoration(dividerItemDecoration)
+        binding!!.schoolList.addItemDecoration(dividerItemDecoration)
 
-        binding.schoolList.layoutManager = LinearLayoutManager(requireContext())
+        binding!!.schoolList.layoutManager = LinearLayoutManager(requireContext())
 
+        observeSchools()
+        observeErrors()
+        observeLoading()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 
     private fun observeSchools() {
@@ -87,26 +95,32 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
 
     private fun observeErrors() {
         viewModel.isError.observe(viewLifecycleOwner) {
-            if (it) {
-                showAnimation(binding.loadError.root)
-                binding.schoolList.visibility = View.GONE
+            if (binding != null) {
+                if (it) {
+                    showAnimation(binding!!.loadError.root)
+                    binding!!.schoolList.visibility = View.GONE
+                }
             }
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) {
-            binding.loadError.errorDescription.text = it
+            if (binding != null) {
+                binding!!.loadError.errorDescription.text = it
+            }
         }
 
     }
 
     private fun observeLoading() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (it) {
-                showAnimation(binding.progressIndicator)
-                binding.loadError.root.visibility = View.GONE
-            } else {
-                hideAnimation(binding.progressIndicator, View.GONE)
-                val schools = viewModel.findSchool(binding.schoolEditText.text.toString())
-                if (schools != null) schoolAdapter.schools = schools
+            if (binding != null) {
+                if (it) {
+                    showAnimation(binding!!.progressIndicator)
+                    binding!!.loadError.root.visibility = View.GONE
+                } else {
+                    hideAnimation(binding!!.progressIndicator, View.GONE)
+                    val schools = viewModel.findSchool(binding!!.schoolEditText.text.toString())
+                    if (schools != null) schoolAdapter.schools = schools
+                }
             }
         }
     }

@@ -8,9 +8,7 @@ import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 import com.mezhendosina.sgo.app.model.chooseSchool.schoolsActionListener
 import com.mezhendosina.sgo.app.toDescription
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ChooseSchoolViewModel(
@@ -41,23 +39,23 @@ class ChooseSchoolViewModel(
         return _schools.value?.filter { it.school.contains(string) }
     }
 
-    fun loadSchools() {
-        _isError.value = false
-        _isLoading.value = true
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                schoolService.loadSchools()
+    suspend fun loadSchools() {
+        withContext(Dispatchers.Main) {
+            _isError.value = false
+            _isLoading.value = true
+        }
+        try {
+            schoolService.loadSchools()
 
-            } catch (e: Exception) {
+        } catch (e: Exception) {
 
-                withContext(Dispatchers.Main) {
-                    _errorMessage.value = e.toDescription()
-                    _isError.value = true
-                }
-            } finally {
-                withContext(Dispatchers.Main) {
-                    _isLoading.value = false
-                }
+            withContext(Dispatchers.Main) {
+                _errorMessage.value = e.toDescription()
+                _isError.value = true
+            }
+        } finally {
+            withContext(Dispatchers.Main) {
+                _isLoading.value = false
             }
         }
     }

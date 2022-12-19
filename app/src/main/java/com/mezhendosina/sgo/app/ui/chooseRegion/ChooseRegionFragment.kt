@@ -17,17 +17,17 @@ import com.mezhendosina.sgo.app.databinding.FragmentChooseRegionBinding
 
 class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
-    private lateinit var binding: FragmentChooseRegionBinding
+    private var binding: FragmentChooseRegionBinding? = null
 
     internal val viewModel: ChooseRegionViewModel by viewModels()
     private val adapter = ChooseRegionAdapter(
         object : OnRegionClickListener {
             override fun invoke(id: String) {
-                    viewModel.setRegion(
-                        arguments?.getInt("from"),
-                        id,
-                        findNavController()
-                    )
+                viewModel.setRegion(
+                    arguments?.getInt("from"),
+                    id,
+                    findNavController()
+                )
             }
         }
     )
@@ -42,23 +42,29 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentChooseRegionBinding.bind(view)
         val remoteConfig = FirebaseRemoteConfig.getInstance()
-
-        binding.noFindQuestion.isVisible = remoteConfig.getBoolean("enableRequestRegion")
-        binding.noFindQuestion.setOnClickListener {
-            val intent =
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://t.me/che_zadaliBot?start=che")
-                ) //TODO replace che
-            startActivity(intent)
+        if (binding != null) {
+            binding!!.noFindQuestion.isVisible = remoteConfig.getBoolean("enableRequestRegion")
+            binding!!.noFindQuestion.setOnClickListener {
+                val intent =
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://t.me/che_zadaliBot?start=che")
+                    )
+                startActivity(intent)
+            }
+            binding!!.schoolList.adapter = adapter
+            binding!!.schoolList.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
-        binding.schoolList.adapter = adapter
-        binding.schoolList.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         observeRegions()
         observeErrors()
         observeLoading()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 
     private fun observeRegions() {
@@ -69,11 +75,13 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
     private fun observeErrors() {
         viewModel.errorMessage.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                binding.loadError.errorDescription.text = it
-                binding.loadError.root.visibility = View.VISIBLE
-            } else {
-                binding.loadError.root.visibility = View.GONE
+            if (binding != null) {
+                if (it.isNotEmpty()) {
+                    binding!!.loadError.errorDescription.text = it
+                    binding!!.loadError.root.visibility = View.VISIBLE
+                } else {
+                    binding!!.loadError.root.visibility = View.GONE
+                }
             }
         }
 
@@ -81,9 +89,11 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
     private fun observeLoading() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
-            binding.progressIndicator.isVisible = it
-            if (it) {
-                binding.loadError.root.visibility = View.GONE
+            if (binding != null) {
+                binding!!.progressIndicator.isVisible = it
+                if (it) {
+                    binding!!.loadError.root.visibility = View.GONE
+                }
             }
         }
     }

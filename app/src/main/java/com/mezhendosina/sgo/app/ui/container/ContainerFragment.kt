@@ -89,6 +89,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
     override fun onDestroy() {
         super.onDestroy()
         file.delete()
+        Singleton.journalTabsLayout = null
         findNavController().removeOnDestinationChangedListener(onDestinationChangedListener)
     }
 
