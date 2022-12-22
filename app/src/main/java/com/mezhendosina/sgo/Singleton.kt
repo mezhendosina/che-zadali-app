@@ -2,7 +2,6 @@ package com.mezhendosina.sgo
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Room
 import com.google.android.material.tabs.TabLayout
 import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
@@ -31,7 +30,6 @@ import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.room.AppDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -137,9 +135,10 @@ object Singleton {
     }
 
     // --- database
-    val database: AppDatabase by lazy {
-        Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database.db").build()
-    }
+//    val database: AppDatabase by lazy {
+//        Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database.db").build()
+//    }
+
     val ANNOUNCEMENTS_ID = "announcementsID"
 
 

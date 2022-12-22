@@ -5,7 +5,7 @@ plugins {
     id 'com.google.firebase.firebase-perf'
     id 'com.google.firebase.crashlytics'
 
-    id "kotlin-kapt"
+//    id "kotlin-kapt"
 }
 
 android {
@@ -22,15 +22,15 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 29
-        versionName '2.2.0'
+        versionName '2.2.1'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        kapt {
-            arguments {
-                arg("room.shemaLocation", "$projectDir/schemas")
-            }
-        }
+//        kapt {
+//            arguments {
+//                arg("room.shemaLocation", "$projectDir/schemas")
+//            }
+//        }
         signingConfig signingConfigs.debug
     }
 
@@ -134,11 +134,11 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
     // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-paging:2.4.3"
-    implementation "androidx.room:room-ktx:$room_version"
+//    implementation "androidx.room:room-runtime:$room_version"
+//    kapt "androidx.room:room-compiler:$room_version"
+//    annotationProcessor "androidx.room:room-compiler:$room_version"
+//    implementation "androidx.room:room-paging:2.4.3"
+//    implementation "androidx.room:room-ktx:$room_version"
 
     //shimmer for placeholders
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
