@@ -17,11 +17,6 @@ interface LoginApi {
     @FormUrlEncoded
     suspend fun login(
         @Field("LoginType") loginType: Int,
-        @Field("cid") cid: Int,
-        @Field("sid") sid: Int,
-        @Field("pid") pid: Int,
-        @Field("cn") cn: Int,
-        @Field("sft") sft: Int,
         @Field("scid") scid: Int,
         @Field("UN") UN: String,
         @Field("PW") PW: String,

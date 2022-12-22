@@ -143,13 +143,8 @@ class SettingsViewModel(
                 loginData.UN,
                 loginData.PW,
                 settings.regionUrl.first()?.dropLast(1) ?: "",
-                loginData.cid,
-                loginData.sid,
-                loginData.pid,
-                loginData.cn,
-                loginData.sft,
-                loginData.scid,
-                1
+                loginData.schoolId,
+                true
             )
             if (!_enableGradeNotifications.value!!) {
                 settingsRepository.registerGradesNotifications(user)

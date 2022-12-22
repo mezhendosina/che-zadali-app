@@ -27,9 +27,9 @@ class MainViewModel(
             val settingsLoginData = settings.getLoginData()
             loginRepository.login(
                 context,
-                settingsLoginData.scid,
                 settingsLoginData.UN,
                 settingsLoginData.PW,
+                settingsLoginData.schoolId,
                 false
             )
 

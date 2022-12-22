@@ -18,9 +18,9 @@ class LoginRepository(
 
     suspend fun login(
         context: Context,
-        schoolId: Int,
         login: String,
         password: String,
+        schoolId: Int,
         firstLogin: Boolean = true,
         onOneUser: () -> Unit = {},
         onMoreUser: (List<StudentResponseEntity>) -> Unit = {}
@@ -28,11 +28,6 @@ class LoginRepository(
         loginSource.loginData()
         val getData = loginSource.getData()
         val loginEntity = LoginEntity(
-            2,
-            1,
-            -1,
-            1,
-            2,
             schoolId,
             login,
             password,

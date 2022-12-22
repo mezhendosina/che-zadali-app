@@ -30,11 +30,6 @@ class RequestsUnitTest {
 
             val login = loginSource.login(
                 LoginEntity(
-                    2,
-                    1,
-                    -1,
-                    1,
-                    2,
                     89,
                     "МеньшенинЕ1",
                     "285639".toMD5(),

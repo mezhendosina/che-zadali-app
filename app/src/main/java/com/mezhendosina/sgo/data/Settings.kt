@@ -13,12 +13,7 @@ import kotlinx.coroutines.flow.map
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 data class SettingsLoginData(
-    val cid: Int,
-    val sid: Int,
-    val pid: Int,
-    val cn: Int,
-    val sft: Int,
-    val scid: Int,
+    val schoolId: Int,
     val UN: String,
     val PW: String,
 )
@@ -41,12 +36,7 @@ class Settings(val context: Context) {
         val SHOW_UPDATE_DIALOG = booleanPreferencesKey("show_update_dialog")
         val SORT_GRADES_BY = intPreferencesKey("sort_grades_by")
 
-        val CID = intPreferencesKey("cid")
-        val SID = intPreferencesKey("sid")
-        val pid = intPreferencesKey("pid")
-        val CN = intPreferencesKey("cn")
-        val SFT = intPreferencesKey("sft")
-        val SCID = intPreferencesKey("scid")
+        val SCHOOL_ID = intPreferencesKey("scid")
     }
 
     val loggedIn = context.dataStore.data.map { it[LOGGED_IN] ?: false }
@@ -79,12 +69,7 @@ class Settings(val context: Context) {
             prefs[LOGGED_IN] = loggedId
             prefs[LOGIN] = loginData.login
             prefs[PASSWORD] = loginData.password
-            prefs[CID] = loginData.countryId
-            prefs[SID] = loginData.stateId
-            prefs[pid] = loginData.provinceId
-            prefs[CN] = loginData.cityId
-            prefs[SFT] = loginData.schoolType
-            prefs[SCID] = loginData.schoolId
+            prefs[SCHOOL_ID] = loginData.schoolId
         }
     }
 
@@ -102,12 +87,7 @@ class Settings(val context: Context) {
             prefs[LOGGED_IN] = false
             prefs[LOGIN] = ""
             prefs[PASSWORD] = ""
-            prefs[CID] = 0
-            prefs[SID] = 0
-            prefs[pid] = 0
-            prefs[CN] = 0
-            prefs[SFT] = 0
-            prefs[SCID] = 0
+            prefs[SCHOOL_ID] = 0
         }
     }
 
@@ -120,12 +100,7 @@ class Settings(val context: Context) {
     suspend fun getLoginData(): SettingsLoginData {
         context.dataStore.data.first().let {
             return SettingsLoginData(
-                it[CID] ?: 0,
-                it[SID] ?: 0,
-                it[pid] ?: 0,
-                it[CN] ?: 0,
-                it[SFT] ?: 0,
-                it[SCID] ?: 0,
+                it[SCHOOL_ID] ?: 0,
                 it[LOGIN] ?: "",
                 it[PASSWORD] ?: ""
             )

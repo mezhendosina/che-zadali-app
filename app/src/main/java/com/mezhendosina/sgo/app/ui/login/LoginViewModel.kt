@@ -47,11 +47,12 @@ class LoginViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val passwordHash = password.toMD5()
+                val school = findSchool(schoolId)
                 loginRepository.login(
                     context,
-                    schoolId,
                     login,
                     passwordHash,
+                    school?.schoolId ?: 0,
                     onOneUser = {
                         val intent = Intent(context, MainActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

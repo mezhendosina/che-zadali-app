@@ -6,11 +6,6 @@ data class NotificationUserEntity(
     val login: String,
     val password: String,
     val host: String,
-    val countryId: Int,
-    val sid: Int,
-    val provinceId: Int,
-    val cityId: Int,
-    val sft: Int,
     val schoolId: Int,
-    val sendGrades: Int
+    val sendGrades: Boolean
 )

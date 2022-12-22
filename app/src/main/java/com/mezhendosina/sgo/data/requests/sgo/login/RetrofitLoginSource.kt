@@ -29,11 +29,6 @@ class RetrofitLoginSource(
 
             loginApi.login(
                 loginType = 1,
-                cid = loginEntity.countryId,
-                sid = loginEntity.stateId,
-                pid = loginEntity.provinceId,
-                cn = loginEntity.cityId,
-                sft = loginEntity.schoolType,
                 scid = loginEntity.schoolId,
                 UN = loginEntity.login,
                 PW = passwordMD5.slice(0..5),
