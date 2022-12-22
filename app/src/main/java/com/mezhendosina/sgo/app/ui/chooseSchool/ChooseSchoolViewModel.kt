@@ -35,20 +35,14 @@ class ChooseSchoolViewModel(
     }
 
 
-    fun findSchool(string: String): List<SchoolUiEntity>? {
-        return _schools.value?.filter { it.school.contains(string) }
-    }
-
-    suspend fun loadSchools() {
+    suspend fun findSchool(string: String) {
         withContext(Dispatchers.Main) {
             _isError.value = false
             _isLoading.value = true
         }
         try {
-            schoolService.loadSchools()
-
+            schoolService.findSchool(string)
         } catch (e: Exception) {
-
             withContext(Dispatchers.Main) {
                 _errorMessage.value = e.toDescription()
                 _isError.value = true

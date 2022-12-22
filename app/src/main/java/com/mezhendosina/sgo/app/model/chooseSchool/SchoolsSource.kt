@@ -4,5 +4,5 @@ import com.mezhendosina.sgo.data.requests.sgo.school.entities.SchoolResponseEnti
 
 interface SchoolsSource {
 
-    suspend fun getSchools(): List<SchoolResponseEntity>
+    suspend fun getSchools(query: String): List<SchoolResponseEntity>
 }

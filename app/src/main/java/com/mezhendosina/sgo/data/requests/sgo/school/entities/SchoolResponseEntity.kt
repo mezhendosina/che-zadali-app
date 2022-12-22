@@ -1,25 +1,31 @@
 package com.mezhendosina.sgo.data.requests.sgo.school.entities
 
+import com.google.gson.annotations.SerializedName
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 
 data class SchoolResponseEntity(
-    val addressString: String,
-    val cityDistrictId: Any,
+    @SerializedName("address")
+    val address: Any,
+    @SerializedName("cityId")
     val cityId: Int,
-    val countryId: Int,
-    val funcType: Int,
+    @SerializedName("id")
     val id: Int,
-    val municipalityDistrictId: Int,
+    @SerializedName("inn")
+    val inn: String,
+    @SerializedName("name")
     val name: String,
-    val parentCityId: Int,
+    @SerializedName("ogrn")
+    val ogrn: String,
+    @SerializedName("provinceId")
     val provinceId: Int,
-    val stateId: Int
+    @SerializedName("shortName")
+    val shortName: String
 ) {
     fun toUiEntity(): SchoolUiEntity = SchoolUiEntity(
-        addressString,
+        name.replace(shortName, "").replace("(", "").replace(")", ""),
         cityId,
-        municipalityDistrictId,
-        name,
+        provinceId,
+        shortName,
         id
     )
 }

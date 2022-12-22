@@ -1,11 +1,13 @@
 package com.mezhendosina.sgo.data.requests.sgo.school
 
-import okhttp3.ResponseBody
-import retrofit2.Response
+import com.mezhendosina.sgo.data.requests.sgo.school.entities.SchoolResponseEntity
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface SchoolsApi {
 
-    @GET("webapi/addresses/schools")
-    suspend fun getSchools(): Response<ResponseBody>
+    @GET("webapi/schools/search")
+    suspend fun getSchools(
+        @Query("name") schoolName: String
+    ): List<SchoolResponseEntity>
 }

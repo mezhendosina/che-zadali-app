@@ -42,9 +42,6 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.loadSchools()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,21 +49,16 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
 
         binding = FragmentChooseSchoolOrRegionBinding.bind(view)
         if (!binding!!.schoolEditText.text.isNullOrEmpty()) {
-            schoolAdapter.schools =
-                viewModel.findSchool(binding!!.schoolEditText.text.toString()) ?: emptyList()
+            findSchool(binding!!.schoolEditText.text.toString())
         }
 
         binding!!.schoolEditText.addTextChangedListener(onTextChanged = { it, _, _, _ ->
-            schoolAdapter.schools = viewModel.findSchool(it.toString()) ?: emptyList()
+            findSchool(it.toString())
         })
 
         binding!!.loadError.retryButton.setOnClickListener {
             binding!!.schoolList.visibility = View.VISIBLE
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.loadSchools()
-            }
         }
-
 
         binding!!.schoolList.adapter = schoolAdapter
 
@@ -85,6 +77,13 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
     override fun onDestroy() {
         super.onDestroy()
         binding = null
+    }
+
+
+    private fun findSchool(schoolName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.findSchool(schoolName)
+        }
     }
 
     private fun observeSchools() {
@@ -118,8 +117,7 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
                     binding!!.loadError.root.visibility = View.GONE
                 } else {
                     hideAnimation(binding!!.progressIndicator, View.GONE)
-                    val schools = viewModel.findSchool(binding!!.schoolEditText.text.toString())
-                    if (schools != null) schoolAdapter.schools = schools
+//                    findSchool(binding!!.schoolEditText.text.toString())
                 }
             }
         }

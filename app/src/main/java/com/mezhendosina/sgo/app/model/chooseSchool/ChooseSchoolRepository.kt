@@ -12,9 +12,8 @@ class ChooseSchoolRepository(private val schoolsSource: SchoolsSource) {
 
     private val listeners = mutableSetOf<schoolsActionListener>()
 
-    suspend fun loadSchools() {
-
-        val schoolsList = schoolsSource.getSchools().map { it.toUiEntity() }
+    suspend fun findSchool(name: String) {
+        val schoolsList = schoolsSource.getSchools(name).map { it.toUiEntity() }
 
         withContext(Dispatchers.Main) {
             schools = schoolsList.toMutableList()
