@@ -11,6 +11,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Streaming
 import retrofit2.http.Url
 
 interface UpdateApi {
@@ -19,8 +20,8 @@ interface UpdateApi {
     suspend fun getLatestUpdate(): CheckUpdates
 
     @GET
+    @Streaming
     suspend fun downloadFile(@Url url: String): Response<ResponseBody>
-
 }
 
 class ContainerRepository {
@@ -53,8 +54,10 @@ class ContainerRepository {
         }
     }
 
-    suspend fun downloadFile(url: String): ByteArray?  {
+    suspend fun downloadFile(url: String): ByteArray? {
         return baseRetrofitSource.wrapRetrofitExceptions {
+
+
             updateApi.downloadFile(url).body()?.byteStream()?.readBytes()
         }
     }

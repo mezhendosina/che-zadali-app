@@ -24,7 +24,7 @@ import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 class GradesFragment : Fragment(R.layout.fragment_grades) {
 
-    lateinit var binding: FragmentGradesBinding
+    private var binding: FragmentGradesBinding? = null
 
     internal val viewModel: GradesViewModel by viewModels()
 
@@ -49,52 +49,60 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGradesBinding.bind(view)
+        binding!!.termSelector.setOnClickListener(onTermSelectedListener())
 
-        binding.termSelector.setOnClickListener(onTermSelectedListener())
+        binding!!.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding!!.gradesRecyclerView.adapter = gradeAdapter
+
         observeGrades()
         observeErrors()
         observeLoading()
         observeTerms()
-
-        binding.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.gradesRecyclerView.adapter = gradeAdapter
 
         viewModel.load(requireContext())
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        TransitionManager.endTransitions(binding.mainLayout)
-        TransitionManager.endTransitions(binding.topBar)
+        if (binding != null) {
+            TransitionManager.endTransitions(binding!!.mainLayout)
+            TransitionManager.endTransitions(binding!!.topBar)
+            binding!!.gradesRecyclerView.adapter = null
+        }
+        binding = null
     }
 
 
     private fun observeGrades() {
         viewModel.grades.observe(viewLifecycleOwner) { list ->
-            if (list.any { !it.avg.isNullOrEmpty() }) {
-                gradeAdapter.grades = list
-                binding.emptyState.root.visibility = View.GONE
-                binding.gradesRecyclerView.visibility = View.VISIBLE
-                binding.termSelector.visibility = View.VISIBLE
-            } else {
-                binding.emptyState.root.visibility = View.VISIBLE
-                binding.gradesRecyclerView.visibility = View.GONE
-                binding.emptyState.emptyText.text = "Оценок нет"
-            }
-            binding.gradesRecyclerView.doOnPreDraw {
-                Singleton.transition.value = true
+            if (binding != null) {
+                if (list.any { !it.avg.isNullOrEmpty() }) {
+                    gradeAdapter.grades = list
+                    binding!!.emptyState.root.visibility = View.GONE
+                    binding!!.gradesRecyclerView.visibility = View.VISIBLE
+                    binding!!.termSelector.visibility = View.VISIBLE
+                } else {
+                    binding!!.emptyState.root.visibility = View.VISIBLE
+                    binding!!.gradesRecyclerView.visibility = View.GONE
+                    binding!!.emptyState.emptyText.text = "Оценок нет"
+                }
+                binding!!.gradesRecyclerView.doOnPreDraw {
+                    Singleton.transition.value = true
+                }
             }
         }
     }
 
     private fun observeTerms() {
         viewModel.terms.observe(viewLifecycleOwner) {
-            if (it.isNullOrEmpty()) {
-                binding.termSelector.visibility = View.INVISIBLE
-            } else {
-                binding.termSelector.isVisible = it.isNotEmpty()
-                viewModel.setCurrentTerm(requireContext(), binding.termSelector, it)
-                binding.termSelector.visibility = View.VISIBLE
+            if (binding != null) {
+                if (it.isNullOrEmpty()) {
+                    binding!!.termSelector.visibility = View.INVISIBLE
+                } else {
+                    binding!!.termSelector.isVisible = it.isNotEmpty()
+                    viewModel.setCurrentTerm(requireContext(), binding!!.termSelector, it)
+                    binding!!.termSelector.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -102,30 +110,33 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
     private fun observeLoading() {
         val fadeThrough = MaterialFadeThrough()
         val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-
-//        TransitionManager.beginDelayedTransition(binding.mainLayout, fadeThrough)
-//        TransitionManager.beginDelayedTransition(binding.topBar, sharedAxis)
+        if (binding != null) {
+            TransitionManager.beginDelayedTransition(binding!!.mainLayout, fadeThrough)
+            TransitionManager.beginDelayedTransition(binding!!.topBar, sharedAxis)
+        }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.loading.root.visibility = View.VISIBLE
-                binding.gradesRecyclerView.visibility = View.INVISIBLE
-                binding.termSelector.visibility = View.GONE
-                binding.loading.root.startShimmer()
-            } else {
-                binding.loading.root.visibility = View.GONE
-                binding.loading.root.stopShimmer()
+            if (binding != null) {
+                if (it) {
+                    binding!!.loading.root.visibility = View.VISIBLE
+                    binding!!.gradesRecyclerView.visibility = View.INVISIBLE
+                    binding!!.termSelector.visibility = View.GONE
+                    binding!!.loading.root.startShimmer()
+                } else {
+                    binding!!.loading.root.visibility = View.GONE
+                    binding!!.loading.root.stopShimmer()
+                }
             }
         }
     }
 
     private fun observeErrors() {
         viewModel.errorMessage.observe(viewLifecycleOwner) {
-            if (!it.isNullOrEmpty()) {
-                binding.errorMessage.errorDescription.text = it
-                binding.errorMessage.retryButton.setOnClickListener {
+            if (!it.isNullOrEmpty() && binding != null) {
+                binding!!.errorMessage.errorDescription.text = it
+                binding!!.errorMessage.retryButton.setOnClickListener {
                     viewModel.load(requireContext())
-                    binding.errorMessage.root.visibility = View.GONE
+                    binding!!.errorMessage.root.visibility = View.GONE
                 }
             }
         }
@@ -152,10 +163,8 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
             popup.dismiss()
 
             viewModel.reload(requireContext(), position)
-            binding.termSelector.text = viewModel.terms.value?.get(position)?.name ?: ""
+            binding?.termSelector?.text = viewModel.terms.value?.get(position)?.name ?: ""
         }
         popup.show()
     }
-
-
 }

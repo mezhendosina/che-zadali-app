@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.container.ContainerRepository
-import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.sgo.checkUpdates.CheckUpdates
 import com.mezhendosina.sgo.data.uriFromFile
@@ -50,11 +49,7 @@ class ContainerViewModel(
                 withContext(Dispatchers.Main) {
                     _latestUpdate.value = checkUpdates
                 }
-            } catch (e: Exception) {
-                val errorDescription = e.toDescription()
-                withContext(Dispatchers.Main) {
-                    _errorMessage.value = errorDescription
-                }
+            } catch (_: Exception) {
             }
         }
     }

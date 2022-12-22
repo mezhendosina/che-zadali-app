@@ -11,9 +11,8 @@ import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.requests.sgo.homework.entities.Attachment
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class AnnouncementsFragmentViewModel(
@@ -23,27 +22,28 @@ class AnnouncementsFragmentViewModel(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-    fun downloadAttachment(
+    suspend fun downloadAttachment(
         context: Context,
         attachment: Attachment,
         binding: ItemAttachmentBinding
     ) {
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                attachmentsRepository.downloadAttachment(
-                    context,
-                    attachment.id,
-                    attachment.originalFileName
-                )
-            } catch (e: Exception) {
+        try {
+            attachmentsRepository.downloadAttachment(
+                context,
+                attachment.id,
+                attachment.originalFileName
+            )
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
                 _errorMessage.value =
                     if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
                     else e.toDescription()
-            } finally {
+            }
+        } finally {
+            withContext(Dispatchers.Main) {
                 binding.progressBar.visibility = View.GONE
             }
         }
     }
-
 }
 

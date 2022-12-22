@@ -77,6 +77,7 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
             binding!!.journalPager.adapter = null
             binding!!.journalPager.unregisterOnPageChangeCallback(onPageChangeCallback)
             tabLayoutMediator?.detach()
+            tabLayoutMediator = null
             binding = null
         }
     }

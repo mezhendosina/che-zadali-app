@@ -19,6 +19,9 @@ import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.requests.sgo.homework.entities.Attachment
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
 
@@ -61,11 +64,13 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
                             attachment: Attachment,
                             binding: ItemAttachmentBinding
                         ) {
-                            viewModel.downloadAttachment(
-                                requireContext(),
-                                attachment,
-                                binding
-                            )
+                            CoroutineScope(Dispatchers.IO).launch {
+                                viewModel.downloadAttachment(
+                                    requireContext(),
+                                    attachment,
+                                    binding
+                                )
+                            }
                         }
                     }
                 )
