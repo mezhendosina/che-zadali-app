@@ -1,19 +1,35 @@
+<!--
+  ~ Copyright 2023 Eugene Menshenin
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-  <path
-      android:pathData="M20,21H3M17.167,11.556L11.5,17.222M11.5,17.222L5.833,11.556M11.5,17.222V4"
-      android:strokeLineJoin="round"
-      android:strokeWidth="2"
-      android:fillColor="#00000000"
-      android:strokeColor="#000000"
-      android:strokeLineCap="round" />
-  <group>
-    <clip-path android:pathData="M15,2h7v7h-7z" />
     <path
-        android:pathData="M18.5,7.148C18.631,7.148 18.743,7.103 18.835,7.013C18.928,6.923 18.974,6.81 18.974,6.674C18.974,6.543 18.929,6.43 18.839,6.335C18.749,6.24 18.636,6.193 18.5,6.193C18.369,6.193 18.257,6.24 18.165,6.335C18.072,6.43 18.026,6.543 18.026,6.674C18.026,6.805 18.071,6.917 18.161,7.009C18.251,7.102 18.364,7.148 18.5,7.148V7.148ZM18.07,5.865H18.93V3.947H18.07V5.865ZM18.5,8.548C18.077,8.548 17.681,8.469 17.311,8.311C16.942,8.153 16.619,7.935 16.341,7.658C16.065,7.381 15.847,7.058 15.689,6.689C15.531,6.319 15.452,5.923 15.452,5.5C15.452,5.072 15.531,4.675 15.689,4.308C15.847,3.941 16.065,3.619 16.341,3.342C16.619,3.065 16.942,2.847 17.311,2.689C17.681,2.531 18.077,2.452 18.5,2.452C18.928,2.452 19.325,2.531 19.692,2.689C20.059,2.847 20.381,3.065 20.658,3.342C20.935,3.619 21.153,3.941 21.311,4.308C21.469,4.675 21.548,5.072 21.548,5.5C21.548,5.923 21.469,6.319 21.311,6.689C21.153,7.058 20.935,7.381 20.658,7.658C20.381,7.935 20.059,8.153 19.692,8.311C19.325,8.469 18.928,8.548 18.5,8.548V8.548Z"
-        android:fillColor="#000000" />
-  </group>
+        android:pathData="M20,21H3M17.167,11.556L11.5,17.222M11.5,17.222L5.833,11.556M11.5,17.222V4"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round" />
+    <group>
+        <clip-path android:pathData="M15,2h7v7h-7z" />
+        <path
+            android:pathData="M18.5,7.148C18.631,7.148 18.743,7.103 18.835,7.013C18.928,6.923 18.974,6.81 18.974,6.674C18.974,6.543 18.929,6.43 18.839,6.335C18.749,6.24 18.636,6.193 18.5,6.193C18.369,6.193 18.257,6.24 18.165,6.335C18.072,6.43 18.026,6.543 18.026,6.674C18.026,6.805 18.071,6.917 18.161,7.009C18.251,7.102 18.364,7.148 18.5,7.148V7.148ZM18.07,5.865H18.93V3.947H18.07V5.865ZM18.5,8.548C18.077,8.548 17.681,8.469 17.311,8.311C16.942,8.153 16.619,7.935 16.341,7.658C16.065,7.381 15.847,7.058 15.689,6.689C15.531,6.319 15.452,5.923 15.452,5.5C15.452,5.072 15.531,4.675 15.689,4.308C15.847,3.941 16.065,3.619 16.341,3.342C16.619,3.065 16.942,2.847 17.311,2.689C17.681,2.531 18.077,2.452 18.5,2.452C18.928,2.452 19.325,2.531 19.692,2.689C20.059,2.847 20.381,3.065 20.658,3.342C20.935,3.619 21.153,3.941 21.311,4.308C21.469,4.675 21.548,5.072 21.548,5.5C21.548,5.923 21.469,6.319 21.311,6.689C21.153,7.058 20.935,7.381 20.658,7.658C20.381,7.935 20.059,8.153 19.692,8.311C19.325,8.469 18.928,8.548 18.5,8.548V8.548Z"
+            android:fillColor="#000000" />
+    </group>
 </vector>

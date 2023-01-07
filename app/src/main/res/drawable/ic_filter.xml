@@ -1,13 +1,29 @@
+<!--
+  ~ Copyright 2023 Eugene Menshenin
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-  <path
-      android:pathData="M2,4.6C2,4.04 2,3.76 2.109,3.546C2.205,3.358 2.358,3.205 2.546,3.109C2.76,3 3.04,3 3.6,3H20.4C20.96,3 21.24,3 21.454,3.109C21.642,3.205 21.795,3.358 21.891,3.546C22,3.76 22,4.04 22,4.6V5.269C22,5.538 22,5.673 21.967,5.798C21.938,5.908 21.89,6.013 21.826,6.108C21.753,6.214 21.651,6.302 21.448,6.478L15.052,12.021C14.849,12.198 14.747,12.286 14.675,12.392C14.61,12.487 14.562,12.592 14.533,12.702C14.5,12.827 14.5,12.962 14.5,13.231V18.458C14.5,18.654 14.5,18.752 14.469,18.836C14.441,18.911 14.395,18.978 14.336,19.031C14.269,19.092 14.179,19.128 13.997,19.201L10.597,20.561C10.23,20.708 10.046,20.782 9.898,20.751C9.769,20.724 9.656,20.648 9.583,20.538C9.5,20.412 9.5,20.214 9.5,19.818V13.231C9.5,12.962 9.5,12.827 9.467,12.702C9.438,12.592 9.39,12.487 9.326,12.392C9.253,12.286 9.151,12.198 8.948,12.021L2.552,6.478C2.349,6.302 2.247,6.214 2.174,6.108C2.11,6.013 2.062,5.908 2.033,5.798C2,5.673 2,5.538 2,5.269V4.6Z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="2"
-      android:fillColor="#00000000"
-      android:strokeColor="#000000"
-      android:strokeLineCap="round" />
+    <path
+        android:pathData="M2,4.6C2,4.04 2,3.76 2.109,3.546C2.205,3.358 2.358,3.205 2.546,3.109C2.76,3 3.04,3 3.6,3H20.4C20.96,3 21.24,3 21.454,3.109C21.642,3.205 21.795,3.358 21.891,3.546C22,3.76 22,4.04 22,4.6V5.269C22,5.538 22,5.673 21.967,5.798C21.938,5.908 21.89,6.013 21.826,6.108C21.753,6.214 21.651,6.302 21.448,6.478L15.052,12.021C14.849,12.198 14.747,12.286 14.675,12.392C14.61,12.487 14.562,12.592 14.533,12.702C14.5,12.827 14.5,12.962 14.5,13.231V18.458C14.5,18.654 14.5,18.752 14.469,18.836C14.441,18.911 14.395,18.978 14.336,19.031C14.269,19.092 14.179,19.128 13.997,19.201L10.597,20.561C10.23,20.708 10.046,20.782 9.898,20.751C9.769,20.724 9.656,20.648 9.583,20.538C9.5,20.412 9.5,20.214 9.5,19.818V13.231C9.5,12.962 9.5,12.827 9.467,12.702C9.438,12.592 9.39,12.487 9.326,12.392C9.253,12.286 9.151,12.198 8.948,12.021L2.552,6.478C2.349,6.302 2.247,6.214 2.174,6.108C2.11,6.013 2.062,5.908 2.033,5.798C2,5.673 2,5.538 2,5.269V4.6Z"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round" />
 </vector>

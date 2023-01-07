@@ -1,13 +1,29 @@
+<!--
+  ~ Copyright 2023 Eugene Menshenin
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-  <path
-      android:pathData="M4,14L5.575,20.299C5.619,20.476 5.641,20.564 5.667,20.642C5.923,21.397 6.604,21.928 7.399,21.993C7.48,22 7.571,22 7.754,22C7.982,22 8.097,22 8.193,21.991C9.145,21.898 9.898,21.145 9.991,20.193C10,20.097 10,19.982 10,19.754V5.5M18.5,13.5C20.433,13.5 22,11.933 22,10C22,8.067 20.433,6.5 18.5,6.5M10.25,5.5H6.5C4.015,5.5 2,7.515 2,10C2,12.485 4.015,14.5 6.5,14.5H10.25C12.016,14.5 14.177,15.447 15.844,16.356C16.817,16.886 17.303,17.151 17.622,17.112C17.917,17.076 18.14,16.943 18.313,16.701C18.5,16.44 18.5,15.918 18.5,14.874V5.126C18.5,4.082 18.5,3.56 18.313,3.299C18.14,3.057 17.917,2.924 17.622,2.888C17.303,2.849 16.817,3.114 15.844,3.644C14.177,4.553 12.016,5.5 10.25,5.5Z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="2"
-      android:fillColor="#00000000"
-      android:strokeColor="#000000"
-      android:strokeLineCap="round"/>
+    <path
+        android:pathData="M4,14L5.575,20.299C5.619,20.476 5.641,20.564 5.667,20.642C5.923,21.397 6.604,21.928 7.399,21.993C7.48,22 7.571,22 7.754,22C7.982,22 8.097,22 8.193,21.991C9.145,21.898 9.898,21.145 9.991,20.193C10,20.097 10,19.982 10,19.754V5.5M18.5,13.5C20.433,13.5 22,11.933 22,10C22,8.067 20.433,6.5 18.5,6.5M10.25,5.5H6.5C4.015,5.5 2,7.515 2,10C2,12.485 4.015,14.5 6.5,14.5H10.25C12.016,14.5 14.177,15.447 15.844,16.356C16.817,16.886 17.303,17.151 17.622,17.112C17.917,17.076 18.14,16.943 18.313,16.701C18.5,16.44 18.5,15.918 18.5,14.874V5.126C18.5,4.082 18.5,3.56 18.313,3.299C18.14,3.057 17.917,2.924 17.622,2.888C17.303,2.849 16.817,3.114 15.844,3.644C14.177,4.553 12.016,5.5 10.25,5.5Z"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"/>
 </vector>
