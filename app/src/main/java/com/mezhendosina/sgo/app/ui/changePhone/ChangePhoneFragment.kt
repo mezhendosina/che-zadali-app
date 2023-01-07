@@ -31,17 +31,16 @@ class ChangePhoneFragment : Fragment(R.layout.fragment_change_phone_number) {
         }
     }
 
-    private var phone = arguments?.getString(PHONE_NUMBER)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentChangePhoneNumberBinding.bind(view)
+        val phone = arguments?.getString(PHONE_NUMBER)
 
+        binding = FragmentChangePhoneNumberBinding.bind(view)
+        binding.editText.setText(phone)
         binding.textInputLayout.editText?.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                phone = s.toString()
-            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
@@ -88,10 +87,12 @@ class ChangePhoneFragment : Fragment(R.layout.fragment_change_phone_number) {
         })
 
         binding.fab.setOnClickListener {
-            viewModel.changePhone(binding.textInputLayout.editText?.text.toString())
-            findNavController().navigate(
-                R.id.action_changePhoneFragment_to_settingsFragment,
-            )
+            CoroutineScope(Dispatchers.Main).launch {
+                viewModel.changePhone(binding.textInputLayout.editText?.text.toString())
+                findNavController().navigate(
+                    R.id.action_changePhoneFragment_to_settingsFragment,
+                )
+            }
         }
     }
 
@@ -100,3 +101,4 @@ class ChangePhoneFragment : Fragment(R.layout.fragment_change_phone_number) {
         const val PHONE_VISIBILITY = "phone_visibility"
     }
 }
+

@@ -7,9 +7,7 @@ import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.app.toLiveData
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ChangePhoneViewModel(
@@ -21,8 +19,8 @@ class ChangePhoneViewModel(
 
     private val _mySettings = MutableLiveData<MySettingsResponseEntity>()
 
-    fun changePhone(changedPhone: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+    suspend fun changePhone(changedPhone: String) {
+        withContext(Dispatchers.IO) {
             try {
                 if (_mySettings.value != null) {
                     settingsRepository.sendSettings(

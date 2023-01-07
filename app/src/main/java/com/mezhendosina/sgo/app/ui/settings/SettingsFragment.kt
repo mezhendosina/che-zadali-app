@@ -54,6 +54,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onResume() {
         super.onResume()
         CoroutineScope(Dispatchers.IO).launch {
+            println("ok")
             viewModel.getMySettings(arguments)
         }
     }
@@ -122,7 +123,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         observeMySettings()
         observeGradesNotifications()
         observeErrors()
-        observeLoading()
     }
 
     private fun observeGradesNotifications() {
@@ -162,17 +162,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             val birthday = DateManipulation(it.birthDate).dateFormatter()
             binding.birthdayDate.text = birthday
 
-            if (it.mobilePhone.isNotEmpty()) binding.phoneNumberValue.text =
+            if (!it.mobilePhone.isNullOrEmpty()) binding.phoneNumberValue.text =
                 regex.replace(it.mobilePhone, "+$1 ($2) $3-$4$5")
             else binding.phoneNumberValue.visibility = View.GONE
 
-            if (it.email.isNotEmpty()) binding.emailValue.text = it.email
+            if (!it.email.isNullOrEmpty()) binding.emailValue.text = it.email
             else binding.emailValue.visibility = View.GONE
-        }
-    }
-
-    private fun observeLoading() {
-        viewModel.loading.observe(viewLifecycleOwner) {
         }
     }
 }

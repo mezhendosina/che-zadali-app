@@ -6,8 +6,8 @@ data class UserSettingsEntity(
     val favoriteReports: List<Any>,
     val language: String,
     val passwordExpired: Int,
-    val recoveryAnswer: String,
-    val recoveryQuestion: String,
+    val recoveryAnswer: String?,
+    val recoveryQuestion: String?,
     val showNetSchoolApp: Boolean,
     val theme: Int,
     val userId: Int

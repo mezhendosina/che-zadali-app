@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:hint="@string/phone_number"
+            android:id="@+id/edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:autofillHints="phone"

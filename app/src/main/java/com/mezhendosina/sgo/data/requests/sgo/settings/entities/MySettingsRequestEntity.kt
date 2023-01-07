@@ -1,8 +1,8 @@
 package com.mezhendosina.sgo.data.requests.sgo.settings.entities
 
 data class MySettingsRequestEntity(
-    val email: String,
-    val mobilePhone: String,
+    val email: String?,
+    val mobilePhone: String?,
     val schoolyearId: Int,
     val userId: Int,
     val userSettings: UserSettingsEntity,
@@ -19,7 +19,7 @@ data class MySettingsRequestEntity(
 
     fun changeMobilePhone(phoneNumber: String): MySettingsRequestEntity = MySettingsRequestEntity(
         this.email,
-        phoneNumber,
+        phoneNumber.replace("[^\\d]".toRegex(), ""),
         this.schoolyearId,
         this.userId,
         this.userSettings,

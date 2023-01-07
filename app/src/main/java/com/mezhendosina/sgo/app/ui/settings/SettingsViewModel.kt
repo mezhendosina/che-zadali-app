@@ -61,22 +61,22 @@ class SettingsViewModel(
                 _loading.value = true
             }
             val settingsResponse = settingsRepository.getMySettings()
-            val settings = Settings(Singleton.getContext())
-            isGradesNotifySignIn(settings)
+//            val settings = Settings(Singleton.getContext())
+//            isGradesNotifySignIn(settings)
             withContext(Dispatchers.Main) {
                 _mySettingsResponseEntity.value = settingsResponse
-                phoneNumber.value = settingsResponse.mobilePhone
-                email.value = settingsResponse.email
+                phoneNumber.value = settingsResponse.mobilePhone ?: ""
+                email.value = settingsResponse.email ?: ""
                 phoneNumberVisibility.value = settingsResponse.userSettings.showMobilePhone
 
                 controlQuestion.value = arguments?.getString(CONTROL_QUESTION)
-                    ?: settingsResponse.userSettings.recoveryQuestion
+                    ?: settingsResponse.userSettings.recoveryQuestion.toString()
                 controlAnswer.value = arguments?.getString(CONTROL_ANSWER)
-                    ?: settingsResponse.userSettings.recoveryAnswer
+                    ?: settingsResponse.userSettings.recoveryAnswer.toString()
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
-                _errorMessage.value = e.toDescription()
+                _errorMessage.value = e.localizedMessage
             }
         } finally {
             withContext(Dispatchers.Main) {
@@ -123,7 +123,6 @@ class SettingsViewModel(
     }
 
     suspend fun changeGradeNotifications() {
-
         val settings = Settings(Singleton.getContext())
         withContext(Dispatchers.Main) {
             _gradesNotificationsLoading.value = true
