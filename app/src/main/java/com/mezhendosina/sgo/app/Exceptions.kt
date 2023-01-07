@@ -6,6 +6,7 @@ open class AppException : RuntimeException {
 }
 
 class ConnectionException(cause: Throwable) : AppException(cause = cause)
+class TimeOutError(cause: Throwable) : AppException(cause = cause)
 
 /**
  * Server error exception
@@ -19,14 +20,13 @@ class ParseBackendResponseException(
     cause: Throwable
 ) : AppException(cause = cause)
 
-class TooManyCountGrades : AppException("Too many count grades")
-
 fun Exception.toDescription(): String {
     println(this.stackTraceToString())
     return when (this) {
         is BackendException -> this.message.toString()
         is ConnectionException -> "Нет подключения к интернету"
         is ParseBackendResponseException -> "Сервер отправил непонятный ответ"
+        is TimeOutError -> "Превышено время ожидания ответа от сервера"
         else -> "Что-то пошло не так"
     }
 }

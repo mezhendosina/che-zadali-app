@@ -4,9 +4,11 @@ import com.google.gson.JsonParseException
 import com.mezhendosina.sgo.app.BackendException
 import com.mezhendosina.sgo.app.ConnectionException
 import com.mezhendosina.sgo.app.ParseBackendResponseException
+import com.mezhendosina.sgo.app.TimeOutError
 import com.mezhendosina.sgo.data.Error
 import okio.IOException
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 open class BaseRetrofitSource(retrofitConfig: RetrofitConfig) {
     val retrofit = retrofitConfig.retrofit
@@ -20,6 +22,8 @@ open class BaseRetrofitSource(retrofitConfig: RetrofitConfig) {
             throw ParseBackendResponseException(e)
         } catch (e: HttpException) {
             throw createBackendException(e)
+        } catch (e: SocketTimeoutException) {
+            throw TimeOutError(e)
         } catch (e: IOException) {
             throw ConnectionException(e)
         }
