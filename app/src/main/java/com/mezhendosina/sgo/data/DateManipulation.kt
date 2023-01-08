@@ -24,14 +24,7 @@ import java.util.*
 data class WeekStartEndEntity(
     val weekStart: String,
     val weekEnd: String
-) {
-    fun toUI(): WeekStartEndEntity =
-        WeekStartEndEntity(
-            dateToJournalDate(this.weekStart),
-            dateToJournalDate(this.weekEnd)
-        )
-
-}
+)
 
 @SuppressLint("SimpleDateFormat")
 class DateManipulation(val date: String) {
@@ -90,43 +83,53 @@ fun dateToJournalDate(string: String): String {
 }
 
 fun getWeeksList(): List<WeekStartEndEntity> {
-    val curr = currentYearTime()
-    val calendar = Calendar.getInstance()
-    calendar.timeInMillis = curr
-    calendar.set(Calendar.DAY_OF_MONTH, 1)
+    val outList = mutableListOf<WeekStartEndEntity>()
+    val currentYearTime = currentYearTime()
 
-    calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    val minusWeekCalendar = Calendar.getInstance()
+    minusWeekCalendar.timeInMillis = currentYearTime
+    val plusWeekCalendar = Calendar.getInstance()
+    plusWeekCalendar.timeInMillis = currentYearTime
 
-    calendar.add(Calendar.YEAR, +1)
-    val nextYear = calendar.time
-
-    calendar.add(Calendar.YEAR, -1)
-
-    val outputList = mutableListOf<WeekStartEndEntity>()
-
-    while (nextYear.after(calendar.time)) {
-        outputList.add(
-            WeekStartEndEntity(
-                calendar.dateToSting(),
-                calendar.getWeekEnd(),
+    minusWeekCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    plusWeekCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    while (minusWeekCalendar[Calendar.MONTH] != 7 || plusWeekCalendar[Calendar.MONTH] != 6) {
+        if (minusWeekCalendar[Calendar.MONTH] != 7) {
+            minusWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1)
+            outList.add(
+                WeekStartEndEntity(
+                    minusWeekCalendar.dateToSting(),
+                    minusWeekCalendar.getWeekEnd()
+                )
             )
-        )
-        calendar.add(Calendar.DAY_OF_YEAR, 1)
-
+            println(minusWeekCalendar.dateToSting())
+        }
+        if (plusWeekCalendar[Calendar.MONTH] != 6) {
+            outList.add(
+                WeekStartEndEntity(
+                    plusWeekCalendar.dateToSting(),
+                    plusWeekCalendar.getWeekEnd()
+                )
+            )
+            plusWeekCalendar.add(Calendar.WEEK_OF_YEAR, 1)
+        }
     }
-    return outputList
+
+    return outList.sortedBy { it.weekStart }
 }
 
 private fun Calendar.dateToSting(): String = this.time.getDateByTime()
 
 private fun Calendar.getWeekEnd(): String {
-    this.add(Calendar.DAY_OF_MONTH, +6)
-    return this.time.getDateByTime()
+    this.add(Calendar.DAY_OF_YEAR, +6)
+    val weekEnd = this.time.getDateByTime()
+    this.add(Calendar.DAY_OF_YEAR, -6)
+    return weekEnd
 }
 
 @SuppressLint("SimpleDateFormat")
 fun currentYearTime(): Long {
-    val s = SimpleDateFormat("09.yyyy").format(Date().time)
+    val s = SimpleDateFormat("MM.yyyy").format(Date().time)
     val a = SimpleDateFormat("MM.yyyy").parse(s)!!
     return a.time
 }

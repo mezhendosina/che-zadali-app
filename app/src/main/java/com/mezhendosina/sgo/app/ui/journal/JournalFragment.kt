@@ -59,10 +59,15 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
             val tabLayout = Singleton.journalTabsLayout
             viewModel.weeks.observe(viewLifecycleOwner) { entityList ->
                 adapter.weeksList = entityList
-                if (Singleton.currentWeek == null) binding!!.journalPager.setCurrentItem(
-                    entityList.indexOf(entityList.find { it.weekStart == weekNow }),
-                    false
-                ) else binding!!.journalPager.setCurrentItem(Singleton.currentWeek!!, false)
+                if (Singleton.currentWeek == null) {
+                    println("current week start ${currentWeekStart()}")
+                    binding!!.journalPager.setCurrentItem(
+                        entityList.indexOf(entityList.find { it.weekStart == weekNow }),
+                        false
+                    )
+                } else {
+                    binding!!.journalPager.setCurrentItem(Singleton.currentWeek!!, false)
+                }
 
                 if (tabLayout != null) {
                     tabLayoutMediator = TabLayoutMediator(

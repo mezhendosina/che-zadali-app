@@ -16,13 +16,14 @@
 
 package com.mezhendosina.sgo.app
 
+import com.mezhendosina.sgo.data.getWeeksList
 import org.junit.Test
 
 class DiaryResponseMergingUnitTest {
 
     @Test
     fun test() {
-
+        println(getWeeksList().sortedBy { it.weekStart })
     }
 
 }
