@@ -56,15 +56,22 @@ class ChooseRegionViewModel : ViewModel() {
             _errorMessage.value = ""
             _isLoading.value = true
             val remoteConfig = FirebaseRemoteConfig.getInstance()
-            val configSettings = FirebaseRemoteConfigSettings.Builder().apply {
-                minimumFetchIntervalInSeconds = 5
-            }.build()
+            val configSettings = FirebaseRemoteConfigSettings.Builder().build()
             remoteConfig.setConfigSettingsAsync(configSettings)
             remoteConfig.fetchAndActivate().addOnCompleteListener {
-                _regions.value = Gson().fromJson(
-                    remoteConfig.getValue("regions").asString(),
-                    ChooseRegionUiEntity::class.java
-                )
+                val result = remoteConfig.getValue("regions").asString()
+                _regions.value = if (result.isEmpty()) {
+                    Gson().fromJson(
+                        "[{\"name\":\"Челябинская область\",\"url\":\"https://sgo.edu-74.ru/\"},{\"name\":\"Алтайский край\",\"url\":\"https://netschool.edu22.info/\"},{\"name\":\"Амурская область\",\"url\":\"https://region.obramur.ru/\"},{\"name\":\"Калужская область\",\"url\":\"https://edu.admoblkaluga.ru:444/\"},{\"name\":\"Костромская область\",\"url\":\"https://netschool.eduportal44.ru/\"},{\"name\":\"Краснодарский край\",\"url\":\"https://sgo.rso23.ru/\"},{\"name\":\"Ленинградская область\",\"url\":\"https://e-school.obr.lenreg.ru/\"},{\"name\":\"Забайкальский край\",\"url\":\"https://region.zabedu.ru/\"}]",
+                        ChooseRegionUiEntity::class.java
+                    )
+                } else {
+                    Gson().fromJson(
+                        result,
+                        ChooseRegionUiEntity::class.java
+                    )
+                }
+                println(_regions.value)
             }
             _isLoading.value = false
         } catch (e: Exception) {

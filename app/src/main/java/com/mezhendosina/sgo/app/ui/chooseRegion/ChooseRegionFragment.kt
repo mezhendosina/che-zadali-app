@@ -85,7 +85,9 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
     private fun observeRegions() {
         viewModel.regions.observe(viewLifecycleOwner) {
-            adapter.regions = it
+            if (it != null) {
+                adapter.regions = it
+            }
         }
     }
 
