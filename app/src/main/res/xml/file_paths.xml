@@ -19,8 +19,8 @@
         name="my_cache"
         path="." />
     <external-path
-        name="sgo app"
-        path="/" />
+        name="external_files"
+        path="." />
     <external-files-path
         name="sgo app"
         path="/" />

@@ -92,7 +92,7 @@ class SettingsViewModel(
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
-                _errorMessage.value = e.localizedMessage
+                _errorMessage.value = e.toDescription()
             }
         } finally {
             withContext(Dispatchers.Main) {

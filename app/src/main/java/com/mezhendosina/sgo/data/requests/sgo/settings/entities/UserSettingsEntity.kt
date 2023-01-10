@@ -26,5 +26,6 @@ data class UserSettingsEntity(
     val recoveryQuestion: String?,
     val showNetSchoolApp: Boolean,
     val theme: Int,
-    val userId: Int
+    val userId: Int,
+    val showSferumBanner: Boolean
 )

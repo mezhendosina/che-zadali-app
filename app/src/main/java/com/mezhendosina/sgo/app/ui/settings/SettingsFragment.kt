@@ -70,7 +70,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onResume() {
         super.onResume()
         CoroutineScope(Dispatchers.IO).launch {
-            println("ok")
             viewModel.getMySettings(arguments)
         }
     }
