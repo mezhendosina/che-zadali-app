@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.data.requests.sgo.checkUpdates
+package com.mezhendosina.sgo.data.requests.github.checkUpdates
 
 
 import com.google.gson.annotations.SerializedName

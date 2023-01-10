@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui.adapters
+package com.mezhendosina.sgo.app.ui.announcementsBottomSheet
 
 import android.view.LayoutInflater
 import android.view.View
