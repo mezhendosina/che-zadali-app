@@ -39,11 +39,16 @@
 
         <TextView
             android:id="@+id/homework"
-            style="@style/captions"
+            style="@style/mainText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:background="@null"
             android:ellipsize="end"
+            android:linksClickable="true"
             android:maxLines="3"
+            android:textColor="?attr/colorPrimary"
+            android:textIsSelectable="false"
             app:layout_constraintEnd_toStartOf="@id/due_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lesson_name"
