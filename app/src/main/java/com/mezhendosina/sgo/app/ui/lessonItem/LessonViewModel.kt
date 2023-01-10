@@ -70,10 +70,14 @@ class LessonViewModel(
     private val _snackBar = MutableLiveData(false)
     val snackbar: LiveData<Boolean> = _snackBar
 
-
     init {
-        _lesson.value = Singleton.lesson
-        viewModelScope.launch { loadGrades() }
+        if (Singleton.lesson != null) {
+            _lesson.value = Singleton.lesson
+            viewModelScope.launch { loadGrades() }
+        } else if (Singleton.pastMandatoryItem != null) {
+            _lesson.value = Singleton.pastMandatoryItem!!.toLessonEntity()
+            viewModelScope.launch { loadHomework(Singleton.pastMandatoryItem!!.id) }
+        }
     }
 
 
@@ -128,7 +132,7 @@ class LessonViewModel(
                     withContext(Dispatchers.Main) {
                         onComplete.invoke()
                     }
-                    loadHomework(Singleton.getContext())
+                    loadHomework()
                 }
             } catch (e: Exception) {
                 _errorMessage.value = e.toDescription()
@@ -139,15 +143,22 @@ class LessonViewModel(
 
     fun sendAnswer(context: Context, answer: String) {
         val settings = Settings(context)
-        val assignment = _lesson.value?.assignments?.find { it.typeId == 3 }
+        val assignmentId = if (Singleton.lesson != null) {
+            _lesson.value?.assignments?.find { it.typeId == 3 }!!.id
+        } else {
+            Singleton.pastMandatoryItem!!.id
+        }
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                assignment?.id?.let {
-                    homeworkSource.sendTextAnswer(
-                        it,
-                        settings.currentUserId.first(),
-                        answer
-                    )
+                val studentId = settings.currentUserId.first()
+                homeworkSource.sendTextAnswer(
+                    assignmentId,
+                    studentId,
+                    answer
+                )
+                val newAnswer = homeworkSource.getAnswer(assignmentId, studentId)
+                withContext(Dispatchers.Main) {
+                    _answerFiles.value = newAnswer
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -157,34 +168,62 @@ class LessonViewModel(
         }
     }
 
-    fun loadHomework(context: Context) {
-        val settings = Settings(context)
-        _lesson.value?.assignments?.forEach {
-            if (it.typeId == 3) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        val response = homeworkSource.getAboutAssign(
-                            it.id,
-                            settings.currentUserId.first()
-                        )
-                        val answerFiles = homeworkSource.getAnswer(
-                            it.id,
-                            settings.currentUserId.first()
-                        )
-                        withContext(Dispatchers.Main) {
-                            _homework.value = response
-                            _answerFiles.value = answerFiles
-                            _attachments.value = response.attachments
+    fun loadHomework(id: Int? = null) {
+        val settings = Settings(Singleton.getContext())
+        if (id == null) {
+            _lesson.value?.assignments?.forEach {
+                if (it.typeId == 3) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val studentId = settings.currentUserId.first()
+                            val response = homeworkSource.getAboutAssign(
+                                it.id,
+                                studentId
+                            )
+                            val answerFiles = homeworkSource.getAnswer(
+                                it.id,
+                                studentId
+                            )
+                            withContext(Dispatchers.Main) {
+                                _homework.value = response
+                                _answerFiles.value = answerFiles
+                                _attachments.value = response.attachments
+                            }
+                        } catch (e: Exception) {
+                            withContext(Dispatchers.Main) {
+                                _errorMessage.value = e.toDescription()
+                            }
                         }
-                    } catch (e: Exception) {
-                        withContext(Dispatchers.Main) {
-                            _errorMessage.value = e.toDescription()
-                        }
+                    }
+                }
+            }
+        } else {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val studentId = settings.currentUserId.first()
+                    val response = homeworkSource.getAboutAssign(
+                        id,
+                        studentId
+                    )
+                    val answerFiles = homeworkSource.getAnswer(
+                        id,
+                        studentId
+                    )
+                    withContext(Dispatchers.Main) {
+                        println(response)
+                        _homework.value = response
+                        _answerFiles.value = answerFiles
+                        _attachments.value = response.attachments
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        _errorMessage.value = e.toDescription()
                     }
                 }
             }
         }
     }
+
 
     private suspend fun loadGrades() {
         try {

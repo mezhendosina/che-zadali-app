@@ -98,8 +98,8 @@ class HomeworkAdapter(
             lessonName.text = lesson.subjectName
             lessonTime.text = "${lesson.startTime} - ${lesson.endTime}"
 
-            if (lesson.homework != null) {
-                if (lesson.homework.assignmentName.isNotEmpty()) {
+            if (lesson.homework != null || lesson.assignments?.find { it.mark != null } != null) {
+                if (lesson.homework?.assignmentName?.isNotEmpty() == true) {
                     homework.visibility = View.VISIBLE
                     homework.text = lesson.homework.assignmentName
                 } else {

@@ -16,9 +16,26 @@
 
 package com.mezhendosina.sgo.data.requests.sgo.diary.entities
 
+import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
+
 data class PastMandatoryEntity(
     val id: Int,
     val subjectName: String,
     val assignmentName: String,
-    val dueDate: String
-)
+    val dueDate: String,
+    val classMeetingId: Int,
+
+    ) {
+    fun toLessonEntity(): LessonUiEntity = LessonUiEntity(
+        null,
+        null,
+        classMeetingId,
+        "",
+        "",
+        false,
+        0,
+        0,
+        "",
+        subjectName
+    )
+}

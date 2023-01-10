@@ -42,6 +42,7 @@ import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.requests.sgo.SourceProviderHolder
 import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
@@ -61,9 +62,9 @@ object Singleton {
     var currentYearId = MutableLiveData<Int>()
 
     var users: List<StudentResponseEntity> = emptyList()
-    var lesson = LessonUiEntity(
-        emptyList(), null, 0, "", "", false, 0, 0, "", ""
-    )
+    var lesson: LessonUiEntity? = null
+    var pastMandatoryItem: PastMandatoryEntity? = null
+
     var schools = mutableListOf<SchoolUiEntity>()
 
     var gradesOptions: GradeOptions? = null

@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui.adapters
+package com.mezhendosina.sgo.app.ui.journalItem
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemPastMandatoryBinding
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
 
-class PastMandatoryAdapter : RecyclerView.Adapter<PastMandatoryAdapter.PastMandatoryViewHolder>() {
+typealias PastMandatoryClickListener = (PastMandatoryEntity) -> Unit
+
+class PastMandatoryAdapter(
+    private val pastMandatoryClickListener: PastMandatoryClickListener
+) : RecyclerView.Adapter<PastMandatoryAdapter.PastMandatoryViewHolder>(),
+    View.OnClickListener {
 
     var items: List<PastMandatoryEntity> = emptyList()
         set(value) {
@@ -34,14 +40,24 @@ class PastMandatoryAdapter : RecyclerView.Adapter<PastMandatoryAdapter.PastManda
     class PastMandatoryViewHolder(val binding: ItemPastMandatoryBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+    override fun onClick(v: View) {
+        val pastMandatoryItem = v.tag as PastMandatoryEntity
+
+        pastMandatoryClickListener.invoke(pastMandatoryItem)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PastMandatoryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemPastMandatoryBinding.inflate(inflater, parent, false)
+
+        binding.root.setOnClickListener(this)
+
         return PastMandatoryViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PastMandatoryViewHolder, position: Int) {
         val item = items[position]
+        holder.itemView.tag = item
         with(holder.binding) {
             this.dueDate.text = DateManipulation(item.dueDate).dateFormatter()
             this.homework.text = item.assignmentName

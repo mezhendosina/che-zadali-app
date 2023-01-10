@@ -22,11 +22,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,20 +56,23 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
     internal val viewModel: LessonViewModel by viewModels()
     private lateinit var binding: ItemLessonBinding
 
+    private val storagePermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            println(it)
+        }
+
     private val whyGradeAdapter = WhyGradeAdapter()
     private val attachmentAdapter = AttachmentAdapter(
         object : AttachmentClickListener {
             override fun onClick(attachment: Attachment, binding: ItemAttachmentBinding) {
-                val checkPermission =
-                    requireContext().checkSelfPermission(Manifest.permission_group.STORAGE)
-                if (checkPermission == PackageManager.PERMISSION_DENIED) {
-                    ActivityCompat.requestPermissions(
-                        requireActivity(),
-                        arrayOf(Manifest.permission_group.STORAGE),
-                        1100
-                    )
+                val permission =
+                    requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (permission == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    viewModel.downloadAttachment(requireContext(), attachment, binding)
+                } else {
+                    storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    viewModel.downloadAttachment(requireContext(), attachment, binding)
                 }
-                viewModel.downloadAttachment(requireContext(), attachment, binding)
             }
         }
     )
@@ -95,7 +99,8 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                     viewModel.lesson.value?.assignments?.first { it.typeId == 3 }?.id ?: 0,
                     file
                 ) {
-                    Snackbar.make(binding.root, "Описание изменено", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, "Описание изменено", Snackbar.LENGTH_LONG)
+                        .show()
                 }.show(childFragmentManager, "UPLOAD_FRAGMENT")
             }
 
@@ -110,17 +115,15 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-        viewModel.loadHomework(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = ItemLessonBinding.bind(view)
         CoroutineScope(Dispatchers.Main).launch {
             showAnimation(binding.progressBar)
             withContext(Dispatchers.IO) {
-                viewModel.loadHomework(requireContext())
+                viewModel.loadHomework()
             }
             hideAnimation(binding.progressBar, View.GONE)
         }
@@ -192,7 +195,7 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                 viewModel.lesson.value?.assignments?.first { it.typeId == 3 }?.id ?: 0
             ) {
                 Toast.makeText(requireContext(), "Файл загружен", Toast.LENGTH_LONG).show()
-                viewModel.loadHomework(requireContext())
+                viewModel.loadHomework()
             }.show(childFragmentManager, "UPLOAD_FRAGMENT")
         }
     }
@@ -204,7 +207,8 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             binding.toolbar.title = it.subjectName
             with(binding.homework) {
                 homeworkBody.text = homework?.assignmentName
-                dueDate.text = "Срок сдачи: ${homework?.dueDate?.let { it1 -> parseDate(it1) }}"
+                dueDate.text =
+                    "Срок сдачи: ${homework?.dueDate?.let { it1 -> parseDate(it1) }}"
                 with(binding.sendHomework.sendText) {
                     if (homework?.textAnswer != null) {
                         homeworkText.visibility = View.VISIBLE
@@ -217,7 +221,8 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                 }
             }
 
-            if (it.assignments.isNullOrEmpty()) binding.sendHomework.root.visibility = View.GONE
+            if (it.assignments.isNullOrEmpty()) binding.sendHomework.root.visibility =
+                View.GONE
         }
     }
 
@@ -269,6 +274,10 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             if (!assignResponse.description.isNullOrEmpty()) {
                 showComment(binding)
                 binding.homework.commentBody.text = assignResponse.description
+            }
+            if (Singleton.lesson == null) {
+                binding.homework.homeworkBody.text = assignResponse.assignmentName
+                binding.sendHomework.root.visibility = View.VISIBLE
             }
         }
     }

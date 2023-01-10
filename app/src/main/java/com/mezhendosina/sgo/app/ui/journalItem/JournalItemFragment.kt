@@ -28,7 +28,6 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentItemJournalBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
-import com.mezhendosina.sgo.app.ui.adapters.PastMandatoryAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,7 +39,11 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
 
     private val viewModel: JournalItemViewModel by viewModels()
 
-    private val pastMandatoryAdapter = PastMandatoryAdapter()
+    private val pastMandatoryAdapter = PastMandatoryAdapter {
+        Singleton.lesson = null
+        Singleton.pastMandatoryItem = it
+        findTopNavController().navigate(R.id.action_containerFragment_to_lessonFragment)
+    }
     private val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
         override fun invoke(p1: LessonUiEntity, p2: View) {
             Singleton.lesson = p1
@@ -62,7 +65,6 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
         observeWeek()
         observeLoading()
         observeError()
-
     }
 
 
