@@ -25,7 +25,7 @@ import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ModalSheetUpdateBinding
 import com.mezhendosina.sgo.app.ui.container.ContainerViewModel
-import com.mezhendosina.sgo.data.requests.sgo.checkUpdates.CheckUpdates
+import com.mezhendosina.sgo.data.requests.github.checkUpdates.CheckUpdates
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,7 +61,6 @@ class UpdateBottomSheetFragment(
     }
 
     companion object {
-        const val UPDATE_LOG = "update_log"
         const val TAG = "UpdateBottomSheet"
         fun newInstance(
             updates: CheckUpdates,

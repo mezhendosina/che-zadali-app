@@ -154,11 +154,12 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         viewModel.downloadState.observe(viewLifecycleOwner) {
             val updateProgress = binding.updateProgress.root
 
-            if (it) {
-                updateProgress.visibility = View.VISIBLE
-                binding.updateProgress.updateProgress.isIndeterminate = true
-            } else {
-                updateProgress.visibility = View.GONE
+            when (it) {
+                0, 100 -> updateProgress.visibility = View.GONE
+                else -> {
+                    updateProgress.visibility = View.VISIBLE
+                    binding.updateProgress.updateProgress.progress = it
+                }
             }
         }
     }
@@ -178,5 +179,4 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         this.visibility = View.GONE
 
     }
-
 }

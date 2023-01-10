@@ -18,9 +18,9 @@ package com.mezhendosina.sgo.app.model.attachments
 
 import android.content.Context
 import android.content.Intent
+import android.os.Environment
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
-import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,8 +36,8 @@ class AttachmentsRepository(
         attachmentId: Int,
         attachmentName: String,
     ) {
-        val dir = context.filesDir
-        val file = File(dir, attachmentName.addAttachmentId(attachmentId))
+        val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val file = File(dir, attachmentName)
 
         val isExist = withContext(Dispatchers.IO) {
             file.createNewFile()
@@ -53,12 +53,12 @@ class AttachmentsRepository(
 
         a?.await()
         val contentType = getMimeType(file.toURI().toString())
-        val fileUri =
-            FileProvider.getUriForFile(
-                context,
-                BuildConfig.APPLICATION_ID + ".provider",
-                file
-            )
+        val fileUri = FileProvider.getUriForFile(
+            context,
+            context.applicationContext.packageName + ".provider",
+            file
+        )
+
         val intent = Intent(Intent.ACTION_VIEW).apply {
             setDataAndType(fileUri, contentType)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

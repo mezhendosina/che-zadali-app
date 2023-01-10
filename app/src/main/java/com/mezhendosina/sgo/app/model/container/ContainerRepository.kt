@@ -17,18 +17,21 @@
 package com.mezhendosina.sgo.app.model.container
 
 import com.google.gson.Gson
+import com.mezhendosina.sgo.data.requests.Download
+import com.mezhendosina.sgo.data.requests.downloadToFileWithProgress
+import com.mezhendosina.sgo.data.requests.github.checkUpdates.CheckUpdates
 import com.mezhendosina.sgo.data.requests.sgo.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitConfig
-import com.mezhendosina.sgo.data.requests.sgo.checkUpdates.CheckUpdates
+import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Streaming
 import retrofit2.http.Url
+import java.io.File
 
 interface UpdateApi {
 
@@ -37,7 +40,7 @@ interface UpdateApi {
 
     @GET
     @Streaming
-    suspend fun downloadFile(@Url url: String): Response<ResponseBody>
+    suspend fun downloadFile(@Url url: String): ResponseBody
 }
 
 class ContainerRepository {
@@ -70,11 +73,8 @@ class ContainerRepository {
         }
     }
 
-    suspend fun downloadFile(url: String): ByteArray? {
-        return baseRetrofitSource.wrapRetrofitExceptions {
-
-
-            updateApi.downloadFile(url).body()?.byteStream()?.readBytes()
+    suspend fun downloadFile(url: String, file: File): Flow<Download> =
+        baseRetrofitSource.wrapRetrofitExceptions {
+            updateApi.downloadFile(url).downloadToFileWithProgress(file)
         }
-    }
 }

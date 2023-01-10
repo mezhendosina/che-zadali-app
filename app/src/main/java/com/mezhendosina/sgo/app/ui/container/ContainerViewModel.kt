@@ -26,7 +26,8 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.container.ContainerRepository
 import com.mezhendosina.sgo.data.Settings
-import com.mezhendosina.sgo.data.requests.sgo.checkUpdates.CheckUpdates
+import com.mezhendosina.sgo.data.requests.Download
+import com.mezhendosina.sgo.data.requests.github.checkUpdates.CheckUpdates
 import com.mezhendosina.sgo.data.uriFromFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,8 +46,9 @@ class ContainerViewModel(
     private val _latestUpdate = MutableLiveData<CheckUpdates>()
     val latestUpdate: LiveData<CheckUpdates> = _latestUpdate
 
-    private val _downloadState = MutableLiveData(false)
-    val downloadState: LiveData<Boolean> = _downloadState
+    private val _downloadState = MutableLiveData(0)
+    val downloadState: LiveData<Int> = _downloadState
+
 
     private val _showUpdateDialog = MutableLiveData(true)
     val showUpdateDialog: LiveData<Boolean> = _showUpdateDialog
@@ -92,23 +94,27 @@ class ContainerViewModel(
     fun downloadUpdate(context: Context, file: File, url: String) {
         CoroutineScope(Dispatchers.IO).launch {
             //TODO exception handling
-            withContext(Dispatchers.Main) { _downloadState.value = true }
-            val bytes = containerRepository.downloadFile(url)
-
-            if (bytes != null) {
-                file.writeBytes(bytes)
+            containerRepository.downloadFile(url, file).collect {
+                when (it) {
+                    is Download.Progress -> {
+                        withContext(Dispatchers.Main) {
+                            _downloadState.value = it.percent
+                        }
+                    }
+                    is Download.Finished -> {
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            setDataAndType(
+                                uriFromFile(context, file),
+                                "application/vnd.android.package-archive"
+                            )
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+                        withContext(Dispatchers.Main) { _downloadState.value = 100 }
+                        context.startActivity(intent)
+                    }
+                }
             }
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(
-                    uriFromFile(context, file),
-                    "application/vnd.android.package-archive"
-                )
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-            withContext(Dispatchers.Main) { _downloadState.value = false }
-            context.startActivity(intent)
         }
-
     }
 }
