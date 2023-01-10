@@ -117,7 +117,7 @@
     <string name="idea_author">Автор идеи</string>
     <string name="idea_author_text">Никита Лапшин</string>
     <string name="special_thanks_header">За активную помощь в тестировании спасибо</string>
-    <string name="special_thanks">Даниилу Барменкову\nВячеславу Сумину\nМарии Левчановой</string>
+    <string name="special_thanks">Даниилу Барменкову\nВячеславу Сумину\nМарии Левчановой\nhttps://github.com/ArtemBay</string>
     <string name="telegram_channel">Telegram-канал приложения</string>
     <string name="github_repo">GitHub-репозиторий</string>
     <string name="choose_region">Выберите регион</string>

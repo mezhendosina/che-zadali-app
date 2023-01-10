@@ -25,6 +25,8 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAboutAppBinding
+import io.noties.markwon.Markwon
+import io.noties.markwon.html.HtmlPlugin
 
 class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
 
@@ -42,6 +44,12 @@ class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
         binding = FragmentAboutAppBinding.bind(view)
 
         binding.appVersion.text = "v" + BuildConfig.VERSION_NAME
+
+        val markwon = Markwon.builder(requireContext()).usePlugin(HtmlPlugin.create()).build()
+        markwon.setMarkdown(
+            binding.specialThanks,
+            "Даниилу Барменкову<br>Вячеславу Сумину<br>Марии Левчановой<br><a href=\"https://github.com/ArtemBay\">ArtemBay</a>"
+        )
 
         binding.telegramChannelButton.setOnClickListener {
             val telegramIntent =
