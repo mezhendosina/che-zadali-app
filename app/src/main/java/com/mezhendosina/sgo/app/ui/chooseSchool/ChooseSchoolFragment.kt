@@ -23,7 +23,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
@@ -36,6 +35,7 @@ import com.mezhendosina.sgo.app.ui.login.LoginFragment
 import com.mezhendosina.sgo.app.ui.showAnimation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region) {
@@ -65,11 +65,16 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
 
         binding = FragmentChooseSchoolOrRegionBinding.bind(view)
         if (!binding!!.schoolEditText.text.isNullOrEmpty()) {
-            findSchool(binding!!.schoolEditText.text.toString())
+            CoroutineScope(Dispatchers.IO).launch {
+                findSchool(binding!!.schoolEditText.text.toString())
+            }
         }
 
-        binding!!.schoolEditText.addTextChangedListener(onTextChanged = { it, _, _, _ ->
-            findSchool(it.toString())
+        binding!!.schoolEditText.addTextChangedListener(afterTextChanged = {
+            CoroutineScope(Dispatchers.IO).launch {
+                delay(500)
+                findSchool(it.toString())
+            }
         })
 
         binding!!.loadError.retryButton.setOnClickListener {
@@ -77,11 +82,6 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
         }
 
         binding!!.schoolList.adapter = schoolAdapter
-
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-
-        binding!!.schoolList.addItemDecoration(dividerItemDecoration)
 
         binding!!.schoolList.layoutManager = LinearLayoutManager(requireContext())
 
@@ -96,10 +96,8 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
     }
 
 
-    private fun findSchool(schoolName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.findSchool(schoolName)
-        }
+    suspend fun findSchool(schoolName: String) {
+        viewModel.findSchool(schoolName)
     }
 
     private fun observeSchools() {

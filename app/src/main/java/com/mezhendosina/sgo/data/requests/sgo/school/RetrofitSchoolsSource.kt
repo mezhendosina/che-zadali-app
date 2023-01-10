@@ -28,5 +28,6 @@ class RetrofitSchoolsSource(config: RetrofitConfig) : BaseRetrofitSource(config)
     override suspend fun getSchools(query: String): List<SchoolResponseEntity> =
         wrapRetrofitExceptions {
             schoolsApi.getSchools(query)
+                .filter { it.name.contains("(МБОУ)|(МКОУ)|(СОШ)|(МАОУ)|(МКШ)|(СУНЦ)|(ШНОР)|(ШВОР)|(ГБПОУ)|(ГКОУ)".toRegex()) }
         }
 }
