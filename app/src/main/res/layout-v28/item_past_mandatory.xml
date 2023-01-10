@@ -17,21 +17,15 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
+    style="@style/Theme.SGOApp.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="8dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:outlineSpotShadowColor="?attr/colorError"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    app:cardUseCompatPadding="true">
+    android:outlineSpotShadowColor="?attr/colorError">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/Theme.SGOApp.OnCardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/lesson_name"
@@ -60,6 +54,7 @@
             style="@style/mainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoLink="all"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

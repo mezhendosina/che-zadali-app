@@ -46,20 +46,18 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/selected_school_card"
-        style="@style/MaterialCardView"
+        style="@style/Theme.SGOApp.CardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selected_school_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/onCard"
+            style="@style/Theme.SGOApp.OnCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/selected_school"

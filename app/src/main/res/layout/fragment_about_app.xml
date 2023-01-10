@@ -127,6 +127,7 @@
         android:text="@string/telegram_channel"
         android:textColor="?attr/colorOnBackground"
         app:icon="@drawable/ic_telegram_logo"
+        android:autoLink="web"
         app:iconSize="32dp"
         app:iconTint="@null"
         app:layout_constraintStart_toStartOf="parent"

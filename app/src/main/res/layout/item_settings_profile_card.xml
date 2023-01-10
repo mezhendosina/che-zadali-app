@@ -24,12 +24,10 @@
     app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/onCard"
+        style="@style/Theme.SGOApp.OnCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp">
+        android:background="@null">
 
         <ImageView
             android:id="@+id/user_photo"
