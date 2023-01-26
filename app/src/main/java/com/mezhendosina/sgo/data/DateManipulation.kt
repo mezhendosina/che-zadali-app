@@ -23,7 +23,9 @@ import java.util.*
 
 data class WeekStartEndEntity(
     val weekStart: String,
-    val weekEnd: String
+    val weekEnd: String,
+    val formattedWeekStart: String? = null,
+    val formattedWeekEnd: String? = null
 )
 
 @SuppressLint("SimpleDateFormat")
@@ -96,19 +98,27 @@ fun getWeeksList(): List<WeekStartEndEntity> {
     while (minusWeekCalendar[Calendar.MONTH] != 7 || plusWeekCalendar[Calendar.MONTH] != 6) {
         if (minusWeekCalendar[Calendar.MONTH] != 7) {
             minusWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1)
+            val weekStart = minusWeekCalendar.dateToSting()
+            val weekEnd = minusWeekCalendar.getWeekEnd()
             outList.add(
                 WeekStartEndEntity(
-                    minusWeekCalendar.dateToSting(),
-                    minusWeekCalendar.getWeekEnd()
+                    weekStart,
+                    weekEnd,
+                    tabDate(weekStart),
+                    tabDate(weekEnd)
                 )
             )
             println(minusWeekCalendar.dateToSting())
         }
         if (plusWeekCalendar[Calendar.MONTH] != 6) {
+            val weekStart = plusWeekCalendar.dateToSting()
+            val weekEnd = plusWeekCalendar.getWeekEnd()
             outList.add(
                 WeekStartEndEntity(
-                    plusWeekCalendar.dateToSting(),
-                    plusWeekCalendar.getWeekEnd()
+                    weekStart,
+                    weekEnd,
+                    tabDate(weekStart),
+                    tabDate(weekEnd)
                 )
             )
             plusWeekCalendar.add(Calendar.WEEK_OF_YEAR, 1)
