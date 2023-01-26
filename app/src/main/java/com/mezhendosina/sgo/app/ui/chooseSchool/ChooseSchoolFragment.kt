@@ -23,8 +23,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolOrRegionBinding
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
@@ -57,6 +58,7 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
         super.onCreate(savedInstanceState)
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
@@ -83,6 +85,13 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
 
         binding!!.schoolList.adapter = schoolAdapter
 
+
+        binding!!.schoolList.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.HORIZONTAL
+            )
+        )
         binding!!.schoolList.layoutManager = LinearLayoutManager(requireContext())
 
         observeSchools()
@@ -96,7 +105,7 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
     }
 
 
-    suspend fun findSchool(schoolName: String) {
+    private suspend fun findSchool(schoolName: String) {
         viewModel.findSchool(schoolName)
     }
 

@@ -63,7 +63,7 @@
 
     <Button
         android:id="@+id/more"
-        style="@style/ButtonIconOnly"
+        style="@style/Widget.SGOApp.Button.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"

@@ -19,7 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
+
     tools:context=".activities.LoginActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -35,7 +35,7 @@
             android:id="@+id/collapsingtoolbarlayout"
             android:layout_width="match_parent"
             android:layout_height="158dp"
-            android:background="?attr/backgroundColor"
+
             android:nestedScrollingEnabled="true"
             app:expandedTitleMarginStart="16dp"
             app:expandedTitleTextAppearance="@style/expandedToolBarText"

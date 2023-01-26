@@ -29,7 +29,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorOnBackground" />
+        app:tint="?attr/colorOnSurface" />
 
     <ImageView
         android:id="@+id/teachers_caption"
@@ -41,7 +41,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/attachment"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorOnBackground" />
+        app:tint="?attr/colorOnSurface" />
 
     <ImageView
         android:id="@+id/homework_answer"
@@ -53,5 +53,5 @@
         android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/teachers_caption"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorOnBackground" />
+        app:tint="?attr/colorOnSurface" />
 </androidx.constraintlayout.widget.ConstraintLayout>

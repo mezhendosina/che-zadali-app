@@ -21,8 +21,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.color.DynamicColors
 import com.google.firebase.FirebaseApp
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerLoginBinding
 import com.mezhendosina.sgo.app.ui.chooseRegion.ChooseRegionFragment
@@ -41,8 +43,9 @@ class SplashActivity : AppCompatActivity() {
         runBlocking {
             AppCompatDelegate.setDefaultNightMode(settings.theme.first())
         }
+        if (!BuildConfig.DEBUG) DynamicColors.applyToActivitiesIfAvailable(this.application)
+//        DynamicColors.applyToActivitiesIfAvailable(this.application)
         super.onCreate(savedInstanceState)
-
         Singleton.loadContext(applicationContext)
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -70,4 +73,6 @@ class SplashActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

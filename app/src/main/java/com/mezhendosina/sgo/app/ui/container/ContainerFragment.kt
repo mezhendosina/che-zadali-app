@@ -20,6 +20,8 @@ import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.ListPopupWindow
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,7 +32,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
@@ -38,10 +39,14 @@ import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 import com.mezhendosina.sgo.app.findTopNavController
+import com.mezhendosina.sgo.app.ui.TOOLBAR
 import com.mezhendosina.sgo.app.ui.announcementsBottomSheet.AnnouncementsBottomSheet
+import com.mezhendosina.sgo.app.ui.isB
 import com.mezhendosina.sgo.app.ui.updateBottomSheet.UpdateBottomSheetFragment
+import com.mezhendosina.sgo.data.Settings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -57,10 +62,10 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         NavController.OnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.journalFragment -> {
-                    binding.tabsLayout.slideDownAnimation()
+                    slideDownAnimation()
                 }
                 R.id.gradesFragment -> {
-                    binding.tabsLayout.slideUpAnimation()
+                    slideUpAnimation()
                 }
             }
         }
@@ -74,6 +79,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.checkUpdates()
         }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,33 +88,81 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         Singleton.journalTabsLayout = binding.tabsLayout
         val navHost = childFragmentManager.findFragmentById(R.id.tabs_container) as NavHostFragment
         val navController = navHost.navController
+        navController.addOnDestinationChangedListener(onDestinationChangedListener)
 
         binding.bottomNavigation.setupWithNavController(navController)
-        NavigationUI.setupWithNavController(
-            binding.toolbar,
-            navController,
-            AppBarConfiguration(setOf(R.id.gradesFragment, R.id.journalFragment))
-        )
-
-        binding.toolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
-
-        navController.addOnDestinationChangedListener(onDestinationChangedListener)
-        observeDownloadState()
-        observeUpdates()
-        Singleton.transition.observe(viewLifecycleOwner) {
-            if (it == true) {
-                Singleton.transition.value = false
+        CoroutineScope(Dispatchers.Main).launch {
+            if (isB()) {
+                binding.toolbar.setTitleTextAppearance(
+                    requireContext(),
+                    R.style.TextAppearance_SGOApp_ActionBar_Title
+                )
+                binding.toolbar.title = TOOLBAR
+            } else {
+                NavigationUI.setupWithNavController(
+                    binding.toolbar,
+                    navController,
+                    AppBarConfiguration(setOf(R.id.gradesFragment, R.id.journalFragment))
+                )
             }
         }
+        binding.toolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
+        binding.gradesTopBar.termSelector.setOnClickListener(onTermSelectedListener())
+        observeDownloadState()
+        observeUpdates()
+        observeGradesOptions()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         file.delete()
         Singleton.journalTabsLayout = null
+        Singleton.tabLayoutMediator = null
         findNavController().removeOnDestinationChangedListener(onDestinationChangedListener)
     }
 
+    private fun observeGradesOptions() {
+        val settings = Settings(Singleton.getContext())
+        Singleton.gradesOptions.observe(viewLifecycleOwner) { gradeOptions ->
+            if (gradeOptions != null) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    binding.gradesTopBar.termSelector.text =
+                        gradeOptions.TERMID.first { it.value == settings.currentTrimId.first() }.name
+                }
+            }
+        }
+    }
+
+    private fun onTermSelectedListener(): View.OnClickListener = View.OnClickListener { it1 ->
+        val popup = ListPopupWindow(
+            requireContext(),
+            null,
+            com.google.android.material.R.attr.listPopupWindowStyle
+        )
+
+        popup.anchorView = it1
+
+        val adapter =
+            ArrayAdapter(
+                requireContext(),
+                R.layout.item_list_popup_window,
+                Singleton.gradesOptions.value?.TERMID?.map { it.name } ?: emptyList()
+            )
+        popup.setAdapter(adapter)
+
+        popup.setOnItemClickListener { _, _, position, _ ->
+            popup.dismiss()
+            val settings = Settings(requireContext())
+
+            CoroutineScope(Dispatchers.IO).launch {
+                Singleton.gradesOptions.value?.TERMID?.get(position)?.let {
+                    println(it)
+                    settings.changeTRIMId(it.value)
+                }
+            }
+        }
+        popup.show()
+    }
 
     private fun setupOnMenuItemClickListener(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
@@ -165,18 +219,21 @@ class ContainerFragment : Fragment(R.layout.container_main) {
     }
 
 
-    private fun TabLayout.slideDownAnimation() {
+    private fun slideDownAnimation() {
         this.apply {
             val materialFade = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-            TransitionManager.beginDelayedTransition(this, materialFade)
-            visibility = View.VISIBLE
+            TransitionManager.beginDelayedTransition(binding.appbarLayout, materialFade)
+            binding.tabsLayout.visibility = View.VISIBLE
+            binding.gradesTopBar.root.visibility = View.GONE
+
         }
     }
 
-    private fun TabLayout.slideUpAnimation() {
+    private fun slideUpAnimation() {
         val materialFade = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        TransitionManager.beginDelayedTransition(this, materialFade)
-        this.visibility = View.GONE
+        TransitionManager.beginDelayedTransition(binding.appbarLayout, materialFade)
+        binding.tabsLayout.visibility = View.GONE
+        binding.gradesTopBar.root.visibility = View.VISIBLE
 
     }
 }

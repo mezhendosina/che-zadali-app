@@ -108,17 +108,18 @@ class UploadFileViewModel(
         }
     }
 
-    @SuppressLint("Range")
-    fun getFileNameFromUri(context: Context, uri: Uri?): String? {
-        return if (uri != null) {
-            val fileName: String?
-            val cursor = context.contentResolver.query(uri, null, null, null, null)
-            cursor?.moveToFirst()
-            fileName = cursor?.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-            cursor?.close()
-            fileName
-        } else {
-            ""
-        }
+}
+
+@SuppressLint("Range")
+fun getFileNameFromUri(context: Context, uri: Uri?): String? {
+    return if (uri != null) {
+        val fileName: String?
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        cursor?.moveToFirst()
+        fileName = cursor?.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+        cursor?.close()
+        fileName
+    } else {
+        ""
     }
 }

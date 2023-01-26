@@ -105,7 +105,7 @@ class UploadFileBottomSheet(
         filePath.observe(viewLifecycleOwner) {
             if (it != null) {
                 val path =
-                    viewModel.getFileNameFromUri(requireContext(), filePath.value?.data?.data)
+                    getFileNameFromUri(requireContext(), filePath.value?.data?.data)
                 binding.selectFile.text = path?.substring(path.lastIndexOf("/") + 1)
             }
         }

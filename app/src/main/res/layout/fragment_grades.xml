@@ -20,61 +20,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="?attr/backgroundColor"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.grades.GradesFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/top_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        app:elevation="0dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <Button
-                android:id="@+id/term_selector"
-                android:layout_width="wrap_content"
-                android:layout_height="52dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@null"
-                android:textAppearance="@style/mainScreenHeaders"
-                android:textColor="?attr/colorOnBackground"
-                android:textSize="18sp"
-                app:backgroundTint="?attr/colorSecondary"
-                app:cornerRadius="12dp"
-                app:icon="@drawable/ic_expand_more"
-                app:iconGravity="textEnd"
-                app:iconSize="24dp"
-                app:iconTint="?attr/colorOnBackground"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="1 триместр" />
-
-            <Button
-                style="@style/ButtonIconOnly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:insetLeft="16dp"
-                android:insetTop="12dp"
-                android:insetRight="16dp"
-                android:insetBottom="12dp"
-                android:visibility="gone"
-                app:icon="@drawable/ic_filter"
-                app:iconGravity="start|end|textStart"
-                app:iconPadding="0dp"
-                app:iconTint="?attr/colorOnBackground"
-                app:layout_constraintBottom_toBottomOf="@id/term_selector"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/term_selector" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_layout"
@@ -110,8 +58,9 @@
             android:id="@+id/grades_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:isScrollContainer="false"
             android:overScrollMode="never"
+            android:nestedScrollingEnabled="true"
+            android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -119,6 +68,7 @@
             tools:itemCount="7"
             tools:listitem="@layout/item_grade" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <include
         android:id="@+id/error_message"

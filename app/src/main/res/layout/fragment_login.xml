@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/selected_school_header"
-        style="@style/captions"
+        style="@style/captions.headers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -44,17 +44,18 @@
         app:layout_constraintStart_toStartOf="@id/selected_school_card"
         app:layout_constraintTop_toBottomOf="@id/progress_indicator" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/selected_school_card"
-        style="@style/Theme.SGOApp.CardView"
+        style="@style/Widget.SGOApp.CardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selected_school_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/Theme.SGOApp.OnCardView"
+            style="@style/Widget.SGOApp.OnCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
@@ -72,11 +73,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tool:text="МБОУ СОШ №68 г.Челябинска" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginTextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -97,7 +98,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"

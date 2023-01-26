@@ -14,43 +14,43 @@
   ~ limitations under the License.
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Theme.SGOApp.CardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/shape_diary"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/Theme.SGOApp.OnCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/announcement_header"
+        style="@style/mainText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:maxLines="1"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Олимпиада РАНХиГС" />
 
-        <TextView
-            android:id="@+id/announcement_header"
-            style="@style/mainText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:maxLines="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Олимпиада РАНХиГС" />
-
-        <TextView
-            android:id="@+id/announcement_body"
-            style="@style/captions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:ellipsize="end"
-            android:maxLines="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/announcement_header"
-            tools:text="Общероссийская олимпиада школьников РАНХиГС по обществознанию, английскому языку, немецкому языку, китайскому языку, истории, журналистике, политологии, экономике и финансовой грамотности.\n
+    <TextView
+        android:id="@+id/announcement_body"
+        style="@style/captions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:maxLines="2"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/announcement_header"
+        tools:text="Общероссийская олимпиада школьников РАНХиГС по обществознанию, английскому языку, немецкому языку, китайскому языку, истории, журналистике, политологии, экономике и финансовой грамотности.\n
 \nОлимпиада проходит в два этапа: отборочный (дистанционный формат);
 - заключительный этап олимпиады (на площадке Челябинского филиала РАНХиГС)." />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

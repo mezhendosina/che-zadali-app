@@ -207,8 +207,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             binding.toolbar.title = it.subjectName
             with(binding.homework) {
                 homeworkBody.text = homework?.assignmentName
-                dueDate.text =
-                    "Срок сдачи: ${homework?.dueDate?.let { it1 -> parseDate(it1) }}"
                 with(binding.sendHomework.sendText) {
                     if (homework?.textAnswer != null) {
                         homeworkText.visibility = View.VISIBLE
@@ -232,11 +230,9 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             with(binding.homework) {
                 if (it.isNotEmpty()) {
                     attachmentsList.attachmentsList.visibility = View.VISIBLE
-                    attachmentsDivider.visibility = View.VISIBLE
                     attachmentsList.attachmentsHeader.visibility = View.VISIBLE
                 } else {
                     attachmentsList.attachmentsList.visibility = View.GONE
-                    attachmentsDivider.visibility = View.GONE
                     attachmentsList.attachmentsHeader.visibility = View.GONE
                 }
             }
@@ -271,7 +267,7 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
 
     private fun observeHomework() {
         viewModel.homework.observe(viewLifecycleOwner) { assignResponse ->
-            if (!assignResponse.description.isNullOrEmpty()) {
+            if (assignResponse.description?.isNotEmpty() == true) {
                 showComment(binding)
                 binding.homework.commentBody.text = assignResponse.description
             }
@@ -312,7 +308,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
     private fun showComment(binding: ItemLessonBinding) {
         with(binding.homework) {
             commentBody.visibility = View.VISIBLE
-            commentDivider.visibility = View.VISIBLE
             commentHeader.visibility = View.VISIBLE
         }
 

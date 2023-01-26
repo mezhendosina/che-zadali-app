@@ -14,13 +14,11 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <array name="preloaded_fonts" translatable="false">
-        <item>@font/lobster</item>
-        <item>@font/open_sans</item>
-        <item>@font/roboto</item>
-        <item>@font/roboto_medium</item>
-        <item>@font/roboto_slab</item>
-        <item>@font/roboto_slab_bold</item>
-    </array>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/colorSurface" />
+    <corners android:radius="16dp" />
+    <stroke
+        android:color="?attr/strokeColor"
+        android:width="1dp" />
+</shape>

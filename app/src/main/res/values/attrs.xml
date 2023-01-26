@@ -16,6 +16,13 @@
 
 <resources>
     <attr name="colorGoodGrade" format="color" />
+    <attr name="colorOnGoodGrade" format="color" />
+    <attr name="colorGoodGradeContainer" format="color" />
+    <attr name="colorOnGoodGradeContainer" format="color" />
+    <attr name="harmonizeGoodGrade" format="boolean" />
     <attr name="colorMidGrade" format="color" />
-    <attr name="colorBadGrade" format="color" />
+    <attr name="colorOnMidGrade" format="color" />
+    <attr name="colorMidGradeContainer" format="color" />
+    <attr name="colorOnMidGradeContainer" format="color" />
+    <attr name="harmonizeMidGrade" format="boolean" />
 </resources>

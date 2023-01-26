@@ -17,10 +17,12 @@
 package com.mezhendosina.sgo.app.activities
 
 import android.os.Bundle
+import android.transition.TransitionManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
@@ -32,24 +34,41 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    var binding: ContainerLoginBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        binding = ContainerLoginBinding.inflate(layoutInflater)
         firebaseAnalytics = Firebase.analytics
+        if (binding != null) {
+            setContentView(binding!!.root)
+            setSupportActionBar(binding!!.toolbar)
 
-        val binding = ContainerLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+            val navHost =
+                supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+            navController = navHost.navController
 
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
-        navController = navHost.navController
+            binding!!.collapsingtoolbarlayout.setupWithNavController(
+                binding!!.toolbar,
+                navController
+            )
 
-        binding.collapsingtoolbarlayout.setupWithNavController(
-            binding.toolbar,
-            navController
-        )
+            navController.addOnDestinationChangedListener { _, _, _ ->
+                val materialSharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+                TransitionManager.beginDelayedTransition(
+                    binding!!.collapsingtoolbarlayout,
+                    materialSharedAxis
+                )
+            }
+
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        TransitionManager.endTransitions(binding?.collapsingtoolbarlayout)
+        binding = null
     }
 
 

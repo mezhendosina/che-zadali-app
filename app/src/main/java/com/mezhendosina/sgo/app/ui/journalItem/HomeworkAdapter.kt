@@ -19,7 +19,7 @@ package com.mezhendosina.sgo.app.ui.journalItem
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -77,7 +77,7 @@ class HomeworkAdapter(
 
     override fun onClick(v: View) {
         val lesson = v.tag as LessonUiEntity
-        val view = v.rootView.findViewById<CardView>(R.id.homework_item)
+        val view = v.rootView.findViewById<ConstraintLayout>(R.id.homework_item)
 
         onHomeworkClickListener(lesson, view)
     }

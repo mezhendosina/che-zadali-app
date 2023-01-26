@@ -51,7 +51,7 @@ class JournalItemViewModel(
         withContext(Dispatchers.IO) {
             try {
                 val findDiaryUiEntity =
-                    Singleton.loadedDiaryUiEntity.firstOrNull { it.weekStart == weekStart }
+                    Singleton.loadedDiaryUiEntity.find { it.weekStart == weekStart }
                 val a =
                     if (findDiaryUiEntity == null) {
                         val getWeek = journalRepository.getWeek(

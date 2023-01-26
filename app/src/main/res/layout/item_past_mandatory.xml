@@ -14,56 +14,56 @@
   ~ limitations under the License.
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
-    style="@style/Theme.SGOApp.CardView"
+    style="@style/Widget.SGOApp.OnCardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    android:minHeight="60dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/Theme.SGOApp.OnCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/lesson_name"
-            style="@style/mainText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/due_date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tool:text="Русский язык" />
+    <TextView
+        android:id="@+id/lesson_name"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnErrorContainer"
+        app:layout_constraintEnd_toStartOf="@id/due_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:text="Русский язык" />
 
-        <TextView
-            android:id="@+id/homework"
-            style="@style/mainText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:autoLink="web"
-            android:background="@null"
-            android:ellipsize="end"
-            android:linksClickable="true"
-            android:maxLines="3"
-            android:textColor="?attr/colorPrimary"
-            android:textIsSelectable="false"
-            app:layout_constraintEnd_toStartOf="@id/due_date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lesson_name"
-            tool:text="Выучить все" />
+    <TextView
+        android:id="@+id/homework"
+        style="@style/mainText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:autoLink="web"
+        android:background="@null"
+        android:ellipsize="end"
+        android:linksClickable="true"
+        android:maxLines="2"
+        android:textColor="?attr/colorOnErrorContainer"
+        android:textColorLink="?attr/colorOnErrorContainer"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toStartOf="@id/due_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lesson_name"
+        tool:text="Выучить все" />
 
-        <TextView
-            android:id="@+id/due_date"
-            style="@style/mainText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoLink="all"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tool:text="Срок сдачи: 10.09.2021" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/due_date"
+        style="@style/mainText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="all"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:text="Срок сдачи: 10.09.2021" />
+</androidx.constraintlayout.widget.ConstraintLayout>

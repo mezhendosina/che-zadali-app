@@ -19,6 +19,7 @@ package com.mezhendosina.sgo
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
@@ -67,7 +68,7 @@ object Singleton {
 
     var schools = mutableListOf<SchoolUiEntity>()
 
-    var gradesOptions: GradeOptions? = null
+    val gradesOptions = MutableLiveData<GradeOptions>()
     var grades: List<GradesItem> = emptyList()
 
     var mySettings: MutableLiveData<MySettingsResponseEntity> = MutableLiveData()
@@ -80,7 +81,7 @@ object Singleton {
     val loadedDiaryUiEntity: MutableList<DiaryUiEntity> = mutableListOf()
 
     var journalTabsLayout: TabLayout? = null
-
+    var tabLayoutMediator: TabLayoutMediator? = null
     var baseUrl = ""
 
 

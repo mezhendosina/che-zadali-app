@@ -51,20 +51,36 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
         }
     })
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.getWeek(arguments?.getString(WEEK_START), arguments?.getString(WEEK_END))
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentItemJournalBinding.bind(view)
 
+        binding!!.pastMandatory.pastMandatoryRecyclerView.apply {
+            adapter = pastMandatoryAdapter
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+        }
+        binding!!.diary.apply {
+            adapter = diaryAdapter
+            layoutManager =
+                LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+        }
+
+
         observeWeek()
         observeLoading()
         observeError()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.getWeek(arguments?.getString(WEEK_START), arguments?.getString(WEEK_END))
+        }
     }
 
 
@@ -107,7 +123,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                     binding!!.loading.root.visibility = View.VISIBLE
                     binding!!.loading.root.startShimmer()
                 } else {
-                    binding!!.loading.root.hideShimmer()
+                    binding!!.loading.root.stopShimmer()
                     binding!!.loading.root.visibility = View.GONE
                 }
             }
@@ -124,24 +140,9 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                         } else {
                             pastMandatory.root.visibility = View.VISIBLE
                             pastMandatoryAdapter.items = diaryItem.pastMandatory
-                            pastMandatory.pastMandatoryRecyclerView.apply {
-                                adapter = pastMandatoryAdapter
-                                layoutManager = LinearLayoutManager(
-                                    requireContext(),
-                                    LinearLayoutManager.VERTICAL,
-                                    false
-                                )
-                            }
                         }
                         if (diaryItem.weekDays.isNotEmpty()) {
                             diaryAdapter.weekDays = diaryItem.weekDays
-                            diary.adapter = diaryAdapter
-                            diary.layoutManager =
-                                LinearLayoutManager(
-                                    requireContext(),
-                                    LinearLayoutManager.VERTICAL,
-                                    false
-                                )
                             diary.visibility = View.VISIBLE
                             emptyState.root.visibility = View.GONE
                         } else {

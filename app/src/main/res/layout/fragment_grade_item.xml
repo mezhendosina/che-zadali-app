@@ -19,19 +19,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     tools:context=".ui.itemGrade.GradeItemFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/backgroundColor"
-        app:elevation="0dp">
+        style="@style/AppBarLayout"
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingtoolbarlayout"
             android:layout_width="match_parent"
             android:layout_height="158dp"
-            app:expandedTitleMarginBottom="16dp"
+            app:expandedTitleMarginBottom="32dp"
             app:expandedTitleMarginStart="16dp"
             app:expandedTitleTextAppearance="@style/expandedToolBarText"
             app:extraMultilineHeightEnabled="true"
@@ -51,17 +51,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/backgroundColor"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <TextView
             android:id="@+id/avg_header"
-            style="@style/mainScreenHeaders"
+            style="@style/TextAppearance.Material3.BodyLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="@string/avg_grade"
+            app:layout_constraintBottom_toBottomOf="@id/avg_grade"
             app:layout_constraintEnd_toEndOf="@id/avg_grade"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/lobster"
             android:textColor="?attr/colorPrimary"
             android:textSize="14sp"
             android:visibility="gone"
@@ -116,11 +115,11 @@
 
         <TextView
             android:id="@+id/grade_count_header"
-            style="@style/captions"
+            style="@style/captions.headers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="20dp"
             android:text="@string/grades_count"
             android:textColor="?attr/colorOnBackground"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,6 +131,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/grade_count_header" />
@@ -141,6 +141,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             app:dividerThickness="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +164,7 @@
             layout="@layout/item_grade_calculator"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/grade_calculator_header" />

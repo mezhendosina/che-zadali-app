@@ -20,16 +20,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="?attr/backgroundColor"
-    android:nestedScrollingEnabled="true"
     tool:context=".ui.lessonItem.LessonFragment">
 
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarlayout"
+        style="@style/AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/backgroundColor"
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -44,7 +42,6 @@
             app:expandedTitleMarginStart="16dp"
             app:expandedTitleMarginTop="16dp"
             app:expandedTitleTextAppearance="@style/expandedToolBarText"
-            app:expandedTitleTextColor="?attr/colorOnBackground"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:maxLines="3">
 
@@ -63,14 +60,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
         android:nestedScrollingEnabled="true"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:paddingBottom="32dp">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progress_bar"
@@ -86,6 +82,7 @@
                 layout="@layout/item_lesson_homework"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,7 +91,7 @@
                 layout="@layout/item_lesson_send_homework"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homework" />
 
@@ -126,7 +123,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/why_grade_header"

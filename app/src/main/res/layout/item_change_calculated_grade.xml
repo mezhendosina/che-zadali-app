@@ -35,7 +35,7 @@
 
     <Button
         android:id="@+id/minus_grade"
-        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
@@ -62,7 +62,7 @@
 
     <Button
         android:id="@+id/plus_grade"
-        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

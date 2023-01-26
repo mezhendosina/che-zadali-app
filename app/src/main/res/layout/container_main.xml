@@ -20,8 +20,6 @@
     android:id="@+id/main_activity_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@null"
-    android:transitionGroup="true"
     tools:context=".ui.container.ContainerFragment">
 
 
@@ -38,7 +36,9 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:clipChildren="false"
+            android:background="?attr/colorSurface"
             app:elevation="0dp"
+            android:fitsSystemWindows="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -46,19 +46,18 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorSurface"
-                android:elevation="8dp"
+                app:elevation="0dp"
                 android:nestedScrollingEnabled="true"
                 app:layout_scrollFlags="scroll"
                 app:titleEnabled="false">
 
-                <androidx.appcompat.widget.Toolbar
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
+                    android:background="?attr/colorSurface"
                     app:menu="@menu/main_toolbar_more_menu"
                     app:title="123"
-                    app:titleTextAppearance="@style/mainScreenHeaders"
                     app:titleTextColor="?attr/colorOnBackground" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -67,11 +66,17 @@
                 layout="@layout/update_state"
                 android:visibility="gone" />
 
+            <include
+                android:id="@+id/grades_top_bar"
+                layout="@layout/item_grades_top_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabBackground="?attr/colorSurface"
                 app:tabMode="scrollable"
                 app:tabTextAppearance="@style/mainText" />
 
@@ -107,7 +112,8 @@
         android:id="@+id/bottom_navigation"
         style="@style/bottomBar"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="78dp"
+        app:hideOnScroll="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav" />
 

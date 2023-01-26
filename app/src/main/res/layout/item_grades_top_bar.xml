@@ -14,35 +14,43 @@
   ~ limitations under the License.
   -->
 
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools"
-    style="@style/Widget.SGOApp.OnCardView"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?attr/selectableItemBackground"
-    android:minHeight="60dp">
+    android:layout_marginVertical="4dp">
 
-    <TextView
-        android:id="@+id/school_name"
-        style="@style/mainText"
+    <Button
+        android:id="@+id/term_selector"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:textIsSelectable="false"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/mainScreenHeaders"
+        android:textSize="18sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_expand_more"
+        app:iconGravity="textEnd"
+        app:iconSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="Школа № 68" />
+        tools:text="1 триместр" />
 
-    <TextView
-        android:id="@+id/school_city"
-        style="@style/captions"
+    <Button
+        style="@style/Widget.SGOApp.Button.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:textIsSelectable="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/school_name"
-        tool:text="г.Челябинск" />
+        android:insetLeft="16dp"
+        android:insetTop="12dp"
+        android:insetRight="16dp"
+        android:insetBottom="12dp"
+        android:visibility="gone"
+        app:icon="@drawable/ic_filter"
+        app:iconGravity="start|end|textStart"
+        app:iconPadding="0dp"
+        app:iconTint="?attr/colorOnBackground"
+        app:layout_constraintBottom_toBottomOf="@id/term_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/term_selector" />
 </androidx.constraintlayout.widget.ConstraintLayout>

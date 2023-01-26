@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.SGOApp.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/darkBackground</item>
@@ -22,33 +22,57 @@
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
     </style>
 
-    <style name="Theme.SGOApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-
-        <item name="colorPrimary">@color/darkPrimary</item>
-        <item name="colorPrimaryVariant">@color/darkPrimary</item>
-        <item name="colorSecondary">@color/darkSecondary</item>
-        <item name="backgroundColor">@color/darkBackground</item>
-
-        <item name="colorSurface">@color/darkSurface</item>
-        <item name="colorError">@color/badGrade</item>
-        <item name="colorOnPrimary">@color/darkBackground</item>
-        <item name="colorOnBackground">@color/lightBackground</item>
-        <item name="colorOnSurface">@color/lightBackground</item>
-        <item name="colorOnError">@color/lightBackground</item>
-        <item name="android:statusBarColor">?attr/colorSurface</item>
-
-        <item name="android:textColorLink">@color/darkPrimary</item>
+    <style name="Theme.SGOApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@null</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="windowActionBar">false</item>
+
+
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_dark_error</item>
+        <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_dark_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_dark_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+        <item name="colorGoodGrade">#84d994</item>
+        <item name="colorOnGoodGrade">#003916</item>
+        <item name="colorGoodGradeContainer">#005323</item>
+        <item name="colorOnGoodGradeContainer">#a0f6ae</item>
+        <item name="harmonizeGoodGrade">true</item>
+        <item name="colorMidGrade">#ffba4b</item>
+        <item name="colorOnMidGrade">#442b00</item>
+        <item name="colorMidGradeContainer">#624000</item>
+        <item name="colorOnMidGradeContainer">#ffddb1</item>
+        <item name="harmonizeMidGrade">true</item>
+        <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
+
+        <item name="android:textColorLink">@color/md_theme_dark_primary</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
 
-
-        <item name="colorGoodGrade">@color/goodGrade</item>
-        <item name="colorMidGrade">@color/midGrade</item>
-        <item name="colorBadGrade">@color/badGrade</item>
     </style>
 
-    <style name="snackBarStyle" parent="Widget.MaterialComponents.Snackbar">
+    <style name="snackBarStyle" parent="Widget.Material3.Snackbar">
         <item name="backgroundTint">?attr/colorOnBackground</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Snackbar</item>
         <item name="actionTextColorAlpha">1</item>
@@ -71,7 +95,7 @@
         <item name="android:textColor">?attr/colorError</item>
     </style>
 
-    <style name="bottomBar" parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="bottomBar" parent="Widget.Material3.BottomNavigationView">
         <item name="elevation">0dp</item>
     </style>
 </resources>

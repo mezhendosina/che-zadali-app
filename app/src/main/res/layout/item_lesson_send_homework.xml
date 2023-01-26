@@ -24,9 +24,9 @@
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/send_homework_divider"
+        style="@style/Widget.Material3.MaterialDivider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:dividerThickness="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -83,14 +83,9 @@
 
     <Button
         android:id="@+id/select_file"
-        style="@style/ButtonIconOnly"
+        style="@style/Widget.SGOApp.Button.Secondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
-        android:gravity="start|center"
-        android:insetLeft="8dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
         android:text="@string/send_file"
         app:icon="@drawable/ic_upload"
         app:layout_constraintTop_toBottomOf="@id/send_attachment_list" />

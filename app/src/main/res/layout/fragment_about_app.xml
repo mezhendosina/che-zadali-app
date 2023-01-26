@@ -19,7 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
+
     tools:context=".ui.about.AboutAppFragment">
 
     <ImageView
@@ -118,16 +118,15 @@
 
     <Button
         android:id="@+id/telegram_channel_button"
-        style="@style/ButtonIconOnly"
+        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginTop="16dp"
+        android:autoLink="web"
         android:gravity="start|center_vertical"
-        android:padding="16dp"
         android:text="@string/telegram_channel"
         android:textColor="?attr/colorOnBackground"
         app:icon="@drawable/ic_telegram_logo"
-        android:autoLink="web"
         app:iconSize="32dp"
         app:iconTint="@null"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,11 +134,10 @@
 
     <Button
         android:id="@+id/github_repo_button"
-        style="@style/ButtonIconOnly"
+        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:gravity="start|center_vertical"
-        android:padding="16dp"
         android:text="@string/github_repo"
         android:textColor="?attr/colorOnBackground"
         app:icon="@drawable/ic_github_logo"

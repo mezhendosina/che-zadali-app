@@ -28,7 +28,9 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentJournalBinding
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.currentWeekStart
-import com.mezhendosina.sgo.data.tabDate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class JournalFragment : Fragment(R.layout.fragment_journal) {
 
@@ -46,6 +48,12 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.loadWeeks()
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,9 +66,18 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
 
             val tabLayout = Singleton.journalTabsLayout
             viewModel.weeks.observe(viewLifecycleOwner) { entityList ->
+                if (tabLayout != null) {
+                    tabLayoutMediator = TabLayoutMediator(
+                        tabLayout,
+                        binding!!.journalPager
+                    ) { tab, position ->
+                        tab.text =
+                            "${entityList[position].formattedWeekStart} - ${entityList[position].formattedWeekEnd}"
+                    }
+                    tabLayoutMediator?.attach()
+                }
                 adapter.weeksList = entityList
                 if (Singleton.currentWeek == null) {
-                    println("current week start ${currentWeekStart()}")
                     binding!!.journalPager.setCurrentItem(
                         entityList.indexOf(entityList.find { it.weekStart == weekNow }),
                         false
@@ -68,20 +85,8 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
                 } else {
                     binding!!.journalPager.setCurrentItem(Singleton.currentWeek!!, false)
                 }
-
-                if (tabLayout != null) {
-                    tabLayoutMediator = TabLayoutMediator(
-                        tabLayout,
-                        binding!!.journalPager
-                    ) { tab, position ->
-                        tab.text =
-                            "${tabDate(entityList[position].weekStart)} - ${tabDate(entityList[position].weekEnd)}"
-                    }
-                    tabLayoutMediator?.attach()
-                }
             }
         }
-
         observeUserId()
     }
 
