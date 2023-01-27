@@ -156,7 +156,6 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
             CoroutineScope(Dispatchers.IO).launch {
                 Singleton.gradesOptions.value?.TERMID?.get(position)?.let {
-                    println(it)
                     settings.changeTRIMId(it.value)
                 }
             }

@@ -108,7 +108,6 @@ fun getWeeksList(): List<WeekStartEndEntity> {
                     tabDate(weekEnd)
                 )
             )
-            println(minusWeekCalendar.dateToSting())
         }
         if (plusWeekCalendar[Calendar.MONTH] != 6) {
             val weekStart = plusWeekCalendar.dateToSting()

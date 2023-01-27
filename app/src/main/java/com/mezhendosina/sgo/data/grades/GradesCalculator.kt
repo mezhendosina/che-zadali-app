@@ -31,7 +31,6 @@ data class CalculateGradeItem(
         (countFive * 5 + countFour * 4 + countThree * 3 + countTwo * 2).toFloat() / count().toFloat()
 
     fun changeGrade(grade: Int, delta: Int): CalculateGradeItem {
-        println(grade)
         return when (grade) {
             GradeItemFragment.FIVE_GRADE -> CalculateGradeItem(
                 countFive + delta,

@@ -71,7 +71,6 @@ class ChooseRegionViewModel : ViewModel() {
                         ChooseRegionUiEntity::class.java
                     )
                 }
-                println(_regions.value)
             }
             _isLoading.value = false
         } catch (e: Exception) {

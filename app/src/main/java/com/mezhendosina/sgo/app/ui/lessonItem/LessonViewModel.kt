@@ -210,7 +210,6 @@ class LessonViewModel(
                         studentId
                     )
                     withContext(Dispatchers.Main) {
-                        println(response)
                         _homework.value = response
                         _answerFiles.value = answerFiles
                         _attachments.value = response.attachments

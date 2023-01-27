@@ -139,7 +139,6 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         val settings = Settings(requireContext())
 
         settings.currentTrimId.asLiveData().observe(viewLifecycleOwner) {
-            println(it)
             viewModel.load(requireContext())
         }
     }

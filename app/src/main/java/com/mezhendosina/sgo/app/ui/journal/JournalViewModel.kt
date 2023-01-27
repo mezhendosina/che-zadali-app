@@ -37,7 +37,6 @@ class JournalViewModel : ViewModel() {
             }
         } else {
             val a = getWeeksList()
-            println(a)
             withContext(Dispatchers.Main) {
                 _weeks.value = a
             }
