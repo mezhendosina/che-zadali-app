@@ -103,7 +103,7 @@
     <color name="md_theme_dark_onErrorContainer">#F1DAD9</color>
 
     <color name="md_theme_dark_background">#161616</color>
-    <color name="md_theme_dark_onBackground">#A6E0FF</color>
+    <color name="md_theme_dark_onBackground">#FFFFFF</color>
 
     <color name="md_theme_dark_surface">#292929</color>
     <color name="md_theme_dark_onSurface">#F9F9F9</color>
