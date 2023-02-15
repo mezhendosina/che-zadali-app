@@ -73,12 +73,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         binding.gradeCalculator.calculateGrade.layoutManager = LinearLayoutManager(requireContext())
         binding.gradeCalculator.calculateGrade.itemAnimator = null
 
-        if (lesson.avg == "5,00") {
-            binding.gradeCalculatorHeader.visibility = View.GONE
-            binding.gradeCountDivider.visibility = View.GONE
-            binding.gradeCalculator.root.visibility = View.GONE
-        }
-
+        
         bindGradeValue(lesson, binding.avgGrade)
         bindGradeCount(binding.countGrade)
         observeCalculatedGrade()
