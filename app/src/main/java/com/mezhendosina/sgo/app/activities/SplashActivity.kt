@@ -45,8 +45,9 @@ class SplashActivity : AppCompatActivity() {
         }
         if (!BuildConfig.DEBUG) DynamicColors.applyToActivitiesIfAvailable(this.application)
 //        DynamicColors.applyToActivitiesIfAvailable(this.application)
-        super.onCreate(savedInstanceState)
         Singleton.loadContext(applicationContext)
+super.onCreate(savedInstanceState)
+        
 
         CoroutineScope(Dispatchers.Main).launch {
             FirebaseApp.initializeApp(this@SplashActivity)
