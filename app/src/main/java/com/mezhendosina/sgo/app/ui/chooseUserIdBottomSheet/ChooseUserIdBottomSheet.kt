@@ -35,7 +35,7 @@ class ChooseUserIdBottomSheet : BottomSheetDialogFragment(R.layout.fragment_choo
 
     private val adapter = UserIdAdapter {
         lifecycleScope.launch {
-            Settings(requireContext()).setCurrentUserId(it)
+            Settings(requireContext()).editPreference(Settings.CURRENT_USER_ID, it)
         }
     }
 

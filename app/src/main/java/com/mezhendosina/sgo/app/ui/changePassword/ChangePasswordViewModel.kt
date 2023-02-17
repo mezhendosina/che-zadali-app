@@ -48,7 +48,7 @@ class ChangePasswordViewModel(
                     settings.currentUserId.first(),
                     ChangePasswordEntity(oldPassword, password)
                 )
-                settings.changePassword(password)
+                settings.editPreference(Settings.PASSWORD, password)
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     _errorMessage.value = e.toDescription()

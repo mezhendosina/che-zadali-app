@@ -45,8 +45,8 @@ class ChooseUserIdViewModel : ViewModel() {
         try {
             val settings = Settings(context)
             viewModelScope.launch {
-                settings.setCurrentUserId(userId)
-                settings.changeLoggedIn(true)
+                settings.editPreference(Settings.CURRENT_USER_ID, userId)
+                settings.editPreference(Settings.LOGGED_IN, true)
             }
             val intent = Intent(context, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

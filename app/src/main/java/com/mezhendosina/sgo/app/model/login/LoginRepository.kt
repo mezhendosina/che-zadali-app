@@ -63,7 +63,10 @@ class LoginRepository(
                 withContext(Dispatchers.Main) {
                     if (studentsRequest != null) {
                         if (studentsRequest.size <= 1) {
-                            settings.setCurrentUserId(studentsRequest.first().id)
+                            settings.editPreference(
+                                Settings.CURRENT_USER_ID,
+                                studentsRequest.first().id
+                            )
                             onOneUser.invoke()
                             settings.saveALl(loginEntity)
                         } else {
@@ -71,7 +74,10 @@ class LoginRepository(
                             settings.saveALl(loginEntity, false)
                         }
                     } else {
-                        settings.setCurrentUserId(loginRequest.accountInfo.user.id)
+                        settings.editPreference(
+                            Settings.CURRENT_USER_ID,
+                            loginRequest.accountInfo.user.id
+                        )
                         onOneUser.invoke()
                         settings.saveALl(loginEntity)
                     }

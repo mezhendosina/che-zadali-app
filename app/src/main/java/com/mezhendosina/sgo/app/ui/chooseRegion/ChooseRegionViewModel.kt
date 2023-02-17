@@ -80,7 +80,7 @@ class ChooseRegionViewModel : ViewModel() {
 
     fun setRegion(fragmentFrom: Int?, regionUrl: String, navController: NavController) {
         CoroutineScope(Dispatchers.IO).launch {
-            Settings(Singleton.getContext()).setRegion(regionUrl)
+            Settings(Singleton.getContext()).editPreference(Settings.REGION_URL, regionUrl)
             withContext(Dispatchers.Main) {
                 Singleton.baseUrl = regionUrl
                 if (fragmentFrom == ChooseRegionFragment.FROM_MAIN_ACTIVITY) {

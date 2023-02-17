@@ -87,7 +87,10 @@ class GradesViewModel(
                 }
 
                 // if termId not find save and set selected termId
-                if (findId == null) settings.changeTRIMId(_gradeOptions.value!!.TERMID.first { it.is_selected }.value)
+                if (findId == null) settings.editPreference(
+                    Settings.CURRENT_TRIM_ID,
+                    _gradeOptions.value!!.TERMID.first { it.is_selected }.value
+                )
 
 
                 loadGrades(_gradeOptions.value!!, settings.currentTrimId.first().toString())
