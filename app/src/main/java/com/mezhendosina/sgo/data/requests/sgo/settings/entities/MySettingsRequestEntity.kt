@@ -35,7 +35,7 @@ data class MySettingsRequestEntity(
 
     fun changeMobilePhone(phoneNumber: String): MySettingsRequestEntity = MySettingsRequestEntity(
         this.email,
-        phoneNumber.replace("[^\\d]".toRegex(), ""),
+        phoneNumber.replace("\\D".toRegex(), ""),
         this.schoolyearId,
         this.userId,
         this.userSettings,

@@ -24,7 +24,7 @@ typealias schoolsActionListener = (List<SchoolUiEntity>) -> Unit
 
 class ChooseSchoolRepository(private val schoolsSource: SchoolsSource) {
 
-    var schools = mutableListOf<SchoolUiEntity>()
+    private var schools = mutableListOf<SchoolUiEntity>()
 
     private val listeners = mutableSetOf<schoolsActionListener>()
 

@@ -157,7 +157,7 @@ object Singleton {
 //        Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database.db").build()
 //    }
 
-    val ANNOUNCEMENTS_ID = "announcementsID"
+    const val ANNOUNCEMENTS_ID = "announcementsID"
 
 
     fun loadContext(context: Context) {

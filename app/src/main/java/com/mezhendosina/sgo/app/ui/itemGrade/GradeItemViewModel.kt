@@ -25,7 +25,7 @@ import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 class GradeItemViewModel : ViewModel() {
 
-    lateinit var gradesCalculator: GradesCalculator
+    private lateinit var gradesCalculator: GradesCalculator
     private val _calculatedGrade = MutableLiveData<CalculateGradeItem>()
     val calculatedGrade: LiveData<CalculateGradeItem> = _calculatedGrade
 
