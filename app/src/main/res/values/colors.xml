@@ -15,17 +15,17 @@
   -->
 
 <resources>
-    <color name="lightPrimary">#2C72BC</color>
-    <color name="lightSecondary">#B1D5FF</color>
-    <color name="lightBackground">#FAFCFF</color>
-    <color name="lightSurface">#ffffff</color>
-    <color name="lightTextColor">#262323</color>
+    <!--    <color name="lightPrimary">#2C72BC</color>-->
+    <!--    <color name="lightSecondary">#B1D5FF</color>-->
+    <!--    <color name="lightBackground">#FAFCFF</color>-->
+    <!--    <color name="lightSurface">#ffffff</color>-->
+    <!--    <color name="lightTextColor">#262323</color>-->
 
 
-    <color name="darkPrimary">#B1D5FF</color>
-    <color name="darkSecondary">#2C72BC</color>
-    <color name="darkBackground">#161616</color>
-    <color name="darkSurface">#282828</color>
+    <!--    <color name="darkPrimary">#B1D5FF</color>-->
+    <!--    <color name="darkSecondary">#2C72BC</color>-->
+    <!--    <color name="darkBackground">#161616</color>-->
+    <!--    <color name="darkSurface">#282828</color>-->
 
     <!--    <color name="goodGrade">#75B47F</color>-->
     <!--    <color name="midGrade">#D7A355</color>-->

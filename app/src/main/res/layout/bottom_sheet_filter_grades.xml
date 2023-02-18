@@ -20,7 +20,6 @@
     style="@style/ThemeOverlay.Material3.BottomSheetDialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorSurface"
     android:minHeight="360dp"
     tools:context=".ui.gradesFilter.GradesFilterBottomSheet">
 

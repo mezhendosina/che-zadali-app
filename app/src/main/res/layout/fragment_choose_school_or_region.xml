@@ -20,7 +20,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="?android:attr/colorBackground"
     tools:context=".ui.chooseSchool.ChooseSchoolFragment">
 
     <com.google.android.material.textfield.TextInputLayout
