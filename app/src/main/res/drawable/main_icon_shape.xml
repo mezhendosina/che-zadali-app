@@ -22,7 +22,7 @@
                 android:bottomRightRadius="16dp"
                 android:topLeftRadius="16dp"
                 android:topRightRadius="16dp" />
-            <solid android:color="@color/lightBackground" />
+            <solid android:color="@color/md_theme_light_background" />
         </shape>
 
     </item>
