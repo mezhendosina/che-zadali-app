@@ -45,7 +45,7 @@ class AnnouncementsAdapter(
 
     override fun onClick(p0: View) {
         val announcement = p0.tag as AnnouncementsResponseEntity
-        onAnnouncementClickListener(announcement)
+        onAnnouncementClickListener.invoke(announcement)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementsViewHolder {
