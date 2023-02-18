@@ -3,32 +3,32 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.7.21'
+        kotlin_version = '1.8.0'
+        ktor_version = "2.0.1"
+        logback_version = "1.2.11"
+        gson_version = '2.10.1'
+        okhttp_version = '5.0.0-alpha.10'
+        nav_version = '2.5.3'
+        markwon_version = "4.6.2"
+        preference_version = "1.2.0"
+        room_version = "2.4.3"
     }
-    ext.ktor_version = "2.0.1"
-    ext.logback_version = "1.2.11"
-    ext.gson_version = '2.10'
-    ext.okhttp_version = '5.0.0-alpha.10'
-    ext.nav_version = '2.5.3'
-    ext.markwon_version = "4.6.2"
-    ext.preference_version = "1.2.0"
-    ext.room_version = "2.4.3"
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.15'
-        classpath 'com.android.tools.build:gradle:7.4.0'
+        classpath 'com.android.tools.build:gradle:7.4.1'
         classpath 'com.google.firebase:perf-plugin:1.4.2'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
     }
 }
 plugins {
-    id 'com.android.application' version '7.4.0' apply false
-    id 'com.android.library' version '7.4.0' apply false
+    id 'com.android.application' version '7.4.1' apply false
+    id 'com.android.library' version '7.4.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
 }
 
