@@ -35,7 +35,8 @@
             android:src="@drawable/profile_icon"
             app:layout_constraintBottom_toBottomOf="@+id/login"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/user_name" />
+            app:layout_constraintTop_toTopOf="@+id/user_name"
+            android:contentDescription="@string/profile_photo" />
 
         <TextView
             android:id="@+id/user_name"

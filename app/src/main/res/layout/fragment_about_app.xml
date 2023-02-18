@@ -29,6 +29,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/main_icon_shape"
+        android:contentDescription="@string/sgo_app_logo"
         android:padding="12dp"
         android:src="@drawable/main_icon"
         app:layout_constraintStart_toStartOf="parent"
