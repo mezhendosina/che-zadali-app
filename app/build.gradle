@@ -66,9 +66,9 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.aar"])
 
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
@@ -82,39 +82,40 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 
-    //navigation
+    // navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-    //gson
+
+    // gson
     implementation "com.google.code.gson:gson:$gson_version"
 
-    //datastore
+    // datastore
     implementation "androidx.datastore:datastore:1.0.0"
     implementation "androidx.datastore:datastore-preferences:1.0.0"
     implementation "androidx.datastore:datastore-preferences-core:1.0.0"
 
-    //html parser
+    // html parser
     implementation 'org.jsoup:jsoup:1.15.3'
 
-    //swipe refresh layout
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    // swipe refresh layout
+//    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    //viewpager 2
+    // viewpager 2
     implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
 
-    //markdown support
+    // markdown support
     implementation "io.noties.markwon:core:$markwon_version"
     implementation "io.noties.markwon:html:$markwon_version"
     implementation "io.noties.markwon:recycler:$markwon_version"
 
-    //glide
+    // glide
     implementation('com.github.bumptech.glide:glide:4.14.2') {
         exclude group: "com.android.support"
     }
 
-    //firebase
-    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:31.2.2')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-perf-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
@@ -122,7 +123,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
 
 
-    //retrofit
+    // retrofit
     implementation "com.squareup.okhttp3:okhttp-urlconnection:$okhttp_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
@@ -130,7 +131,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.tinder.scarlet:scarlet:0.1.12'
 
-    //Splashscreen api
+    // Splashscreen api
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
     // Room
@@ -140,7 +141,7 @@ dependencies {
 //    implementation "androidx.room:room-paging:2.4.3"
 //    implementation "androidx.room:room-ktx:$room_version"
 
-    //shimmer for placeholders
+    // shimmer for placeholders
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // check memory leaks
