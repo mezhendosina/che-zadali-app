@@ -78,7 +78,7 @@ class UploadFileBottomSheet(
                 binding.sendFile.setOnClickListener { replaceFile() }
             }
             else -> {
-                binding.header.setText(R.string.upload_file)
+                binding.header.setText(R.string.attach_file)
                 binding.sendFile.setOnClickListener {
                     sendFile()
                 }

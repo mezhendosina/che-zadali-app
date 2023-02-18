@@ -96,7 +96,6 @@
     <string name="choose_file">Выбрать файл</string>
     <string name="description">Описание</string>
     <string name="upload">Отправить</string>
-    <string name="upload_file">Прикрепить файл</string>
     <string name="current_year">Текущий учебный год</string>
     <string name="change_email">Изменить email</string>
     <string name="change_phone_number">Изменить номер телефона</string>
@@ -137,4 +136,9 @@
     <string name="year_grade_header">Оценки за</string>
     <string name="sort_by">Сортировать по</string>
     <string name="new_grade_notification">Уведомления о новых оценках</string>
+    <string name="sgo_app_logo">Логотип SGO app</string>
+    <string name="file_icon">Иконка файла</string>
+    <string name="copy_text">Скоприровать в буфер обмена</string>
+    <string name="edit_text_answer">Изменить ответ</string>
+    <string name="main_icon">Иконка приложения</string>
 </resources>
