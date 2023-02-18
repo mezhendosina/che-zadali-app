@@ -42,12 +42,12 @@ class SplashActivity : AppCompatActivity() {
         val settings = Settings(this)
         runBlocking {
             AppCompatDelegate.setDefaultNightMode(settings.theme.first())
+            Singleton.loadContext(applicationContext)
         }
         if (!BuildConfig.DEBUG) DynamicColors.applyToActivitiesIfAvailable(this.application)
 //        DynamicColors.applyToActivitiesIfAvailable(this.application)
-        Singleton.loadContext(applicationContext)
-super.onCreate(savedInstanceState)
-        
+        super.onCreate(savedInstanceState)
+
 
         CoroutineScope(Dispatchers.Main).launch {
             FirebaseApp.initializeApp(this@SplashActivity)
