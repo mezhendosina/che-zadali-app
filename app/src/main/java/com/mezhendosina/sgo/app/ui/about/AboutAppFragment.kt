@@ -43,7 +43,8 @@ class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAboutAppBinding.bind(view)
 
-        binding.appVersion.text = "v" + BuildConfig.VERSION_NAME
+        val appVersion = requireContext().getString(R.string.app_version, BuildConfig.VERSION_NAME)
+        binding.appVersion.text = appVersion
 
         val markwon = Markwon.builder(requireContext()).usePlugin(HtmlPlugin.create()).build()
         markwon.setMarkdown(

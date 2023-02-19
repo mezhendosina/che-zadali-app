@@ -98,8 +98,9 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
                 showAttachments(this)
             }
             author.text = announcement?.author?.nickName
-            date.text =
-                "Дата публикации: ${announcement?.postDate?.let { DateManipulation(it).dateToRussianWithTime() }}"
+            val publicationDate =
+                announcement?.postDate?.let { DateManipulation(it).dateToRussianWithTime() }
+            date.text = requireContext().getString(R.string.publication_date, publicationDate)
         }
         observeErrors()
     }

@@ -46,8 +46,12 @@ class UpdateBottomSheetFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ModalSheetUpdateBinding.bind(view)
-
-        binding.appVersion.text = BuildConfig.VERSION_NAME + " ➡ " + updateLog.tagName
+        val newVersion = requireContext().getString(
+            R.string.new_version,
+            BuildConfig.VERSION_NAME,
+            updateLog.tagName
+        )
+        binding.appVersion.text = newVersion
         binding.updateLog.text = updateLog.body
         binding.updateButton.setOnClickListener {
             this.dismiss()

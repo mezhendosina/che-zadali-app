@@ -172,7 +172,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun observeMySettings() {
         val regex = """(\d)(\d{3})(\d{3})(\d{2})(\d{2})""".toRegex()
         viewModel.mySettingsResponseEntity.observe(viewLifecycleOwner) {
-            binding.profileCard.userName.text = "${it.lastName} ${it.firstName} ${it.middleName}"
+            binding.profileCard.userName.text = requireContext().getString(
+                R.string.user_name,
+                it.lastName,
+                it.firstName,
+                it.middleName
+            )
             binding.profileCard.userLogin.text = it.loginName
             val birthday = DateManipulation(it.birthDate).dateFormatter()
             binding.birthdayDate.text = birthday

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui.journalItem
+package com.mezhendosina.sgo.app.ui.journalItem.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemHomeworkBinding
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
-import com.mezhendosina.sgo.app.ui.adapters.HomeworkGradeAdapter
 
 typealias OnHomeworkClickListener = (LessonUiEntity, View) -> Unit
 
@@ -96,7 +95,11 @@ class HomeworkAdapter(
             holder.itemView.tag = lesson
             lessonNumber.text = lesson.number.toString()
             lessonName.text = lesson.subjectName
-            lessonTime.text = "${lesson.startTime} - ${lesson.endTime}"
+            lessonTime.text = holder.itemView.context.getString(
+                R.string.start_end_date,
+                lesson.startTime,
+                lesson.endTime
+            )
 
             if (lesson.homework != null || lesson.assignments?.find { it.mark != null } != null) {
                 if (lesson.homework?.assignmentName?.isNotEmpty() == true) {
