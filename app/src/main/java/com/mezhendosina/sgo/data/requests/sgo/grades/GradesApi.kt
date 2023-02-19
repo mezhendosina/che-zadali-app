@@ -53,10 +53,10 @@ interface GradesApi {
     ): Response<ResponseBody>
 
 
-    @GET("WebApi/signalr/negotiate")
-    suspend fun negotiateResponse(
-        @Path("clientProtocol") clientProtocol: String = "1.5",
-        @Path("at") at: String,
-        @Path("connectionData") connectionData: String = " [{\"name\":\"queuehub\"}]",
-    )
+//    @GET("WebApi/signalr/negotiate")
+//    suspend fun negotiateResponse(
+//        @Path("clientProtocol") clientProtocol: String = "1.5",
+//        @Path("at") at: String,
+//        @Path("connectionData") connectionData: String = " [{\"name\":\"queuehub\"}]",
+//    )
 }

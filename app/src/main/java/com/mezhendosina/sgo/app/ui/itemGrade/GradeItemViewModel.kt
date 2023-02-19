@@ -20,12 +20,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.data.grades.CalculateGradeItem
-import com.mezhendosina.sgo.data.grades.GradesCalculator
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 class GradeItemViewModel : ViewModel() {
 
-    private lateinit var gradesCalculator: GradesCalculator
     private val _calculatedGrade = MutableLiveData<CalculateGradeItem>()
     val calculatedGrade: LiveData<CalculateGradeItem> = _calculatedGrade
 
@@ -63,13 +61,6 @@ class GradeItemViewModel : ViewModel() {
 
     fun editGrade(grade: Int, delta: Int) {
         _calculatedGrade.value = _calculatedGrade.value?.changeGrade(grade, delta)
-    }
-
-    fun calculateGrade(targetGrade: Float) {
-        _oldCalculatedGrade.value =
-            gradesCalculator.autoCalculateGrade(targetGrade)
-        _oldChangeToGrade.value = _oldCalculatedGrade.value?.avg()
-
     }
 
 }

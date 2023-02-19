@@ -27,10 +27,8 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
-import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.toMD5
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,16 +36,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginViewModel(
-    private val loginRepository: LoginRepository = Singleton.loginRepository,
-    private val diarySource: DiarySource = Singleton.diarySource
+    private val loginRepository: LoginRepository = Singleton.loginRepository
 ) : ViewModel() {
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
-
-    private val _users = MutableLiveData<List<StudentResponseEntity>>()
-    val users: LiveData<List<StudentResponseEntity>> = _users
-
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage

@@ -49,8 +49,4 @@ class ChooseYearBottomSheet(
         binding.yearsRecyclerview.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
-
-    companion object {
-        const val TAG = "choose_school_bottom_sheet_tag"
-    }
 }

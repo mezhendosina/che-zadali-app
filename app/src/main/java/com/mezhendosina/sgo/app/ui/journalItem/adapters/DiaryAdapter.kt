@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui.journalItem
+package com.mezhendosina.sgo.app.ui.journalItem.adapters
 
 import android.os.Trace
 import android.view.LayoutInflater
@@ -37,7 +37,7 @@ class DiaryAdapter(
 
     class ViewHolder(
         val binding: ItemDiaryBinding,
-        private val onHomeworkClickListener: OnHomeworkClickListener
+        onHomeworkClickListener: OnHomeworkClickListener
     ) :
         RecyclerView.ViewHolder(binding.root) {
         val homeworkAdapter = HomeworkAdapter(onHomeworkClickListener)
@@ -47,8 +47,6 @@ class DiaryAdapter(
             LinearLayoutManager.VERTICAL,
             false
         )
-        val viewPool = RecyclerView.RecycledViewPool()
-
     }
 
     override fun onCreateViewHolder(

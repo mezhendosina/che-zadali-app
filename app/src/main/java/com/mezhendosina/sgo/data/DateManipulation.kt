@@ -33,12 +33,6 @@ class DateManipulation(val date: String) {
     private val locale = Locale("ru", "RU")
     private val a = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(date)
 
-    fun dateToRussian(uppercase: Boolean): String = when (uppercase) {
-        true -> SimpleDateFormat("EEEE, dd MMMM", locale).format(a!!)
-            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        false -> SimpleDateFormat("Сегодня EE, dd MMMM", locale).format(a!!)
-    }
-
 
     fun dateToRussianWithTime(): String = SimpleDateFormat("dd.MM.yyyy hh:mm").format(a!!)
 
@@ -47,22 +41,7 @@ class DateManipulation(val date: String) {
 
 
     fun journalDate(): String = SimpleDateFormat("dd MMMM yyyyг.", locale).format(a!!)
-
-
-    fun messageDate(): String {
-        val a = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
-        return SimpleDateFormat("dd MMMM", locale).format(a!!)
-    }
-
 }
-
-@SuppressLint("SimpleDateFormat")
-fun currentTime(): Long {
-    val s = SimpleDateFormat("w.yyyy").format(Date().time)
-    return SimpleDateFormat("w.yyyy").parse(s)!!.time
-
-}
-
 
 @SuppressLint("SimpleDateFormat")
 fun dateToRussian(date: String): String {
@@ -74,14 +53,6 @@ fun dateToRussian(date: String): String {
             Locale.getDefault()
         ) else it.toString()
     }
-}
-
-@SuppressLint("SimpleDateFormat")
-fun dateToJournalDate(string: String): String {
-    val a = SimpleDateFormat("yyyy-MM-dd").parse(string)
-    val locale = Locale("ru", "RU")
-
-    return SimpleDateFormat("dd MMMM yyyyг.", locale).format(a!!)
 }
 
 fun getWeeksList(): List<WeekStartEndEntity> {

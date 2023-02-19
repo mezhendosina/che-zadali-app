@@ -16,6 +16,8 @@
 
 package com.mezhendosina.sgo.app
 
+import android.content.ActivityNotFoundException
+
 open class AppException : RuntimeException {
     constructor(message: String) : super(message)
     constructor(cause: Throwable) : super(cause)
@@ -28,7 +30,6 @@ class TimeOutError(cause: Throwable) : AppException(cause = cause)
  * Server error exception
  */
 open class BackendException(
-    val code: Int,
     message: String
 ) : AppException(message)
 
@@ -43,6 +44,7 @@ fun Exception.toDescription(): String {
         is ConnectionException -> "Нет подключения к интернету"
         is ParseBackendResponseException -> "Сервер отправил непонятный ответ"
         is TimeOutError -> "Превышено время ожидания ответа от сервера"
+        is ActivityNotFoundException -> "Похоже, что на устройстве не установлено приложение для открытия этого файла"
         else -> "Что-то пошло не так"
     }
 }

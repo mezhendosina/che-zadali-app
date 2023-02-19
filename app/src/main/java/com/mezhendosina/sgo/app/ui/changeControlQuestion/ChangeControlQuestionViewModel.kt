@@ -37,9 +37,4 @@ class ChangeControlQuestionViewModel : ViewModel() {
             "Собственный вопрос"
         )
     }
-
-    fun sendControlQuestion(){
-
-    }
-
 }

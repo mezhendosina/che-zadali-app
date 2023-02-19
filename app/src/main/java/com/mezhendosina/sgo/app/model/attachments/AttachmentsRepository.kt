@@ -84,8 +84,4 @@ class AttachmentsRepository(
         }
         return type
     }
-
-    private fun String.addAttachmentId(id: Int): String =
-        this.replaceAfterLast(".", "").dropLast(1) + id.toString() + this.replaceBefore(".", "")
-
 }

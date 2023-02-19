@@ -49,7 +49,7 @@ open class BaseRetrofitSource(retrofitConfig: RetrofitConfig) {
         return try {
             val errorBody = errorAdapter.fromJson(e.response()!!.errorBody()!!.string())
 
-            BackendException(e.code(), errorBody.message)
+            BackendException(errorBody.message)
         } catch (e: Exception) {
             throw ParseBackendResponseException(e)
         }
