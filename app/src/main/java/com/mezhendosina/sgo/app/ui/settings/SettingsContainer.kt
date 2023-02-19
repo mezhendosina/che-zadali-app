@@ -55,6 +55,6 @@ class SettingsContainer : Fragment(R.layout.container_settings) {
             navController,
             appBarConfiguration
         )
-        binding.toolbar.setNavigationOnClickListener { this.activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { this.activity?.onBackPressedDispatcher?.onBackPressed() }
     }
 }

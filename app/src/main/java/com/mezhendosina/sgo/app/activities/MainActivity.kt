@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -64,6 +65,16 @@ class MainActivity : AppCompatActivity() {
     }
     private lateinit var analytics: FirebaseAnalytics
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (navController?.currentDestination?.id == navController?.graph?.startDestinationId) {
+                finish()
+            } else {
+                navController?.navigateUp()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -93,26 +104,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
+        onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
-        window.statusBarColor = Color.TRANSPARENT
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
-
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                leftMargin = insets.left
-                bottomMargin = insets.bottom
-                rightMargin = insets.right
-            }
-
-            WindowInsetsCompat.CONSUMED
-        }
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
+        setupStatusBar()
     }
 
     override fun onRestart() {
@@ -133,9 +127,25 @@ class MainActivity : AppCompatActivity() {
         Singleton.journalTabsLayout = null
     }
 
+    private fun setupStatusBar() {
+        window.statusBarColor = Color.TRANSPARENT
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-    override fun onBackPressed() {
-        if (navController?.currentDestination?.id != navController?.graph?.startDestinationId) navController?.navigateUp()
-        else super.onBackPressed()
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+            }
+
+            WindowInsetsCompat.CONSUMED
+        }
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
     }
 }

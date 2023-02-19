@@ -18,6 +18,7 @@ package com.mezhendosina.sgo.app.activities
 
 import android.os.Bundle
 import android.transition.TransitionManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -34,10 +35,22 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    var binding: ContainerLoginBinding? = null
+    private var binding: ContainerLoginBinding? = null
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (navController.currentDestination?.id == navController.graph.startDestinationId) {
+                finish()
+            } else {
+                navController.navigateUp()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onBackPressedDispatcher.addCallback(onBackPressedCallback)
+
         binding = ContainerLoginBinding.inflate(layoutInflater)
         firebaseAnalytics = Firebase.analytics
         if (binding != null) {
@@ -69,14 +82,5 @@ class LoginActivity : AppCompatActivity() {
 
         TransitionManager.endTransitions(binding?.collapsingtoolbarlayout)
         binding = null
-    }
-
-
-    override fun onBackPressed() {
-        if (navController.currentDestination?.id == navController.graph.startDestinationId) {
-            super.onBackPressed()
-        } else {
-            navController.navigateUp()
-        }
     }
 }
