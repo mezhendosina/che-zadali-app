@@ -16,7 +16,6 @@
 
 package com.mezhendosina.sgo.app.ui.lessonItem
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -96,9 +95,7 @@ class LessonViewModel(
                     )
                 }
             } catch (e: Exception) {
-                _errorMessage.value =
-                    if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
-                    else e.toDescription()
+                _errorMessage.value = e.toDescription()
             } finally {
                 binding.progressBar.visibility = View.GONE
             }
@@ -116,9 +113,7 @@ class LessonViewModel(
                     )
                 }
             } catch (e: Exception) {
-                _errorMessage.value =
-                    if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
-                    else e.toDescription()
+                _errorMessage.value = e.toDescription()
             }
         }
     }

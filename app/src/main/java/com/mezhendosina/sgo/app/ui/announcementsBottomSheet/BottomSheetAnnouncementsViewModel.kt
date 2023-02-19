@@ -71,6 +71,5 @@ class BottomSheetAnnouncementsViewModel(
     override fun onCleared() {
         super.onCleared()
         announcementsRepository.removeListener(announcementsListener)
-
     }
 }

@@ -31,8 +31,6 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 import com.mezhendosina.sgo.app.findTopNavController
-import com.mezhendosina.sgo.app.ui.adapters.GradeAdapter
-import com.mezhendosina.sgo.app.ui.adapters.OnGradeClickListener
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 

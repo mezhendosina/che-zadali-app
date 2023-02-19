@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui.adapters
+package com.mezhendosina.sgo.app.ui.grades
 
 import android.view.LayoutInflater
 import android.view.View
@@ -24,9 +24,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemGradeBinding
 import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
-import com.mezhendosina.sgo.app.ui.grades.showBadGrade
-import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
-import com.mezhendosina.sgo.app.ui.grades.showMidGrade
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 typealias OnGradeClickListener = (GradesItem, View) -> Unit

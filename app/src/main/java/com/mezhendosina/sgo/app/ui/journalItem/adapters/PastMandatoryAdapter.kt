@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui.journalItem
+package com.mezhendosina.sgo.app.ui.journalItem.adapters
 
 import android.view.LayoutInflater
 import android.view.View

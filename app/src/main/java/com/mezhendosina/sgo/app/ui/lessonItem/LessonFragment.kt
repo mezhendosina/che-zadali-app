@@ -17,7 +17,6 @@
 package com.mezhendosina.sgo.app.ui.lessonItem
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -38,7 +37,8 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.databinding.ItemLessonBinding
 import com.mezhendosina.sgo.app.findTopNavController
-import com.mezhendosina.sgo.app.ui.adapters.*
+import com.mezhendosina.sgo.app.ui.adapters.AttachmentAdapter
+import com.mezhendosina.sgo.app.ui.adapters.AttachmentClickListener
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
@@ -49,7 +49,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
 
 class LessonFragment : Fragment(R.layout.item_lesson) {
 
@@ -137,8 +136,8 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             homework.attachmentsList.attachmentsList.layoutManager =
                 LinearLayoutManager(requireContext())
 
-            whyGradeRecyclerView.adapter = whyGradeAdapter
-            whyGradeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            itemWhyGrade.whyGradeRecyclerView.adapter = whyGradeAdapter
+            itemWhyGrade.whyGradeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             sendHomework.sendAttachmentList.adapter = answerFileAdapter
             sendHomework.sendAttachmentList.layoutManager =
@@ -299,12 +298,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun parseDate(date: String): String {
-        val parse = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
-        return SimpleDateFormat("dd/MM/yyyy").format(parse!!)
-    }
-
     private fun showComment(binding: ItemLessonBinding) {
         with(binding.homework) {
             commentBody.visibility = View.VISIBLE
@@ -314,8 +307,8 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
     }
 
     private fun showWhyGrades(binding: ItemLessonBinding) {
-        showAnimation(binding.whyGradeRecyclerView)
-        showAnimation(binding.whyGradeDivider)
-        showAnimation(binding.whyGradeHeader)
+        showAnimation(binding.itemWhyGrade.whyGradeRecyclerView)
+        showAnimation(binding.itemWhyGrade.whyGradeDivider)
+        showAnimation(binding.itemWhyGrade.whyGradeHeader)
     }
 }

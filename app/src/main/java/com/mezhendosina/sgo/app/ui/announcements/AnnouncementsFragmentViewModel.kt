@@ -16,7 +16,6 @@
 
 package com.mezhendosina.sgo.app.ui.announcements
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -51,9 +50,7 @@ class AnnouncementsFragmentViewModel(
             )
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
-                _errorMessage.value =
-                    if (e is ActivityNotFoundException) "Похоже, что на устройстве не установлено приложение для открытия этого файла"
-                    else e.toDescription()
+                _errorMessage.value = e.toDescription()
             }
         } finally {
             withContext(Dispatchers.Main) {

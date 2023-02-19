@@ -29,8 +29,6 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolOrRegionBinding
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
-import com.mezhendosina.sgo.app.ui.adapters.ChooseSchoolAdapter
-import com.mezhendosina.sgo.app.ui.adapters.OnSchoolClickListener
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.login.LoginFragment
 import com.mezhendosina.sgo.app.ui.showAnimation

@@ -27,7 +27,7 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradeItemBinding
 import com.mezhendosina.sgo.app.databinding.ItemCountGradeBinding
 import com.mezhendosina.sgo.app.findTopNavController
-import com.mezhendosina.sgo.app.ui.adapters.bindGradeValue
+import com.mezhendosina.sgo.app.ui.grades.bindGradeValue
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {

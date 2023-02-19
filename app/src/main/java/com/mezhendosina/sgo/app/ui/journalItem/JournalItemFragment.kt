@@ -28,6 +28,9 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentItemJournalBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
+import com.mezhendosina.sgo.app.ui.journalItem.adapters.DiaryAdapter
+import com.mezhendosina.sgo.app.ui.journalItem.adapters.OnHomeworkClickListener
+import com.mezhendosina.sgo.app.ui.journalItem.adapters.PastMandatoryAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
