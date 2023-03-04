@@ -91,8 +91,8 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
                     }
                 )
                 attachmentAdapter.attachments = announcement?.attachments ?: emptyList()
-                attachmentsList.attachmentsList.adapter = attachmentAdapter
-                attachmentsList.attachmentsList.layoutManager =
+                attachmentsList.attachmentsListRecyclerView.adapter = attachmentAdapter
+                attachmentsList.attachmentsListRecyclerView.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
                 showAttachments(this)

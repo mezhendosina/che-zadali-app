@@ -132,16 +132,16 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
                 findTopNavController().popBackStack()
             }
 
-            homework.attachmentsList.attachmentsList.adapter = attachmentAdapter
-            homework.attachmentsList.attachmentsList.layoutManager =
-                LinearLayoutManager(requireContext())
+            homework.attachmentsList.attachmentsListRecyclerView.adapter = attachmentAdapter
+            homework.attachmentsList.attachmentsListRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             itemWhyGrade.whyGradeRecyclerView.adapter = whyGradeAdapter
             itemWhyGrade.whyGradeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             sendHomework.sendAttachmentList.adapter = answerFileAdapter
             sendHomework.sendAttachmentList.layoutManager =
-                LinearLayoutManager(requireContext())
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
 
         observeOnUploadFileButtonClick()
@@ -228,10 +228,10 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
             attachmentAdapter.attachments = it
             with(binding.homework) {
                 if (it.isNotEmpty()) {
-                    attachmentsList.attachmentsList.visibility = View.VISIBLE
+                    attachmentsList.attachmentsListRecyclerView.visibility = View.VISIBLE
                     attachmentsList.attachmentsHeader.visibility = View.VISIBLE
                 } else {
-                    attachmentsList.attachmentsList.visibility = View.GONE
+                    attachmentsList.attachmentsListRecyclerView.visibility = View.GONE
                     attachmentsList.attachmentsHeader.visibility = View.GONE
                 }
             }
