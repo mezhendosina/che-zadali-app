@@ -19,6 +19,7 @@ package com.mezhendosina.sgo.app
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.model.login.LoginEntity
+import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.data.grades.GradesFromHtml
 import com.mezhendosina.sgo.data.requests.sgo.SourceProviderHolder
 import com.mezhendosina.sgo.data.toMD5
@@ -33,8 +34,9 @@ class RequestsUnitTest {
 
     private val loginSource = sourcesProvider.getLoginSource()
     private val gradesSource = sourcesProvider.getGradesSource()
-//    private val loginRepository = LoginRepository(loginSource)
+    private val settingsSource = sourcesProvider.getSettingsSource()
 
+    private val loginRepository = LoginRepository(loginSource, settingsSource)
     private val singleton = Singleton
 
     @Before
@@ -48,16 +50,24 @@ class RequestsUnitTest {
                 LoginEntity(
                     89,
                     "МеньшенинЕ1",
-                    "285639".toMD5(),
+                    "oibXDfzkrRMFP2".toMD5(),
                     getData.lt,
                     getData.salt,
                     getData.ver
                 )
             )
             singleton.at = login.at
-//            loginRepository.at = login.at
+            loginRepository.at = login.at
         }
     }
+
+    @Test
+    fun setYear() {
+        runBlocking {
+            println(settingsSource.setYear(631571).isSuccessful)
+        }
+    }
+
 
     @Test
     fun grades() {
@@ -82,7 +92,7 @@ class RequestsUnitTest {
     @After
     fun logout() {
         runBlocking {
-//            loginRepository.logout()
+            loginRepository.logout()
 
         }
     }

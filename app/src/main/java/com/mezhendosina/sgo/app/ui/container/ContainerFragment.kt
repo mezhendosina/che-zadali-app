@@ -62,6 +62,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
                 R.id.journalFragment -> {
                     slideDownAnimation()
                 }
+
                 R.id.gradesFragment -> {
                     slideUpAnimation()
                 }
@@ -70,10 +71,10 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        sharedElementEnterTransition = MaterialContainerTransform()
-        sharedElementReturnTransition = MaterialContainerTransform()
+//        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+//        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+//        sharedElementEnterTransition = MaterialContainerTransform()
+//        sharedElementReturnTransition = MaterialContainerTransform()
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.checkUpdates()
         }
@@ -90,25 +91,18 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
         binding.bottomNavigation.setupWithNavController(navController)
         CoroutineScope(Dispatchers.Main).launch {
-            if (isB()) {
-                binding.toolbar.setTitleTextAppearance(
-                    requireContext(),
-                    R.style.TextAppearance_SGOApp_ActionBar_Title
-                )
-                binding.toolbar.title = TOOLBAR
-            } else {
-                NavigationUI.setupWithNavController(
-                    binding.toolbar,
-                    navController,
-                    AppBarConfiguration(setOf(R.id.gradesFragment, R.id.journalFragment))
-                )
-            }
+            NavigationUI.setupWithNavController(
+                binding.toolbar,
+                navController,
+                AppBarConfiguration(setOf(R.id.gradesFragment, R.id.journalFragment))
+            )
         }
         binding.toolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
         binding.gradesTopBar.termSelector.setOnClickListener(onTermSelectedListener())
         observeDownloadState()
         observeUpdates()
         observeGradesOptions()
+        setupOnSortGradesClickListener()
     }
 
     override fun onDestroy() {
@@ -128,6 +122,15 @@ class ContainerFragment : Fragment(R.layout.container_main) {
                         gradeOptions.TERMID.firstOrNull { it.value == settings.currentTrimId.first() }?.name
                 }
             }
+        }
+    }
+
+    private fun setupOnSortGradesClickListener() {
+        binding.gradesTopBar.sortGradesButton.setOnClickListener {
+            GradesFilterBottomSheet().show(
+                childFragmentManager,
+                GradesFilterBottomSheet.TAG
+            )
         }
     }
 
@@ -169,6 +172,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
                 ).show(childFragmentManager, UpdateBottomSheetFragment.TAG)
                 true
             }
+
             R.id.settings -> {
                 findTopNavController().navigate(
                     R.id.action_containerFragment_to_settingsContainer,
@@ -177,12 +181,14 @@ class ContainerFragment : Fragment(R.layout.container_main) {
                 )
                 true
             }
+
             R.id.announcements -> {
                 AnnouncementsBottomSheet().show(
                     childFragmentManager, AnnouncementsBottomSheet.TAG
                 )
                 true
             }
+
             else -> false
         }
 
@@ -197,7 +203,6 @@ class ContainerFragment : Fragment(R.layout.container_main) {
             }
             if (updates.tagName != BuildConfig.VERSION_NAME) binding.toolbar.menu[0].isVisible =
                 true
-
         }
     }
 

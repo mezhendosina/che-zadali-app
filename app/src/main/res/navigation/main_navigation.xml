@@ -29,7 +29,7 @@
         android:id="@+id/containerFragment"
         android:name="com.mezhendosina.sgo.app.ui.container.ContainerFragment"
         android:label="main_container"
-        tools:layout="@layout/container_main" >
+        tools:layout="@layout/container_main">
         <action
             android:id="@+id/action_containerFragment_to_lessonFragment"
             app:destination="@id/lessonFragment" />

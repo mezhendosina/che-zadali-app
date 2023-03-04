@@ -20,7 +20,5 @@
         <item>@font/open_sans</item>
         <item>@font/roboto</item>
         <item>@font/roboto_medium</item>
-        <item>@font/roboto_slab</item>
-        <item>@font/roboto_slab_bold</item>
     </array>
 </resources>

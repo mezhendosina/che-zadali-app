@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="4dp"
-        android:background="@drawable/shape_past_mandaory"
+        android:background="@drawable/shape_past_mandatory"
         android:overScrollMode="never"
         android:paddingVertical="4dp"
         android:visibility="visible"

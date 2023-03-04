@@ -98,7 +98,7 @@ object Singleton {
         sourcesProvider.getLoginSource()
     }
 
-    val diarySource: DiarySource by lazy {
+    private val diarySource: DiarySource by lazy {
         sourcesProvider.getDiarySource()
     }
 
@@ -114,7 +114,7 @@ object Singleton {
         sourcesProvider.getGradesSource()
     }
 
-    private val settingsSource: SettingsSource by lazy {
+    val settingsSource: SettingsSource by lazy {
         sourcesProvider.getSettingsSource()
     }
 
