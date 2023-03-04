@@ -27,7 +27,7 @@
     <string name="start_typing">Начните вводить…</string>
     <string name="attachments">Прикрепленные файлы</string>
     <string name="send_homework">Ответ на задание</string>
-    <string name="logout">Выйти</string>
+    <string name="logout">Выйти из аккаунта</string>
     <string name="in_progress">В разработке</string>
     <string name="selected_theme">Выбранная тема</string>
     <string name="contain_attachments">Есть прикрепленные файлы</string>
@@ -133,7 +133,7 @@
     <string name="request_region">Предложить регион</string>
     <string name="grades_settings">Настройки оценок</string>
     <string name="sort_grades_by">Сортировка оценок</string>
-    <string name="year_grade_header">Оценки за</string>
+    <string name="year_grade_header">Отображать оценки за</string>
     <string name="sort_by">Сортировать по</string>
     <string name="new_grade_notification">Уведомления о новых оценках</string>
     <string name="sgo_app_logo">Логотип SGO app</string>

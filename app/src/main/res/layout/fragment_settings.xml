@@ -87,6 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="18dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/birthday">
@@ -254,12 +255,10 @@
 
         <Button
             android:id="@+id/logout_button"
-            style="@style/Widget.SGOApp.Button.Secondary"
+            style="@style/Widget.SGOApp.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="64dp"
-            android:backgroundTint="?attr/colorErrorContainer"
             android:text="@string/logout"
             android:textColor="?attr/colorOnErrorContainer"
             app:icon="@drawable/ic_logout"

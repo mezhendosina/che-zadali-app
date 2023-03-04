@@ -48,12 +48,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:overScrollMode="never"
         android:nestedScrollingEnabled="true"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/why_grade_header"
-        tools:itemCount="2"
+        tools:itemCount="3"
         tools:listitem="@layout/item_why_grade" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
