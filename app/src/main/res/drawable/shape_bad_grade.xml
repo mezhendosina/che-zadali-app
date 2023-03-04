@@ -14,8 +14,8 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <dimen name="text_size_small">12sp</dimen>
-    <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_large">18sp</dimen>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/colorErrorContainer" />
+    <corners android:radius="12dp" />
+</shape>
