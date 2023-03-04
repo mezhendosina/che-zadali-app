@@ -30,6 +30,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseRegionBinding
+import com.mezhendosina.sgo.app.ui.DividerItemDecoration
 
 class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
@@ -72,6 +73,8 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
             binding!!.schoolList.adapter = adapter
             binding!!.schoolList.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+            binding!!.schoolList.addItemDecoration(DividerItemDecoration(requireContext()))
         }
 
         observeRegions()
