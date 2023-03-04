@@ -32,16 +32,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 import com.mezhendosina.sgo.app.findTopNavController
-import com.mezhendosina.sgo.app.ui.TOOLBAR
 import com.mezhendosina.sgo.app.ui.announcementsBottomSheet.AnnouncementsBottomSheet
-import com.mezhendosina.sgo.app.ui.isB
+import com.mezhendosina.sgo.app.ui.gradesFilter.GradesFilterBottomSheet
 import com.mezhendosina.sgo.app.ui.updateBottomSheet.UpdateBottomSheetFragment
 import com.mezhendosina.sgo.data.Settings
 import kotlinx.coroutines.CoroutineScope
@@ -127,7 +125,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
             if (gradeOptions != null) {
                 CoroutineScope(Dispatchers.Main).launch {
                     binding.gradesTopBar.termSelector.text =
-                        gradeOptions.TERMID.first { it.value == settings.currentTrimId.first() }.name
+                        gradeOptions.TERMID.firstOrNull { it.value == settings.currentTrimId.first() }?.name
                 }
             }
         }
