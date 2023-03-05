@@ -19,11 +19,12 @@ package com.mezhendosina.sgo.app.ui.grades
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemGradeBinding
-import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
+import com.mezhendosina.sgo.app.ui.setupGrade
+import com.mezhendosina.sgo.app.ui.toGradeType
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 typealias OnGradeClickListener = (GradesItem, View) -> Unit
@@ -34,7 +35,6 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     var grades: List<GradesItem> = emptyList()
         set(newValue) {
             field = newValue.filter { it.name != "Итого" && it.avg.toString().isNotEmpty() }
-                .sortedBy { it.name }
             notifyDataSetChanged()
         }
 
@@ -42,8 +42,17 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
 
     override fun onClick(p0: View) {
         val gradeItem = p0.tag as GradesItem
-        val view = p0.rootView.findViewById<CardView>(R.id.grade_item)
-        view.transitionName = gradeItem.name
+        val view = p0.rootView
+
+
+        ViewCompat.setTransitionName(
+            view,
+            p0.context.getString(
+                R.string.grade_item_transition_name,
+                gradeItem.name
+            )
+        )
+
         onGradeClickListener(gradeItem, view)
     }
 
@@ -59,38 +68,24 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     override fun onBindViewHolder(holder: GradeViewHolder, position: Int) {
         val grade = grades[position]
         with(holder.binding) {
-//            root.transitionName = grade.name
+
+            ViewCompat.setTransitionName(
+                root,
+                holder.itemView.context.getString(
+                    R.string.grade_item_transition_name,
+                    grade.name
+                )
+            )
+
             holder.itemView.tag = grade
             gradeName.text = grade.name
-            bindGradeValue(grade, this.grade)
+            this.grade.setupGrade(
+                holder.itemView.context,
+                grade.avgGrade().toGradeType(),
+                grade.avg ?: ""
+            )
         }
     }
 
     override fun getItemCount(): Int = grades.size
-}
-
-fun bindGradeValue(grade: GradesItem, binding: ItemGradeValueBinding) {
-    binding.apply {
-        if (!grade.avg.isNullOrEmpty()) {
-            val avgDouble = grade.avgGrade()
-            if (avgDouble < 2.5) {
-                badGrade.text = grade.avg
-                showBadGrade(this)
-            } else if (2.5 <= avgDouble && avgDouble < 3.5) {
-                midGrade.text = grade.avg
-                showMidGrade(this)
-            } else if (avgDouble >= 3.5) {
-                goodGrade.text = grade.avg
-                showGoodGrade(this)
-            }
-
-            when (grade.avg) {
-                "5,00" -> goodGrade.text = "5"
-                "4,00" -> goodGrade.text = "4"
-                "3,00" -> midGrade.text = "3"
-                "2,00" -> badGrade.text = "2"
-                "1,00" -> badGrade.text = "1"
-            }
-        }
-    }
 }

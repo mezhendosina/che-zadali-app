@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui.itemGrade
+package com.mezhendosina.sgo.app.ui.gradeItem
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,36 +90,47 @@ class CalculateGradeAdapter(
         val grade = grades[position]
         val initGrade = initGrades[position]
         with(holder.binding) {
-//            gradeValue.addTextChangedListener {
-//                if (it.toString().toIntOrNull() != null) {
-//                    changeGradeClickListener.manualEditGrade(
-//                        position,
-//                        it.toString().toInt()
-//                    )
-//                }
-//            }
             plusGrade.tag = position
             minusGrade.tag = position
             minusGrade.isEnabled = grade - initGrade > 0
             val deltaGrade = grade - initGrade
+
+            val context = holder.itemView.context
+
+            val gradeColor = TypedValue()
+            var headerText: CharSequence = ""
+
+
             when (position) {
                 GradeItemFragment.FIVE_GRADE -> {
-                    header.text = holder.itemView.context.getText(R.string.five_grade)
-                    gradeValue.setText(deltaGrade.toString())
+                    headerText = context.getText(R.string.five_grade)
+                    context.theme.resolveAttribute(R.attr.colorGoodGrade, gradeColor, true)
                 }
+
                 GradeItemFragment.FOUR_GRADE -> {
-                    header.text = holder.itemView.context.getText(R.string.four_grade)
-                    gradeValue.setText(deltaGrade.toString())
+                    headerText = context.getText(R.string.four_grade)
+                    context.theme.resolveAttribute(R.attr.colorGoodGrade, gradeColor, true)
                 }
+
                 GradeItemFragment.THREE_GRADE -> {
-                    header.text = holder.itemView.context.getText(R.string.three_grade)
-                    gradeValue.setText(deltaGrade.toString())
+                    headerText = context.getText(R.string.three_grade)
+                    context.theme.resolveAttribute(R.attr.colorMidGrade, gradeColor, true)
                 }
+
                 GradeItemFragment.TWO_GRADE -> {
-                    header.text = holder.itemView.context.getText(R.string.two_grade)
-                    gradeValue.setText(deltaGrade.toString())
+                    headerText = context.getText(R.string.two_grade)
+                    context.theme.resolveAttribute(
+                        com.google.android.material.R.attr.colorError,
+                        gradeColor,
+                        true
+                    )
                 }
             }
+            gradeValue.setText(deltaGrade.toString())
+            header.text = headerText
+
+            gradeValue.setTextColor(gradeColor.data)
+            header.setTextColor(gradeColor.data)
         }
     }
 

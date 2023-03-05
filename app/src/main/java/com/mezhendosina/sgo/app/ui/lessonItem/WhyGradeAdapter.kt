@@ -21,9 +21,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemWhyGradeBinding
-import com.mezhendosina.sgo.app.ui.grades.showBadGrade
-import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
-import com.mezhendosina.sgo.app.ui.grades.showMidGrade
+import com.mezhendosina.sgo.app.ui.setupGrade
+import com.mezhendosina.sgo.app.ui.toGradeType
 import com.mezhendosina.sgo.data.requests.sgo.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.homework.entities.WhyGradeEntity
 
@@ -61,32 +60,24 @@ class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>
                 } else {
                     dutyMark.visibility = View.INVISIBLE
 
-                    when (grade.mark.mark) {
-                        2, 1 -> {
-                            showBadGrade(this)
-                            badGrade.text = grade.mark.mark.toString()
-                        }
-                        3 -> {
-                            showMidGrade(this)
-                            midGrade.text = grade.mark.mark.toString()
-                        }
-                        4, 5 -> {
-                            showGoodGrade(this)
-                            goodGrade.text = grade.mark.mark.toString()
-                        }
-                    }
+                    this.setupGrade(
+                        holder.itemView.context,
+                        grade.mark.mark.toFloat().toGradeType(),
+                        grade.mark.mark.toString()
+                    )
                 }
-            }
-            if (grade.assignmentName != "---Не указана---") {
-                gradeText.text = grade.assignmentName
-                gradeType.text = types.find { it.id == grade.typeId }?.name
-                gradeType.visibility = View.VISIBLE
-            } else {
-                gradeText.text = types.find { it.id == grade.typeId }?.name
-                gradeType.visibility = View.GONE
+                if (grade.assignmentName != "---Не указана---") {
+                    gradeText.text = grade.assignmentName
+                    gradeType.text = types.find { it.id == grade.typeId }?.name
+                    gradeType.visibility = View.VISIBLE
+                } else {
+                    gradeText.text = types.find { it.id == grade.typeId }?.name
+                    gradeType.visibility = View.GONE
+                }
             }
         }
     }
 
     override fun getItemCount(): Int = grades.size
+
 }

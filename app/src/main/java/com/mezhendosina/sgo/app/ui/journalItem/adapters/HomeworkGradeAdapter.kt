@@ -22,9 +22,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
 import com.mezhendosina.sgo.app.model.journal.entities.AssignmentUiEntity
-import com.mezhendosina.sgo.app.ui.grades.showBadGrade
-import com.mezhendosina.sgo.app.ui.grades.showGoodGrade
-import com.mezhendosina.sgo.app.ui.grades.showMidGrade
+import com.mezhendosina.sgo.app.ui.setupGrade
+import com.mezhendosina.sgo.app.ui.toGradeType
 
 class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkGradeViewHolder>() {
 
@@ -51,20 +50,15 @@ class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkG
             if (grade != null) {
                 if (grade.dutyMark) {
                     dutyMark.visibility = View.VISIBLE
-                } else when (grade.mark) {
-                    1, 2 -> {
-                        showBadGrade(this)
-                        badGrade.text = grade.mark.toString()
-                    }
-                    3 -> {
-                        showMidGrade(this)
-                        midGrade.text = "3"
-                    }
-                    4, 5 -> {
-                        showGoodGrade(this)
-                        goodGrade.text = grade.mark.toString()
-                    }
+                } else {
+                    this.setupGrade(
+                        holder.itemView.context,
+                        grade.mark.toFloat().toGradeType(),
+                        grade.mark.toString()
+                    )
+                    dutyMark.visibility = View.INVISIBLE
                 }
+
             }
         }
     }

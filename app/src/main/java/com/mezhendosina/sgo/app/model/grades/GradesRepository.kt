@@ -40,7 +40,7 @@ class GradesRepository(
     }
 
 
-    suspend fun loadGrades(gradeOptions: GradeOptions, termid: String) {
+    suspend fun loadGrades(gradeOptions: GradeOptions, termid: String, sortType: Int) {
         val at = Singleton.at
         val getGradesRequest = gradesSource.getGrades(
             at,
@@ -52,7 +52,18 @@ class GradesRepository(
 
         val gradesList = GradesFromHtml().extractGrades(getGradesRequest)
 
-        grades = gradesList.filter { it.avg != null }.toMutableList()
+        grades = gradesList.filter { it.avg != null }
+            .sortedBy {
+                when (sortType) {
+                    GradeSortType.BY_GRADE_VALUE, GradeSortType.BY_GRADE_VALUE_DESC -> it.avg
+                    GradeSortType.BY_LESSON_NAME -> it.name
+                    else -> it.name
+                }
+            }.toMutableList()
+
+        if (sortType == GradeSortType.BY_GRADE_VALUE) {
+            grades = grades.asReversed()
+        }
 
         withContext(Dispatchers.Main) {
             Singleton.grades = grades

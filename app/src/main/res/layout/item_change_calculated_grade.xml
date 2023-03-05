@@ -18,11 +18,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp">
 
     <TextView
         android:id="@+id/header"
-        style="@style/mainText"
+        style="@style/TextAppearance.Material3.BodyLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -55,7 +56,6 @@
         android:paddingHorizontal="12dp"
         android:singleLine="true"
         android:textAppearance="@style/gradeText"
-        android:textColor="?attr/colorPrimary"
         app:layout_constraintEnd_toStartOf="@id/plus_grade"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="5" />

@@ -16,6 +16,9 @@
 
 package com.mezhendosina.sgo.data.requests.sgo.grades.entities
 
+import com.mezhendosina.sgo.app.model.grades.entities.CountGradeEntity
+import com.mezhendosina.sgo.app.ui.GradeNames
+import com.mezhendosina.sgo.app.ui.GradesType
 import com.mezhendosina.sgo.data.grades.CalculateGradeItem
 
 data class GradesItem(
@@ -37,5 +40,52 @@ data class GradesItem(
         three ?: 0,
         two ?: 0
     )
+
+    //TODO rewrite
+    fun countGradesToList(): List<CountGradeEntity> {
+        val outList = mutableListOf<CountGradeEntity>()
+        if (five != null) outList.add(
+            CountGradeEntity(
+                "Пятерок",
+                GradeNames.FIVE,
+                GradesType.GOOD_GRADE,
+                five
+            )
+        )
+        if (four != null) outList.add(
+            CountGradeEntity(
+                "Четверок",
+                GradeNames.FOUR,
+                GradesType.GOOD_GRADE,
+                four
+            )
+        )
+        if (three != null) outList.add(
+            CountGradeEntity(
+                "Троек",
+                GradeNames.THREE,
+                GradesType.MID_GRADE,
+                three
+            )
+        )
+        if (two != null) outList.add(
+            CountGradeEntity(
+                "Двоек",
+                GradeNames.TWO,
+                GradesType.BAD_GRADE,
+                two
+            )
+        )
+        if (one != null) outList.add(
+            CountGradeEntity(
+                "Единиц",
+                GradeNames.ONE,
+                GradesType.BAD_GRADE,
+                one
+            )
+        )
+        return outList
+    }
+
 
 }

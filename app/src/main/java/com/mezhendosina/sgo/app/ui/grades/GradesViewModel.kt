@@ -24,15 +24,14 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.perf.ktx.performance
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradeActionListener
+import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class GradesViewModel(
@@ -59,58 +58,67 @@ class GradesViewModel(
         gradeServices.addListener(gradeActionListener)
     }
 
-    fun load(context: Context) {
+    suspend fun load(context: Context) {
+
+        if (Singleton.grades.isNotEmpty() && Singleton.gradesRecyclerViewLoaded.value == false) {
+            withContext(Dispatchers.Main) {
+                _grades.value = Singleton.grades
+                _isLoading.value = false
+            }
+            return
+        }
 
         // start firebase performance trace
         val trace = Firebase.performance.newTrace("load_grades_trace")
         trace.start()
+        withContext(Dispatchers.Main) {
+            _isLoading.value = true
+        }
+        try {
+            val settings = Settings(context)
 
+            // gradesOption request
+            val gradeOptions = gradeServices.loadGradesOptions()
+            withContext(Dispatchers.Main) {
+                _gradeOptions.value = gradeOptions
+            }
 
-        _isLoading.value = true
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val settings = Settings(context)
+            // save result
+            withContext(Dispatchers.Main) {
+                Singleton.gradesOptions.value = _gradeOptions.value
+            }
+            // find saved termId in response
+            val findId = _gradeOptions.value!!.TERMID.find {
+                it.value == settings.currentTrimId.first().toString()
+            }
 
-                // gradesOption request
-                val gradeOptions = gradeServices.loadGradesOptions()
-                withContext(Dispatchers.Main) {
-                    _gradeOptions.value = gradeOptions
-                }
+            // if termId not find save and set selected termId
+            if (findId == null) settings.editPreference(
+                Settings.CURRENT_TRIM_ID,
+                _gradeOptions.value!!.TERMID.first { it.is_selected }.value
+            )
 
-                // save result
-                withContext(Dispatchers.Main) {
-                    Singleton.gradesOptions.value = _gradeOptions.value
-                }
-                // find saved termId in response
-                val findId = _gradeOptions.value!!.TERMID.find {
-                    it.value == settings.currentTrimId.first().toString()
-                }
+            loadGrades(
+                _gradeOptions.value!!,
+                settings.currentTrimId.first().toString(),
+                settings.sortGradesBy.first() ?: GradeSortType.BY_LESSON_NAME
+            )
 
-                // if termId not find save and set selected termId
-                if (findId == null) settings.editPreference(
-                    Settings.CURRENT_TRIM_ID,
-                    _gradeOptions.value!!.TERMID.first { it.is_selected }.value
-                )
-
-
-                loadGrades(_gradeOptions.value!!, settings.currentTrimId.first().toString())
-
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    _errorMessage.value = e.toDescription()
-                }
-            } finally {
-                withContext(Dispatchers.Main) {
-                    trace.stop()
-                    _isLoading.value = false
-                }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                _errorMessage.value = e.toDescription()
+            }
+        } finally {
+            withContext(Dispatchers.Main) {
+                trace.stop()
+                _isLoading.value = false
             }
         }
     }
 
-    private suspend fun loadGrades(gradesOptions: GradeOptions, termID: String) =
+    private suspend fun loadGrades(gradesOptions: GradeOptions, termID: String, sortType: Int) =
         withContext(Dispatchers.IO) {
-            gradeServices.loadGrades(gradesOptions, termID)
+            gradeServices.loadGrades(gradesOptions, termID, sortType)
         }
 
     override fun onCleared() {

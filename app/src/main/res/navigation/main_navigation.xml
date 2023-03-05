@@ -24,7 +24,7 @@
         android:id="@+id/lessonFragment"
         android:name="com.mezhendosina.sgo.app.ui.lessonItem.LessonFragment"
         android:label="lesson_item"
-        tools:layout="@layout/item_lesson" />
+        tools:layout="@layout/fragment_item_lesson" />
     <fragment
         android:id="@+id/containerFragment"
         android:name="com.mezhendosina.sgo.app.ui.container.ContainerFragment"
@@ -55,7 +55,7 @@
         tools:layout="@layout/container_settings" />
     <fragment
         android:id="@+id/gradeItemFragment"
-        android:name="com.mezhendosina.sgo.app.ui.itemGrade.GradeItemFragment"
+        android:name="com.mezhendosina.sgo.app.ui.gradeItem.GradeItemFragment"
         android:label="grade_fragment"
         tools:layout="@layout/fragment_grade_item" />
 </navigation>

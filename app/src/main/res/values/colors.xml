@@ -123,7 +123,25 @@
     <color name="md_theme_dark_outlineVariant">#43474E</color>
     <color name="md_theme_dark_scrim">#000000</color>
 
-    <color name="goodGrade">#75B47F</color>
-    <color name="midGrade">#D7A355</color>
+    <color name="light_good_grade">#126d34</color>
+    <color name="light_on_good_grade">#ffffff</color>
+    <color name="light_good_grade_container">#E7FAEA</color>
+    <color name="light_on_good_grade_container">#00210a</color>
+
+    <color name="light_mid_grade">#D3912F</color>
+    <color name="light_on_mid_grade">#ffffff</color>
+    <color name="light_mid_grade_container">#FFF3E1</color>
+    <color name="light_on_mid_grade_container">#291800</color>
+
+    <color name="dark_good_grade">#84d994</color>
+    <color name="dark_on_good_grade">#003916</color>
+    <color name="dark_good_grade_container">#00451D</color>
+    <color name="dark_on_good_grade_container">#C4ECCB</color>
+
+    <color name="dark_mid_grade">#ffba4b</color>
+    <color name="dark_on_mid_grade">#442b00</color>
+    <color name="dark_mid_grade_container">#624000</color>
+    <color name="dark_on_mid_grade_container">#ffddb1</color>
+
 
 </resources>

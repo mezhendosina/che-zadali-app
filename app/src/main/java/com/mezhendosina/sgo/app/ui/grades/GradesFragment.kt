@@ -33,6 +33,9 @@ import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GradesFragment : Fragment(R.layout.fragment_grades) {
 
@@ -40,21 +43,22 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     internal val viewModel: GradesViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough()
-        exitTransition = MaterialFadeThrough()
-    }
 
     private val gradeAdapter = GradeAdapter(object : OnGradeClickListener {
         override fun invoke(p1: GradesItem, p2: View) {
             val a = viewModel.grades.value?.indexOf(p1)
+
+            val navigationExtras = FragmentNavigatorExtras(
+                p2 to getString(R.string.grade_item_details_transition_name)
+            )
+
             findTopNavController().navigate(
                 R.id.action_containerFragment_to_gradeItemFragment,
                 bundleOf("LESSON_INDEX" to a),
                 null,
-                FragmentNavigatorExtras(p2 to p1.name),
+                navigationExtras
             )
+            Singleton.gradesRecyclerViewLoaded.value = false
         }
     })
 
@@ -94,28 +98,28 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
                     binding!!.gradesRecyclerView.visibility = View.GONE
                     binding!!.emptyState.emptyText.text = "Оценок нет"
                 }
-                binding!!.gradesRecyclerView.doOnPreDraw {
-                    Singleton.transition.value = true
-                }
             }
         }
     }
 
     private fun observeLoading() {
         val fadeThrough = MaterialFadeThrough()
-        if (binding != null) {
-            TransitionManager.beginDelayedTransition(binding!!.mainLayout, fadeThrough)
-        }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (binding != null) {
+                TransitionManager.beginDelayedTransition(binding!!.loading.root, fadeThrough)
+                TransitionManager.beginDelayedTransition(binding!!.gradesRecyclerView, fadeThrough)
+
                 if (it) {
                     binding!!.loading.root.visibility = View.VISIBLE
                     binding!!.gradesRecyclerView.visibility = View.INVISIBLE
                     binding!!.loading.root.startShimmer()
                 } else {
-                    binding!!.loading.root.visibility = View.GONE
                     binding!!.loading.root.stopShimmer()
+                    binding!!.gradesRecyclerView.doOnPreDraw {
+                        binding!!.gradesRecyclerView.visibility = View.VISIBLE
+                        binding!!.loading.root.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -126,7 +130,9 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
             if (!it.isNullOrEmpty() && binding != null) {
                 binding!!.errorMessage.errorDescription.text = it
                 binding!!.errorMessage.retryButton.setOnClickListener {
-                    viewModel.load(requireContext())
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.load(requireContext())
+                    }
                     binding!!.errorMessage.root.visibility = View.GONE
                 }
             }
@@ -137,7 +143,9 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         val settings = Settings(requireContext())
 
         settings.currentTrimId.asLiveData().observe(viewLifecycleOwner) {
-            viewModel.load(requireContext())
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.load(requireContext())
+            }
         }
     }
 }

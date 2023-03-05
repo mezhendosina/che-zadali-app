@@ -16,7 +16,7 @@
 
 package com.mezhendosina.sgo.data.grades
 
-import com.mezhendosina.sgo.app.ui.itemGrade.GradeItemFragment
+import com.mezhendosina.sgo.app.ui.gradeItem.GradeItemFragment
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 import kotlin.math.roundToInt
 
@@ -38,24 +38,28 @@ data class CalculateGradeItem(
                 countThree,
                 countTwo
             )
+
             GradeItemFragment.FOUR_GRADE -> CalculateGradeItem(
                 countFive,
                 countFour + delta,
                 countThree,
                 countTwo
             )
+
             GradeItemFragment.THREE_GRADE -> CalculateGradeItem(
                 countFive,
                 countFour,
                 countThree + delta,
                 countTwo
             )
+
             GradeItemFragment.TWO_GRADE -> CalculateGradeItem(
                 countFive,
                 countFour,
                 countThree,
                 countTwo + delta
             )
+
             else -> this
         }
     }
@@ -73,7 +77,7 @@ data class CalculateGradeItem(
         )
 }
 
-
+@Deprecated("New calculate grade method available")
 class GradesCalculator(
     private val gradesItem: GradesItem
 ) {
@@ -109,7 +113,6 @@ class GradesCalculator(
         const val FOUR_GRADE = 4
         const val THREE_GRADE = 3
     }
-
 }
 
 

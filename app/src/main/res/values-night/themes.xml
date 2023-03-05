@@ -55,16 +55,16 @@
         <item name="colorOutline">@color/md_theme_dark_outline</item>
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
-        <item name="colorGoodGrade">#84d994</item>
-        <item name="colorOnGoodGrade">#003916</item>
-        <item name="colorGoodGradeContainer">#005323</item>
-        <item name="colorOnGoodGradeContainer">#a0f6ae</item>
-        <item name="harmonizeGoodGrade">true</item>
-        <item name="colorMidGrade">#ffba4b</item>
-        <item name="colorOnMidGrade">#442b00</item>
-        <item name="colorMidGradeContainer">#624000</item>
-        <item name="colorOnMidGradeContainer">#ffddb1</item>
-        <item name="harmonizeMidGrade">true</item>
+        <item name="colorGoodGrade">@color/dark_good_grade</item>
+        <item name="colorOnGoodGrade">@color/dark_on_good_grade</item>
+        <item name="colorGoodGradeContainer">@color/dark_good_grade_container</item>
+        <item name="colorOnGoodGradeContainer">@color/dark_on_good_grade_container</item>
+        <item name="harmonizeGoodGrade">false</item>
+        <item name="colorMidGrade">@color/dark_mid_grade</item>
+        <item name="colorOnMidGrade">@color/dark_on_mid_grade</item>
+        <item name="colorMidGradeContainer">@color/dark_mid_grade_container</item>
+        <item name="colorOnMidGradeContainer">@color/dark_on_mid_grade_container</item>
+        <item name="harmonizeMidGrade">false</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
 
         <item name="android:textColorLink">@color/md_theme_dark_primary</item>

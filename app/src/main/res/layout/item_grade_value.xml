@@ -20,48 +20,22 @@
     android:id="@+id/grade"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="4dp"
-    android:background="@null">
+    android:paddingHorizontal="12dp">
 
     <TextView
-        android:id="@+id/good_grade"
-        style="@style/goodGradeText"
+        android:id="@+id/value"
+        style="@style/gradeText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="28dp"
         android:background="@null"
         android:maxLength="4"
-        android:visibility="gone"
+        android:textColor="?attr/colorGoodGrade"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="5" />
 
-    <TextView
-        android:id="@+id/mid_grade"
-        style="@style/midGradeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLength="4"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tool:text="3.49" />
-
-    <TextView
-        android:id="@+id/bad_grade"
-        style="@style/badGradeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:maxLength="4"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tool:text="2.50" />
 
     <ImageView
         android:id="@+id/duty_mark"

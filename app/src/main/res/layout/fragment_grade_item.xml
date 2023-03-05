@@ -19,8 +19,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    tools:context=".ui.itemGrade.GradeItemFragment">
+    android:transitionName="@string/grade_item_details_transition_name"
+    tools:context=".ui.gradeItem.GradeItemFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         style="@style/AppBarLayout"
