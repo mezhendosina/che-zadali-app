@@ -19,7 +19,11 @@ package com.mezhendosina.sgo.data
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.mezhendosina.sgo.app.model.login.LoginEntity
 import kotlinx.coroutines.flow.Flow
@@ -52,6 +56,8 @@ class Settings(val context: Context) {
         val SHOW_UPDATE_DIALOG = booleanPreferencesKey("show_update_dialog")
         val SORT_GRADES_BY = intPreferencesKey("sort_grades_by")
 
+        val SKIP_SUNDAY = booleanPreferencesKey("skip_sunday")
+
         val SCHOOL_ID = intPreferencesKey("scid")
     }
 
@@ -66,6 +72,7 @@ class Settings(val context: Context) {
     val lastVersionNumber = LAST_VERSION_NUMBER.getValue()
     val showUpdateDialog = SHOW_UPDATE_DIALOG.getValue()
     val sortGradesBy = SORT_GRADES_BY.getValue()
+    val skipSunday = SKIP_SUNDAY.getValue()
 
     private fun <T> Preferences.Key<T>.getValue(): Flow<T?> =
         context.dataStore.data.map { it[this] }

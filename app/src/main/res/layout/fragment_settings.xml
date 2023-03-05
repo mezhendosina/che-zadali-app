@@ -86,8 +86,8 @@
             style="@style/settingsButton.withCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="18dp"
             android:layout_marginTop="8dp"
+            android:paddingHorizontal="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/birthday">

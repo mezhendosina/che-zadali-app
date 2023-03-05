@@ -17,6 +17,10 @@
 package com.mezhendosina.sgo.data
 
 import android.annotation.SuppressLint
+import android.content.Context
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -128,8 +132,16 @@ fun tabDate(date: String): String {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun currentWeekStart(): String {
+fun currentWeekStart(context: Context? = null): String {
+
     val calendar = Calendar.getInstance()
-    calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    CoroutineScope(Dispatchers.IO).launch {
+//        val skipOnSunday = Settings(context).skipSunday.first()
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY/* && skipOnSunday == true*/) {
+            calendar.add(Calendar.DAY_OF_WEEK, 1)
+        } else {
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        }
+    }
     return calendar.time.getDateByTime()
 }
