@@ -23,34 +23,33 @@
 
     <Button
         android:id="@+id/term_selector"
+        style="@style/Widget.SGOApp.Button.OutlinedButton"
         android:layout_width="wrap_content"
-        android:layout_height="52dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textAppearance="@style/mainScreenHeaders"
-        android:textSize="18sp"
-        app:cornerRadius="12dp"
         app:icon="@drawable/ic_expand_more"
         app:iconGravity="textEnd"
         app:iconSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1 триместр" />
 
     <Button
-        style="@style/Widget.SGOApp.Button.Secondary"
+        android:id="@+id/sort_grades_button"
+        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:insetLeft="16dp"
         android:insetTop="12dp"
         android:insetRight="16dp"
         android:insetBottom="12dp"
-        android:visibility="gone"
-        app:icon="@drawable/ic_filter"
+        app:icon="@drawable/ic_sort"
         app:iconGravity="start|end|textStart"
-        app:iconPadding="0dp"
+        app:iconSize="24dp"
         app:iconTint="?attr/colorOnBackground"
-        app:layout_constraintBottom_toBottomOf="@id/term_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/term_selector" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

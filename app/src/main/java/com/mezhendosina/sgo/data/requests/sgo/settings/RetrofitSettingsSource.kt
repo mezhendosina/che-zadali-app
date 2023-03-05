@@ -22,8 +22,11 @@ import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.ChangePasswordEntity
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsRequestEntity
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.SendPhotoRequestEntity
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
-import java.io.File
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 class RetrofitSettingsSource(config: RetrofitConfig) : BaseRetrofitSource(config), SettingsSource {
 
@@ -55,12 +58,15 @@ class RetrofitSettingsSource(config: RetrofitConfig) : BaseRetrofitSource(config
             settingsApi.changePassword(userId, password)
         }
 
-    override suspend fun changeProfilePhoto(file: File, userId: Int) =
-        wrapRetrofitExceptions {
-            TODO()
-        }
+    override suspend fun changeProfilePhoto(
+        file: MultipartBody.Part,
+        fileName: String,
+        userId: Int
+    ) = wrapRetrofitExceptions {
+        settingsApi.changeProfilePhoto(file, SendPhotoRequestEntity(fileName, userId))
+    }
 
-    override suspend fun setYear(id: Int): Unit = wrapRetrofitExceptions {
+    override suspend fun setYear(id: Int): Response<ResponseBody> = wrapRetrofitExceptions {
         settingsApi.setYear(id)
     }
 }

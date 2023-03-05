@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.model.homework
+package com.mezhendosina.sgo.app.model.grades
 
-class HomeworkRepository(
-    private val homeworkSource: HomeworkSource
-)
+object GradeSortType {
+    const val BY_GRADE_VALUE = 0
+    const val BY_GRADE_VALUE_DESC = 1
+    const val BY_LESSON_NAME = 2
+}

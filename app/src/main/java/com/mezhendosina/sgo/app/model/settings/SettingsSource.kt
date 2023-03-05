@@ -20,7 +20,9 @@ import com.mezhendosina.sgo.data.requests.sgo.settings.entities.ChangePasswordEn
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsRequestEntity
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
-import java.io.File
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 interface SettingsSource {
 
@@ -34,7 +36,7 @@ interface SettingsSource {
 
     suspend fun changePassword(userId: Int, password: ChangePasswordEntity)
 
-    suspend fun changeProfilePhoto(file: File, userId: Int)
+    suspend fun changeProfilePhoto(file: MultipartBody.Part, fileName: String, userId: Int)
 
-    suspend fun setYear(id: Int)
+    suspend fun setYear(id: Int): Response<ResponseBody>
 }

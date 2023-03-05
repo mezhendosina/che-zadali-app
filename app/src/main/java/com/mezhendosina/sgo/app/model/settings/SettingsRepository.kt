@@ -16,7 +16,9 @@
 
 package com.mezhendosina.sgo.app.model.settings
 
+import android.net.Uri
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.ui.uploadFileBottomSheet.getFileNameFromUri
 import com.mezhendosina.sgo.data.requests.notifications.NotificationsSource
 import com.mezhendosina.sgo.data.requests.notifications.entities.NotificationUserEntity
 import com.mezhendosina.sgo.data.requests.notifications.entities.UnregisterUserEntity
@@ -25,6 +27,9 @@ import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsReques
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class SettingsRepository(private val settingsSource: SettingsSource) {
@@ -43,6 +48,23 @@ class SettingsRepository(private val settingsSource: SettingsSource) {
             }
         }
     }
+
+    suspend fun changeProfilePhoto(uri: Uri?, studentId: Int) {
+        val contentResolver = Singleton.getContext().contentResolver
+        val a = uri?.let { contentResolver.openInputStream(it) }
+
+        val body = a?.readBytes()?.toRequestBody("*/*".toMediaTypeOrNull())
+        val fileName = getFileNameFromUri(Singleton.getContext(), uri)
+        if (body != null) {
+            val part = MultipartBody.Part.createFormData("file", fileName, body)
+
+            settingsSource.changeProfilePhoto(part, fileName ?: "", studentId)
+        }
+        withContext(Dispatchers.IO) {
+            a?.close()
+        }
+    }
+
 
     suspend fun registerGradesNotifications(userEntity: NotificationUserEntity) {
         notificationsSource.notificationsSource.registerUser(userEntity)
@@ -76,4 +98,7 @@ class SettingsRepository(private val settingsSource: SettingsSource) {
     suspend fun changePassword(userId: Int, password: ChangePasswordEntity) {
         settingsSource.changePassword(userId, password)
     }
+
+    suspend fun getYears() = settingsSource.getYearList()
+    suspend fun setYear(id: Int) = settingsSource.setYear(id)
 }

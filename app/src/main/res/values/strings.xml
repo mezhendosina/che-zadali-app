@@ -146,4 +146,12 @@
     <string name="start_end_date">%1$s - %2$s</string>
     <string name="user_name">%1$s %2$s %3$s</string>
     <string name="new_version">%1$s ➡ %2$s</string>
+    <string name="from_good_to_bad_grade">От хороших оценок к плохим</string>
+    <string name="from_bad_to_good_grade">От плохих оценок к хорошим</string>
+    <string name="by_lesson_name">По названию предмета</string>
+    <string name="set">Применить</string>
+    <string name="grade_item_details_transition_name">grade_item_details_transition_name</string>
+    <string name="grade_item_transition_name">grade_item_%1$s</string>
+    <string name="lesson_item_transition_name">lesson_item_%1$s</string>
+    <string name="lesson_item_details_transition_name">lesson_item_destination</string>
 </resources>
