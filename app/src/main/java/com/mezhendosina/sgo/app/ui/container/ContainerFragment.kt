@@ -22,6 +22,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -71,10 +72,11 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-//        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
 //        sharedElementEnterTransition = MaterialContainerTransform()
 //        sharedElementReturnTransition = MaterialContainerTransform()
+
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.checkUpdates()
         }
@@ -83,6 +85,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
         binding = ContainerMainBinding.bind(view)
         Singleton.journalTabsLayout = binding.tabsLayout
         val navHost = childFragmentManager.findFragmentById(R.id.tabs_container) as NavHostFragment
@@ -101,7 +104,12 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         binding.gradesTopBar.termSelector.setOnClickListener(onTermSelectedListener())
         observeDownloadState()
         observeUpdates()
+
+        view.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
         observeGradesOptions()
+//        observeGradesRecyclerViewLoad()
         setupOnSortGradesClickListener()
     }
 
@@ -112,6 +120,15 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         Singleton.tabLayoutMediator = null
         findNavController().removeOnDestinationChangedListener(onDestinationChangedListener)
     }
+
+//    private fun observeGradesRecyclerViewLoad() {
+//        Singleton.gradesRecyclerViewLoaded.observe(viewLifecycleOwner) {
+//            if (!it) {
+//                startPostponedEnterTransition()
+//                Singleton.gradesRecyclerViewLoaded.value = true
+//            }
+//        }
+//    }
 
     private fun observeGradesOptions() {
         val settings = Settings(Singleton.getContext())

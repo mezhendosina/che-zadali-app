@@ -19,7 +19,7 @@ package com.mezhendosina.sgo.app.ui.journalItem.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -76,7 +76,15 @@ class HomeworkAdapter(
 
     override fun onClick(v: View) {
         val lesson = v.tag as LessonUiEntity
-        val view = v.rootView.findViewById<ConstraintLayout>(R.id.homework_item)
+        val view = v.rootView
+
+        ViewCompat.setTransitionName(
+            view,
+            v.context.getString(
+                R.string.lesson_item_transition_name,
+                lesson.classmeetingId.toString()
+            )
+        )
 
         onHomeworkClickListener(lesson, view)
     }
@@ -92,6 +100,13 @@ class HomeworkAdapter(
     override fun onBindViewHolder(holder: HomeworkViewHolder, position: Int) {
         val lesson = lessons[position]
         with(holder.binding) {
+            ViewCompat.setTransitionName(
+                root,
+                holder.itemView.context.getString(
+                    R.string.lesson_item_transition_name,
+                    lesson.classmeetingId.toString()
+                )
+            )
             holder.itemView.tag = lesson
             lessonNumber.text = lesson.number.toString()
             lessonName.text = lesson.subjectName

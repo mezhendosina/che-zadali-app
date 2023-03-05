@@ -31,11 +31,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
+import com.mezhendosina.sgo.app.databinding.FragmentItemLessonBinding
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
-import com.mezhendosina.sgo.app.databinding.ItemLessonBinding
 import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentAdapter
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentClickListener
@@ -50,10 +50,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LessonFragment : Fragment(R.layout.item_lesson) {
+class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
     internal val viewModel: LessonViewModel by viewModels()
-    private lateinit var binding: ItemLessonBinding
+    private lateinit var binding: FragmentItemLessonBinding
 
     private val storagePermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -112,13 +112,15 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
+        //        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        //        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = ItemLessonBinding.bind(view)
+        binding = FragmentItemLessonBinding.bind(view)
         CoroutineScope(Dispatchers.Main).launch {
             showAnimation(binding.progressBar)
             withContext(Dispatchers.IO) {
@@ -128,7 +130,6 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
         }
         with(binding) {
             toolbar.setNavigationOnClickListener {
-                Singleton.transition.value = null
                 findTopNavController().popBackStack()
             }
 
@@ -298,7 +299,7 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
         }
     }
 
-    private fun showComment(binding: ItemLessonBinding) {
+    private fun showComment(binding: FragmentItemLessonBinding) {
         with(binding.homework) {
             commentBody.visibility = View.VISIBLE
             commentHeader.visibility = View.VISIBLE
@@ -306,7 +307,7 @@ class LessonFragment : Fragment(R.layout.item_lesson) {
 
     }
 
-    private fun showWhyGrades(binding: ItemLessonBinding) {
+    private fun showWhyGrades(binding: FragmentItemLessonBinding) {
         showAnimation(binding.itemWhyGrade.whyGradeRecyclerView)
         showAnimation(binding.itemWhyGrade.whyGradeDivider)
         showAnimation(binding.itemWhyGrade.whyGradeHeader)

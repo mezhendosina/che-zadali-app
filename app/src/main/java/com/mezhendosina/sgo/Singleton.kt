@@ -66,19 +66,20 @@ object Singleton {
     var lesson: LessonUiEntity? = null
     var pastMandatoryItem: PastMandatoryEntity? = null
 
-    var schools = mutableListOf<SchoolUiEntity>()
 
+    var schools = mutableListOf<SchoolUiEntity>()
     val gradesOptions = MutableLiveData<GradeOptions>()
     var grades: List<GradesItem> = emptyList()
+    val gradesRecyclerViewLoaded = MutableLiveData<Boolean>(true)
 
     var mySettings: MutableLiveData<MySettingsResponseEntity> = MutableLiveData()
-
-    val transition = MutableLiveData<Boolean>(null)
 
     val weeks = mutableListOf<WeekStartEndEntity>()
 
     var currentWeek: Int? = null
     val loadedDiaryUiEntity: MutableList<DiaryUiEntity> = mutableListOf()
+    val currentDiaryUiEntity = MutableLiveData<DiaryUiEntity>()
+    val diaryRecyclerViewLoaded = MutableLiveData<Boolean>(true)
 
     var journalTabsLayout: TabLayout? = null
     var tabLayoutMediator: TabLayoutMediator? = null
@@ -114,7 +115,7 @@ object Singleton {
         sourcesProvider.getGradesSource()
     }
 
-    val settingsSource: SettingsSource by lazy {
+    private val settingsSource: SettingsSource by lazy {
         sourcesProvider.getSettingsSource()
     }
 

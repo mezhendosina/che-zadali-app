@@ -36,7 +36,7 @@ class JournalItemViewModel(
     private val _week = MutableLiveData<DiaryUiEntity>()
     val week: LiveData<DiaryUiEntity> = _week
 
-    private val _isLoading = MutableLiveData(true)
+    private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _errorMessage = MutableLiveData<String>()
@@ -44,26 +44,31 @@ class JournalItemViewModel(
 
     suspend fun getWeek(weekStart: String?, weekEnd: String?) {
         val settings = Settings(Singleton.getContext())
+
+        if (Singleton.gradesRecyclerViewLoaded.value == false) {
+            withContext(Dispatchers.Main) {
+                _week.value = Singleton.currentDiaryUiEntity.value
+            }
+            return
+        }
         withContext(Dispatchers.Main) {
             _isLoading.value = true
             _errorMessage.value = ""
         }
         withContext(Dispatchers.IO) {
             try {
-                val findDiaryUiEntity =
-                    Singleton.loadedDiaryUiEntity.find { it.weekStart == weekStart }
-                val a =
-                    if (findDiaryUiEntity == null) {
-                        val getWeek = journalRepository.getWeek(
-                            settings.currentUserId.first(),
-                            WeekStartEndEntity(weekStart!!, weekEnd!!),
-                            Singleton.currentYearId.value ?: 0
-                        )
-                        Singleton.loadedDiaryUiEntity.add(getWeek)
-                        getWeek
-                    } else {
-                        findDiaryUiEntity
-                    }
+                val a = if (Singleton.currentDiaryUiEntity.value?.weekStart == weekStart) {
+                    Singleton.currentDiaryUiEntity.value!!
+                } else {
+                    val getWeek = journalRepository.getWeek(
+                        settings.currentUserId.first(),
+                        WeekStartEndEntity(weekStart!!, weekEnd!!),
+                        Singleton.currentYearId.value ?: 0
+                    )
+                    Singleton.loadedDiaryUiEntity.add(getWeek)
+                    getWeek
+                }
+
                 withContext(Dispatchers.Main) {
                     _week.value = a
                 }

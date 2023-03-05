@@ -19,8 +19,10 @@ package com.mezhendosina.sgo.app.ui.journalItem
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.View
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.mezhendosina.sgo.Singleton
@@ -50,7 +52,18 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
     private val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
         override fun invoke(p1: LessonUiEntity, p2: View) {
             Singleton.lesson = p1
-            findTopNavController().navigate(R.id.action_containerFragment_to_lessonFragment)
+
+            val navigationExtras = FragmentNavigatorExtras(
+                p2 to requireContext().getString(R.string.lesson_item_details_transition_name)
+            )
+
+            findTopNavController().navigate(
+                R.id.action_containerFragment_to_lessonFragment,
+                null,
+                null,
+                navigationExtras
+            )
+//            Singleton.diaryRecyclerViewLoaded.value = false
         }
     })
 
@@ -118,16 +131,21 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
     }
 
     private fun observeLoading() {
-        val fadeThrough = MaterialFadeThrough()
-        TransitionManager.beginDelayedTransition(binding?.root, fadeThrough)
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (binding != null) {
+        if (binding != null) {
+            viewModel.isLoading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding!!.loading.root.visibility = View.VISIBLE
+                    binding!!.diary.visibility = View.INVISIBLE
                     binding!!.loading.root.startShimmer()
+
                 } else {
+                    val containerTransform = MaterialFadeThrough()
+                    TransitionManager.beginDelayedTransition(binding!!.root, containerTransform)
                     binding!!.loading.root.stopShimmer()
-                    binding!!.loading.root.visibility = View.GONE
+                    binding!!.diary.doOnPreDraw {
+                        binding!!.loading.root.visibility = View.GONE
+                        binding!!.diary.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -138,6 +156,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
             if (binding != null) {
                 with(binding!!) {
                     if (diaryItem != null) {
+                        Singleton.currentDiaryUiEntity.value = diaryItem
                         if (diaryItem.pastMandatory.isEmpty()) {
                             pastMandatory.root.visibility = View.GONE
                         } else {
