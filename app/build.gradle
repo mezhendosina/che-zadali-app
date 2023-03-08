@@ -10,9 +10,9 @@ plugins {
 
 android {
 
-    lint {
-        baseline = file("lint-baseline.xml")
-    }
+//    lint {
+//        baseline = file("lint-baseline.xml")
+//    }
 
 
     compileSdk 33
@@ -21,8 +21,8 @@ android {
         applicationId "com.mezhendosina.sgo.app"
         minSdk 24
         targetSdk 33
-        versionCode 31
-        versionName '2.3.0'
+        versionCode 32
+        versionName '2.4.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
