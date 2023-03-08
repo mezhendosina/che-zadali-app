@@ -227,6 +227,8 @@
     <style name="Widget.SGOApp.CardView.Filled" parent="Widget.Material3.CardView.Filled">
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
@@ -290,6 +292,7 @@
     <style name="gradeText">
         <item name="fontFamily">@font/roboto_serif</item>
         <item name="android:textSize">26sp</item>
+        <item name="android:translationY">1.8sp</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:gravity">center_horizontal|bottom</item>
     </style>

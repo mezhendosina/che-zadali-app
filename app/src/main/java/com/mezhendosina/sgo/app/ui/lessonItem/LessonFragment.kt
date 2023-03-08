@@ -209,8 +209,8 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
                 homeworkBody.text = homework?.assignmentName
                 with(binding.sendHomework.sendText) {
                     if (homework?.textAnswer != null) {
-                        homeworkText.visibility = View.VISIBLE
-                        homeworkText.text = homework.textAnswer.answer
+                        this.answerText.visibility = View.VISIBLE
+                        this.answerText.text = homework.textAnswer.answer
 
                         sendHomeworkTextLayout.visibility = View.GONE
                     } else {
@@ -247,7 +247,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
                         with(sendText) {
                             sendHomeworkTextLayout.visibility = View.GONE
                             answerText.visibility = View.VISIBLE
-                            homeworkText.text = answerFiles[0].text?.answer
+                            answerText.text = answerFiles[0].text?.answer
 
                             answerText.setOnClickListener {
                                 answerText.visibility = View.GONE

@@ -26,7 +26,7 @@
         android:id="@+id/value"
         style="@style/gradeText"
         android:layout_width="wrap_content"
-        android:layout_height="28dp"
+        android:layout_height="26dp"
         android:background="@null"
         android:maxLength="4"
         android:textColor="?attr/colorGoodGrade"

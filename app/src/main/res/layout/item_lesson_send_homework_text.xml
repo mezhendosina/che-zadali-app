@@ -21,46 +21,18 @@
     android:layout_height="wrap_content"
     android:background="@null">
 
-    <com.google.android.material.card.MaterialCardView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/answer_text"
+        style="@style/Widget.SGOApp.Button.Settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingHorizontal="16dp"
         android:visibility="gone"
-        app:cardElevation="0dp"
+        app:icon="@drawable/ic_edit"
+        app:iconGravity="end"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:background="@null">
-
-            <TextView
-                android:id="@+id/homework_text"
-                style="@style/mainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textIsSelectable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="123" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/edit_text_answer"
-                android:src="@drawable/ic_edit_text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="?attr/colorOnBackground" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Изменить ответ" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/send_homework_text_layout"
