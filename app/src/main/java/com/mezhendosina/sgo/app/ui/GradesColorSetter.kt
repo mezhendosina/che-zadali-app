@@ -18,6 +18,7 @@ package com.mezhendosina.sgo.app.ui
 
 import android.content.Context
 import android.util.TypedValue
+import android.view.View
 import android.widget.TextView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
@@ -47,14 +48,7 @@ fun Float.toGradeType(): Int {
 }
 
 fun ItemGradeValueBinding.setupWithBackground(context: Context, gradeType: Int, grade: String) {
-    this.root.setBackgroundResource(
-        when (gradeType) {
-            GradesType.GOOD_GRADE -> R.drawable.shape_good_grade
-            GradesType.MID_GRADE -> R.drawable.shape_mid_grade
-            GradesType.BAD_GRADE -> R.drawable.shape_bad_grade
-            else -> 0
-        }
-    )
+    this.root.setupGradeBackground(gradeType)
     this.setupGrade(context, gradeType, grade, true)
 }
 
@@ -64,6 +58,37 @@ fun ItemGradeValueBinding.setupGrade(
     grade: String,
     onContainer: Boolean = false
 ) {
+    val color = getGradeBackgroundColor(context, gradeType, onContainer)
+    this.value.setTextColor(color)
+
+    val outGradeText =
+        if (grade.endsWith(",00")) grade.dropLast(3)
+        else if (grade.endsWith(".0")) grade.dropLast(2)
+        else if (grade.endsWith("0")) grade.dropLast(1)
+        else grade
+
+    this.value.text = outGradeText
+}
+
+
+fun View.setupGradeBackground(gradeType: Int) {
+    this.setBackgroundResource(
+        when (gradeType) {
+            GradesType.GOOD_GRADE -> R.drawable.shape_good_grade
+            GradesType.MID_GRADE -> R.drawable.shape_mid_grade
+            GradesType.BAD_GRADE -> R.drawable.shape_bad_grade
+            else -> 0
+        }
+    )
+}
+
+fun TextView.setupColorWithGrade(context: Context, gradeType: Int) {
+    val color = getGradeBackgroundColor(context, gradeType, true)
+    this.setTextColor(color)
+}
+
+
+private fun getGradeBackgroundColor(context: Context, gradeType: Int, onContainer: Boolean): Int {
     val gradeColor = TypedValue()
 
     val gradeColorResource =
@@ -84,28 +109,5 @@ fun ItemGradeValueBinding.setupGrade(
         }
 
     context.theme.resolveAttribute(gradeColorResource, gradeColor, true)
-    this.value.setTextColor(gradeColor.data)
-
-    val outGradeText =
-        if (grade.endsWith(",00")) grade.dropLast(3)
-        else if (grade.endsWith(".0")) grade.dropLast(2)
-        else if (grade.endsWith("0")) grade.dropLast(1)
-        else grade
-
-    this.value.text = outGradeText
-}
-
-
-fun TextView.setupColorWithGrade(context: Context, gradeType: Int) {
-    val gradeColor = TypedValue()
-
-    val gradeColorResource = when (gradeType) {
-        GradesType.GOOD_GRADE -> R.attr.colorOnGoodGradeContainer
-        GradesType.MID_GRADE -> R.attr.colorOnMidGradeContainer
-        GradesType.BAD_GRADE -> com.google.android.material.R.attr.colorOnErrorContainer
-        else -> 0
-    }
-
-    context.theme.resolveAttribute(gradeColorResource, gradeColor, true)
-    this.setTextColor(gradeColor.data)
+    return gradeColor.data
 }
