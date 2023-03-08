@@ -20,6 +20,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.app.toLiveData
@@ -68,7 +69,7 @@ class GradesFilterViewModel(
             }
             withContext(Dispatchers.Main) {
                 _yearList.value = yearListResponse
-                _selectedYear.value = _yearList.value?.firstOrNull { !it.name.contains("(*)") }
+                _selectedYear.value = _yearList.value?.first { !it.name.contains("(*)") }
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -82,7 +83,7 @@ class GradesFilterViewModel(
     }
 
     fun changeSelectedYear(id: Int) {
-        _selectedYear.value = _yearList.value?.firstOrNull { it.id == id }
+        _selectedYear.value = _yearList.value?.first { it.id == id }
     }
 
 
@@ -101,7 +102,7 @@ class GradesFilterViewModel(
         val settings = Settings(Singleton.getContext())
 
         viewModelScope.launch {
-            _gradesSortType.value = settings.sortGradesBy.first()
+            _gradesSortType.value = settings.sortGradesBy.first() ?: GradeSortType.BY_LESSON_NAME
         }
     }
 
