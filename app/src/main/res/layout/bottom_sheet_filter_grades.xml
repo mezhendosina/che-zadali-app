@@ -20,17 +20,19 @@
     style="@style/ThemeOverlay.Material3.BottomSheetDialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="480dp"
+    android:minHeight="380dp"
     tools:context=".ui.gradesFilter.GradesFilterBottomSheet">
 
     <TextView
         android:id="@+id/header"
         style="@style/mainScreenHeaders"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/grades_settings"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,6 +46,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:paddingHorizontal="24dp"
         android:paddingVertical="20dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header">
@@ -116,8 +119,8 @@
     </RadioGroup>
 
     <Button
-        style="@style/Widget.SGOApp.Button."
         android:id="@+id/done"
+        style="@style/Widget.SGOApp.Button."
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
