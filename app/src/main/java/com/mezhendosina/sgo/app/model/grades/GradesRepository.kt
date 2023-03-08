@@ -52,14 +52,18 @@ class GradesRepository(
 
         val gradesList = GradesFromHtml().extractGrades(getGradesRequest)
 
-        grades = gradesList.filter { it.avg != null }
+        grades = gradesList
+            .filter {
+                it.avg != null && it.name != "Итого" && it.avg.toString().isNotEmpty()
+            }
             .sortedBy {
                 when (sortType) {
                     GradeSortType.BY_GRADE_VALUE, GradeSortType.BY_GRADE_VALUE_DESC -> it.avg
                     GradeSortType.BY_LESSON_NAME -> it.name
                     else -> it.name
                 }
-            }.toMutableList()
+            }
+            .toMutableList()
 
         if (sortType == GradeSortType.BY_GRADE_VALUE) {
             grades = grades.asReversed()

@@ -34,7 +34,7 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
 
     var grades: List<GradesItem> = emptyList()
         set(newValue) {
-            field = newValue.filter { it.name != "Итого" && it.avg.toString().isNotEmpty() }
+            field = newValue
             notifyDataSetChanged()
         }
 
@@ -79,11 +79,14 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
 
             holder.itemView.tag = grade
             gradeName.text = grade.name
+
+            val gradeType = grade.avgGrade().toGradeType()
             this.grade.setupGrade(
                 holder.itemView.context,
-                grade.avgGrade().toGradeType(),
-                grade.avg ?: ""
+                gradeType,
+                grade.avg ?: "",
             )
+
         }
     }
 

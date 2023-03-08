@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.gradeItem
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -37,7 +38,7 @@ import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
-    lateinit var binding: FragmentGradeItemBinding
+    var binding: FragmentGradeItemBinding? = null
 
     private lateinit var lesson: GradesItem
 
@@ -62,8 +63,12 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform()
-        sharedElementReturnTransition = MaterialContainerTransform()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            scrimColor = Color.TRANSPARENT
+        }
+        sharedElementReturnTransition = MaterialContainerTransform().apply {
+            scrimColor = Color.TRANSPARENT
+        }
 
         lesson = Singleton.grades[arguments?.getInt("LESSON_INDEX") ?: 0]
         viewModel.initCalculator(lesson)
@@ -73,17 +78,18 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGradeItemBinding.bind(view)
 
-        binding.collapsingtoolbarlayout.title = lesson.name
-        binding.toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
+        binding!!.collapsingtoolbarlayout.title = lesson.name
+        binding!!.toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
 
-        binding.gradeCalculator.calculateGrade.adapter = calculateGradeAdapter
-        binding.gradeCalculator.calculateGrade.layoutManager = LinearLayoutManager(requireContext())
-        binding.gradeCalculator.calculateGrade.itemAnimator = null
+        binding!!.gradeCalculator.calculateGrade.adapter = calculateGradeAdapter
+        binding!!.gradeCalculator.calculateGrade.layoutManager =
+            LinearLayoutManager(requireContext())
+        binding!!.gradeCalculator.calculateGrade.itemAnimator = null
 
 
         countGradeAdapter.countGrades = lesson.countGradesToList()
         val itemOffsetDecoration = ItemOffsetDecoration(36)
-        with(binding.countGrade) {
+        with(binding!!.countGrade) {
             adapter = countGradeAdapter
             layoutManager =
                 GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
@@ -94,9 +100,15 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         observeCalculatedGrade()
     }
 
+    override fun onDestroyView() {
+        binding!!.countGrade.adapter = null
+        binding = null
+        super.onDestroyView()
+    }
+
     private fun setupAvgGrade() {
         val avgGradeType = lesson.avgGrade().toGradeType()
-        binding.avgGrade.root.setBackgroundResource(
+        binding!!.avgGrade.root.setBackgroundResource(
             when (avgGradeType) {
                 GradesType.GOOD_GRADE -> R.drawable.shape_good_grade
                 GradesType.MID_GRADE -> R.drawable.shape_mid_grade
@@ -104,9 +116,14 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
                 else -> 0
             }
         )
-        binding.avgGrade.avgHeader.setupColorWithGrade(requireContext(), avgGradeType)
-        binding.avgGrade.avgGrade.setupGrade(requireContext(), avgGradeType, lesson.avg ?: "", true)
-        binding.avgGrade.root.background.setBounds(41, 41, 41, 41)
+        binding!!.avgGrade.avgHeader.setupColorWithGrade(requireContext(), avgGradeType)
+        binding!!.avgGrade.avgGrade.setupGrade(
+            requireContext(),
+            avgGradeType,
+            lesson.avg ?: "",
+            true
+        )
+        binding!!.avgGrade.root.background.setBounds(41, 41, 41, 41)
     }
 
 
@@ -116,7 +133,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
             calculateGradeAdapter.initGrades =
                 viewModel.grade.value?.toList() ?: listOf(0, 0, 0, 0, 0)
             val avgGrade = it.avg()
-            binding.gradeCalculator.calculatedGrade.setupWithBackground(
+            binding!!.gradeCalculator.calculatedGrade.setupWithBackground(
                 requireContext(), avgGrade.toGradeType(), avgGrade.toString()
             )
         }

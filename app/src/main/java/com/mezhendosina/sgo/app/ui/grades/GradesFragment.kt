@@ -76,13 +76,14 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
         if (binding != null) {
             TransitionManager.endTransitions(binding!!.mainLayout)
+            binding!!.gradesRecyclerView.invalidate()
             binding!!.gradesRecyclerView.adapter = null
         }
         binding = null
+        super.onDestroyView()
     }
 
 
