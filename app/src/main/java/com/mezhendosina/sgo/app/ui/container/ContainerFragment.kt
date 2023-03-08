@@ -107,6 +107,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
         view.doOnPreDraw {
             startPostponedEnterTransition()
+            Singleton.gradesRecyclerViewLoaded.value = true
         }
         observeGradesOptions()
 //        observeGradesRecyclerViewLoad()
