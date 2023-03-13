@@ -126,7 +126,11 @@ class CalculateGradeAdapter(
                     )
                 }
             }
-            gradeValue.setText(deltaGrade.toString())
+            gradeValue.text = if (deltaGrade <= 99) deltaGrade.toString()
+            else "99+"
+
+
+
             header.text = headerText
 
             gradeValue.setTextColor(gradeColor.data)

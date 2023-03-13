@@ -46,13 +46,11 @@
         app:layout_constraintTop_toTopOf="@id/grade_value"
         app:rippleColor="@null" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <TextView
         android:id="@+id/grade_value"
-        style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
-        android:inputType="number"
         android:paddingHorizontal="12dp"
         android:singleLine="true"
         android:textAppearance="@style/gradeText"
