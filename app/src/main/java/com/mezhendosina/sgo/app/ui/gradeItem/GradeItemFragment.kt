@@ -32,7 +32,6 @@ import com.mezhendosina.sgo.app.ui.GradesType
 import com.mezhendosina.sgo.app.ui.ItemOffsetDecoration
 import com.mezhendosina.sgo.app.ui.setupColorWithGrade
 import com.mezhendosina.sgo.app.ui.setupGrade
-import com.mezhendosina.sgo.app.ui.setupWithBackground
 import com.mezhendosina.sgo.app.ui.toGradeType
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
@@ -133,7 +132,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
             calculateGradeAdapter.initGrades =
                 viewModel.grade.value?.toList() ?: listOf(0, 0, 0, 0, 0)
             val avgGrade = it.avg()
-            binding!!.gradeCalculator.calculatedGrade.setupWithBackground(
+            binding!!.gradeCalculator.calculatedGrade.setupGrade(
                 requireContext(), avgGrade.toGradeType(), avgGrade.toString()
             )
         }

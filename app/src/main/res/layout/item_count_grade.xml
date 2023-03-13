@@ -19,6 +19,7 @@
     android:id="@+id/grade_count_card"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:baselineAligned="false"
     android:gravity="center"
     android:minWidth="80dp"
     android:orientation="vertical"

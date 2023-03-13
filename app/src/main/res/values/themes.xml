@@ -292,7 +292,6 @@
     <style name="gradeText">
         <item name="fontFamily">@font/roboto_serif</item>
         <item name="android:textSize">26sp</item>
-        <item name="android:translationY">1.8sp</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:gravity">center_horizontal|bottom</item>
     </style>

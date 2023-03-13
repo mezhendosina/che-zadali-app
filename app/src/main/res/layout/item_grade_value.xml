@@ -24,10 +24,11 @@
 
     <TextView
         android:id="@+id/value"
-        style="@style/gradeText"
         android:layout_width="wrap_content"
-        android:layout_height="26dp"
+        android:layout_height="wrap_content"
         android:background="@null"
+        android:fontFamily="@font/roboto_serif"
+        android:textSize="28sp"
         android:maxLength="4"
         android:textColor="?attr/colorGoodGrade"
         app:layout_constraintBottom_toBottomOf="parent"
