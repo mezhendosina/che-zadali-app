@@ -19,7 +19,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".ui.about.AboutAppFragment">
 
     <ImageView
@@ -119,7 +118,7 @@
 
     <Button
         android:id="@+id/telegram_channel_button"
-        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
+        style="@style/Widget.SGOApp.Button.Settings"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
@@ -135,7 +134,7 @@
 
     <Button
         android:id="@+id/github_repo_button"
-        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
+        style="@style/Widget.SGOApp.Button.Settings"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="start|center_vertical"
@@ -146,4 +145,18 @@
         app:iconTint="?attr/colorOnBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/telegram_channel_button" />
+
+    <Button
+        android:id="@+id/app_web_site_button"
+        style="@style/Widget.SGOApp.Button.Settings"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="start|center_vertical"
+        android:text="@string/app_web_site"
+        android:textColor="?attr/colorOnBackground"
+        app:icon="@drawable/ic_web_site"
+        app:iconSize="32dp"
+        app:iconTint="?attr/colorOnBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/github_repo_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

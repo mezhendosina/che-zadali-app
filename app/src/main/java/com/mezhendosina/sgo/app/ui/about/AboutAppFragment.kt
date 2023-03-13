@@ -62,7 +62,15 @@ class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
         binding.githubRepoButton.setOnClickListener {
             val githubIntent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://github.com/mezhendosina/che-zadali-app")
+                Uri.parse("https://github.com/mezhendosina/sgo-app")
+            )
+            startActivity(githubIntent)
+        }
+
+        binding.appWebSiteButton.setOnClickListener {
+            val githubIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://sgoapp.ru")
             )
             startActivity(githubIntent)
         }

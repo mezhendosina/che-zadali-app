@@ -154,4 +154,5 @@
     <string name="grade_item_transition_name">grade_item_%1$s</string>
     <string name="lesson_item_transition_name">lesson_item_%1$s</string>
     <string name="lesson_item_details_transition_name">lesson_item_destination</string>
+    <string name="app_web_site">Сайт приложения</string>
 </resources>
