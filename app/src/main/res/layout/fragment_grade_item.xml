@@ -148,14 +148,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/grade_calculator" />
 
-            <include
-                android:id="@+id/grade_old_calculator"
-                layout="@layout/item_grade_old_calculator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/grade_old_calculator_header" />
 
             <!--TODO why grade -->
             <TextView
