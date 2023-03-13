@@ -19,13 +19,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    android:minHeight="60dp">
+    android:minHeight="60dp"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:gravity="start|center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,19 +35,29 @@
 
         <TextView
             android:id="@+id/grade_text"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.Material3.BodyLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textIsSelectable="true"
             app:layout_constraintEnd_toStartOf="@id/grade"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Итоговая контрольная работа." />
 
         <TextView
+            android:id="@+id/mark_comment"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            tools:text="123" />
+
+        <TextView
             android:id="@+id/grade_type"
             style="@style/captions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textIsSelectable="false"
             app:layout_constraintEnd_toStartOf="@id/grade"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/grade_text"

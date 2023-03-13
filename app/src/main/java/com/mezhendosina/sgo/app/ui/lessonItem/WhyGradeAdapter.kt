@@ -66,15 +66,23 @@ class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>
                         grade.mark.mark.toString()
                     )
                 }
-                if (grade.assignmentName != "---Не указана---") {
-                    gradeText.text = grade.assignmentName
-                    gradeType.text = types.find { it.id == grade.typeId }?.name
-                    gradeType.visibility = View.VISIBLE
-                } else {
-                    gradeText.text = types.find { it.id == grade.typeId }?.name
-                    gradeType.visibility = View.GONE
-                }
             }
+
+            if (grade.markComment.isNullOrEmpty())
+                this.markComment.visibility = View.GONE
+            else {
+                markComment.visibility = View.VISIBLE
+                markComment.text = grade.markComment
+            }
+            if (grade.assignmentName != "---Не указана---") {
+                gradeText.text = grade.assignmentName
+                gradeType.text = types.find { it.id == grade.typeId }?.name
+                gradeType.visibility = View.VISIBLE
+            } else {
+                gradeText.text = types.find { it.id == grade.typeId }?.name
+                gradeType.visibility = View.GONE
+            }
+
         }
     }
 

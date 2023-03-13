@@ -112,6 +112,7 @@ class JournalRepository(
                 assignment.dueDate,
                 assignment.id,
                 assignment.mark,
+                assignment.markComment?.name,
                 assignment.textAnswer,
                 assignment.typeId,
                 assignment.weight,

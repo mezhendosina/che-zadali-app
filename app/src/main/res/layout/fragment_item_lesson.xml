@@ -63,6 +63,7 @@
         android:layout_height="match_parent"
         android:background="?attr/colorSurface"
         android:fillViewport="true"
+        android:nestedScrollingEnabled="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout

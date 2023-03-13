@@ -87,12 +87,18 @@ data class Assignment(
     val id: Int,
     @SerializedName("mark")
     val mark: Mark?,
+    @SerializedName("markComment")
+    val markComment: MarkComment?,
     @SerializedName("textAnswer")
     val textAnswer: TextAnswer?,
     @SerializedName("typeId")
     val typeId: Int,
     @SerializedName("weight")
     val weight: Int
+)
+
+data class MarkComment(
+    val name: String
 )
 
 data class Mark(

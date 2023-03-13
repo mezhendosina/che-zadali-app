@@ -226,7 +226,12 @@ class LessonViewModel(
             _lesson.value?.assignments?.forEach {
                 if (it.mark != null) {
                     gradesList.add(
-                        WhyGradeEntity(it.assignmentName, it.mark, it.typeId)
+                        WhyGradeEntity(
+                            it.assignmentName,
+                            it.mark,
+                            it.markComment,
+                            it.typeId
+                        )
                     )
                 }
             }

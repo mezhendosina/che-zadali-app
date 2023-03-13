@@ -21,5 +21,6 @@ import com.mezhendosina.sgo.data.requests.sgo.diary.entities.Mark
 data class WhyGradeEntity(
     val assignmentName: String,
     val mark: Mark,
+    val markComment: String?,
     val typeId: Int,
 )

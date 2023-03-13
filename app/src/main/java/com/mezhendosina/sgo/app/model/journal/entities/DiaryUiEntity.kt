@@ -52,6 +52,7 @@ data class AssignmentUiEntity(
     val dueDate: String,
     val id: Int,
     val mark: Mark?,
+    val markComment: String?,
     val textAnswer: TextAnswer?,
     val typeId: Int,
     val weight: Int,
