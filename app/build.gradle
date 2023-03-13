@@ -21,8 +21,8 @@ android {
         applicationId "com.mezhendosina.sgo.app"
         minSdk 24
         targetSdk 33
-        versionCode 32
-        versionName '2.4.0'
+        versionCode 33
+        versionName '2.4.1'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -115,7 +115,7 @@ dependencies {
     }
 
     // firebase
-    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+    implementation platform('com.google.firebase:firebase-bom:31.2.3')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-perf-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
