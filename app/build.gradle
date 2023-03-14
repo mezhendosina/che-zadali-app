@@ -46,7 +46,7 @@ android {
                 keyAlias "$keystoreProperties.keyAlias"
                 keyPassword "$keystoreProperties.keyPassword"
             } else {
-                storeFile file("keystore/my_app_keystore")
+                storeFile file("keystore/mezhendosina_key.jks")
                 storePassword System.getenv('KEYSTORE_PASSWORD')
                 keyAlias System.getenv('RELEASE_SIGN_KEY_ALIAS')
                 keyPassword System.getenv('RELEASE_SIGN_KEY_PASSWORD')
