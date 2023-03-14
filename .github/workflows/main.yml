@@ -9,5 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send release to Telegram channel
-        run: curl -F chat_id=1770660386 -F parse_mode=Markdown -F text=test https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
+        run: curl -F chat_id=-1001621609379 -F parse_mode=Markdown -F text=test https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
         
