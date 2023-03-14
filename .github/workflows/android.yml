@@ -37,7 +37,7 @@ jobs:
       with:
         repository: ${{ secrets.KEYSTORE_GIT_REPOSITORY }}
         token: ${{ secrets.KEYSTORE_ACCESS_TOKEN }}
-        path: app/keystore
+        path: /home/runner/work/sgo-app/sgo-app/app/keystore
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
