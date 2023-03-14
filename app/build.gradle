@@ -31,7 +31,7 @@ android {
 //                arg("room.shemaLocation", "$projectDir/schemas")
 //            }
 //        }
-//        signingConfig signingConfigs.debug
+        signingConfig signingConfigs.debug
     }
 
     signingConfigs {

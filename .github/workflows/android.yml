@@ -24,26 +24,28 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
-        
+
     - name: Create google-services.json
       run: cat /home/runner/work/sgo-app/sgo-app/app/google-services.json | base64
     - name: Putting data into google-services.json
       env:
         DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
       run: echo $DATA > /home/runner/work/sgo-app/sgo-app/app/google-services.json
-      
-    - name: Checkout keystore repo
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ secrets.KEYSTORE_GIT_REPOSITORY }}
-        token: ${{ secrets.KEYSTORE_ACCESS_TOKEN }}
-        path: /home/runner/work/sgo-app/sgo-app/app/keystore
+
+    - name: Decode Keystore
+      env:
+        ENCODED_STRING: ${{ secrets.KEYSTORE }}
+      run: |
+        TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/keystore
+        mkdir "${TMP_KEYSTORE_FILE_PATH}"
+        echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/mezhendosina_key.jks
+
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew assembleRelease --stacktrace
-    
+
     - name: Upload APK
       uses: actions/upload-artifact@v2
       with:
