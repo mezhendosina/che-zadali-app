@@ -26,11 +26,11 @@ jobs:
         cache: gradle
         
     - name: Create google-services.json
-      run: cat /home/runner/work/<Project-Name>/<Project-Name>/app/google-services.json | base64
+      run: cat /home/runner/work/sgo-app/sgo-app/app/google-services.json | base64
     - name: Putting data into google-services.json
       env:
         DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      run: echo $DATA > /home/runner/work/<Project-Name>/<Project-Name>/app/google-services.json
+      run: echo $DATA > /home/runner/work/sgo-app/sgo-app/app/google-services.json
       
     - name: Checkout keystore repo
       uses: actions/checkout@v2
