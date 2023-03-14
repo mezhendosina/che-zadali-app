@@ -53,7 +53,7 @@ jobs:
 
       - name: Read RELEASE.md file
         id: getRelease
-        run: echo "release=$(cat .home/runner/work/sgo-app/sgo-app/RELEASE.md)" >> $GITHUB_OUTPUT
+        run: echo "release=$(cat .home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md)" >> $GITHUB_OUTPUT
 
       - name: Send release notes to Telegram channel
         run: curl -F chat_id=-1001621609379 -F parse_mode=Markdown -F text=${{ steps.getRelease.outputs.release }} https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
