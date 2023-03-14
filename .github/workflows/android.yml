@@ -17,6 +17,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: release
+          
       - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
@@ -59,20 +62,3 @@ jobs:
         run: curl -F chat_id=-1001621609379 -F parse_mode=Markdown -F text=${{ steps.getRelease.outputs.release }} https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
       - name: Send file to Telegram channel
         run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/app-release.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001621609379
-#    - name: Get latest draft release
-#      id: get_current_release
-#      uses: joutvhu/get-release@v1
-#      with:
-#        draft: true
-#      env:
-#        GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
-#
-#    - name: Upload APK
-#      id: upload-release-asset
-#      uses: actions/upload-release-asset@v1
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      with:
-#        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-#        asset_path: app/build/outputs/apk/release/app-release.apk
-#        asset_name: SGO app.zip
