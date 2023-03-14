@@ -56,7 +56,8 @@
         android:textAppearance="@style/gradeText"
         app:layout_constraintEnd_toStartOf="@id/plus_grade"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="5" />
+        tools:text="5"
+        android:textIsSelectable="false" />
 
     <Button
         android:id="@+id/plus_grade"

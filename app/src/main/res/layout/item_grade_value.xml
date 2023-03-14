@@ -35,7 +35,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="5" />
+        tool:text="5"
+        android:textIsSelectable="false" />
 
 
     <ImageView

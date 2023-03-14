@@ -16,10 +16,7 @@
 
 package com.mezhendosina.sgo.data.requests.sgo.settings
 
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.ChangePasswordEntity
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsRequestEntity
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.*
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -53,9 +50,8 @@ interface SettingsApi {
     @Multipart
     @POST("asp/SetupSchool/PhotoSave.asp")
     suspend fun changeProfilePhoto(
-        @Part("fileName") fileName: String,
-        @Part("userId") userId: Int,
-        @Part("file") file: MultipartBody.Part
+        @Part file: MultipartBody.Part,
+        @Part("data") data: SendPhotoRequestEntity
     )
 
     @POST("webapi/context/year")

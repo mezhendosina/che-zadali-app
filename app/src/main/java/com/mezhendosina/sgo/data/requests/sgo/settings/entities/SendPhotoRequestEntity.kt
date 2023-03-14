@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions
+package com.mezhendosina.sgo.data.requests.sgo.settings.entities
 
-data class PCLID(
+data class SendPhotoRequestEntity(
     val name: String,
-    val value: String
+    val userId: Int
 )

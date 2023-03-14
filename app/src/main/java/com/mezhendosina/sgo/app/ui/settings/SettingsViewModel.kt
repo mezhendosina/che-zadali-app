@@ -18,6 +18,7 @@ package com.mezhendosina.sgo.app.ui.settings
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatDelegate
@@ -69,7 +70,7 @@ class SettingsViewModel(
     private val _loading = MutableLiveData<Boolean>(false)
     val loading = _loading.toLiveData()
 
-    var firebaseToken: String? = null
+    private var firebaseToken: String? = null
 
     suspend fun getMySettings(arguments: Bundle?) {
         try {
@@ -124,6 +125,17 @@ class SettingsViewModel(
         }
     }
 
+    suspend fun changeProfilePhoto(photo: Uri?) {
+        try {
+            val settings = Settings(Singleton.getContext())
+            settingsRepository.changeProfilePhoto(photo, settings.currentUserId.first())
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                _errorMessage.value = e.toDescription()
+            }
+        }
+    }
+
     fun changeTheme(selectedThemeId: Int, context: Context) {
         val themeId = when (selectedThemeId) {
             R.id.light_theme -> AppCompatDelegate.MODE_NIGHT_NO
@@ -132,7 +144,7 @@ class SettingsViewModel(
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            Settings(context).setTheme(themeId)
+            Settings(context).editPreference(Settings.THEME, themeId)
         }
 
         AppCompatDelegate.setDefaultNightMode(themeId)
