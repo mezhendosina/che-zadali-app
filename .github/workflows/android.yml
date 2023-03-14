@@ -36,7 +36,7 @@ jobs:
       env:
         ENCODED_STRING: ${{ secrets.KEYSTORE }}
       run: |
-        TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/keystore
+        TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/app/keystore
         mkdir "${TMP_KEYSTORE_FILE_PATH}"
         echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/mezhendosina_key.jks
 
