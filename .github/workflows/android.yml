@@ -34,7 +34,7 @@ jobs:
 
     - name: Decode Keystore
       env:
-        ENCODED_STRING: ${{ secrets.KEYSTORE }}
+        ENCODED_STRING: ${{ secrets.KEYSTORE_FILE }}
       run: |
         TMP_KEYSTORE_FILE_PATH=/home/runner/work/sgo-app/sgo-app/app/keystore
         mkdir "${TMP_KEYSTORE_FILE_PATH}"
