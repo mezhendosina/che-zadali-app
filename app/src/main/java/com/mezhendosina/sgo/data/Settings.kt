@@ -19,12 +19,11 @@ package com.mezhendosina.sgo.data
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.mezhendosina.sgo.app.BuildConfig
+import com.mezhendosina.sgo.app.model.grades.GradeSortType
+import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.login.LoginEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -55,6 +54,7 @@ class Settings(val context: Context) {
         val LAST_VERSION_NUMBER = intPreferencesKey("last_version_number")
         val SHOW_UPDATE_DIALOG = booleanPreferencesKey("show_update_dialog")
         val SORT_GRADES_BY = intPreferencesKey("sort_grades_by")
+        val DIARY_STYLE = stringPreferencesKey("diary_style")
 
         val SKIP_SUNDAY = booleanPreferencesKey("skip_sunday")
 
@@ -67,15 +67,16 @@ class Settings(val context: Context) {
     }
 
     val currentUserId = context.dataStore.data.map { it[CURRENT_USER_ID] ?: 0 }
-    val currentTrimId = CURRENT_TRIM_ID.getValue()
-    val regionUrl = REGION_URL.getValue()
-    val lastVersionNumber = LAST_VERSION_NUMBER.getValue()
-    val showUpdateDialog = SHOW_UPDATE_DIALOG.getValue()
-    val sortGradesBy = SORT_GRADES_BY.getValue()
-    val skipSunday = SKIP_SUNDAY.getValue()
+    val currentTrimId = CURRENT_TRIM_ID.getValue("")
+    val regionUrl = REGION_URL.getValue("")
+    val lastVersionNumber = LAST_VERSION_NUMBER.getValue(BuildConfig.VERSION_CODE)
+    val showUpdateDialog = SHOW_UPDATE_DIALOG.getValue(false)
+    val sortGradesBy = SORT_GRADES_BY.getValue(GradeSortType.BY_LESSON_NAME)
+    val diaryStyle = DIARY_STYLE.getValue(DiaryStyle.AS_CARD)
+    val skipSunday = SKIP_SUNDAY.getValue(true)
 
-    private fun <T> Preferences.Key<T>.getValue(): Flow<T?> =
-        context.dataStore.data.map { it[this] }
+    private fun <T> Preferences.Key<T>.getValue(defaultValue: T): Flow<T> =
+        context.dataStore.data.map { it[this] ?: defaultValue }
 
     suspend fun <T> editPreference(key: Preferences.Key<T>, value: T) = context.dataStore.edit {
         it[key] = value

@@ -165,7 +165,7 @@ object Singleton {
         applicationContext = context
         CoroutineScope(Dispatchers.IO).launch {
             val settings = Settings(context)
-            baseUrl = settings.regionUrl.first() ?: ""
+            baseUrl = settings.regionUrl.first()
         }
     }
 

@@ -169,7 +169,7 @@ class SettingsViewModel(
                 token ?: "",
                 loginData.UN,
                 loginData.PW,
-                settings.regionUrl.first()?.dropLast(1) ?: "",
+                settings.regionUrl.first().dropLast(1),
                 loginData.schoolId,
                 true
             )
