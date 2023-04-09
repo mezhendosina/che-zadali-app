@@ -25,7 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.BottomSheetAnnouncementsBinding
-import com.mezhendosina.sgo.app.findTopNavController
+import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
 
 class AnnouncementsBottomSheet :

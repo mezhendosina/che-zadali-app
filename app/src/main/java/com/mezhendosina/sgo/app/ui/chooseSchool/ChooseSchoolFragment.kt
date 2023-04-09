@@ -31,6 +31,7 @@ import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.login.LoginFragment
 import com.mezhendosina.sgo.app.ui.showAnimation
+import com.mezhendosina.sgo.app.utils.DividerItemDecoration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -84,7 +85,7 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
 
 
         binding!!.schoolList.addItemDecoration(
-            com.mezhendosina.sgo.app.ui.DividerItemDecoration(requireContext())
+            DividerItemDecoration(requireContext())
         )
         binding!!.schoolList.layoutManager = LinearLayoutManager(requireContext())
 

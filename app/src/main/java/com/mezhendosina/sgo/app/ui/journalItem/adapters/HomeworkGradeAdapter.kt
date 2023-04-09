@@ -22,8 +22,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
 import com.mezhendosina.sgo.app.model.journal.entities.AssignmentUiEntity
-import com.mezhendosina.sgo.app.ui.setupGrade
-import com.mezhendosina.sgo.app.ui.toGradeType
+import com.mezhendosina.sgo.app.utils.setupGrade
+import com.mezhendosina.sgo.app.utils.toGradeType
 
 class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkGradeViewHolder>() {
 

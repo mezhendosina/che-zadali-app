@@ -16,7 +16,6 @@
 
 package com.mezhendosina.sgo.data.requests.sgo.base
 
-import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolsSource
 import com.mezhendosina.sgo.app.model.grades.GradesSource
@@ -24,6 +23,7 @@ import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.app.model.login.LoginSource
 import com.mezhendosina.sgo.app.model.settings.SettingsSource
+import com.mezhendosina.sgo.app.utils.SourcesProvider
 import com.mezhendosina.sgo.data.requests.sgo.announcements.RetrofitAnnouncementsSource
 import com.mezhendosina.sgo.data.requests.sgo.diary.RetrofitDiarySource
 import com.mezhendosina.sgo.data.requests.sgo.grades.RetrofitGradesService

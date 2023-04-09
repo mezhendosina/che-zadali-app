@@ -22,9 +22,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemCountGradeBinding
 import com.mezhendosina.sgo.app.model.grades.entities.CountGradeEntity
-import com.mezhendosina.sgo.app.ui.GradesType
-import com.mezhendosina.sgo.app.ui.setupColorWithGrade
-import com.mezhendosina.sgo.app.ui.setupGrade
+import com.mezhendosina.sgo.app.utils.GradesType
+import com.mezhendosina.sgo.app.utils.setupColorWithGrade
+import com.mezhendosina.sgo.app.utils.setupGrade
 
 class CountGradeAdapter : RecyclerView.Adapter<CountGradeAdapter.CountGradeAdapterViewHolder>() {
 

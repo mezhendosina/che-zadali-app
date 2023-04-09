@@ -36,13 +36,13 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentItemLessonBinding
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
-import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentAdapter
 import com.mezhendosina.sgo.app.ui.adapters.AttachmentClickListener
 import com.mezhendosina.sgo.app.ui.errorDialog
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.app.ui.uploadFileBottomSheet.UploadFileBottomSheet
+import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.data.requests.sgo.homework.entities.Attachment
 import com.mezhendosina.sgo.data.requests.sgo.homework.entities.FileUiEntity
 import kotlinx.coroutines.CoroutineScope

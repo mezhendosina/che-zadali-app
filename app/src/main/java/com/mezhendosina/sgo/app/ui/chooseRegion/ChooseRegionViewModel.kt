@@ -16,8 +16,6 @@
 
 package com.mezhendosina.sgo.app.ui.chooseRegion
 
-import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,9 +25,8 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.activities.MainActivity
-import com.mezhendosina.sgo.app.toDescription
 import com.mezhendosina.sgo.app.ui.chooseRegion.entities.ChooseRegionUiEntity
+import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.Settings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

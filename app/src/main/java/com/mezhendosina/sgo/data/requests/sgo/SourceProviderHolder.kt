@@ -20,7 +20,7 @@ import com.google.gson.Gson
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.Singleton.baseUrl
 import com.mezhendosina.sgo.app.BuildConfig
-import com.mezhendosina.sgo.app.SourcesProvider
+import com.mezhendosina.sgo.app.utils.SourcesProvider
 import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitSourcesProvider
 import okhttp3.*

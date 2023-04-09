@@ -22,7 +22,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemDiaryBinding
+import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.journal.entities.WeekDayUiEntity
+import com.mezhendosina.sgo.app.utils.setupCardDesign
+import com.mezhendosina.sgo.app.utils.setupListDesign
+import com.mezhendosina.sgo.data.Settings
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class DiaryAdapter(
     private val onHomeworkClickListener: OnHomeworkClickListener

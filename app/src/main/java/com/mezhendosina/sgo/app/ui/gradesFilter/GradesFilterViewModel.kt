@@ -21,8 +21,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
-import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.app.toLiveData
+import com.mezhendosina.sgo.app.utils.toDescription
+import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
 import kotlinx.coroutines.Dispatchers

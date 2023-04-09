@@ -24,7 +24,7 @@ import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
-import com.mezhendosina.sgo.app.toDescription
+import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.requests.sgo.homework.entities.Attachment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
