@@ -115,8 +115,11 @@ object SourceProviderHolder {
 
             val newBuilder = chain.request().newBuilder()
             val url = chain.request().url.toString()
-
-            val a = newBuilder.url(url.replace("https://localhost/", baseUrl)).build()
+            val a = if (baseUrl.isNotEmpty()) {
+                newBuilder.url(url.replace("https://localhost/", baseUrl)).build()
+            } else {
+                newBuilder.url(url).build()
+            }
             return@Interceptor chain.proceed(a)
         }
     }
