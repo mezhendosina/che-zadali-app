@@ -75,18 +75,12 @@ class ChooseRegionViewModel : ViewModel() {
         }
     }
 
-    fun setRegion(fragmentFrom: Int?, regionUrl: String, navController: NavController) {
+    fun setRegion(regionUrl: String, navController: NavController) {
         CoroutineScope(Dispatchers.IO).launch {
             Settings(Singleton.getContext()).editPreference(Settings.REGION_URL, regionUrl)
             withContext(Dispatchers.Main) {
                 Singleton.baseUrl = regionUrl
-                if (fragmentFrom == ChooseRegionFragment.FROM_MAIN_ACTIVITY) {
-                    val intent = Intent(Singleton.getContext(), MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(Singleton.getContext(), intent, null)
-                } else {
-                    navController.navigate(R.id.action_chooseRegionFragment_to_chooseSchoolFragment)
-                }
+                navController.navigate(R.id.action_chooseRegionFragment_to_chooseSchoolFragment)
             }
         }
     }

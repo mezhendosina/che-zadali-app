@@ -118,15 +118,5 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
         }
     }
 
-    companion object {
-        const val FROM_MAIN_ACTIVITY = 0
 
-        fun newInstance(from: Int): ChooseRegionFragment {
-            val args = bundleOf("from" to from)
-
-            val fragment = ChooseRegionFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
 }
