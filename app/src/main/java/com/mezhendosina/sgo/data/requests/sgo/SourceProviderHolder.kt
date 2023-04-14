@@ -34,21 +34,20 @@ private val cookiesList = mutableListOf<Cookie>()
 
 class MyCookieJar : CookieJar {
 
-
     override fun loadForRequest(url: HttpUrl): List<Cookie> {
         return cookiesList
     }
 
     override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
-        cookies.forEach { cookie ->
-            val findCookie = cookiesList.find { it.name == cookie.name }
-            if (findCookie != null) {
-                cookiesList.remove(findCookie)
-                cookiesList.add(cookie)
-            } else {
-                cookiesList.add(cookie)
-            }
+        val cookieCopy = cookies.toMutableList()
+
+        cookiesList.replaceAll { oldCookie ->
+            val findCookie = cookieCopy.find { it.name == oldCookie.name }
+            cookieCopy.remove(findCookie)
+            findCookie ?: oldCookie
         }
+        cookiesList.addAll(cookieCopy)
+
     }
 }
 
