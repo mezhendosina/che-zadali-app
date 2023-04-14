@@ -53,8 +53,6 @@ class ContainerViewModel(
     private val _showUpdateDialog = MutableLiveData(true)
     val showUpdateDialog: LiveData<Boolean> = _showUpdateDialog
 
-    private val settings = Settings(Singleton.getContext())
-
 
     init {
         showUpdateDialog()
@@ -73,6 +71,8 @@ class ContainerViewModel(
     }
 
     private fun showUpdateDialog() {
+        val settings = Settings(Singleton.getContext())
+
         viewModelScope.launch {
             if (BuildConfig.VERSION_CODE > (settings.lastVersionNumber.first())) {
                 settings.editPreference(Settings.SHOW_UPDATE_DIALOG, true)
@@ -86,6 +86,8 @@ class ContainerViewModel(
     }
 
     fun changeUpdateDialogState(b: Boolean) {
+        val settings = Settings(Singleton.getContext())
+
         viewModelScope.launch {
             settings.editPreference(Settings.SHOW_UPDATE_DIALOG, b)
         }
