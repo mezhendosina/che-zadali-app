@@ -65,7 +65,7 @@ jobs:
           path: /home/runner/work/sgo-app/SGO app.apk
       - name: Get apk info
         id: apk-info
-        uses: hkusu/apk-info-action@v1.0.1
+        uses: mezhendosina/apk-info-action@0.0.1
         with:
           apk-path: /home/runner/work/sgo-app/SGO app.apk
 
