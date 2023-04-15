@@ -27,8 +27,8 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      #      - name: Create google-services.json
-      #        run: cat /home/runner/work/sgo-app/sgo-app/app/google-services.json | base64
+      - name: Create google-services.json
+        run: cat /home/runner/work/sgo-app/sgo-app/app/google-services.json | base64
 
       - name: Putting data into google-services.json
         env:
@@ -59,11 +59,11 @@ jobs:
         id: getRelease
         run: echo "release=$(cat .home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md)" >> $GITHUB_OUTPUT
 
-      - name: Get apk info
-        id: apk-info
-        uses: hkusu/apk-info-action@v1.0.1
-        with:
-          apk-path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/SGO app.apk
+      #      - name: Get apk info
+      #        id: apk-info
+      #        uses: hkusu/apk-info-action@v1.0.1
+      #        with:
+      #          apk-path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/SGO app.apk
 
       - name: Get version name and code
         id: app-version
@@ -72,7 +72,7 @@ jobs:
           echo "appVersionCode=${{ steps.apk-info.outputs.version-code }}" >> $GITHUB_OUTPUT
 
       - name: Send release notes to Telegram channel
-        run: curl -F chat_id=-1001770660386 -F parse_mode=Markdown -F text="**Доступна новая версия приложения**:\ *${{ steps.app-version.outputs.appVersionName }}*\n\n${{ steps.getRelease.outputs.release }}" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
+        run: curl -F chat_id=-1001770660386 -F parse_mode=Markdown -F text="**Доступна новая версия приложения**:\ *123*\n\n${{ steps.getRelease.outputs.release }}" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
       - name: Send file to Telegram channel
         run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/SGO app.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001770660386
 
