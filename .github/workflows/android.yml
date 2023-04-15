@@ -52,6 +52,7 @@ jobs:
           name: SGO app.apk
           path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/app-release.apk
   prepare-release-notes:
+    needs: build-apk
     runs-on: ubuntu-latest
     steps:
       - name: Get APK
