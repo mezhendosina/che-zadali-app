@@ -97,22 +97,34 @@ jobs:
           path: ./
 
       - name: rename APK
-        run: mv /home/runner/work/sgo-app/sgo-app/app-release.apk /home/runner/work/sgo-app/sgo-app/SGO-app.apk
+        run: mv /home/runner/work/sgo-app/sgo-app/app-release.apk /home/runner/work/sgo-app/sgo-app/SGO-app-v${{ needs.get-apk-version.outputs.apk-version-name }}.apk
 
       - name: Send release notes to Telegram channel
         run: curl -F chat_id=-1001770660386 -F parse_mode=Markdown -F text="${{ needs.prepare-release-notes.outputs.release-notes-with-header }}"  https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
       - name: Send file to Telegram channel
         run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/SGO-app.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001770660386
 
-#  create-release:
-#    needs: [ prepare-release-notes, get-apk-version ]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Create Release
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
-#          release_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
-#          body: ${{ needs.prepare-release-notes.outputs.release-notes }}
+  create-release:
+    needs: [ prepare-release-notes, get-apk-version ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get APK
+        uses: actions/download-artifact@v3
+        with:
+          name: SGO app.apk
+          path: ./
+
+      - name: rename APK
+        run: mv /home/runner/work/sgo-app/sgo-app/app-release.apk /home/runner/work/sgo-app/sgo-app/SGO-app.apk
+
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
+          release_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
+          body: ${{ needs.prepare-release-notes.outputs.release-notes }}
+          bodyFile: /home/runner/work/sgo-app/sgo-app/SGO-app.apk
+          draft: true
