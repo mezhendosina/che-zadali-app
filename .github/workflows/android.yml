@@ -64,7 +64,7 @@ jobs:
           name: SGO app.apk
           path: ./
       - name: 123
-        run: ls /
+        run: ls /home/runner/work/
       - name: Get apk info
         id: apk-info
         uses: mezhendosina/apk-info-action@0.0.1
