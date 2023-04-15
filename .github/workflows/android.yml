@@ -59,11 +59,11 @@ jobs:
         id: getRelease
         run: echo "release=$(cat .home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md)" >> $GITHUB_OUTPUT
 
-          - name: Get apk info
-            id: apk-info
-            uses: mezhendosina/apk-info-action@0.0.1
-            with:
-              apk-path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/SGO app.apk
+      - name: Get apk info
+        id: apk-info
+        uses: mezhendosina/apk-info-action@0.0.1
+        with:
+          apk-path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/SGO app.apk
 
       - name: Get version name and code
         id: app-version
