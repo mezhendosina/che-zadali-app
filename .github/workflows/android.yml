@@ -94,19 +94,22 @@ jobs:
           path: ./
 
       - name: rename APK
-        run: mv /home/runner/work/sgo-app/sgo-app/app-release.apk /home/runner/work/sgo-app/sgo-app/SGO app.apk
+        run: mv /home/runner/work/sgo-app/sgo-app/app-release.apk /home/runner/work/sgo-app/sgo-app/SGO-app.apk
 
       - name: Send release notes to Telegram channel
         run: curl -F chat_id=-1001770660386 -F parse_mode=Markdown -F text="**Доступна новая версия приложения**:\ *${{ needs.get-apk-version.outputs.apk-version-name }}*\n\n${{ needs.prepare-release-notes.outputs.release-notes }}" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
       - name: Send file to Telegram channel
-        run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/SGO app.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001770660386
+        run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/SGO-app.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001770660386
 
-#
+#  create-release:
+#    needs: [ prepare-release-notes, get-apk-version ]
+#    runs-on: ubuntu-latest
+#    steps:
 #      - name: Create Release
 #        uses: actions/create-release@v1
 #        env:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #        with:
-#          tag_name: ${{ steps.app-version.outputs.appVersionName }}
-#          release_name: ${{ steps.app-version.outputs.appVersionName }}
-#          body: ${{ steps.getRelease.outputs.release }}
+#          tag_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
+#          release_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
+#          body: ${{ needs.prepare-release-notes.outputs.release-notes }}
