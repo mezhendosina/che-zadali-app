@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: "release"
+    branches: "new-release-flow"
 
 
 env:
@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: release
-          
+
       - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
@@ -27,8 +27,9 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Create google-services.json
-        run: cat /home/runner/work/sgo-app/sgo-app/app/google-services.json | base64
+      #      - name: Create google-services.json
+      #        run: cat /home/runner/work/sgo-app/sgo-app/app/google-services.json | base64
+
       - name: Putting data into google-services.json
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
@@ -51,14 +52,35 @@ jobs:
       - name: Get built APK
         uses: actions/upload-artifact@v2
         with:
-          name: app-release.apk
+          name: SGO app.apk
           path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/app-release.apk
 
       - name: Read RELEASE.md file
         id: getRelease
         run: echo "release=$(cat .home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md)" >> $GITHUB_OUTPUT
 
+      - name: Get apk info
+        id: apk-info
+        uses: hkusu/apk-info-action@v1.0.1
+        with:
+          apk-path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/SGO app.apk
+
+      - name: Get version name and code
+        id: app-version
+        run: |
+          echo "appVersionName=${{ steps.apk-info.outputs.version-name }}" >> $GITHUB_OUTPUT
+          echo "appVersionCode=${{ steps.apk-info.outputs.version-code }}" >> $GITHUB_OUTPUT
+
       - name: Send release notes to Telegram channel
-        run: curl -F chat_id=-1001621609379 -F parse_mode=Markdown -F text=${{ steps.getRelease.outputs.release }} https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
+        run: curl -F chat_id=-1001770660386 -F parse_mode=Markdown -F text="**Доступна новая версия приложения**:\ *${{ steps.app-version.outputs.appVersionName }}*\n\n${{ steps.getRelease.outputs.release }}" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
       - name: Send file to Telegram channel
-        run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/app-release.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001621609379
+        run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/SGO app.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001770660386
+
+#      - name: Create Release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ steps.app-version.outputs.appVersionName }}
+#          release_name: ${{ steps.app-version.outputs.appVersionName }}
+#          body: ${{ steps.getRelease.outputs.release }}
