@@ -11,10 +11,8 @@ env:
   RELEASE_SIGN_KEY_PASSWORD: ${{ secrets.RELEASE_SIGN_KEY_PASSWORD }}
 
 jobs:
-  build:
-
+  build-apk:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -43,7 +41,6 @@ jobs:
           mkdir "${TMP_KEYSTORE_FILE_PATH}"
           echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/mezhendosina_key.jks
 
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
@@ -54,16 +51,24 @@ jobs:
         with:
           name: SGO app.apk
           path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/app-release.apk
+  prepare-release-notes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get APK
+        uses: actions/download-artifact@v3
+        with:
+          name: SGO app.apk
+          path: /home/runner/work/sgo-app/SGO app.apk
 
       - name: Read RELEASE.md file
         id: getRelease
-        run: echo "release=$(cat .home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md)" >> $GITHUB_OUTPUT
+        run: echo "release=$(cat /home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md)" >> $GITHUB_OUTPUT
 
       - name: Get apk info
         id: apk-info
-        uses: mezhendosina/apk-info-action@0.0.1
+        uses: hkusu/apk-info-action@v1.0.1
         with:
-          apk-path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/app-release.apk
+          apk-path: /home/runner/work/sgo-app/SGO app.apk
 
       - name: Get version name and code
         id: app-version
@@ -72,9 +77,9 @@ jobs:
           echo "appVersionCode=${{ steps.apk-info.outputs.version-code }}" >> $GITHUB_OUTPUT
 
       - name: Send release notes to Telegram channel
-        run: curl -F chat_id=-1001770660386 -F parse_mode=Markdown -F text="**Доступна новая версия приложения**:\ *123*\n\n${{ steps.getRelease.outputs.release }}" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
+        run: curl -F chat_id=-1001770660386 -F parse_mode=Markdown -F text="**Доступна новая версия приложения**:\ *${{ steps.app-version.outputs.version-name }}*\n\n${{ steps.getRelease.outputs.release }}" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
       - name: Send file to Telegram channel
-        run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/SGO app.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001770660386
+        run: curl -F document=@"/home/runner/work/sgo-app/SGO app.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001770660386
 
 #      - name: Create Release
 #        uses: actions/create-release@v1
