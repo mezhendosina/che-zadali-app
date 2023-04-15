@@ -84,7 +84,7 @@ jobs:
 
       - name: Read RELEASE.md file
         id: getRelease
-        run: echo release="$(cat /home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md)" >> $GITHUB_OUTPUT
+        run: echo 'release="$(cat /home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md)"' >> $GITHUB_OUTPUT
 
   send-to-channel:
     needs: [ prepare-release-notes, get-apk-version ]
