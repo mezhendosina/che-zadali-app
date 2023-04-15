@@ -47,7 +47,7 @@ jobs:
         run: ./gradlew assembleRelease --stacktrace
 
       - name: Get built APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: SGO app.apk
           path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/app-release.apk
@@ -59,10 +59,12 @@ jobs:
       apk-version-name: ${{ steps.apk-info.outputs.version-name }}
     steps:
       - name: Get APK
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: SGO app.apk
           path: ./
+      - name: 123
+        run: ls /
       - name: Get apk info
         id: apk-info
         uses: mezhendosina/apk-info-action@0.0.1
