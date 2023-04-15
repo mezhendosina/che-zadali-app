@@ -73,6 +73,9 @@ jobs:
   prepare-release-notes:
     runs-on: ubuntu-latest
     outputs:
+      release-notes-with-header: "*Доступна новая версия приложения*:  _${{ needs.get-apk-version.outputs.apk-version-name }}_
+      
+      ${{ steps.getRelease.outputs.release }}"
       release-notes: ${{ steps.getRelease.outputs.release }}
     steps:
       - uses: actions/checkout@v3
@@ -97,9 +100,7 @@ jobs:
         run: mv /home/runner/work/sgo-app/sgo-app/app-release.apk /home/runner/work/sgo-app/sgo-app/SGO-app.apk
 
       - name: Send release notes to Telegram channel
-        run: curl -F chat_id=-1001770660386 -F parse_mode=MarkdownV2 -F text= | "*Доступна новая версия приложения*:\ _${{ needs.get-apk-version.outputs.apk-version-name }}_
-
-        ${{ needs.prepare-release-notes.outputs.release-notes }}" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
+        run: curl -F chat_id=-1001770660386 -F parse_mode=MarkdownV2 -F text=${{ needs.prepare-release-notes.outputs.release-notes-with-header }}  https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
       - name: Send file to Telegram channel
         run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/SGO-app.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001770660386
 
