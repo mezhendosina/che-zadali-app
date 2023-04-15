@@ -51,37 +51,53 @@ jobs:
         with:
           name: SGO app.apk
           path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/app-release.apk
-  prepare-release-notes:
+
+  get-apk-version:
     needs: build-apk
     runs-on: ubuntu-latest
+    outputs:
+      apk-version-name: ${{ steps.apk-info.outputs.version-name }}
     steps:
       - name: Get APK
-        uses: actions/download-artifact@v3
-        with:
-          name: SGO app.apk
-          path: /home/runner/work/sgo-app/SGO app.apk
+          uses: actions/download-artifact@v3
+          with:
+            name: SGO app.apk
+            path: /home/runner/work/sgo-app/SGO app.apk
+      - name: Get apk info
+          id: apk-info
+          uses: hkusu/apk-info-action@v1.0.1
+          with:
+            apk-path: /home/runner/work/sgo-app/SGO app.apk
+
+  prepare-release-notes:
+    runs-on: ubuntu-latest
+    outputs:
+      release-notes: ${{ steps.getRelease.outputs.release }}
+    steps:
+      - uses: actions/checkout@v3
+          with:
+            ref: new-release-flow
 
       - name: Read RELEASE.md file
         id: getRelease
         run: echo "release=$(cat /home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md)" >> $GITHUB_OUTPUT
 
-      - name: Get apk info
-        id: apk-info
-        uses: hkusu/apk-info-action@v1.0.1
-        with:
-          apk-path: /home/runner/work/sgo-app/SGO app.apk
-
-      - name: Get version name and code
-        id: app-version
-        run: |
-          echo "appVersionName=${{ steps.apk-info.outputs.version-name }}" >> $GITHUB_OUTPUT
-          echo "appVersionCode=${{ steps.apk-info.outputs.version-code }}" >> $GITHUB_OUTPUT
+  send-to-channel:
+    needs: [ prepare-release-notes, get-apk-version ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get APK
+          uses: actions/download-artifact@v3
+          with:
+            name: SGO app.apk
+            path: /home/runner/work/sgo-app/SGO app.apk
 
       - name: Send release notes to Telegram channel
-        run: curl -F chat_id=-1001770660386 -F parse_mode=Markdown -F text="**Доступна новая версия приложения**:\ *${{ steps.app-version.outputs.version-name }}*\n\n${{ steps.getRelease.outputs.release }}" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
+        run: curl -F chat_id=-1001770660386 -F parse_mode=Markdown -F text="**Доступна новая версия приложения**:\ *${{ needs.get-apk-version.outputs.apk-version-name }}*\n\n${{ needs.prepare-release-notes.outputs.release-notes }}" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
       - name: Send file to Telegram channel
         run: curl -F document=@"/home/runner/work/sgo-app/SGO app.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001770660386
 
+#
 #      - name: Create Release
 #        uses: actions/create-release@v1
 #        env:
