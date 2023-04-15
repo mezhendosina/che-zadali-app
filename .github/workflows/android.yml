@@ -62,12 +62,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: SGO app.apk
-          path: /home/runner/work/sgo-app/sgo-app/SGO app.apk
+          path: ./
       - name: Get apk info
         id: apk-info
         uses: mezhendosina/apk-info-action@0.0.1
         with:
-          apk-path: /home/runner/work/sgo-app/sgo-app/SGO app.apk
+          apk-path: SGO app.apk
 
   prepare-release-notes:
     runs-on: ubuntu-latest
