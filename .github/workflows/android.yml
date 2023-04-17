@@ -122,6 +122,7 @@ jobs:
 
 
       - name: Create Release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -129,5 +130,14 @@ jobs:
           tag_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
           release_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
           body: ${{ needs.prepare-release-notes.outputs.release-notes }}
-          bodyFile: /home/runner/work/sgo-app/sgo-app/SGO-app.apk
           draft: true
+    
+      - name: Upload APK
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: /home/runner/work/sgo-app/sgo-app/SGO-app.apk
+          asset_name: SGO-app.apk
