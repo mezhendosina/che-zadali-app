@@ -74,7 +74,7 @@ jobs:
     needs: get-apk-version
     runs-on: ubuntu-latest
     outputs:
-      release-notes-with-header: "*Доступна новая версия приложения*:  _${{ needs.get-apk-version.outputs.apk-version-name }}_
+      release-notes-with-header: "*Доступна новая версия приложения*: _${{ needs.get-apk-version.outputs.apk-version-name }}_
       
       ${{ env.release }}"
       release-notes: "${{ env.release }}"
@@ -131,7 +131,6 @@ jobs:
           tag_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
           release_name: ${{ needs.get-apk-version.outputs.apk-version-name }}
           body: ${{ needs.prepare-release-notes.outputs.release-notes }}
-          draft: true
     
       - name: Upload APK
         id: upload-release-asset 
