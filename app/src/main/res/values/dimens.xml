@@ -14,8 +14,8 @@
   ~ limitations under the License.
   -->
 
-<translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@android:integer/config_shortAnimTime"
-    android:interpolator="@android:anim/decelerate_interpolator"
-    android:fromXDelta="100%"
-    android:toXDelta="0%" />
+<resources>
+    <dimen name="diary_vertical_padding">8dp</dimen>
+    <dimen name="card_diary_horizontal_padding">16dp</dimen>
+    <dimen name="list_diary_horizontal_padding">8dp</dimen>
+</resources>

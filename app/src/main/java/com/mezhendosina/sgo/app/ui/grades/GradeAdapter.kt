@@ -23,8 +23,8 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemGradeBinding
-import com.mezhendosina.sgo.app.ui.setupGrade
-import com.mezhendosina.sgo.app.ui.toGradeType
+import com.mezhendosina.sgo.app.utils.setupGrade
+import com.mezhendosina.sgo.app.utils.toGradeType
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 
 typealias OnGradeClickListener = (GradesItem, View) -> Unit

@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             if (navController?.currentDestination?.id == navController?.graph?.startDestinationId) {
                 finish()
             } else {
-                navController?.navigateUp()
+                navController?.enableOnBackPressed(true)
             }
         }
     }

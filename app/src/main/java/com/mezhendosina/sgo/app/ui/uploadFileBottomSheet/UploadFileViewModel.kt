@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.Singleton.attachmentsRepository
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
-import com.mezhendosina.sgo.app.toDescription
+import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.requests.sgo.homework.entities.SendFileRequestEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

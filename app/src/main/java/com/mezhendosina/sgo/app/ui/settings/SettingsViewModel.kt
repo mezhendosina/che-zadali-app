@@ -32,8 +32,8 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.activities.LoginActivity
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
-import com.mezhendosina.sgo.app.toDescription
-import com.mezhendosina.sgo.app.toLiveData
+import com.mezhendosina.sgo.app.utils.toDescription
+import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.notifications.entities.NotificationUserEntity
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
@@ -169,7 +169,7 @@ class SettingsViewModel(
                 token ?: "",
                 loginData.UN,
                 loginData.PW,
-                settings.regionUrl.first()?.dropLast(1) ?: "",
+                settings.regionUrl.first().dropLast(1),
                 loginData.schoolId,
                 true
             )

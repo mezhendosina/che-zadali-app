@@ -22,7 +22,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
-import com.mezhendosina.sgo.app.toDescription
+import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.ChangePasswordEntity
 import com.mezhendosina.sgo.data.toMD5

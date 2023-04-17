@@ -20,7 +20,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mezhendosina.sgo.app.SourcesProvider
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
@@ -39,6 +38,7 @@ import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.app.model.login.LoginSource
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.model.settings.SettingsSource
+import com.mezhendosina.sgo.app.utils.SourcesProvider
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.requests.sgo.SourceProviderHolder
@@ -165,7 +165,7 @@ object Singleton {
         applicationContext = context
         CoroutineScope(Dispatchers.IO).launch {
             val settings = Settings(context)
-            baseUrl = settings.regionUrl.first() ?: ""
+            baseUrl = settings.regionUrl.first()
         }
     }
 

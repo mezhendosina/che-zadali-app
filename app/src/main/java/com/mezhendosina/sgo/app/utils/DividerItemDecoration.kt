@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui
+package com.mezhendosina.sgo.app.utils
 
-import android.R
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
@@ -60,6 +59,6 @@ class DividerItemDecoration : ItemDecoration {
     }
 
     companion object {
-        private val ATTRS = intArrayOf(R.attr.listDivider)
+        private val ATTRS = intArrayOf(android.R.attr.listDivider)
     }
 }

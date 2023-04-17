@@ -21,8 +21,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemWhyGradeBinding
-import com.mezhendosina.sgo.app.ui.setupGrade
-import com.mezhendosina.sgo.app.ui.toGradeType
+import com.mezhendosina.sgo.app.utils.setupGrade
+import com.mezhendosina.sgo.app.utils.toGradeType
 import com.mezhendosina.sgo.data.requests.sgo.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.homework.entities.WhyGradeEntity
 

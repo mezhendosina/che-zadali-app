@@ -17,8 +17,8 @@
 package com.mezhendosina.sgo.data.requests.sgo.grades.entities
 
 import com.mezhendosina.sgo.app.model.grades.entities.CountGradeEntity
-import com.mezhendosina.sgo.app.ui.GradeNames
-import com.mezhendosina.sgo.app.ui.GradesType
+import com.mezhendosina.sgo.app.utils.GradeNames
+import com.mezhendosina.sgo.app.utils.GradesType
 import com.mezhendosina.sgo.data.grades.CalculateGradeItem
 
 data class GradesItem(

@@ -20,7 +20,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,7 +29,7 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseRegionBinding
-import com.mezhendosina.sgo.app.ui.DividerItemDecoration
+import com.mezhendosina.sgo.app.utils.DividerItemDecoration
 
 class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
@@ -41,7 +40,6 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
         object : OnRegionClickListener {
             override fun invoke(id: String) {
                 viewModel.setRegion(
-                    arguments?.getInt("from"),
                     id,
                     findNavController()
                 )
@@ -120,15 +118,5 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
         }
     }
 
-    companion object {
-        const val FROM_MAIN_ACTIVITY = 0
 
-        fun newInstance(from: Int): ChooseRegionFragment {
-            val args = bundleOf("from" to from)
-
-            val fragment = ChooseRegionFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
 }

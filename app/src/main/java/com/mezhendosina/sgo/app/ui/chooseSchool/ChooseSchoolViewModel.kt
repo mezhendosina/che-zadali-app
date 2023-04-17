@@ -23,7 +23,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 import com.mezhendosina.sgo.app.model.chooseSchool.schoolsActionListener
-import com.mezhendosina.sgo.app.toDescription
+import com.mezhendosina.sgo.app.utils.toDescription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

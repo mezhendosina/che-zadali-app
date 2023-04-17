@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.journal.JournalRepository
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
-import com.mezhendosina.sgo.app.toDescription
+import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import kotlinx.coroutines.Dispatchers

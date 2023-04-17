@@ -28,9 +28,9 @@ import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentLoginBinding
-import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.showAnimation
+import com.mezhendosina.sgo.app.utils.findTopNavController
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 

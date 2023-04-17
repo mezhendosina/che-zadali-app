@@ -27,7 +27,7 @@ import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
 import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
-import com.mezhendosina.sgo.app.toDescription
+import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.sgo.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.homework.entities.AssignResponseEntity

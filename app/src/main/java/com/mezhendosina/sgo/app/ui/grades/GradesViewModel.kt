@@ -24,9 +24,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.perf.ktx.performance
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradeActionListener
-import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
-import com.mezhendosina.sgo.app.toDescription
+import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
@@ -101,7 +100,7 @@ class GradesViewModel(
             loadGrades(
                 _gradeOptions.value!!,
                 settings.currentTrimId.first().toString(),
-                settings.sortGradesBy.first() ?: GradeSortType.BY_LESSON_NAME
+                settings.sortGradesBy.first()
             )
 
         } catch (e: Exception) {

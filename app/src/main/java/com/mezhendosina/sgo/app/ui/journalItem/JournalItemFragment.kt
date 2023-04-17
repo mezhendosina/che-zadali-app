@@ -28,11 +28,12 @@ import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentItemJournalBinding
-import com.mezhendosina.sgo.app.findTopNavController
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.ui.journalItem.adapters.DiaryAdapter
 import com.mezhendosina.sgo.app.ui.journalItem.adapters.OnHomeworkClickListener
 import com.mezhendosina.sgo.app.ui.journalItem.adapters.PastMandatoryAdapter
+import com.mezhendosina.sgo.app.utils.findTopNavController
+import com.mezhendosina.sgo.data.Settings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,23 +50,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
         Singleton.pastMandatoryItem = it
         findTopNavController().navigate(R.id.action_containerFragment_to_lessonFragment)
     }
-    private val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
-        override fun invoke(p1: LessonUiEntity, p2: View) {
-            Singleton.lesson = p1
 
-            val navigationExtras = FragmentNavigatorExtras(
-                p2 to requireContext().getString(R.string.lesson_item_details_transition_name)
-            )
-
-            findTopNavController().navigate(
-                R.id.action_containerFragment_to_lessonFragment,
-                null,
-                null,
-                navigationExtras
-            )
-//            Singleton.diaryRecyclerViewLoaded.value = false
-        }
-    })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,6 +64,27 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                 false
             )
         }
+        val settings = Settings(requireContext())
+
+        val diaryAdapter = DiaryAdapter(
+            settings,
+            object : OnHomeworkClickListener {
+                override fun invoke(p1: LessonUiEntity, p2: View) {
+                    Singleton.lesson = p1
+
+                    val navigationExtras = FragmentNavigatorExtras(
+                        p2 to requireContext().getString(R.string.lesson_item_details_transition_name)
+                    )
+
+                    findTopNavController().navigate(
+                        R.id.action_containerFragment_to_lessonFragment,
+                        null,
+                        null,
+                        navigationExtras
+                    )
+//            Singleton.diaryRecyclerViewLoaded.value = false
+                }
+            })
         binding!!.diary.apply {
             adapter = diaryAdapter
             layoutManager =
@@ -88,9 +94,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                     false
                 )
         }
-
-
-        observeWeek()
+        observeWeek(diaryAdapter)
         observeLoading()
         observeError()
 
@@ -151,7 +155,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
         }
     }
 
-    private fun observeWeek() {
+    private fun observeWeek(diaryAdapter: DiaryAdapter) {
         viewModel.week.observe(viewLifecycleOwner) { diaryItem ->
             if (binding != null) {
                 with(binding!!) {

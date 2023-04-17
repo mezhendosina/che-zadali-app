@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_aboutAppFragment"
             app:destination="@id/aboutAppFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_changeDiaryStyleFragment"
+            app:destination="@id/changeDiaryStyleFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeEmailFragment"
@@ -79,4 +82,8 @@
         android:name="com.mezhendosina.sgo.app.ui.about.AboutAppFragment"
         android:label="@string/about_app"
         tools:layout="@layout/fragment_about_app" />
+    <fragment
+        android:id="@+id/changeDiaryStyleFragment"
+        android:name="com.mezhendosina.sgo.app.ui.changeDiaryStyle.ChangeDiaryStyleFragment"
+        android:label="@string/diary_settings" />
 </navigation>

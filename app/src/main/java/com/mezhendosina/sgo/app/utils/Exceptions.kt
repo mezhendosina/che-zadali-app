@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app
+package com.mezhendosina.sgo.app.utils
 
 import android.content.ActivityNotFoundException
 

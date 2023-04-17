@@ -20,7 +20,7 @@ import com.google.gson.Gson
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.Singleton.baseUrl
 import com.mezhendosina.sgo.app.BuildConfig
-import com.mezhendosina.sgo.app.SourcesProvider
+import com.mezhendosina.sgo.app.utils.SourcesProvider
 import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitSourcesProvider
 import okhttp3.*
@@ -34,21 +34,20 @@ private val cookiesList = mutableListOf<Cookie>()
 
 class MyCookieJar : CookieJar {
 
-
     override fun loadForRequest(url: HttpUrl): List<Cookie> {
         return cookiesList
     }
 
     override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
-        cookies.forEach { cookie ->
-            val findCookie = cookiesList.find { it.name == cookie.name }
-            if (findCookie != null) {
-                cookiesList.remove(findCookie)
-                cookiesList.add(cookie)
-            } else {
-                cookiesList.add(cookie)
-            }
+        val cookieCopy = cookies.toMutableList()
+
+        cookiesList.replaceAll { oldCookie ->
+            val findCookie = cookieCopy.find { it.name == oldCookie.name }
+            cookieCopy.remove(findCookie)
+            findCookie ?: oldCookie
         }
+        cookiesList.addAll(cookieCopy)
+
     }
 }
 
@@ -116,8 +115,11 @@ object SourceProviderHolder {
 
             val newBuilder = chain.request().newBuilder()
             val url = chain.request().url.toString()
-
-            val a = newBuilder.url(url.replace("https://localhost/", baseUrl)).build()
+            val a = if (baseUrl.isNotEmpty()) {
+                newBuilder.url(url.replace("https://localhost/", baseUrl)).build()
+            } else {
+                newBuilder.url(url).build()
+            }
             return@Interceptor chain.proceed(a)
         }
     }

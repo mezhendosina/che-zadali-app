@@ -107,7 +107,9 @@ class JournalRepository(
     ): List<AssignmentUiEntity>? =
         assignments?.map { assignment ->
             AssignmentUiEntity(
-                assignment.assignmentName,
+                assignment.assignmentName
+                    .dropWhile { it.isWhitespace() }
+                    .dropLastWhile { it.isWhitespace() },
                 assignment.classMeetingId,
                 assignment.dueDate,
                 assignment.id,

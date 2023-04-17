@@ -35,20 +35,18 @@
             style="@style/AppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:animateLayoutChanges="true"
-            android:clipChildren="false"
             android:background="?attr/colorSurface"
-            app:elevation="0dp"
+            android:clipChildren="false"
             android:fitsSystemWindows="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:elevation="0dp"
                 android:nestedScrollingEnabled="true"
+                app:elevation="0dp"
                 app:layout_scrollFlags="scroll"
                 app:titleEnabled="false">
 
@@ -78,6 +76,7 @@
                 android:id="@+id/tabs_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:tabGravity="center"
                 app:tabMode="scrollable"
                 app:tabTextAppearance="@style/mainText" />
 

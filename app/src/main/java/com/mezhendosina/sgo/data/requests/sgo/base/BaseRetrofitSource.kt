@@ -17,10 +17,10 @@
 package com.mezhendosina.sgo.data.requests.sgo.base
 
 import com.google.gson.JsonParseException
-import com.mezhendosina.sgo.app.BackendException
-import com.mezhendosina.sgo.app.ConnectionException
-import com.mezhendosina.sgo.app.ParseBackendResponseException
-import com.mezhendosina.sgo.app.TimeOutError
+import com.mezhendosina.sgo.app.utils.BackendException
+import com.mezhendosina.sgo.app.utils.ConnectionException
+import com.mezhendosina.sgo.app.utils.ParseBackendResponseException
+import com.mezhendosina.sgo.app.utils.TimeOutError
 import com.mezhendosina.sgo.data.Error
 import okio.IOException
 import retrofit2.HttpException
