@@ -85,9 +85,9 @@ jobs:
       - name: Read RELEASE.md file
         id: getRelease
         run: |
-        echo "release<<EOF" >> $GITHUB_ENV
-        echo $(cat /home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md) >> $GITHUB_ENV
-        echo "EOF" >> $GITHUB_ENV
+          echo "release<<EOF" >> $GITHUB_ENV
+          echo $(cat /home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md) >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
   send-to-channel:
     needs: [ prepare-release-notes, get-apk-version ]
