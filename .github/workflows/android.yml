@@ -71,6 +71,7 @@ jobs:
           apk-path: /home/runner/work/sgo-app/sgo-app/app-release.apk
 
   prepare-release-notes:
+    needs: get-apk-version
     runs-on: ubuntu-latest
     outputs:
       release-notes-with-header: "*Доступна новая версия приложения*:  _${{ needs.get-apk-version.outputs.apk-version-name }}_
