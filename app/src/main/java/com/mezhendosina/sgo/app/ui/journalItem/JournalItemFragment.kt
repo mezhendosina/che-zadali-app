@@ -50,23 +50,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
         Singleton.pastMandatoryItem = it
         findTopNavController().navigate(R.id.action_containerFragment_to_lessonFragment)
     }
-    private val diaryAdapter = DiaryAdapter(object : OnHomeworkClickListener {
-        override fun invoke(p1: LessonUiEntity, p2: View) {
-            Singleton.lesson = p1
 
-            val navigationExtras = FragmentNavigatorExtras(
-                p2 to requireContext().getString(R.string.lesson_item_details_transition_name)
-            )
-
-            findTopNavController().navigate(
-                R.id.action_containerFragment_to_lessonFragment,
-                null,
-                null,
-                navigationExtras
-            )
-//            Singleton.diaryRecyclerViewLoaded.value = false
-        }
-    })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,6 +64,27 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                 false
             )
         }
+        val settings = Settings(requireContext())
+
+        val diaryAdapter = DiaryAdapter(
+            settings,
+            object : OnHomeworkClickListener {
+                override fun invoke(p1: LessonUiEntity, p2: View) {
+                    Singleton.lesson = p1
+
+                    val navigationExtras = FragmentNavigatorExtras(
+                        p2 to requireContext().getString(R.string.lesson_item_details_transition_name)
+                    )
+
+                    findTopNavController().navigate(
+                        R.id.action_containerFragment_to_lessonFragment,
+                        null,
+                        null,
+                        navigationExtras
+                    )
+//            Singleton.diaryRecyclerViewLoaded.value = false
+                }
+            })
         binding!!.diary.apply {
             adapter = diaryAdapter
             layoutManager =
@@ -89,9 +94,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                     false
                 )
         }
-
-
-        observeWeek()
+        observeWeek(diaryAdapter)
         observeLoading()
         observeError()
 
@@ -152,7 +155,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
         }
     }
 
-    private fun observeWeek() {
+    private fun observeWeek(diaryAdapter: DiaryAdapter) {
         viewModel.week.observe(viewLifecycleOwner) { diaryItem ->
             if (binding != null) {
                 with(binding!!) {

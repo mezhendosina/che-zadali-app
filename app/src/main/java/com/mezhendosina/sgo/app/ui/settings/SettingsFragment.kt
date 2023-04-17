@@ -125,6 +125,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             )
         }
 
+        binding.changeDiaryDesign.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_changeDiaryStyleFragment)
+        }
+
         binding.changeThemeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             viewModel.changeTheme(checkedId, requireContext())
         }

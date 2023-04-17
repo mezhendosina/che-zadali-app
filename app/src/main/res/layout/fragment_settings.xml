@@ -191,12 +191,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/change_control_question" />
 
+        <Button
+            android:id="@+id/change_diary_design"
+            style="@style/Widget.SGOApp.Button.Settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/diary_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_grade_notification" />
+
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/change_theme_divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/new_grade_notification" />
+            app:layout_constraintTop_toBottomOf="@id/change_diary_design" />
 
         <TextView
             android:id="@+id/change_theme_header"
