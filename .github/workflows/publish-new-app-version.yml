@@ -1,4 +1,4 @@
-name: Android CI
+name: Publish update 
 
 on:
   push:
@@ -70,6 +70,8 @@ jobs:
         with:
           apk-path: /home/runner/work/sgo-app/sgo-app/app-release.apk
 
+  
+
   prepare-release-notes:
     needs: get-apk-version
     runs-on: ubuntu-latest
@@ -90,8 +92,27 @@ jobs:
           echo -e $(cat /home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md) >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
+  get-last-release-version:
+    needs: get-apk-version
+    runs-on: ubuntu-latest
+    outputs:
+      is-update: ${{ steps.check-release-tag.outputs.is_update }}
+    steps:
+      - name: Fetch Latest Release
+        id: fetch-latest-release
+        uses: gregziegan/fetch-latest-release@v2.0.0
+        with: 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get release tag
+        id: get-release-tag
+        run: echo last_tag=${{ steps.fetch-latest-release.outputs.tag_name }} << $GITHUB_OUTPUT
+      - name: Check release tag
+        id: check-release-tag
+        run: echo is_update=${{ steps.get-release-tag.outputs.last_tag }} == ${{ needs.get-apk-version.outputs.apk-version-name }} << $GITHUB_OUTPUT
+
   send-to-channel:
     needs: [ prepare-release-notes, get-apk-version ]
+    if: ${{ needs.get-last-release-version.outputs.is-update }}
     runs-on: ubuntu-latest
     steps:
       - name: Get APK
@@ -110,6 +131,7 @@ jobs:
 
   create-release:
     needs: [ prepare-release-notes, get-apk-version ]
+    if: ${{ needs.get-last-release-version.outputs.is-update }}
     runs-on: ubuntu-latest
     steps:
       - name: Get APK
