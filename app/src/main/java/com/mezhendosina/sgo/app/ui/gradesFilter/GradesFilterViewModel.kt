@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
+import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.Settings
@@ -101,7 +102,7 @@ class GradesFilterViewModel(
         val settings = Settings(Singleton.getContext())
 
         viewModelScope.launch {
-            _gradesSortType.value = settings.sortGradesBy.first()
+            _gradesSortType.value = settings.sortGradesBy.first() ?: GradeSortType.BY_LESSON_NAME
         }
     }
 
