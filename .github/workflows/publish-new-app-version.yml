@@ -81,7 +81,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: new-release-flow
+          ref: release
 
       - name: Read RELEASE.md file
         id: getRelease
