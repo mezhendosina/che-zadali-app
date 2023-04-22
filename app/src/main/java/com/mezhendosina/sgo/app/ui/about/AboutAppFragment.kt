@@ -54,7 +54,7 @@ class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
 
         binding.telegramChannelButton.setOnClickListener {
             val telegramIntent =
-                Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/sgo_app"))
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/sgoapp"))
 
             startActivity(telegramIntent)
         }
