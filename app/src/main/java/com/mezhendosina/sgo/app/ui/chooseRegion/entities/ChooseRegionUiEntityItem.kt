@@ -18,5 +18,6 @@ package com.mezhendosina.sgo.app.ui.chooseRegion.entities
 
 data class ChooseRegionUiEntityItem(
     val name: String,
-    val url: String
+    val url: String,
+    val emblem_url: String
 )

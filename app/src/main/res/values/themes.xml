@@ -134,6 +134,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAppearance.SGOApp.Login.Title" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- BUTTONS -->
 
     <style name="Widget.SGOApp.Button." parent="@style/Widget.Material3.Button">
@@ -201,6 +206,14 @@
     </style>
 
 
+    <style name="Widget.SGOApp.Button.Login" parent="@style/Widget.SGOApp.Button.Secondary">
+        <item name="cornerRadius">16dp</item>
+        <item name="android:gravity">center</item>
+        <item name="iconGravity">textEnd</item>
+        <item name="android:paddingLeft">32dp</item>
+        <item name="android:paddingRight">32dp</item>
+    </style>
+
     <!--  CARDS  -->
 
     <style name="Widget.SGOApp.OnCardView" parent="">
@@ -239,10 +252,10 @@
 
     <!--  TEXT FIELDS  -->
     <style name="Widget.SGOApp.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusBottomStart">40dp</item>
-        <item name="boxCornerRadiusBottomEnd">40dp</item>
-        <item name="boxCornerRadiusTopStart">40dp</item>
-        <item name="boxCornerRadiusTopEnd">40dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
     </style>
 
 

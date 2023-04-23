@@ -20,18 +20,28 @@
     style="@style/Widget.SGOApp.OnCardView"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:foreground="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingVertical="16dp">
+
+    <ImageView
+        android:id="@+id/emblem"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/school_name"
         style="@style/mainText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:background="@null"
         android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/emblem"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="Школа № 68" />
+        tool:text="Челябинская область" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,17 +16,20 @@
 
 package com.mezhendosina.sgo.app.ui.chooseRegion
 
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.ui.chooseRegion.entities.ChooseRegionUiEntity
+import com.mezhendosina.sgo.app.ui.chooseRegion.entities.ChooseRegionUiEntityItem
+import com.mezhendosina.sgo.app.ui.chooseRegion.entities.Regions
+import com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolFragment
 import com.mezhendosina.sgo.app.utils.toDescription
+import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.Settings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +40,10 @@ class ChooseRegionViewModel : ViewModel() {
 
     private val _regions = MutableLiveData<ChooseRegionUiEntity>()
     val regions: LiveData<ChooseRegionUiEntity> = _regions
+
+    private val _selectedRegion = MutableLiveData<ChooseRegionUiEntityItem>()
+    val selectedRegion = _selectedRegion.toLiveData()
+
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -52,35 +59,31 @@ class ChooseRegionViewModel : ViewModel() {
         try {
             _errorMessage.value = ""
             _isLoading.value = true
-            val remoteConfig = FirebaseRemoteConfig.getInstance()
-            val configSettings = FirebaseRemoteConfigSettings.Builder().build()
-            remoteConfig.setConfigSettingsAsync(configSettings)
-            remoteConfig.fetchAndActivate().addOnCompleteListener {
-                val result = remoteConfig.getValue("regions").asString()
-                _regions.value = if (result.isEmpty()) {
-                    Gson().fromJson(
-                        "[{\"name\":\"Челябинская область\",\"url\":\"https://sgo.edu-74.ru/\"},{\"name\":\"Алтайский край\",\"url\":\"https://netschool.edu22.info/\"},{\"name\":\"Амурская область\",\"url\":\"https://region.obramur.ru/\"},{\"name\":\"Калужская область\",\"url\":\"https://edu.admoblkaluga.ru:444/\"},{\"name\":\"Костромская область\",\"url\":\"https://netschool.eduportal44.ru/\"},{\"name\":\"Краснодарский край\",\"url\":\"https://sgo.rso23.ru/\"},{\"name\":\"Ленинградская область\",\"url\":\"https://e-school.obr.lenreg.ru/\"},{\"name\":\"Забайкальский край\",\"url\":\"https://region.zabedu.ru/\"}]",
-                        ChooseRegionUiEntity::class.java
-                    )
-                } else {
-                    Gson().fromJson(
-                        result,
-                        ChooseRegionUiEntity::class.java
-                    )
-                }
-            }
+            _regions.value =
+                Gson().fromJson(
+                    Regions.REGIONS,
+                    ChooseRegionUiEntity::class.java
+                )
             _isLoading.value = false
         } catch (e: Exception) {
             _errorMessage.value = e.toDescription()
         }
     }
 
-    fun setRegion(regionUrl: String, navController: NavController) {
+    fun editSelectedRegion(newValue: String) {
+        _selectedRegion.value = _regions.value?.firstOrNull { it.name == newValue }
+    }
+
+    fun setRegion(navController: NavController) {
+        val regionUrl = _selectedRegion.value!!.url
         CoroutineScope(Dispatchers.IO).launch {
             Settings(Singleton.getContext()).editPreference(Settings.REGION_URL, regionUrl)
             withContext(Dispatchers.Main) {
                 Singleton.baseUrl = regionUrl
-                navController.navigate(R.id.action_chooseRegionFragment_to_chooseSchoolFragment)
+                navController.navigate(
+                    R.id.action_chooseRegionFragment_to_chooseSchoolFragment,
+                    bundleOf("from" to ChooseSchoolFragment.FROM_REGION)
+                )
             }
         }
     }

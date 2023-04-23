@@ -16,20 +16,16 @@
 
 package com.mezhendosina.sgo.app.ui.chooseRegion
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseRegionBinding
-import com.mezhendosina.sgo.app.utils.DividerItemDecoration
 
 class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
@@ -38,17 +34,15 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
     internal val viewModel: ChooseRegionViewModel by viewModels()
     private val adapter = ChooseRegionAdapter(
         object : OnRegionClickListener {
-            override fun invoke(id: String) {
-                viewModel.setRegion(
-                    id,
-                    findNavController()
-                )
+            override fun invoke(regionName: String) {
+                viewModel.editSelectedRegion(regionName)
             }
         }
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        adapter.selectedItem = viewModel.selectedRegion.value?.name ?: ""
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
@@ -57,33 +51,36 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentChooseRegionBinding.bind(view)
-        val remoteConfig = FirebaseRemoteConfig.getInstance()
-        if (binding != null) {
-            binding!!.noFindQuestion.isVisible = remoteConfig.getBoolean("enableRequestRegion")
-            binding!!.noFindQuestion.setOnClickListener {
-                val intent =
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://t.me/che_zadaliBot?start=che")
-                    )
-                startActivity(intent)
-            }
-            binding!!.schoolList.adapter = adapter
-            binding!!.schoolList.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            binding!!.schoolList.addItemDecoration(DividerItemDecoration(requireContext()))
+        val transition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        TransitionManager.beginDelayedTransition(binding!!.buttonView, transition)
+
+        binding!!.regionList.adapter = adapter
+        binding!!.regionList.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        binding!!.button.setOnClickListener {
+            viewModel.setRegion(findNavController())
         }
 
         observeRegions()
-        observeErrors()
-        observeLoading()
+        observeSelectedRegion()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        TransitionManager.endTransitions(binding!!.root)
         binding = null
     }
+
+    private fun observeSelectedRegion() {
+        viewModel.selectedRegion.observe(viewLifecycleOwner) {
+            if (it != null) {
+                binding!!.button.visibility = View.VISIBLE
+            }
+        }
+    }
+
 
     private fun observeRegions() {
         viewModel.regions.observe(viewLifecycleOwner) {
@@ -92,31 +89,5 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
             }
         }
     }
-
-    private fun observeErrors() {
-        viewModel.errorMessage.observe(viewLifecycleOwner) {
-            if (binding != null) {
-                if (it.isNotEmpty()) {
-                    binding!!.loadError.errorDescription.text = it
-                    binding!!.loadError.root.visibility = View.VISIBLE
-                } else {
-                    binding!!.loadError.root.visibility = View.GONE
-                }
-            }
-        }
-
-    }
-
-    private fun observeLoading() {
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (binding != null) {
-                binding!!.progressIndicator.isVisible = it
-                if (it) {
-                    binding!!.loadError.root.visibility = View.GONE
-                }
-            }
-        }
-    }
-
 
 }
