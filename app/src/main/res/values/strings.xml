@@ -21,7 +21,7 @@
     <string name="announcements">Объявления</string>
     <string name="grades">Оценки</string>
     <string name="login">Логин</string>
-    <string name="login_title">Вход</string>
+    <string name="login_title">Введите логин и пароль</string>
     <string name="password">Пароль</string>
     <string name="selected_school">Выбранная школа</string>
     <string name="start_typing">Начните вводить…</string>
@@ -158,4 +158,6 @@
     <string name="diawry_with_drawable">Карточками</string>
     <string name="diary_as_list">Списком</string>
     <string name="diary_settings">Дневник</string>
+    <string name="find_school">Поиск школы</string>
+    <string name="continue_">Продолжить</string>
 </resources>

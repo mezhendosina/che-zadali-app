@@ -21,9 +21,9 @@
     app:startDestination="@id/chooseRegionFragment">
     <fragment
         android:id="@+id/chooseSchoolFragment"
+        android:label=""
         android:name="com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolFragment"
-        android:label="@string/choose_school"
-        tools:layout="@layout/fragment_choose_school_or_region">
+        tools:layout="@layout/fragment_choose_school">
         <argument
             android:name="schoolId"
             app:argType="integer" />
@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.mezhendosina.sgo.app.ui.login.LoginFragment"
-        android:label="@string/log_in"
+        android:label=""
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_chooseUserIdFragment"
@@ -49,17 +49,16 @@
     <fragment
         android:id="@+id/chooseRegionFragment"
         android:name="com.mezhendosina.sgo.app.ui.chooseRegion.ChooseRegionFragment"
-        android:label="@string/choose_region"
+        android:label=""
         tools:layout="@layout/fragment_choose_region">
         <action
             android:id="@+id/action_chooseRegionFragment_to_chooseSchoolFragment"
-            app:destination="@id/chooseSchoolFragment" />
-        <action
-            android:id="@+id/action_chooseRegionFragment_to_requestRegionFragment"
-            app:destination="@id/requestRegionFragment" />
+            app:destination="@id/chooseSchoolFragment">
+            <argument
+                android:name="schoolId"
+                android:defaultValue="123" />
+        </action>
+
     </fragment>
-    <fragment
-        android:id="@+id/requestRegionFragment"
-        android:name="com.mezhendosina.sgo.app.ui.requestRegion.RequestRegionFragment"
-        android:label="@string/request_region" />
+
 </navigation>
