@@ -24,6 +24,7 @@ import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 import com.mezhendosina.sgo.app.model.chooseSchool.schoolsActionListener
 import com.mezhendosina.sgo.app.utils.toDescription
+import com.mezhendosina.sgo.app.utils.toLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -32,6 +33,9 @@ class ChooseSchoolViewModel(
 ) : ViewModel() {
     private val _schools = MutableLiveData<List<SchoolUiEntity>>()
     val schools: LiveData<List<SchoolUiEntity>> = _schools
+
+    private val _selectedItem = MutableLiveData<SchoolUiEntity>()
+    val selectedItem = _selectedItem.toLiveData()
 
     private val actionListener: schoolsActionListener = {
         _schools.value = it
@@ -68,6 +72,10 @@ class ChooseSchoolViewModel(
                 _isLoading.value = false
             }
         }
+    }
+
+    fun editSelectedItem(newValueId: SchoolUiEntity) {
+        _selectedItem.value = newValueId
     }
 
     override fun onCleared() {

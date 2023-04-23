@@ -26,7 +26,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolOrRegionBinding
+import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolBinding
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
 import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.login.LoginFragment
@@ -37,18 +37,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region) {
+class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
 
-    private var binding: FragmentChooseSchoolOrRegionBinding? = null
+    private var binding: FragmentChooseSchoolBinding? = null
 
-    private val viewModel: ChooseSchoolViewModel by viewModels()
+    internal val viewModel: ChooseSchoolViewModel by viewModels()
 
     private val schoolAdapter = ChooseSchoolAdapter(object : OnSchoolClickListener {
         override fun invoke(p1: SchoolUiEntity) {
-            findNavController().navigate(
-                R.id.action_chooseSchoolFragment_to_loginFragment,
-                bundleOf(LoginFragment.ARG_SCHOOL_ID to p1.schoolId)
-            )
+            viewModel.editSelectedItem(p1)
         }
     })
 
@@ -63,7 +60,8 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentChooseSchoolOrRegionBinding.bind(view)
+        binding = FragmentChooseSchoolBinding.bind(view)
+
         if (!binding!!.schoolEditText.text.isNullOrEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 findSchool(binding!!.schoolEditText.text.toString())
@@ -89,8 +87,16 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
         )
         binding!!.schoolList.layoutManager = LinearLayoutManager(requireContext())
 
+        binding!!.button.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_chooseSchoolFragment_to_loginFragment,
+                bundleOf(LoginFragment.ARG_SCHOOL_ID to viewModel.selectedItem.value?.schoolId)
+            )
+        }
+
         observeSchools()
         observeErrors()
+        observeSelectedItem()
         observeLoading()
     }
 
@@ -102,6 +108,14 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
 
     private suspend fun findSchool(schoolName: String) {
         viewModel.findSchool(schoolName)
+    }
+
+    private fun observeSelectedItem() {
+        viewModel.selectedItem.observe(viewLifecycleOwner) {
+            if (it != null) {
+                binding!!.button.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun observeSchools() {
@@ -141,4 +155,7 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school_or_region)
         }
     }
 
+    companion object {
+        const val FROM_REGION = "from_region"
+    }
 }
