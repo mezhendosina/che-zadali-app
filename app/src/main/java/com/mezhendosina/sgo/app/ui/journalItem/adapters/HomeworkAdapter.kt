@@ -153,7 +153,7 @@ class HomeworkAdapter(
                 } else View.GONE
 
             if (lesson.assignments?.find { it.mark != null } != null) {
-                holder.homeworkAdapter.grades = lesson.assignments
+                holder.homeworkAdapter.grades = lesson.assignments.filter { it.mark != null }
 
                 grades.apply {
                     adapter = holder.homeworkAdapter
