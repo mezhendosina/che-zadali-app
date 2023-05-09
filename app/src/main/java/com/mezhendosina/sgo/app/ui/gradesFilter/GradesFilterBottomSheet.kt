@@ -77,7 +77,7 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
         }
     }
 
-    private fun setupSortRadioGroup() {
+    private fun setupSortRadioGroup(context: Context) {
         binding.sortGradeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             viewModel.setGradeSort(
                 context,

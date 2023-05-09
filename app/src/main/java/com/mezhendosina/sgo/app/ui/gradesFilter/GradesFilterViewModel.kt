@@ -104,7 +104,7 @@ class GradesFilterViewModel(
         val settings = Settings(context)
 
         viewModelScope.launch {
-            _gradesSortType.value = settings.sortGradesBy.first() ?: GradeSortType.BY_LESSON_NAME
+            _gradesSortType.value = settings.sortGradesBy.first()
         }
     }
 
