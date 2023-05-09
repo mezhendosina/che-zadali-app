@@ -83,7 +83,7 @@ class LoginRepository(
                     }
                 }
             }
-            val yearsID = settingsSource.getYearList().first { !it.name.contains("(*)") }.id
+            val yearsID = settingsSource.getYearList().first { !it.name.contains("(*)") }
             withContext(Dispatchers.Main) {
                 Singleton.currentYearId.value = yearsID
             }

@@ -39,7 +39,7 @@ class ChooseYearBottomSheet(
         val adapter = ChooseYearAdapter(
             object : OnYearClickListener {
                 override fun invoke(year: YearListResponseEntity) {
-                    Singleton.currentYearId.value = year.id
+                    Singleton.currentYearId.value = year
                     dismissNow()
                 }
             }

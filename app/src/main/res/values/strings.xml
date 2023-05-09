@@ -154,6 +154,7 @@
     <string name="grade_item_transition_name">grade_item_%1$s</string>
     <string name="lesson_item_transition_name">lesson_item_%1$s</string>
     <string name="lesson_item_details_transition_name">lesson_item_destination</string>
+    <string name="grades_title_with_year">Оценки за %1$s</string>
     <string name="app_web_site">Сайт приложения</string>
     <string name="diawry_with_drawable">Карточками</string>
     <string name="diary_as_list">Списком</string>

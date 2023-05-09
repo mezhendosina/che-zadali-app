@@ -148,5 +148,12 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
                 viewModel.load(requireContext())
             }
         }
+        Singleton.gradesYearId.observe(viewLifecycleOwner) {
+            if (it != null) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.load(requireContext())
+                }
+            }
+        }
     }
 }

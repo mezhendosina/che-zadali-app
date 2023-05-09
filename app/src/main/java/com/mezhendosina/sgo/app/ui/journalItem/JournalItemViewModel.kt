@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.journalItem
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -42,8 +43,8 @@ class JournalItemViewModel(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-    suspend fun getWeek(weekStart: String?, weekEnd: String?) {
-        val settings = Settings(Singleton.getContext())
+    suspend fun getWeek(context: Context, weekStart: String?, weekEnd: String?) {
+        val settings = Settings(context)
 
         if (Singleton.gradesRecyclerViewLoaded.value == false) {
             withContext(Dispatchers.Main) {
@@ -63,7 +64,7 @@ class JournalItemViewModel(
                     val getWeek = journalRepository.getWeek(
                         settings.currentUserId.first(),
                         WeekStartEndEntity(weekStart!!, weekEnd!!),
-                        Singleton.currentYearId.value ?: 0
+                        Singleton.currentYearId.value?.id ?: 0
                     )
                     Singleton.loadedDiaryUiEntity.add(getWeek)
                     getWeek
