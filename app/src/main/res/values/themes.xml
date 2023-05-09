@@ -209,6 +209,7 @@
 
     <style name="Widget.SGOApp.Button.Login" parent="@style/Widget.SGOApp.Button.Secondary">
         <item name="cornerRadius">16dp</item>
+        <item name="android:elevation">2dp</item>
         <item name="android:gravity">center</item>
         <item name="iconGravity">textEnd</item>
         <item name="android:paddingLeft">32dp</item>

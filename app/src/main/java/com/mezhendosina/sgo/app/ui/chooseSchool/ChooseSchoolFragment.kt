@@ -17,6 +17,7 @@
 package com.mezhendosina.sgo.app.ui.chooseSchool
 
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
@@ -113,6 +114,9 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
     private fun observeSelectedItem() {
         viewModel.selectedItem.observe(viewLifecycleOwner) {
             if (it != null) {
+                val transition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+                TransitionManager.beginDelayedTransition(binding!!.buttonView, transition)
+
                 binding!!.button.visibility = View.VISIBLE
             }
         }

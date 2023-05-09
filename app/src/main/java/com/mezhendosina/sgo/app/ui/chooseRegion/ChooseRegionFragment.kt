@@ -52,8 +52,6 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentChooseRegionBinding.bind(view)
 
-        val transition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        TransitionManager.beginDelayedTransition(binding!!.buttonView, transition)
 
         binding!!.regionList.adapter = adapter
         binding!!.regionList.layoutManager =
@@ -70,12 +68,16 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
     override fun onDestroy() {
         super.onDestroy()
         TransitionManager.endTransitions(binding!!.root)
+        binding!!.regionList.adapter = null
         binding = null
     }
 
     private fun observeSelectedRegion() {
         viewModel.selectedRegion.observe(viewLifecycleOwner) {
             if (it != null) {
+                val transition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+                TransitionManager.beginDelayedTransition(binding!!.buttonView, transition)
+
                 binding!!.button.visibility = View.VISIBLE
             }
         }

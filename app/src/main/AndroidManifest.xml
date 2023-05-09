@@ -45,7 +45,7 @@
 
         <activity
             android:name=".activities.LoginActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustPan" />
 
         <activity
             android:name=".activities.MainActivity"

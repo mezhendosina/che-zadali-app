@@ -35,17 +35,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/header_icon"
+                android:layout_width="0dp"
+                android:layout_height="184dp"
+                android:src="@drawable/ic_map"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/header"
                 style="@style/TextAppearance.SGOApp.Login.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="184dp"
                 android:text="@string/choose_region"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toBottomOf="@id/header_icon" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/region_list"

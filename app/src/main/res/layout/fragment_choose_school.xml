@@ -115,20 +115,22 @@
     </androidx.core.widget.NestedScrollView>
 
 
-    <Button
-        android:id="@+id/button"
-        style="@style/Widget.SGOApp.Button.Login"
+    <FrameLayout
+        android:id="@+id/button_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:gravity="center"
-        android:paddingHorizontal="32dp"
-        android:text="@string/continue_"
-        android:visibility="gone"
-        app:cornerRadius="16dp"
-        app:icon="@drawable/ic_arrow_forward"
-        app:iconGravity="textEnd"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button"
+            style="@style/Widget.SGOApp.Button.Login"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:text="@string/continue_"
+            app:icon="@drawable/ic_arrow_forward" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

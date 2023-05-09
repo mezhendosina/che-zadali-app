@@ -75,7 +75,6 @@ class ChooseRegionAdapter(
             holder.itemView.context.theme.resolveAttribute(
                 com.google.android.material.R.attr.colorOutlineVariant, typedValue, true
             )
-            println(region.name)
             holder.binding.root.setBackgroundColor(typedValue.data)
         } else {
             val transparentColor = holder.itemView.context.getColor(android.R.color.transparent)
