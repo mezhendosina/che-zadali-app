@@ -2,7 +2,8 @@
   ~ Copyright 2023 Eugene Menshenin
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
+  ~ you may not use this file except in comp        android:gravity="center"
+liance with the License.
   ~ You may obtain a copy of the License at
   ~
   ~     http://www.apache.org/licenses/LICENSE-2.0
@@ -23,13 +24,11 @@
 
     <Button
         android:id="@+id/term_selector"
-        style="@style/Widget.SGOApp.Button.OutlinedButton"
+        style="@style/Widget.SGOApp.Button.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:icon="@drawable/ic_expand_more"
-        app:iconGravity="textEnd"
-        app:iconSize="24dp"
+        android:layout_marginTop="0dp"
+        app:cornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

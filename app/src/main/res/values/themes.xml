@@ -167,6 +167,7 @@
 
     <style name="Widget.SGOApp.Button.OutlinedButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="iconSize">24dp</item>
+        <item name="cornerRadius">16dp</item>
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">16dp</item>
         <item name="android:layout_marginTop">16dp</item>
@@ -330,7 +331,7 @@
         <item name="android:paddingBottom">12dp</item>
     </style>
 
-    <style name="bottomBar" parent="Widget.Material3.BottomNavigationView" />
+    <style name="bottomBar" parent="Widget.MaterialComponents.BottomNavigationView" />
 
 
 </resources>
