@@ -16,12 +16,12 @@
 
 package com.mezhendosina.sgo.app.ui.gradesFilter
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
-import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.Settings
@@ -50,8 +50,8 @@ class GradesFilterViewModel(
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading = _isLoading.toLiveData()
 
-    fun setGradeSort(sortBy: Int) {
-        val settings = Settings(Singleton.getContext())
+    fun setGradeSort(context: Context, sortBy: Int) {
+        val settings = Settings(context)
         viewModelScope.launch {
             settings.editPreference(
                 Settings.SORT_GRADES_BY, sortBy
@@ -90,7 +90,9 @@ class GradesFilterViewModel(
     suspend fun updateYear() {
         try {
             settingsRepository.setYear(_selectedYear.value?.id ?: -1)
-
+            withContext(Dispatchers.Main) {
+                Singleton.gradesYearId.value = _selectedYear.value
+            }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 _errorDescription.value = e.toDescription()
@@ -98,13 +100,15 @@ class GradesFilterViewModel(
         }
     }
 
-    fun getGradeSort() {
-        val settings = Settings(Singleton.getContext())
+    fun getGradeSort(context: Context) {
+        val settings = Settings(context)
 
         viewModelScope.launch {
             _gradesSortType.value = settings.sortGradesBy.first() ?: GradeSortType.BY_LESSON_NAME
         }
     }
 
-
+    companion object {
+        fun filterYearName(year: String): String = year.replace("(*) ", "")
+    }
 }

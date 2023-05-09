@@ -47,7 +47,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it && viewModel.enableGradeNotifications.value == false) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.changeGradeNotifications()
+                    viewModel.changeGradeNotifications(requireContext())
                 }
             } else if (!it) {
                 Snackbar.make(
@@ -150,7 +150,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && viewModel.enableGradeNotifications.value == false) {
                     checkNotificationsPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS)
                 } else {
-                    viewModel.changeGradeNotifications()
+                    viewModel.changeGradeNotifications(requireContext())
                 }
             }
         }

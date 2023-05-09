@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.chooseRegion
 
+import android.content.Context
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -74,10 +75,10 @@ class ChooseRegionViewModel : ViewModel() {
         _selectedRegion.value = _regions.value?.firstOrNull { it.name == newValue }
     }
 
-    fun setRegion(navController: NavController) {
+    fun setRegion(context: Context, navController: NavController) {
         val regionUrl = _selectedRegion.value!!.url
         CoroutineScope(Dispatchers.IO).launch {
-            Settings(Singleton.getContext()).editPreference(Settings.REGION_URL, regionUrl)
+            Settings(context).editPreference(Settings.REGION_URL, regionUrl)
             withContext(Dispatchers.Main) {
                 Singleton.baseUrl = regionUrl
                 navController.navigate(

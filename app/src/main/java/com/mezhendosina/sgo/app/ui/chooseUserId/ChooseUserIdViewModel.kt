@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.chooseUserId
 
+import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -40,8 +41,7 @@ class ChooseUserIdViewModel : ViewModel() {
     }
 
 
-    fun login(userId: Int) {
-        val context = Singleton.getContext()
+    fun login(context: Context, userId: Int) {
         try {
             val settings = Settings(context)
             viewModelScope.launch {

@@ -60,7 +60,7 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         binding!!.button.setOnClickListener {
-            viewModel.setRegion(findNavController())
+            viewModel.setRegion(requireContext(), findNavController())
         }
 
         observeRegions()

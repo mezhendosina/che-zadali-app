@@ -16,12 +16,12 @@
 
 package com.mezhendosina.sgo
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
+import com.mezhendosina.sgo.app.model.answer.AnswerRepository
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
 import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
 import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
@@ -39,7 +39,6 @@ import com.mezhendosina.sgo.app.model.login.LoginSource
 import com.mezhendosina.sgo.app.model.settings.SettingsRepository
 import com.mezhendosina.sgo.app.model.settings.SettingsSource
 import com.mezhendosina.sgo.app.utils.SourcesProvider
-import com.mezhendosina.sgo.data.Settings
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.requests.sgo.SourceProviderHolder
 import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
@@ -48,20 +47,15 @@ import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
 
 object Singleton {
-
-    private lateinit var applicationContext: Context
 
     var at: String = ""
     var announcements: List<AnnouncementsResponseEntity> = emptyList()
 
-    var currentYearId = MutableLiveData<Int>()
-
+    val currentYearId = MutableLiveData<YearListResponseEntity>()
+    val gradesYearId = MutableLiveData<YearListResponseEntity>()
     var users: List<StudentResponseEntity> = emptyList()
     var lesson: LessonUiEntity? = null
     var pastMandatoryItem: PastMandatoryEntity? = null
@@ -160,16 +154,6 @@ object Singleton {
 
     const val ANNOUNCEMENTS_ID = "announcementsID"
 
-
-    fun loadContext(context: Context) {
-        applicationContext = context
-        CoroutineScope(Dispatchers.IO).launch {
-            val settings = Settings(context)
-            baseUrl = settings.regionUrl.first()
-        }
-    }
-
-    fun getContext(): Context = applicationContext
 
 }
 

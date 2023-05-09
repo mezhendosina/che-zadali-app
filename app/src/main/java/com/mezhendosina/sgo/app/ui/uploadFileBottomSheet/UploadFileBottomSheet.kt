@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.uploadFileBottomSheet
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -80,7 +81,7 @@ class UploadFileBottomSheet(
             else -> {
                 binding.header.setText(R.string.attach_file)
                 binding.sendFile.setOnClickListener {
-                    sendFile()
+                    sendFile(requireContext())
                 }
             }
         }
@@ -120,10 +121,11 @@ class UploadFileBottomSheet(
         observeSuccess()
     }
 
-    private fun sendFile() {
+    private fun sendFile(context: Context) {
         val file = filePath.value?.data?.data
         if (file != null) {
             viewModel.sendFile(
+                context,
                 assignmentId,
                 file,
                 binding.description.editText?.text.toString()

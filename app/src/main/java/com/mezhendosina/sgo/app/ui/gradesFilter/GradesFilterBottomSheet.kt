@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.gradesFilter
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -37,7 +38,7 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         CoroutineScope(Dispatchers.IO).launch {
-            viewModel.getGradeSort()
+            viewModel.getGradeSort(requireContext())
             viewModel.getYearsList()
         }
     }
@@ -46,7 +47,7 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
         super.onViewCreated(view, savedInstanceState)
         binding = BottomSheetFilterGradesBinding.bind(view)
 
-        setupSortRadioGroup()
+        setupSortRadioGroup(requireContext())
         observeSortType()
 
         onYearClickListener()
@@ -72,13 +73,14 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
 
     private fun observeSelectedYear() {
         viewModel.selectedYear.observe(viewLifecycleOwner) {
-            binding.yearValue.text = it.name
+            binding.yearValue.text = GradesFilterViewModel.filterYearName(it.name)
         }
     }
 
     private fun setupSortRadioGroup() {
         binding.sortGradeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             viewModel.setGradeSort(
+                context,
                 when (checkedId) {
                     R.id.from_good_to_bad -> GradeSortType.BY_GRADE_VALUE
                     R.id.from_bad_to_good -> GradeSortType.BY_GRADE_VALUE_DESC
@@ -92,7 +94,9 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
     private fun onYearClickListener() {
         binding.year.setOnClickListener {
             // мне стыдно за следующие 17 строк
-            val items = viewModel.yearList.value?.map { it.name.replace("(*)", "") }?.toTypedArray()
+            val items =
+                viewModel.yearList.value?.map { GradesFilterViewModel.filterYearName(it.name) }
+                    ?.toTypedArray()
             val selectedYearId = viewModel.selectedYear.value
             val selectedYearName =
                 viewModel.yearList.value?.firstOrNull { it == selectedYearId }?.name ?: ""

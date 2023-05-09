@@ -112,8 +112,10 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform()
-        sharedElementReturnTransition = MaterialContainerTransform()
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.init(requireContext())
+        }
+
         //        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         //        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
@@ -124,7 +126,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         CoroutineScope(Dispatchers.Main).launch {
             showAnimation(binding.progressBar)
             withContext(Dispatchers.IO) {
-                viewModel.loadHomework()
+                viewModel.loadHomework(requireContext())
             }
             hideAnimation(binding.progressBar, View.GONE)
         }
@@ -135,14 +137,14 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
             homework.attachmentsList.attachmentsListRecyclerView.adapter = attachmentAdapter
             homework.attachmentsList.attachmentsListRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             itemWhyGrade.whyGradeRecyclerView.adapter = whyGradeAdapter
             itemWhyGrade.whyGradeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             sendHomework.sendAttachmentList.adapter = answerFileAdapter
             sendHomework.sendAttachmentList.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
         observeOnUploadFileButtonClick()
@@ -185,18 +187,6 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
                 "Домашнее задание скоприровано в буфер обмена",
                 Toast.LENGTH_SHORT
             ).show()
-        }
-    }
-
-    private fun observeOnUploadFileButtonClick() {
-        binding.sendHomework.selectFile.setOnClickListener {
-            UploadFileBottomSheet(
-                UploadFileBottomSheet.UPLOAD_FILE,
-                viewModel.lesson.value?.assignments?.first { it.typeId == 3 }?.id ?: 0
-            ) {
-                Toast.makeText(requireContext(), "Файл загружен", Toast.LENGTH_LONG).show()
-                viewModel.loadHomework()
-            }.show(childFragmentManager, "UPLOAD_FRAGMENT")
         }
     }
 

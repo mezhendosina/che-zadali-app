@@ -38,7 +38,7 @@ class SplashActivity : Activity() {
         val settings = Settings(this)
         runBlocking {
             AppCompatDelegate.setDefaultNightMode(settings.theme.first())
-            Singleton.loadContext(applicationContext)
+            Singleton.baseUrl = settings.regionUrl.first()
         }
         if (!BuildConfig.DEBUG) DynamicColors.applyToActivitiesIfAvailable(this.application)
 //        DynamicColors.applyToActivitiesIfAvailable(this.application)

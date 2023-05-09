@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.updateBottomSheet
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
@@ -67,6 +68,7 @@ class UpdateBottomSheetFragment(
     companion object {
         const val TAG = "UpdateBottomSheet"
         fun newInstance(
+            context: Context,
             updates: CheckUpdates,
             viewModel: ContainerViewModel,
             file: File
@@ -78,7 +80,7 @@ class UpdateBottomSheetFragment(
                         updates.assets.forEach {
                             if (it.contentType == "application/vnd.android.package-archive") {
                                 viewModel.downloadUpdate(
-                                    Singleton.getContext(),
+                                    context,
                                     file,
                                     it.browserDownloadUrl
                                 )
@@ -87,7 +89,7 @@ class UpdateBottomSheetFragment(
                     }
                 },
                 onCancel = {
-                    viewModel.changeUpdateDialogState(false)
+                    viewModel.changeUpdateDialogState(context, false)
                 }
             )
             return modalSheet

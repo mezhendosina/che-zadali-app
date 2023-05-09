@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.container
 
+import android.content.Context
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.MenuItem
@@ -41,6 +42,7 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 import com.mezhendosina.sgo.app.ui.announcementsBottomSheet.AnnouncementsBottomSheet
 import com.mezhendosina.sgo.app.ui.gradesFilter.GradesFilterBottomSheet
+import com.mezhendosina.sgo.app.ui.gradesFilter.GradesFilterViewModel
 import com.mezhendosina.sgo.app.ui.updateBottomSheet.UpdateBottomSheetFragment
 import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.data.Settings
@@ -80,6 +82,8 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.checkUpdates()
+            viewModel.showUpdateDialog(requireContext())
+
         }
 
     }
@@ -110,10 +114,11 @@ class ContainerFragment : Fragment(R.layout.container_main) {
             startPostponedEnterTransition()
             Singleton.gradesRecyclerViewLoaded.value = true
         }
-        observeGradesOptions()
+        observeGradesOptions(requireContext())
 //        observeGradesRecyclerViewLoad()
         setupOnSortGradesClickListener()
         observeDiaryStyle()
+        observeGradeYear()
     }
 
     override fun onDestroy() {
@@ -133,8 +138,21 @@ class ContainerFragment : Fragment(R.layout.container_main) {
 //        }
 //    }
 
-    private fun observeGradesOptions() {
-        val settings = Settings(Singleton.getContext())
+    private fun observeGradeYear() {
+        Singleton.gradesYearId.observe(viewLifecycleOwner) {
+            binding.toolbar.title = if (it != Singleton.currentYearId.value) {
+                requireContext().getString(
+                    R.string.grades_title_with_year,
+                    GradesFilterViewModel.filterYearName(it.name)
+                )
+            } else {
+                requireContext().getString(R.string.grades)
+            }
+        }
+    }
+
+    private fun observeGradesOptions(context: Context) {
+        val settings = Settings(context)
         Singleton.gradesOptions.observe(viewLifecycleOwner) { gradeOptions ->
             if (gradeOptions != null) {
                 CoroutineScope(Dispatchers.Main).launch {
@@ -197,7 +215,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
         return when (menuItem.itemId) {
             R.id.update_available -> {
                 UpdateBottomSheetFragment.newInstance(
-                    viewModel.latestUpdate.value!!, viewModel, file
+                    requireContext(), viewModel.latestUpdate.value!!, viewModel, file
                 ).show(childFragmentManager, UpdateBottomSheetFragment.TAG)
                 true
             }
@@ -227,7 +245,12 @@ class ContainerFragment : Fragment(R.layout.container_main) {
     private fun observeUpdates() {
         viewModel.latestUpdate.observe(viewLifecycleOwner) { updates ->
             if (updates.tagName != BuildConfig.VERSION_NAME && viewModel.showUpdateDialog.value != false) {
-                val modalSheet = UpdateBottomSheetFragment.newInstance(updates, viewModel, file)
+                val modalSheet = UpdateBottomSheetFragment.newInstance(
+                    requireContext(),
+                    updates,
+                    viewModel,
+                    file
+                )
                 modalSheet.show(childFragmentManager, UpdateBottomSheetFragment.TAG)
             }
             if (updates.tagName != BuildConfig.VERSION_NAME) binding.toolbar.menu[0].isVisible =

@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.model.settings
 
+import android.content.Context
 import android.net.Uri
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.ui.uploadFileBottomSheet.getFileNameFromUri
@@ -49,12 +50,12 @@ class SettingsRepository(private val settingsSource: SettingsSource) {
         }
     }
 
-    suspend fun changeProfilePhoto(uri: Uri?, studentId: Int) {
-        val contentResolver = Singleton.getContext().contentResolver
+    suspend fun changeProfilePhoto(context: Context, uri: Uri?, studentId: Int) {
+        val contentResolver = context.contentResolver
         val a = uri?.let { contentResolver.openInputStream(it) }
 
         val body = a?.readBytes()?.toRequestBody("*/*".toMediaTypeOrNull())
-        val fileName = getFileNameFromUri(Singleton.getContext(), uri)
+        val fileName = getFileNameFromUri(context, uri)
         if (body != null) {
             val part = MultipartBody.Part.createFormData("file", fileName, body)
 

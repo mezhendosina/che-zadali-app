@@ -69,16 +69,20 @@ class LessonViewModel(
     private val _snackBar = MutableLiveData(false)
     val snackbar: LiveData<Boolean> = _snackBar
 
-    init {
+
+    suspend fun init(context: Context) {
         if (Singleton.lesson != null) {
-            _lesson.value = Singleton.lesson
-            viewModelScope.launch { loadGrades() }
+            withContext(Dispatchers.Main) {
+                _lesson.value = Singleton.lesson
+            }
+            loadGrades()
         } else if (Singleton.pastMandatoryItem != null) {
-            _lesson.value = Singleton.pastMandatoryItem!!.toLessonEntity()
-            viewModelScope.launch { loadHomework(Singleton.pastMandatoryItem!!.id) }
+            withContext(Dispatchers.Main) {
+                _lesson.value = Singleton.pastMandatoryItem!!.toLessonEntity()
+            }
+            loadHomework(context, Singleton.pastMandatoryItem!!.id)
         }
     }
-
 
     fun downloadAttachment(
         context: Context,
@@ -102,12 +106,12 @@ class LessonViewModel(
         }
     }
 
-    fun downloadFile(fileId: Int, name: String) {
+    fun downloadFile(context: Context, fileId: Int, name: String) {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 withContext(Dispatchers.IO) {
                     attachmentsRepository.downloadAttachment(
-                        Singleton.getContext(),
+                        context,
                         fileId,
                         name
                     )
@@ -118,7 +122,7 @@ class LessonViewModel(
         }
     }
 
-    fun deleteFile(fileId: Int, onComplete: () -> Unit) {
+    fun deleteFile(context: Context, fileId: Int, onComplete: () -> Unit) {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 withContext(Dispatchers.IO) {
@@ -127,7 +131,7 @@ class LessonViewModel(
                     withContext(Dispatchers.Main) {
                         onComplete.invoke()
                     }
-                    loadHomework()
+                    loadHomework(context)
                 }
             } catch (e: Exception) {
                 _errorMessage.value = e.toDescription()

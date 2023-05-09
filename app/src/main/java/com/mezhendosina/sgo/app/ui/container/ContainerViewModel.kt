@@ -55,7 +55,6 @@ class ContainerViewModel(
 
 
     init {
-        showUpdateDialog()
     }
 
     fun checkUpdates() {
@@ -70,8 +69,8 @@ class ContainerViewModel(
         }
     }
 
-    private fun showUpdateDialog() {
-        val settings = Settings(Singleton.getContext())
+    fun showUpdateDialog(context: Context) {
+        val settings = Settings(context)
 
         viewModelScope.launch {
             if (BuildConfig.VERSION_CODE > (settings.lastVersionNumber.first())) {
@@ -85,8 +84,8 @@ class ContainerViewModel(
         }
     }
 
-    fun changeUpdateDialogState(b: Boolean) {
-        val settings = Settings(Singleton.getContext())
+    fun changeUpdateDialogState(context: Context, b: Boolean) {
+        val settings = Settings(context)
 
         viewModelScope.launch {
             settings.editPreference(Settings.SHOW_UPDATE_DIALOG, b)

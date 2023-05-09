@@ -30,7 +30,7 @@ class ChooseUserIdFragment : Fragment(R.layout.fragment_choose_user_id) {
     private lateinit var binding: FragmentChooseUserIdBinding
     private val viewModel: ChooseUserIdViewModel by viewModels()
 
-    private val adapter = UserIdAdapter { viewModel.login(it) }
+    private val adapter = UserIdAdapter { viewModel.login(requireContext(), it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

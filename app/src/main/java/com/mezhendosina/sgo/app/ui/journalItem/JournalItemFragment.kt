@@ -99,7 +99,11 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
         observeError()
 
         CoroutineScope(Dispatchers.IO).launch {
-            viewModel.getWeek(arguments?.getString(WEEK_START), arguments?.getString(WEEK_END))
+            viewModel.getWeek(
+                requireContext(),
+                arguments?.getString(WEEK_START),
+                arguments?.getString(WEEK_END)
+            )
         }
     }
 
@@ -125,6 +129,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                     binding!!.loadError.root.visibility = View.GONE
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.getWeek(
+                            requireContext(),
                             arguments?.getString(WEEK_START),
                             arguments?.getString(WEEK_END)
                         )

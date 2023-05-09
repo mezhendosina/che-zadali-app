@@ -78,7 +78,7 @@ class SettingsViewModel(
                 _loading.value = true
             }
             val settingsResponse = settingsRepository.getMySettings()
-//            val settings = Settings(Singleton.getContext())
+//            val settings = Settings(context)
 //            isGradesNotifySignIn(settings)
             withContext(Dispatchers.Main) {
                 _mySettingsResponseEntity.value = settingsResponse
@@ -125,10 +125,10 @@ class SettingsViewModel(
         }
     }
 
-    suspend fun changeProfilePhoto(photo: Uri?) {
+    suspend fun changeProfilePhoto(context: Context, photo: Uri?) {
         try {
-            val settings = Settings(Singleton.getContext())
-            settingsRepository.changeProfilePhoto(photo, settings.currentUserId.first())
+            val settings = Settings(context)
+            settingsRepository.changeProfilePhoto(context, photo, settings.currentUserId.first())
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 _errorMessage.value = e.toDescription()
@@ -150,8 +150,8 @@ class SettingsViewModel(
         AppCompatDelegate.setDefaultNightMode(themeId)
     }
 
-    suspend fun changeGradeNotifications() {
-        val settings = Settings(Singleton.getContext())
+    suspend fun changeGradeNotifications(context: Context) {
+        val settings = Settings(context)
         withContext(Dispatchers.Main) {
             _gradesNotificationsLoading.value = true
         }

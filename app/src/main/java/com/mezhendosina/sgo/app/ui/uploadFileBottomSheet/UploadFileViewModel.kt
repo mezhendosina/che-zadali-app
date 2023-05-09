@@ -50,6 +50,7 @@ class UploadFileViewModel(
     val success: LiveData<Boolean> = _success
 
     fun sendFile(
+        context: Context,
         assignmentID: Int,
         filePath: Uri,
         description: String
@@ -60,11 +61,11 @@ class UploadFileViewModel(
                     _isLoading.value = true
                     _success.value = false
                 }
-                val contentResolver = Singleton.getContext().contentResolver
+                val contentResolver = context.contentResolver
                 val a = contentResolver.openInputStream(filePath)
 
                 val body = a?.readBytes()?.toRequestBody("*/*".toMediaTypeOrNull())
-                val fileName = getFileNameFromUri(Singleton.getContext(), filePath)
+                val fileName = getFileNameFromUri(context, filePath)
                 if (body != null) {
                     val part = MultipartBody.Part.createFormData("file", fileName, body)
 
