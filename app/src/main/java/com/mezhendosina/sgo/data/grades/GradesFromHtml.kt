@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.data.grades
 
+import com.mezhendosina.sgo.app.utils.getEmojiLesson
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.InputTag
@@ -88,7 +89,7 @@ class GradesFromHtml {
 
             grades.add(
                 GradesItem(
-                    lessonName,
+                    getEmojiLesson(lessonName),
                     fiveGrade,
                     fourGrade,
                     threeGrade,

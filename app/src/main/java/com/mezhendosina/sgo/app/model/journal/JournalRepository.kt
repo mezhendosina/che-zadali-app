@@ -20,6 +20,7 @@ import com.mezhendosina.sgo.app.model.journal.entities.AssignmentUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.WeekDayUiEntity
+import com.mezhendosina.sgo.app.utils.getEmojiLesson
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.dateToRussian
@@ -97,7 +98,7 @@ class JournalRepository(
             lesson.number,
             lesson.relay,
             lesson.startTime,
-            lesson.subjectName
+            getEmojiLesson(lesson.subjectName)
         )
     }
 
