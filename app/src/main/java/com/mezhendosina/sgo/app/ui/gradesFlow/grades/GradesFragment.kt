@@ -19,6 +19,7 @@ package com.mezhendosina.sgo.app.ui.gradesFlow.grades
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
@@ -95,6 +96,12 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
                 if (list.any { !it.avg.isNullOrEmpty() }) {
                     gradeAdapter.grades = list
                     binding!!.emptyState.root.visibility = View.GONE
+                    binding!!.emptyState.noHomeworkIcon.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_emty_grade
+                        )
+                    )
                     binding!!.gradesRecyclerView.visibility = View.VISIBLE
                 } else {
                     binding!!.emptyState.root.visibility = View.VISIBLE
