@@ -16,9 +16,9 @@
 
 package com.mezhendosina.sgo.app.model.journal
 
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.DiaryInitResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.DiaryResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.DiaryInitResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.DiaryResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
 
 interface DiarySource {
 

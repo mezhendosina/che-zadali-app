@@ -14,21 +14,21 @@
   ~ limitations under the License.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="16dp">
+    android:layout_marginHorizontal="16dp"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <TextView
+    <ImageView
         android:id="@+id/no_homework_icon"
         style="@style/captions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:autoLink="all"
-        android:gravity="center"
-        android:text="В команду разработки требуется художник\nЧтобы узнать больше, напиши сюда - mezhendosina.t.me"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:contentDescription="@string/week_without_lessons"
+        android:src="@drawable/ic_beach"
         app:layout_constraintBottom_toTopOf="@id/empty_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -38,11 +38,11 @@
         style="@style/mainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Тут ничего нет"
+        android:layout_marginTop="4dp"
+        android:text="@string/week_without_lessons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

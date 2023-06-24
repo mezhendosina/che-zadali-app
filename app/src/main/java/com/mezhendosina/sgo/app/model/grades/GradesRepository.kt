@@ -17,10 +17,10 @@
 package com.mezhendosina.sgo.app.model.grades
 
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.Singleton.at
 import com.mezhendosina.sgo.data.grades.GradesFromHtml
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -35,13 +35,14 @@ class GradesRepository(
     private val listeners = mutableSetOf<GradeActionListener>()
 
     suspend fun loadGradesOptions(): GradeOptions {
-        val parentInfoLetter = gradesSource.getParentInfoLetter(at).body()?.string() ?: ""
+        val parentInfoLetter =
+            gradesSource.getParentInfoLetter(NetSchoolSingleton.at).body()?.string() ?: ""
         return GradesFromHtml().getOptions(parentInfoLetter)
     }
 
 
     suspend fun loadGrades(gradeOptions: GradeOptions, termid: String, sortType: Int) {
-        val at = Singleton.at
+        val at = NetSchoolSingleton.at
         val getGradesRequest = gradesSource.getGrades(
             at,
             gradeOptions.PCLID.value,

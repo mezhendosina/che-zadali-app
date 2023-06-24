@@ -21,7 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemChooseYearBinding
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListResponseEntity
 
 typealias OnYearClickListener = (year: YearListResponseEntity) -> Unit
 

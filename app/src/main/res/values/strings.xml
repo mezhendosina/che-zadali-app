@@ -139,7 +139,8 @@
     <string name="sgo_app_logo">Логотип SGO app</string>
     <string name="file_icon">Иконка файла</string>
     <string name="copy_text">Скоприровать в буфер обмена</string>
-    <string name="edit_text_answer">Изменить ответ</string>
+    <string name="edit_answer">Изменить ответ</string>
+    <string name="add_answer">Отправить ответ на задание</string>
     <string name="main_icon">Иконка приложения</string>
     <string name="app_version">v %1$s</string>
     <string name="publication_date">Дата публикации: %1$s</string>
@@ -161,4 +162,7 @@
     <string name="diary_settings">Дневник</string>
     <string name="find_school">Поиск школы</string>
     <string name="continue_">Продолжить</string>
+    <string name="answer_text_warning">Это поле можно оставить пустым</string>
+    <string name="answer_sended">Ответ отправлен</string>
+    <string name="week_without_lessons">На этой неделе уроков нет</string>
 </resources>

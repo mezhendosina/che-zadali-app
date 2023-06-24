@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="380dp"
-    tools:context=".ui.gradesFilter.GradesFilterBottomSheet">
+    tools:context=".ui.gradesFlow.gradesFilter.GradesFilterBottomSheet">
 
     <TextView
         android:id="@+id/header"

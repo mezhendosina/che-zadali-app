@@ -22,12 +22,12 @@
 
     <fragment
         android:id="@+id/journalFragment"
-        android:name="com.mezhendosina.sgo.app.ui.journal.JournalFragment"
+        android:name="com.mezhendosina.sgo.app.ui.journalFlow.journal.JournalFragment"
         android:label="@string/journal"
         tools:layout="@layout/fragment_journal" />
     <fragment
         android:id="@+id/gradesFragment"
-        android:name="com.mezhendosina.sgo.app.ui.grades.GradesFragment"
+        android:name="com.mezhendosina.sgo.app.ui.gradesFlow.grades.GradesFragment"
         android:label="@string/grades"
         tools:layout="@layout/fragment_grades" />
 </navigation>

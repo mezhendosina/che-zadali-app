@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/chooseSchoolFragment"
         android:label=""
-        android:name="com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolFragment"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.chooseSchool.ChooseSchoolFragment"
         tools:layout="@layout/fragment_choose_school">
         <argument
             android:name="schoolId"
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.mezhendosina.sgo.app.ui.login.LoginFragment"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.login.LoginFragment"
         android:label=""
         tools:layout="@layout/fragment_login">
         <action
@@ -43,12 +43,12 @@
     </fragment>
     <fragment
         android:id="@+id/chooseUserIdFragment"
-        android:name="com.mezhendosina.sgo.app.ui.chooseUserId.ChooseUserIdFragment"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.chooseUserId.ChooseUserIdFragment"
         android:label="@string/choose_user"
         tools:layout="@layout/fragment_choose_user_id" />
     <fragment
         android:id="@+id/chooseRegionFragment"
-        android:name="com.mezhendosina.sgo.app.ui.chooseRegion.ChooseRegionFragment"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.ChooseRegionFragment"
         android:label=""
         tools:layout="@layout/fragment_choose_region">
         <action

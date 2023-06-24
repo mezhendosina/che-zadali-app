@@ -21,8 +21,8 @@ import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.model.login.LoginEntity
 import com.mezhendosina.sgo.app.model.login.LoginRepository
 import com.mezhendosina.sgo.data.grades.GradesFromHtml
-import com.mezhendosina.sgo.data.requests.sgo.SourceProviderHolder
 import com.mezhendosina.sgo.data.toMD5
+import com.mezhendosina.sgo.netschool.base.SourceProviderHolder
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before

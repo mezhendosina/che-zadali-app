@@ -17,16 +17,14 @@
 package com.mezhendosina.sgo.app.utils
 
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
-import com.mezhendosina.sgo.app.model.chooseSchool.SchoolsSource
 import com.mezhendosina.sgo.app.model.grades.GradesSource
-import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.DiarySource
-import com.mezhendosina.sgo.app.model.login.LoginSource
-import com.mezhendosina.sgo.app.model.settings.SettingsSource
+import com.mezhendosina.sgo.data.netschool.api.homework.HomeworkSource
+import com.mezhendosina.sgo.data.netschool.api.login.LoginSource
+import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
 
 interface SourcesProvider {
 
-    fun getSchoolsSource(): SchoolsSource
 
     fun getLoginSource(): LoginSource
 

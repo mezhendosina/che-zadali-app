@@ -23,9 +23,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseUserIdBinding
-import com.mezhendosina.sgo.app.ui.chooseUserId.UserIdAdapter
-import com.mezhendosina.sgo.app.ui.chooseUserId.toUiEntity
-import com.mezhendosina.sgo.data.Settings
+import com.mezhendosina.sgo.app.ui.loginFlow.chooseUserId.UserIdAdapter
+import com.mezhendosina.sgo.app.ui.loginFlow.chooseUserId.toUiEntity
+import com.mezhendosina.sgo.data.SettingsDataStore
+import com.mezhendosina.sgo.data.editPreference
 import kotlinx.coroutines.launch
 
 class ChooseUserIdBottomSheet : BottomSheetDialogFragment(R.layout.fragment_choose_user_id) {
@@ -35,7 +36,7 @@ class ChooseUserIdBottomSheet : BottomSheetDialogFragment(R.layout.fragment_choo
 
     private val adapter = UserIdAdapter {
         lifecycleScope.launch {
-            Settings(requireContext()).editPreference(Settings.CURRENT_USER_ID, it)
+            SettingsDataStore.CURRENT_USER_ID.editPreference(requireContext(), it)
         }
     }
 

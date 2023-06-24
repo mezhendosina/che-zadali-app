@@ -20,8 +20,8 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:statusBarColor">@null</item>
+        <!--        <item name="android:windowTranslucentNavigation">true</item>-->
+        <!--        <item name="android:statusBarColor">@null</item>-->
 
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
@@ -63,7 +63,10 @@
 
         <!--        <item name="android:textColorLink">@color/md_theme_light_primary</item>-->
         <!--        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>-->
-
+        <item name="textAppearanceBodyLarge">@style/mainText</item>
+        <item name="textAppearanceBodySmall">@style/captions</item>
+        <item name="textAppearanceTitleSmall">@style/captions.headers</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.SGOApp.Login.Title</item>
     </style>
 
     <style name="recycler_view">
@@ -261,6 +264,9 @@
     </style>
 
 
+    <style name="Widget.SGOApp.BottomBar" parent="Widget.MaterialComponents.BottomNavigationView" />
+
+
     <style name="snackBarStyle" parent="Widget.Material3.Snackbar">
         <item name="backgroundTint">?attr/colorOnBackground</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Snackbar</item>
@@ -331,8 +337,6 @@
         <item name="android:minHeight">60dp</item>
         <item name="android:paddingBottom">12dp</item>
     </style>
-
-    <style name="bottomBar" parent="Widget.MaterialComponents.BottomNavigationView" />
 
 
 </resources>

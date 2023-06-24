@@ -16,10 +16,10 @@
 
 package com.mezhendosina.sgo.data.grades
 
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.InputTag
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.SelectTag
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.InputTag
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.SelectTag
 import org.jsoup.Jsoup
 
 class GradesFromHtml {

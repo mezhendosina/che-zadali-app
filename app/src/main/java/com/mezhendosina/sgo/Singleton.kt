@@ -16,52 +16,31 @@
 
 package com.mezhendosina.sgo
 
+
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
-import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
-import com.mezhendosina.sgo.app.model.answer.AnswerRepository
-import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
-import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
-import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
-import com.mezhendosina.sgo.app.model.chooseSchool.SchoolsSource
-import com.mezhendosina.sgo.app.model.container.ContainerRepository
-import com.mezhendosina.sgo.app.model.grades.GradesRepository
-import com.mezhendosina.sgo.app.model.grades.GradesSource
-import com.mezhendosina.sgo.app.model.homework.HomeworkSource
-import com.mezhendosina.sgo.app.model.journal.DiarySource
-import com.mezhendosina.sgo.app.model.journal.JournalRepository
+import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
-import com.mezhendosina.sgo.app.model.login.LoginRepository
-import com.mezhendosina.sgo.app.model.login.LoginSource
-import com.mezhendosina.sgo.app.model.settings.SettingsRepository
-import com.mezhendosina.sgo.app.model.settings.SettingsSource
-import com.mezhendosina.sgo.app.utils.SourcesProvider
 import com.mezhendosina.sgo.data.WeekStartEndEntity
-import com.mezhendosina.sgo.data.requests.sgo.SourceProviderHolder
-import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions
+import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
 
 object Singleton {
 
-    var at: String = ""
     var announcements: List<AnnouncementsResponseEntity> = emptyList()
 
-    val currentYearId = MutableLiveData<YearListResponseEntity>()
-    val gradesYearId = MutableLiveData<YearListResponseEntity>()
+    val diaryStyle = MutableLiveData<String>(DiaryStyle.AS_CARD)
+
     var users: List<StudentResponseEntity> = emptyList()
     var lesson: LessonUiEntity? = null
     var pastMandatoryItem: PastMandatoryEntity? = null
 
-
-    var schools = mutableListOf<SchoolUiEntity>()
     val gradesOptions = MutableLiveData<GradeOptions>()
     var grades: List<GradesItem> = emptyList()
     val gradesRecyclerViewLoaded = MutableLiveData<Boolean>(true)
@@ -73,79 +52,12 @@ object Singleton {
     var currentWeek: Int? = null
     val loadedDiaryUiEntity: MutableList<DiaryUiEntity> = mutableListOf()
     val currentDiaryUiEntity = MutableLiveData<DiaryUiEntity>()
-    val diaryRecyclerViewLoaded = MutableLiveData<Boolean>(true)
 
     var journalTabsLayout: TabLayout? = null
     var tabLayoutMediator: TabLayoutMediator? = null
-    var baseUrl = ""
 
+    val answerUpdated = MutableLiveData<Boolean>(false)
 
-    private val sourcesProvider: SourcesProvider by lazy {
-        SourceProviderHolder.sourcesProvider
-    }
-
-    // --- sources
-    private val schoolsSource: SchoolsSource by lazy {
-        sourcesProvider.getSchoolsSource()
-    }
-
-    private val loginSource: LoginSource by lazy {
-        sourcesProvider.getLoginSource()
-    }
-
-    private val diarySource: DiarySource by lazy {
-        sourcesProvider.getDiarySource()
-    }
-
-    val homeworkSource: HomeworkSource by lazy {
-        sourcesProvider.getHomeworkSource()
-    }
-
-    private val announcementsSource: AnnouncementsSource by lazy {
-        sourcesProvider.getAnnouncementsSource()
-    }
-
-    private val gradesSource: GradesSource by lazy {
-        sourcesProvider.getGradesSource()
-    }
-
-    private val settingsSource: SettingsSource by lazy {
-        sourcesProvider.getSettingsSource()
-    }
-
-    // --- repositories
-
-    val chooseSchoolRepository: ChooseSchoolRepository by lazy {
-        ChooseSchoolRepository(schoolsSource)
-    }
-
-    val loginRepository: LoginRepository by lazy {
-        LoginRepository(loginSource, settingsSource)
-    }
-
-    val announcementsRepository by lazy {
-        AnnouncementsRepository(announcementsSource)
-    }
-
-    val gradesRepository by lazy {
-        GradesRepository(gradesSource)
-    }
-
-    val settingsRepository by lazy {
-        SettingsRepository(settingsSource)
-    }
-
-    val containerRepository by lazy {
-        ContainerRepository()
-    }
-
-    val attachmentsRepository by lazy {
-        AttachmentsRepository(homeworkSource)
-    }
-
-    val journalRepository by lazy {
-        JournalRepository(homeworkSource, diarySource)
-    }
 
     // --- database
 //    val database: AppDatabase by lazy {

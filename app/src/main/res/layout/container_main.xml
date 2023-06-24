@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:transitionGroup="true"
-    tools:context=".ui.container.ContainerFragment">
+    tools:context=".ui.main.container.ContainerFragment">
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -110,10 +110,10 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        style="@style/bottomBar"
+        style="@style/Widget.SGOApp.BottomBar"
         android:layout_width="match_parent"
-        android:layout_height="78dp"
-        app:hideOnScroll="true"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav" />
 

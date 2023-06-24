@@ -20,10 +20,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.BottomSheetChooseYearBinding
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.YearListResponseEntity
+import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListResponseEntity
 
 class ChooseYearBottomSheet(
     private val yearList: List<YearListResponseEntity>
@@ -39,7 +39,7 @@ class ChooseYearBottomSheet(
         val adapter = ChooseYearAdapter(
             object : OnYearClickListener {
                 override fun invoke(year: YearListResponseEntity) {
-                    Singleton.currentYearId.value = year
+                    NetSchoolSingleton.journalYearId.value = year.id
                     dismissNow()
                 }
             }

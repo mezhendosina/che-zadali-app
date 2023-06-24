@@ -18,45 +18,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/download_button"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@null"
     android:foreground="?attr/selectableItemBackground"
-    android:padding="16dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="4dp">
 
     <ImageView
-        android:id="@+id/file_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/preview_file"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:background="@drawable/shape_attachments"
         android:contentDescription="@string/file_icon"
-        android:src="@drawable/ic_file"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorOnSecondaryContainer" />
+        app:tint="?attr/colorPrimary" />
 
-    <ProgressBar
+    <include
+        android:id="@+id/file_icon"
+        layout="@layout/item_attachment_file"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:indeterminate="false"
-        android:indeterminateTint="?attr/colorOnSecondaryContainer"
-        android:visibility="invisible"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/file_icon"
+        app:layout_constraintEnd_toEndOf="@id/file_icon"
+        app:layout_constraintStart_toStartOf="@id/file_icon"
+        app:layout_constraintTop_toTopOf="@id/file_icon" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_attachment"
+        style="@style/Widget.Material3.Button.IconButton.Outlined"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:insetLeft="10dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="8dp"
+        app:icon="@drawable/ic_cancel"
+        app:iconGravity="textStart"
+        app:iconSize="36dp"
+        app:iconTint="?attr/colorOnBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeWidth="0dp" />
 
     <TextView
         android:id="@+id/file_name"
-        style="@style/TextAppearance.AppCompat.Button"
-        android:layout_width="wrap_content"
+        style="@style/TextAppearance.Material3.BodySmall"
+        android:layout_width="92dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
         android:textAllCaps="false"
         android:textColor="?attr/colorOnSecondaryContainer"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/file_icon"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/file_icon"
         tool:text="Файл.txt" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,43 +20,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:transitionName="@string/lesson_item_details_transition_name"
-    tool:context=".ui.lessonItem.LessonFragment">
+    tool:context=".ui.journalFlow.lessonItem.LessonFragment">
 
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbarlayout"
-        style="@style/AppBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingtoolbarlayout"
-            android:layout_width="match_parent"
-            android:layout_height="172dp"
-            android:nestedScrollingEnabled="true"
-            app:expandedTitleMarginBottom="18dp"
-            app:expandedTitleMarginEnd="16dp"
-            app:expandedTitleMarginStart="16dp"
-            app:expandedTitleMarginTop="16dp"
-            app:expandedTitleTextAppearance="@style/expandedToolBarText"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:maxLines="3">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="0dp"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:navigationIconTint="?attr/colorOnBackground"
-                tool:title="Русский язык" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -93,6 +58,7 @@
                 layout="@layout/item_lesson_send_homework"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homework" />

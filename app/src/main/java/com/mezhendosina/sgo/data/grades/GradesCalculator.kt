@@ -16,8 +16,8 @@
 
 package com.mezhendosina.sgo.data.grades
 
-import com.mezhendosina.sgo.app.ui.gradeItem.GradeItemFragment
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
+import com.mezhendosina.sgo.app.ui.gradesFlow.gradeItem.GradeItemFragment
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import kotlin.math.roundToInt
 
 data class CalculateGradeItem(

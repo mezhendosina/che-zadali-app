@@ -16,7 +16,6 @@
 
 package com.mezhendosina.sgo.app.model.journal
 
-import com.mezhendosina.sgo.app.model.homework.HomeworkSource
 import com.mezhendosina.sgo.app.model.journal.entities.AssignmentUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
@@ -24,15 +23,16 @@ import com.mezhendosina.sgo.app.model.journal.entities.WeekDayUiEntity
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.dateToRussian
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.Assignment
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.DiaryResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.Lesson
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
-import com.mezhendosina.sgo.data.requests.sgo.homework.entities.AttachmentsRequestEntity
-import com.mezhendosina.sgo.data.requests.sgo.homework.entities.AttachmentsResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
+import com.mezhendosina.sgo.data.netschool.api.attachments.entities.AttachmentsRequestEntity
+import com.mezhendosina.sgo.data.netschool.api.attachments.entities.AttachmentsResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.Assignment
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.DiaryResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.Lesson
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
 
 class JournalRepository(
-    private val homeworkSource: HomeworkSource,
+    private val attachmentsSource: AttachmentsSource,
     private val diarySource: DiarySource
 ) {
 
@@ -53,7 +53,7 @@ class JournalRepository(
         val diary = diarySource.diary(diaryRequestEntity)
         val attachmentsId = diary.getAttachmentIDs()
 
-        val attachments = homeworkSource.getAttachments(
+        val attachments = attachmentsSource.getAttachments(
             studentId,
             AttachmentsRequestEntity(attachmentsId)
         )
@@ -113,8 +113,7 @@ class JournalRepository(
                 assignment.classMeetingId,
                 assignment.dueDate,
                 assignment.id,
-                assignment.mark,
-                assignment.markComment?.name,
+                assignment.mark?.toUiEntity(assignment.markComment?.name),
                 assignment.textAnswer,
                 assignment.typeId,
                 assignment.weight,

@@ -21,12 +21,12 @@
     app:startDestination="@id/settingsFragment">
     <fragment
         android:id="@+id/changePasswordFragment"
-        android:name="com.mezhendosina.sgo.app.ui.changePassword.ChangePasswordFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settingsFlow.changePassword.ChangePasswordFragment"
         android:label="@string/change_password"
         tools:layout="@layout/fragment_change_password" />
     <fragment
         android:id="@+id/changeControlQuestionFragment"
-        android:name="com.mezhendosina.sgo.app.ui.changeControlQuestion.ChangeControlQuestionFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settingsFlow.changeControlQuestion.ChangeControlQuestionFragment"
         android:label="@string/change_control_question"
         tools:layout="@layout/fragment_change_control_question" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.mezhendosina.sgo.app.ui.settings.SettingsFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settingsFlow.SettingsFragment"
         android:label="@string/settings">
         <action
             android:id="@+id/action_settingsFragment4_to_changePasswordFragment"
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/changeEmailFragment"
-        android:name="com.mezhendosina.sgo.app.ui.changeEmail.ChangeEmailFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settingsFlow.changeEmail.ChangeEmailFragment"
         android:label="@string/change_email" >
         <action
             android:id="@+id/action_changeEmailFragment_to_settingsFragment2"
@@ -70,7 +70,7 @@
     </fragment>
     <fragment
         android:id="@+id/changePhoneFragment"
-        android:name="com.mezhendosina.sgo.app.ui.changePhone.ChangePhoneFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settingsFlow.changePhone.ChangePhoneFragment"
         android:label="@string/change_phone_number"
         tools:layout="@layout/fragment_change_phone_number" >
         <action
@@ -79,11 +79,11 @@
     </fragment>
     <fragment
         android:id="@+id/aboutAppFragment"
-        android:name="com.mezhendosina.sgo.app.ui.about.AboutAppFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settingsFlow.about.AboutAppFragment"
         android:label="@string/about_app"
         tools:layout="@layout/fragment_about_app" />
     <fragment
         android:id="@+id/changeDiaryStyleFragment"
-        android:name="com.mezhendosina.sgo.app.ui.changeDiaryStyle.ChangeDiaryStyleFragment"
+        android:name="com.mezhendosina.sgo.app.ui.settingsFlow.changeDiaryStyle.ChangeDiaryStyleFragment"
         android:label="@string/diary_settings" />
 </navigation>

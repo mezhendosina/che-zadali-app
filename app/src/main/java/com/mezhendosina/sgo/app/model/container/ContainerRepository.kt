@@ -17,11 +17,11 @@
 package com.mezhendosina.sgo.app.model.container
 
 import com.google.gson.Gson
-import com.mezhendosina.sgo.data.requests.Download
-import com.mezhendosina.sgo.data.requests.downloadToFileWithProgress
+import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
+import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.Download
+import com.mezhendosina.sgo.data.netschool.base.downloadToFileWithProgress
 import com.mezhendosina.sgo.data.requests.github.checkUpdates.CheckUpdates
-import com.mezhendosina.sgo.data.requests.sgo.base.BaseRetrofitSource
-import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitConfig
 import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody

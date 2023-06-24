@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:nestedScrollingEnabled="true"
-    tools:context=".ui.settings.SettingsContainer">
+    tools:context=".ui.settingsFlow.SettingsContainer">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"

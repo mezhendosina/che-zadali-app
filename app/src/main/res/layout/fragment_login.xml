@@ -22,7 +22,7 @@
     android:animateLayoutChanges="true"
     android:transitionGroup="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tool:context=".ui.login.LoginFragment">
+    tool:context=".ui.loginFlow.login.LoginFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -48,8 +48,8 @@
 
             <ImageView
                 android:id="@+id/ic_user"
-                android:layout_width="152dp"
-                android:layout_height="152dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_marginTop="24dp"
                 android:src="@drawable/ic_user"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -154,23 +154,22 @@
                     android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/login_button"
+                style="@style/Widget.SGOApp.Button.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="100dp"
+                android:text="@string/log_in"
+                android:textSize="18sp"
+                app:cornerRadius="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/passwordTextField" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <Button
-        android:id="@+id/login_button"
-        style="@style/Widget.SGOApp.Button.Secondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:paddingHorizontal="100dp"
-        android:text="@string/log_in"
-
-        android:textSize="18sp"
-        app:cornerRadius="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
     <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
     <!--        android:id="@+id/fab"-->
     <!--        style="@style/fab"-->

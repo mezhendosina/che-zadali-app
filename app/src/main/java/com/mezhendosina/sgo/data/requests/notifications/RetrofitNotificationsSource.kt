@@ -16,10 +16,10 @@
 
 package com.mezhendosina.sgo.data.requests.notifications
 
+import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
+import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.requests.notifications.entities.NotificationUserEntity
 import com.mezhendosina.sgo.data.requests.notifications.entities.UnregisterUserEntity
-import com.mezhendosina.sgo.data.requests.sgo.base.BaseRetrofitSource
-import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitConfig
 import okhttp3.ResponseBody
 import retrofit2.Response
 
