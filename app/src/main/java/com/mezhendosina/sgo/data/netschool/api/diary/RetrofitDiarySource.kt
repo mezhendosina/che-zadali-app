@@ -43,7 +43,7 @@ class RetrofitDiarySource(config: RetrofitConfig) : BaseRetrofitSource(config), 
                 yearId = diaryEntity.yearId,
                 withLaAssigns = true
             )
-            //                else {
+//                            else {
 //                Gson().fromJson(TestData.DIARY, DiaryResponseEntity::class.java)
 //            }
         }

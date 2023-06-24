@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.app.netschool.model.regions
+package com.mezhendosina.sgo.data.netschool.api.regions
 
 class Regions {
     companion object {

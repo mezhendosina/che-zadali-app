@@ -28,7 +28,7 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAnswerBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
-import com.mezhendosina.sgo.app.ui.journalFlow.uploadFileBottomSheet.getFileNameFromUri
+import com.mezhendosina.sgo.app.utils.getFileNameFromUri
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

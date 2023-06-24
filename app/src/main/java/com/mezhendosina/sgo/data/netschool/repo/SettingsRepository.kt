@@ -19,7 +19,7 @@ package com.mezhendosina.sgo.data.netschool.repo
 import android.content.Context
 import android.net.Uri
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.app.ui.journalFlow.uploadFileBottomSheet.getFileNameFromUri
+import com.mezhendosina.sgo.app.utils.getFileNameFromUri
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.ChangePasswordEntity

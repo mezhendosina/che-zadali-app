@@ -18,7 +18,7 @@ package com.mezhendosina.sgo.app.model.answer
 
 import android.content.Context
 import android.net.Uri
-import com.mezhendosina.sgo.app.ui.journalFlow.uploadFileBottomSheet.getFileNameFromUri
+import com.mezhendosina.sgo.app.utils.getFileNameFromUri
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.SendFileRequestEntity
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
