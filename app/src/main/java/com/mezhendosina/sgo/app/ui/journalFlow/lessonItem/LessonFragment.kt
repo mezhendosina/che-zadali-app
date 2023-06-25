@@ -66,19 +66,24 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         }
     }
 
-    private val whyGradeAdapter = WhyGradeAdapter()
-    private val attachmentAdapter = AttachmentAdapter(onAttachmentClickListener)
-
-    private val answerFileAdapter = AttachmentAdapter(onAttachmentClickListener)
+    private var whyGradeAdapter: WhyGradeAdapter? = null
+    private var attachmentAdapter: AttachmentAdapter? = AttachmentAdapter(onAttachmentClickListener)
+    private var answerFileAdapter: AttachmentAdapter? = AttachmentAdapter(onAttachmentClickListener)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+
+        whyGradeAdapter = WhyGradeAdapter()
+        attachmentAdapter = AttachmentAdapter(onAttachmentClickListener)
+        answerFileAdapter = AttachmentAdapter(onAttachmentClickListener)
+
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.init(requireContext())
         }
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -109,6 +114,18 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         observeOnAnswerUpdated()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding!!.homework.attachmentsList.attachmentsListRecyclerView.invalidate()
+        binding!!.sendHomework.sendAttachmentList.invalidate()
+        binding!!.itemWhyGrade.whyGradeRecyclerView.invalidate()
+
+        binding = null
+        whyGradeAdapter = null
+        attachmentAdapter = null
+        answerFileAdapter = null
+    }
+
     private fun bindLesson() {
         viewModel.lesson.observe(viewLifecycleOwner) { lesson ->
             if (lesson != null) with(binding!!) {
@@ -126,7 +143,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
                 if (!lesson.attachments.isNullOrEmpty()) {
                     homework.attachmentsList.root.visibility = View.VISIBLE
-                    attachmentAdapter.attachments = lesson.attachments
+                    attachmentAdapter?.attachments = lesson.attachments
                 } else {
                     homework.attachmentsList.root.visibility = View.GONE
                 }
@@ -141,7 +158,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
                         sendHomework.sendAttachmentList.visibility = View.GONE
                     } else {
                         sendHomework.sendAttachmentList.visibility = View.VISIBLE
-                        answerFileAdapter.attachments = lesson.answerFiles
+                        answerFileAdapter?.attachments = lesson.answerFiles
                     }
                     if (lesson.answerText.isNullOrEmpty()) {
                         sendHomework.answerText.visibility = View.GONE
@@ -153,7 +170,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
                 if (!lesson.whyGradeEntity.isNullOrEmpty()) {
                     itemWhyGrade.root.visibility = View.VISIBLE
-                    whyGradeAdapter.grades = lesson.whyGradeEntity
+                    whyGradeAdapter?.grades = lesson.whyGradeEntity
                 } else {
                     itemWhyGrade.root.visibility = View.GONE
                 }

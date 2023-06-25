@@ -76,6 +76,13 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding!!.attachments.invalidate()
+        binding = null
+        adapter = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAnswerBinding.bind(view)
