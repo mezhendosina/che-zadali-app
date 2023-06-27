@@ -165,4 +165,5 @@
     <string name="answer_text_warning">Это поле можно оставить пустым</string>
     <string name="answer_sended">Ответ отправлен</string>
     <string name="week_without_lessons">На этой неделе уроков нет</string>
+    <string name="without_announcements">Объявлений нет</string>
 </resources>

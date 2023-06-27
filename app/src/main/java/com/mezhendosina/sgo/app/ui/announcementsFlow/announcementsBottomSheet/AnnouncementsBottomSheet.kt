@@ -18,14 +18,11 @@ package com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsBottomSheet
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.BottomSheetAnnouncementsBinding
-import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
 
 class AnnouncementsBottomSheet :
@@ -48,10 +45,10 @@ class AnnouncementsBottomSheet :
         val announcementsAdapter = AnnouncementsAdapter(
             object : OnAnnouncementClickListener {
                 override fun invoke(p1: AnnouncementsResponseEntity) {
-                    findTopNavController().navigate(
-                        R.id.action_containerFragment_to_announcementsFragment,
-                        bundleOf(Singleton.ANNOUNCEMENTS_ID to p1.id)
-                    )
+//                    findTopNavController().navigate(
+//                        R.id.,
+//                        bundleOf(Singleton.ANNOUNCEMENTS_ID to p1.id)
+//                    )
                 }
             }
         )

@@ -21,7 +21,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
     android:transitionGroup="true"
-    tool:context=".ui.announcementsFlow.announcements.AnnouncementsFragment">
+    tool:context=".ui.announcementsFlow.announcementsItem.AnnouncementsItemFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarlayout"

@@ -18,99 +18,35 @@ package com.mezhendosina.sgo.app.ui.announcementsFlow.announcements
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
+import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.FragmentAnnouncementItemBinding
-import com.mezhendosina.sgo.app.model.answer.FileUiEntity
-import com.mezhendosina.sgo.app.utils.AttachmentAdapter
-import com.mezhendosina.sgo.app.utils.AttachmentClickListener
-import com.mezhendosina.sgo.data.DateManipulation
-import io.noties.markwon.Markwon
-import io.noties.markwon.html.HtmlPlugin
-import org.jsoup.Jsoup
+import com.mezhendosina.sgo.app.databinding.FragmentAnnouncementsBinding
+import com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsBottomSheet.BottomSheetAnnouncementsViewModel
+import com.mezhendosina.sgo.app.utils.findTopNavController
 
+class AnnouncementsFragment : Fragment(R.layout.fragment_announcements) {
 
-class AnnouncementsFragment : Fragment(R.layout.fragment_announcement_item) {
-
-    private lateinit var binding: FragmentAnnouncementItemBinding
-
-    internal val viewModel: AnnouncementsFragmentViewModel by viewModels()
-    private val announcement =
-        Singleton.announcements.find { it.id == arguments?.getInt(Singleton.ANNOUNCEMENTS_ID) }
-
-    private val registerPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
+    private var binding: FragmentAnnouncementsBinding? = null
+    private val viewModel by viewModels<BottomSheetAnnouncementsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        viewModel.loadAnnouncements()
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentAnnouncementItemBinding.bind(view)
+        binding = FragmentAnnouncementsBinding.bind(view)
 
-
-        val markwon = Markwon.builder(requireContext())
-            .usePlugin(HtmlPlugin.create())
-            .build()
-        with(binding) {
-            collapsingtoolbarlayout.title = announcement?.name
-            toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
-            if (announcement?.description != null) {
-                val jsoup = markwon.toMarkdown(announcement.description).toString()
-                homeworkBody.text = Jsoup.parse(jsoup).wholeText()
-            } else {
-                homeworkBody.visibility = View.GONE
+        binding!!.announcementsCompose.setContent {
+            Mdc3Theme {
+                AnnouncementsScreen(announcementsViewModel = viewModel, findTopNavController())
             }
-
-            author.text = announcement?.author?.nickName
-            val publicationDate =
-                announcement?.postDate?.let { DateManipulation(it).dateToRussianWithTime() }
-            date.text = requireContext().getString(R.string.publication_date, publicationDate)
         }
-        observeErrors()
-        setupAttachments()
-    }
-
-    private fun setupAttachments() {
-        if (!announcement?.attachments.isNullOrEmpty()) {
-            val attachmentAdapter = AttachmentAdapter(
-                object : AttachmentClickListener {
-                    override fun invoke(attachment: FileUiEntity, loadingList: MutableList<Int>) {
-                        TODO("Not yet implemented")
-                    }
-                }
-            )
-            attachmentAdapter.attachments =
-                announcement?.attachments?.map { it.toUiEntity() } ?: emptyList()
-            binding.attachmentsList.attachmentsListRecyclerView.adapter = attachmentAdapter
-            binding.attachmentsList.attachmentsListRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-            showAttachments(binding)
-        }
-    }
-
-    private fun observeErrors() {
-        viewModel.errorMessage.observe(viewLifecycleOwner) {
-            Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
-        }
-    }
-
-
-    private fun showAttachments(binding: FragmentAnnouncementItemBinding) {
-        binding.attachmentsList.root.isVisible = true
-        binding.attachmentsDivider.isVisible = true
     }
 }

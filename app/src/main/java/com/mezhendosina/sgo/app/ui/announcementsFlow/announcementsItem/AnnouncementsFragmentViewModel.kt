@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui.announcementsFlow.announcements
+package com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsItem
 
 import android.content.Context
 import android.view.View

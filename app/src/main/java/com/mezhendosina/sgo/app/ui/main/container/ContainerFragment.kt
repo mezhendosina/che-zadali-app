@@ -41,7 +41,6 @@ import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 import com.mezhendosina.sgo.app.model.journal.DiaryStyle
-import com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsBottomSheet.AnnouncementsBottomSheet
 import com.mezhendosina.sgo.app.ui.gradesFlow.gradesFilter.GradesFilterBottomSheet
 import com.mezhendosina.sgo.app.ui.gradesFlow.gradesFilter.GradesFilterViewModel
 import com.mezhendosina.sgo.app.ui.main.updateBottomSheet.UpdateBottomSheetFragment
@@ -236,9 +235,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
             }
 
             R.id.announcements -> {
-                AnnouncementsBottomSheet().show(
-                    childFragmentManager, AnnouncementsBottomSheet.TAG
-                )
+                findTopNavController().navigate(R.id.action_containerFragment_to_announcementsFragment2)
                 true
             }
 
