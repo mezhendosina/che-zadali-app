@@ -15,6 +15,9 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="image_width">120dp</dimen>
+    <dimen name="image_final_width">32dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
 
     <style name="Theme.SGOApp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowLightStatusBar">true</item>
@@ -68,6 +71,7 @@
         <item name="textAppearanceTitleSmall">@style/captions.headers</item>
         <item name="textAppearanceTitleMedium">@style/TextAppearance.SGOApp.Login.Title</item>
     </style>
+
 
     <style name="recycler_view">
         <item name="android:background">?android:attr/colorBackground</item>
