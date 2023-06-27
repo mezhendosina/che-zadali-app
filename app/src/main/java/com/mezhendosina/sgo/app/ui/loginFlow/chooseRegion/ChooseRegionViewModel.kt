@@ -43,7 +43,7 @@ class ChooseRegionViewModel : ViewModel() {
     private val _regions = MutableLiveData<ChooseRegionUiEntity>()
     val regions: LiveData<ChooseRegionUiEntity> = _regions
 
-    private val _selectedRegion = MutableLiveData<ChooseRegionUiEntityItem>()
+    private val _selectedRegion: MutableLiveData<ChooseRegionUiEntityItem> = MutableLiveData()
     val selectedRegion = _selectedRegion.toLiveData()
 
 
@@ -73,7 +73,7 @@ class ChooseRegionViewModel : ViewModel() {
     }
 
     fun editSelectedRegion(newValue: String) {
-        _selectedRegion.value = _regions.value?.firstOrNull { it.name == newValue }
+        _selectedRegion.value = _regions.value?.first { it.name == newValue }!!
     }
 
     fun setRegion(context: Context, navController: NavController) {

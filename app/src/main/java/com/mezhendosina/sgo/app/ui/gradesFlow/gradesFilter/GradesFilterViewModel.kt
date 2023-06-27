@@ -38,7 +38,7 @@ class GradesFilterViewModel(
     private val settingsRepository: SettingsRepository = NetSchoolSingleton.settingsRepository
 ) : ViewModel() {
 
-    private val _gradesSortType = MutableLiveData<Int>()
+    private val _gradesSortType: MutableLiveData<Int> = MutableLiveData()
     val gradesSortType = _gradesSortType.toLiveData()
 
     private val _yearList = MutableLiveData<List<YearListResponseEntity>>()
