@@ -22,7 +22,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
@@ -59,26 +58,24 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAnnouncementItemBinding.bind(view)
 
-        val announcement =
-            Singleton.announcements.first { it.id == arguments?.getInt(Singleton.ANNOUNCEMENTS_ID) }
+        val announcement = Singleton.selectedAnnouncement
+        if (announcement != null) {
+            val markwon = Markwon.builder(requireContext())
+                .usePlugin(HtmlPlugin.create())
+                .build()
+            with(binding) {
+                val jsoup = markwon.toMarkdown(announcement.description).toString()
+                homeworkBody.text = Jsoup.parse(jsoup).wholeText()
+                homeworkBody.visibility = View.VISIBLE
 
-        val markwon = Markwon.builder(requireContext())
-            .usePlugin(HtmlPlugin.create())
-            .build()
-        with(binding) {
-            collapsingtoolbarlayout.title = announcement.name
-            toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
-            val jsoup = markwon.toMarkdown(announcement.description).toString()
-            homeworkBody.text = Jsoup.parse(jsoup).wholeText()
-            homeworkBody.visibility = View.VISIBLE
-
-            author.text = announcement.author.nickName
-            val publicationDate =
-                announcement.postDate.let { DateManipulation(it).dateToRussianWithTime() }
-            date.text = requireContext().getString(R.string.publication_date, publicationDate)
+                author.text = announcement.author.nickName
+                val publicationDate =
+                    announcement.postDate.let { DateManipulation(it).dateToRussianWithTime() }
+                date.text = requireContext().getString(R.string.publication_date, publicationDate)
+            }
+            observeErrors()
+            setupAttachments(announcement)
         }
-        observeErrors()
-        setupAttachments(announcement)
     }
 
     private fun setupAttachments(announcement: AnnouncementsResponseEntity) {

@@ -40,14 +40,9 @@
             android:id="@+id/action_containerFragment_to_lessonContainer"
             app:destination="@id/lessonContainer" />
         <action
-            android:id="@+id/action_containerFragment_to_announcementsFragment2"
-            app:destination="@id/announcementsFragment2" />
+            android:id="@+id/action_containerFragment_to_announcementsContainerFragment2"
+            app:destination="@id/announcementsContainerFragment2" />
     </fragment>
-    <fragment
-        android:id="@+id/announcementsFragment"
-        android:name="com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsItem.AnnouncementsItemFragment"
-        android:label="announcements_fragment"
-        tools:layout="@layout/fragment_announcement_item" />
     <fragment
         android:id="@+id/settingsContainer"
         android:name="com.mezhendosina.sgo.app.ui.settingsFlow.SettingsContainer"
@@ -59,11 +54,8 @@
         android:label="grade_fragment"
         tools:layout="@layout/fragment_grade_item" />
     <fragment
-        android:id="@+id/announcementsFragment2"
-        android:name="com.mezhendosina.sgo.app.ui.announcementsFlow.announcements.AnnouncementsFragment"
-        android:label="AnnouncementsFragment">
-        <action
-            android:id="@+id/action_announcementsFragment2_to_announcementsFragment"
-            app:destination="@id/announcementsFragment" />
-    </fragment>
+        android:id="@+id/announcementsContainerFragment2"
+        android:name="com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsContainer.AnnouncementsContainerFragment"
+        android:label="container_announcements"
+        tools:layout="@layout/container_announcements" />
 </navigation>

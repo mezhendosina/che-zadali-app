@@ -235,7 +235,7 @@ class ContainerFragment : Fragment(R.layout.container_main) {
             }
 
             R.id.announcements -> {
-                findTopNavController().navigate(R.id.action_containerFragment_to_announcementsFragment2)
+                findTopNavController().navigate(R.id.action_containerFragment_to_announcementsContainerFragment2)
                 true
             }
 

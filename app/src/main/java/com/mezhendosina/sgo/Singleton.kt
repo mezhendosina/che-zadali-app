@@ -34,6 +34,7 @@ import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEnti
 object Singleton {
 
     var announcements: List<AnnouncementsResponseEntity> = emptyList()
+    var selectedAnnouncement: AnnouncementsResponseEntity? = null
 
     val diaryStyle = MutableLiveData<String>(DiaryStyle.AS_CARD)
 
