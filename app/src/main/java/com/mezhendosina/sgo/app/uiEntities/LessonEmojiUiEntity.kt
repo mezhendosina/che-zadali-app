@@ -16,7 +16,9 @@
 
 package com.mezhendosina.sgo.app.uiEntities
 
+import androidx.annotation.DrawableRes
+
 data class LessonEmojiUiEntity(
     val name: String,
-    val emoji: String
+    @DrawableRes val emoji: Int
 )

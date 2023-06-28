@@ -89,7 +89,7 @@ class GradesFromHtml {
 
             grades.add(
                 GradesItem(
-                    getEmojiLesson(lessonName),
+                    lessonName,
                     fiveGrade,
                     fourGrade,
                     threeGrade,

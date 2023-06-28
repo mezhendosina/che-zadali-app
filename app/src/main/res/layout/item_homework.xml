@@ -37,15 +37,24 @@
         app:layout_constraintTop_toTopOf="parent"
         tool:text="1" />
 
-    <TextView
+    <include
         android:id="@+id/lesson_name"
+        layout="@layout/item_lesson_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toTopOf="@id/lesson_time"
+        app:layout_constraintEnd_toStartOf="@id/assignment_types"
+        app:layout_constraintStart_toEndOf="@id/lesson_number"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:background="@null"
-        android:textIsSelectable="false"
-        android:textSize="16sp"
+
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/lesson_time"
         app:layout_constraintEnd_toStartOf="@id/assignment_types"
         app:layout_constraintStart_toEndOf="@id/lesson_number"
