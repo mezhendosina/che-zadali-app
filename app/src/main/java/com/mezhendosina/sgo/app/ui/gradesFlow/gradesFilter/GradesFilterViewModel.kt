@@ -71,8 +71,11 @@ class GradesFilterViewModel(
             }
             withContext(Dispatchers.Main) {
                 _yearList.value = yearListResponse
-                _selectedYear.value = _yearList.value?.first { !it.name.contains("(*)") }
-                    ?: NetSchoolSingleton.gradesYearId.value
+                _selectedYear.value =
+                    if (NetSchoolSingleton.gradesYearId.value == null)
+                        _yearList.value?.first { !it.name.contains("(*)") }
+                    else NetSchoolSingleton.gradesYearId.value
+                NetSchoolSingleton.gradesYearId.value = _selectedYear.value
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {

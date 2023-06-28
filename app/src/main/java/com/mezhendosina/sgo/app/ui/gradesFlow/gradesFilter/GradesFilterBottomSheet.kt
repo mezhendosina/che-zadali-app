@@ -98,8 +98,7 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
                 viewModel.yearList.value?.map { GradesFilterViewModel.filterYearName(it.name) }
                     ?.toTypedArray()
             val selectedYearId = viewModel.selectedYear.value
-            val selectedYearName =
-                viewModel.yearList.value?.firstOrNull { it == selectedYearId }?.name ?: ""
+            val selectedYearName = GradesFilterViewModel.filterYearName(selectedYearId!!.name)
             val selectedYearArrayIndex = items?.indexOf(selectedYearName)
 
             MaterialAlertDialogBuilder(requireContext())
