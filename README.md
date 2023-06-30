@@ -1,5 +1,5 @@
-![Main icon](https://user-images.githubusercontent.com/80736171/200113626-8fb990eb-70fa-4bc6-97b7-3eead808e45e.svg)
-# SGO app
+![Frame 445](https://github.com/mezhendosina/sgo-app/assets/80736171/be87674d-33fb-4d52-ba69-7e843fc60bb0)
+
 
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mezhendosina/che-zadali-app?style=for-the-badge)](https://github.com/mezhendosina/che-zadali-app/releases) 
