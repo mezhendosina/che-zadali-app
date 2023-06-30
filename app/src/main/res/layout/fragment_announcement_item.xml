@@ -19,6 +19,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionGroup="true"
     app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     tool:context=".ui.announcementsFlow.announcementsItem.AnnouncementsItemFragment">
 
