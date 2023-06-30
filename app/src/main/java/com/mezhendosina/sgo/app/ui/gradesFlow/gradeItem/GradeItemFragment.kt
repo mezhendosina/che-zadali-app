@@ -29,7 +29,10 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradeItemBinding
 import com.mezhendosina.sgo.app.utils.GradesType
 import com.mezhendosina.sgo.app.utils.ItemOffsetDecoration
+import com.mezhendosina.sgo.app.utils.addOnToolbarCollapseListener
 import com.mezhendosina.sgo.app.utils.findTopNavController
+import com.mezhendosina.sgo.app.utils.getEmojiLesson
+import com.mezhendosina.sgo.app.utils.setup
 import com.mezhendosina.sgo.app.utils.setupColorWithGrade
 import com.mezhendosina.sgo.app.utils.setupGrade
 import com.mezhendosina.sgo.app.utils.toGradeType
@@ -76,9 +79,13 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGradeItemBinding.bind(view)
-
-        binding!!.collapsingtoolbarlayout.title = lesson.name
-        binding!!.toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
+        val emoji = getEmojiLesson(lesson.name)
+        with(binding!!.toolbar) {
+            collapsingtoolbarlayout.title = lesson.name
+            toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
+            addOnToolbarCollapseListener(emoji)
+            setup(emoji)
+        }
 
         binding!!.gradeCalculator.calculateGrade.adapter = calculateGradeAdapter
         binding!!.gradeCalculator.calculateGrade.layoutManager =

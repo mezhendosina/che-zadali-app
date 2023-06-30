@@ -22,50 +22,12 @@
     android:transitionName="@string/lesson_item_details_transition_name"
     tool:context=".ui.journalFlow.containerLesson.LessonContainer">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbarlayout"
-        style="@style/AppBarLayout"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/item_lesson_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content" />
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingtoolbarlayout"
-            android:layout_width="match_parent"
-            android:layout_height="172dp"
-            android:nestedScrollingEnabled="true"
-            app:expandedTitleMarginBottom="18dp"
-            app:expandedTitleMarginEnd="16dp"
-            app:expandedTitleMarginStart="16dp"
-            app:expandedTitleMarginTop="16dp"
-            app:expandedTitleTextAppearance="@style/expandedToolBarText"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:maxLines="3">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="0dp"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:navigationIconTint="?attr/colorOnBackground"
-                tool:title="Русский язык">
-
-                <!--                <LinearLayout-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    android:gravity="center_vertical"-->
-                <!--                    android:orientation="horizontal">-->
-
-                <!--                    <include layout="@layout/item_lesson_name" />-->
-                <!--                </LinearLayout>-->
-            </com.google.android.material.appbar.MaterialToolbar>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/lesson_fragment_container"

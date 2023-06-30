@@ -25,6 +25,7 @@
         android:id="@+id/emoji"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginEnd="4dp"
         tools:src="@drawable/lesson_obz" />
 
     <TextView
@@ -32,7 +33,6 @@
         style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="285dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:background="@null"
         android:ellipsize="end"
         android:maxLines="1"

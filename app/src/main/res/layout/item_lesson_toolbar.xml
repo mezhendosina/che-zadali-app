@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2023 Eugene Menshenin
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/appbarlayout"
+    style="@style/AppBarLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/collapsingtoolbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="172dp"
+        android:nestedScrollingEnabled="true"
+        app:expandedTitleMarginBottom="18dp"
+        app:expandedTitleMarginEnd="16dp"
+        app:expandedTitleMarginStart="62dp"
+        app:expandedTitleMarginTop="16dp"
+        app:expandedTitleTextAppearance="@style/announcementsToolBarText"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+        app:maxLines="3">
+
+
+        <ImageView
+            android:id="@+id/expanded_icon"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="12dp"
+            tool:src="@drawable/lesson_astronomy" />
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="0dp"
+            app:collapseIcon="@drawable/ic_map"
+            app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="?attr/colorOnBackground"
+            app:titleMarginStart="4dp"
+            tool:title="Основы безопасности жизнедеятельности">
+
+            <ImageView
+                android:id="@+id/collapsed_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical" />
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+</com.google.android.material.appbar.AppBarLayout>

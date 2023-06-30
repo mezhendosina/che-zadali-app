@@ -16,17 +16,22 @@
 
 package com.mezhendosina.sgo.app.ui.journalFlow.containerLesson
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionManager
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerLessonBinding
 import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment.Companion.ADD_ANSWER
 import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment.Companion.EDIT_ANSWER
+import com.mezhendosina.sgo.app.utils.addOnToolbarCollapseListener
+import com.mezhendosina.sgo.app.utils.getEmojiLesson
+import com.mezhendosina.sgo.app.utils.setup
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,23 +48,32 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
         sharedElementReturnTransition = MaterialContainerTransform()
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ContainerLessonBinding.bind(view)
-        binding!!.toolbar.title = viewModel.lesson?.subjectName ?: ""
-
         val innerNavController =
             childFragmentManager.findFragmentById(binding!!.lessonFragmentContainer.id)
                 ?.findNavController()
 
-        binding!!.toolbar.setNavigationOnClickListener {
-            if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) findNavController().navigateUp()
-            else innerNavController?.navigateUp()
+        with(binding!!.toolbar) {
+
+            toolbar.title = viewModel.lesson?.subjectName ?: ""
+            val emoji = getEmojiLesson(viewModel.lesson?.subjectName ?: "")
+            setup(emoji)
+
+            toolbar.setNavigationOnClickListener {
+                if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) findNavController().navigateUp()
+                else innerNavController?.navigateUp()
+            }
+
+            addOnToolbarCollapseListener(emoji)
         }
+
         innerNavController?.addOnDestinationChangedListener { _, destination, args ->
             when (destination.id) {
                 R.id.answerFragment -> {
-                    binding!!.appbarlayout.setExpanded(false)
+                    binding!!.toolbar.appbarlayout.setExpanded(false)
                     with(binding!!.send) {
                         when (args?.getString("action")) {
                             ADD_ANSWER -> {
@@ -78,7 +92,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
                 R.id.lessonFragment2 -> {
                     binding!!.send.hide()
-                    binding!!.appbarlayout.setExpanded(true)
+                    binding!!.toolbar.appbarlayout.setExpanded(true)
                 }
             }
         }
@@ -96,6 +110,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
     override fun onDestroy() {
         super.onDestroy()
+        TransitionManager.endTransitions(binding!!.toolbar.root)
         binding = null
     }
 
