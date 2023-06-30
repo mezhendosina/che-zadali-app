@@ -49,10 +49,8 @@ fun dateToRussian(date: String): String {
     val a = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
     val locale = Locale("ru", "RU")
 
-    return SimpleDateFormat("EEEE, dd MMMM", locale).format(a!!).replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase(
-            Locale.getDefault()
-        ) else it.toString()
+    return SimpleDateFormat("EEEE, d MMMM", locale).format(a!!).replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
     }
 }
 
@@ -125,7 +123,7 @@ fun tabDate(date: String): String {
     val locale = Locale("ru", "RU")
 
     val s = SimpleDateFormat("yyyy-MM-dd").parse(date)
-    return SimpleDateFormat("dd MMM", locale).format(s!!)
+    return SimpleDateFormat("d MMM", locale).format(s!!)
 }
 
 @SuppressLint("SimpleDateFormat")
