@@ -166,4 +166,5 @@
     <string name="answer_sended">Ответ отправлен</string>
     <string name="week_without_lessons">На этой неделе уроков нет</string>
     <string name="without_announcements">Объявлений нет</string>
+    <string name="show_lessons_as">Отображение уроков в дневнике</string>
 </resources>
