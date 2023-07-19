@@ -16,9 +16,14 @@
 
 package com.mezhendosina.sgo.data.netschool.api.announcements
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
+import com.mezhendosina.sgo.data.netschool.NetSchoolExpectedResults
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import java.lang.reflect.Type
 
 class RetrofitAnnouncementsSource(
     config: RetrofitConfig
@@ -27,7 +32,13 @@ class RetrofitAnnouncementsSource(
     private val announcementsApi = retrofit.create(AnnouncementsApi::class.java)
 
     override suspend fun getAnnouncements(): List<AnnouncementsResponseEntity> =
-        wrapRetrofitExceptions {
-            announcementsApi.getAnnouncements()
+        if (!BuildConfig.DEBUG)
+            wrapRetrofitExceptions {
+                announcementsApi.getAnnouncements()
+            }
+        else {
+            val itemsListType: Type =
+                object : TypeToken<List<AnnouncementsResponseEntity>>() {}.type
+            Gson().fromJson(NetSchoolExpectedResults.announcements, itemsListType)
         }
 }
