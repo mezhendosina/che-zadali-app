@@ -2,6 +2,7 @@ package com.mezhendosina.sgo.data.netschool.api.regions
 
 class Regions {
     companion object {
+
         const val CHEL_OBL = "Челябинская область"
         const val ALTAI_KRAI = "Алтайский край"
         const val AMUR_OBL = "Амурская область"
@@ -138,4 +139,3 @@ class Regions {
                 "  ]"
     }
 }
-

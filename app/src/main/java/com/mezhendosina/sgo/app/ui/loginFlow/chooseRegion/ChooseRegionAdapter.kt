@@ -28,7 +28,7 @@ import com.bumptech.glide.Glide
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemRegionBinding
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionUiEntityItem
-import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.Regions
+import com.mezhendosina.sgo.data.netschool.api.regions.Regions
 
 typealias OnRegionClickListener = (regionName: String) -> Unit
 

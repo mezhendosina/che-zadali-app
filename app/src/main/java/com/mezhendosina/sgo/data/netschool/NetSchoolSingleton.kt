@@ -37,6 +37,7 @@ import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListRespons
 import com.mezhendosina.sgo.data.netschool.base.SourcesProvider
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
+import com.mezhendosina.sgo.data.netschool.repo.RegionsRepository
 import com.mezhendosina.sgo.data.netschool.repo.SettingsRepository
 
 
@@ -79,6 +80,10 @@ object NetSchoolSingleton {
         sourcesProvider.getGradesSource()
     }
     // --- repositories
+
+    val regionsRepository: RegionsRepository by lazy {
+        RegionsRepository()
+    }
 
     val loginRepository: LoginRepository by lazy {
         LoginRepository(loginSource, settingsSource)

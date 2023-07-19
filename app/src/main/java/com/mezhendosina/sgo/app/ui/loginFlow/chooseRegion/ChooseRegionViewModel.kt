@@ -22,23 +22,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.google.gson.Gson
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionUiEntity
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionUiEntityItem
-import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.Regions
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseSchool.ChooseSchoolFragment
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.editPreference
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import com.mezhendosina.sgo.data.netschool.repo.RegionsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChooseRegionViewModel : ViewModel() {
+class ChooseRegionViewModel(
+    private val regionsRepository: RegionsRepository = NetSchoolSingleton.regionsRepository
+) : ViewModel() {
 
     private val _regions = MutableLiveData<ChooseRegionUiEntity>()
     val regions: LiveData<ChooseRegionUiEntity> = _regions
@@ -61,11 +62,7 @@ class ChooseRegionViewModel : ViewModel() {
         try {
             _errorMessage.value = ""
             _isLoading.value = true
-            _regions.value =
-                Gson().fromJson(
-                    Regions.REGIONS,
-                    ChooseRegionUiEntity::class.java
-                )
+            _regions.value = regionsRepository.getRegions()
             _isLoading.value = false
         } catch (e: Exception) {
             _errorMessage.value = e.toDescription()
