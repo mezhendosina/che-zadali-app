@@ -45,9 +45,9 @@ open class BaseRetrofitSource(retrofitConfig: RetrofitConfig) {
         }
     }
 
-    fun createBackendException(e: HttpException): Exception {
+    private fun createBackendException(e: HttpException): Exception {
         return try {
-            val errorBody = errorAdapter.fromJson(e.response()!!.errorBody()!!.string())
+            val errorBody = errorAdapter.fromJson(e.message())
 
             BackendException(errorBody.message!!)
         } catch (e: Exception) {

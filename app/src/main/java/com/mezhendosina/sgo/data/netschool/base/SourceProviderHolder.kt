@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.netschool.base
+package com.mezhendosina.sgo.data.netschool.base
 
 import com.google.gson.Gson
 import com.mezhendosina.sgo.app.BuildConfig
+import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton.baseUrl
-import com.mezhendosina.sgo.data.netschool.base.RetrofitSourcesProvider
-import com.mezhendosina.sgo.data.netschool.base.SourcesProvider
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.Headers
