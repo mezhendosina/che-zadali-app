@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.netschool.api.login
+package com.mezhendosina.sgo.data.netschool.api.login
 
 import com.mezhendosina.sgo.app.netschool.api.login.entities.SchoolEntity
+import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.GetDataResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
@@ -53,4 +54,21 @@ interface LoginApi {
     @POST("asp/logout.asp")
     @FormUrlEncoded
     suspend fun logout(@Field("at") at: String)
+
+
+    @GET("webapi/sso/esia/account-info")
+    suspend fun getAccountInfo(
+        @Query("loginState") loginState: String
+    ): AccountInfoResponseEntity
+
+    @POST("webapi/auth/login")
+    @FormUrlEncoded
+    suspend fun gosuslugiLogin(
+        @Field("loginState") loginState: String,
+        @Field("lscope") lscope: String,
+        @Field("idp") idp: String = "esia",
+        @Field("loginType") loginType: String = "8"
+    ): LoginResponseEntity
+
+
 }

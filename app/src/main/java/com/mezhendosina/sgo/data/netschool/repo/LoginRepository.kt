@@ -24,6 +24,7 @@ import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.login.LoginEntity
 import com.mezhendosina.sgo.data.netschool.api.login.LoginSource
 import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
+import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LogoutRequestEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
 import kotlinx.coroutines.Dispatchers
@@ -67,6 +68,17 @@ class LoginRepository(
         val loginRequest = loginSource.login(loginEntity)
 
         NetSchoolSingleton.at = loginRequest.at
+        postLogin(context, loginEntity, loginRequest, firstLogin, onOneUser, onMoreUser)
+    }
+
+    private suspend fun postLogin(
+        context: Context,
+        loginEntity: LoginEntity,
+        loginRequest: LoginResponseEntity,
+        firstLogin: Boolean,
+        onOneUser: () -> Unit,
+        onMoreUser: (List<StudentResponseEntity>) -> Unit
+    ) {
         val studentsRequest = loginSource.getStudents()
         withContext(Dispatchers.IO) {
             if (firstLogin) {
@@ -98,6 +110,16 @@ class LoginRepository(
                 NetSchoolSingleton.journalYearId.value = yearsID.id
             }
         }
+    }
+
+    suspend fun gosuslugiLogin(
+        context: Context,
+        loginState: String,
+        onOneUser: () -> Unit = {},
+        onMoreUser: (List<StudentResponseEntity>) -> Unit = {}
+    ) {
+        val info = loginSource.getAccountInfo(loginState)
+        val login = loginSource.gosuslugiLogin(loginState)
     }
 
     suspend fun logout() = loginSource.logout(LogoutRequestEntity(NetSchoolSingleton.at))

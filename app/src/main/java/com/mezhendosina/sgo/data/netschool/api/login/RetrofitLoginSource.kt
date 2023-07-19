@@ -19,10 +19,10 @@ package com.mezhendosina.sgo.data.netschool.api.login
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mezhendosina.sgo.app.BuildConfig
-import com.mezhendosina.sgo.app.netschool.api.login.LoginApi
 import com.mezhendosina.sgo.app.netschool.api.login.entities.SchoolEntity
 import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.NetSchoolExpectedResults
+import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.toMD5
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.GetDataResponseEntity
@@ -70,6 +70,17 @@ class RetrofitLoginSource(
                 ver = loginEntity.ver
             )
         }
+
+    override suspend fun getAccountInfo(loginState: String): AccountInfoResponseEntity =
+        wrapRetrofitExceptions {
+            loginApi.getAccountInfo(loginState)
+        }
+
+    override suspend fun gosuslugiLogin(loginState: String, userId: String): LoginResponseEntity =
+        wrapRetrofitExceptions {
+            loginApi.gosuslugiLogin(loginState, userId)
+        }
+
 
     override suspend fun getStudents(): List<StudentResponseEntity>? =
         wrapRetrofitExceptions {
