@@ -29,7 +29,6 @@ import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.editPreference
-import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
 import kotlinx.coroutines.launch
 
 class ChooseUserIdViewModel : ViewModel() {
@@ -38,14 +37,14 @@ class ChooseUserIdViewModel : ViewModel() {
     val usersId: LiveData<List<UserUIEntity>> = _usersId
 
     init {
-        _usersId.value = Singleton.users.toUiEntity()
+        _usersId.value = Singleton.users
     }
 
 
-    fun login(context: Context, userId: Int) {
+    fun login(context: Context, userUIEntity: UserUIEntity) {
         try {
             viewModelScope.launch {
-                SettingsDataStore.CURRENT_USER_ID.editPreference(context, userId)
+                SettingsDataStore.CURRENT_USER_ID.editPreference(context, userUIEntity.userId!!)
                 SettingsDataStore.LOGGED_IN.editPreference(context, true)
             }
             val intent = Intent(context, MainActivity::class.java)
@@ -56,8 +55,4 @@ class ChooseUserIdViewModel : ViewModel() {
         }
     }
 
-}
-
-fun List<StudentResponseEntity>.toUiEntity(): List<UserUIEntity> {
-    return this.map { UserUIEntity(it.id, 0, it.name, "") }
 }

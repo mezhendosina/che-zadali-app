@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.data.requests.sgo.login.entities
+package com.mezhendosina.sgo.data.netschool.api.login.entities
+
+import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
 
 data class StudentResponseEntity(
     val id: Int,
     val name: String
 )
+
+fun List<StudentResponseEntity>.toUiEntity(): List<UserUIEntity> {
+    return this.map { UserUIEntity(it.id, null, null, it.name, "") }
+}
+

@@ -23,13 +23,13 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
+import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
 
 object Singleton {
 
@@ -38,7 +38,7 @@ object Singleton {
 
     val diaryStyle = MutableLiveData<String>(DiaryStyle.AS_CARD)
 
-    var users: List<StudentResponseEntity> = emptyList()
+    var users: List<UserUIEntity> = emptyList()
     var lesson: LessonUiEntity? = null
     var pastMandatoryItem: PastMandatoryEntity? = null
 

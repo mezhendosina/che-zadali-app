@@ -155,8 +155,4 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
             }
         }
     }
-
-    companion object {
-        const val FROM_REGION = "from_region"
-    }
 }

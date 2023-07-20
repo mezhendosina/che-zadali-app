@@ -29,6 +29,7 @@ import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import com.mezhendosina.sgo.data.netschool.api.login.entities.toUiEntity
 import com.mezhendosina.sgo.data.netschool.base.toMD5
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
 import kotlinx.coroutines.CoroutineScope
@@ -70,7 +71,7 @@ class LoginViewModel(
                         startActivity(context, intent, null)
                     },
                     onMoreUser = {
-                        Singleton.users = it
+                        Singleton.users = it.toUiEntity()
                         navController.navigate(R.id.action_loginFragment_to_chooseUserIdFragment)
                     }
                 )
