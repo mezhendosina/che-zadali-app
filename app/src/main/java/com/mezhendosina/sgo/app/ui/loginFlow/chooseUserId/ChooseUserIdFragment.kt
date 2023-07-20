@@ -18,19 +18,35 @@ package com.mezhendosina.sgo.app.ui.loginFlow.chooseUserId
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseUserIdBinding
+import com.mezhendosina.sgo.app.ui.loginFlow.gosuslugiResult.GosuslugiResultFragment
 
 class ChooseUserIdFragment : Fragment(R.layout.fragment_choose_user_id) {
 
     private lateinit var binding: FragmentChooseUserIdBinding
     private val viewModel: ChooseUserIdViewModel by viewModels()
 
-    private val adapter = UserIdAdapter { viewModel.login(requireContext(), it) }
+    val adapter = UserIdAdapter {
+        val loginState = arguments?.getString(GosuslugiResultFragment.LOGIN_STATE)
+        if (loginState == null) {
+            viewModel.login(requireContext(), it)
+        } else {
+            findNavController().navigate(
+                R.id.action_chooseUserIdFragment_to_gosuslugiResult,
+                bundleOf(
+                    GosuslugiResultFragment.LOGIN_STATE to loginState,
+                    GosuslugiResultFragment.USER_ID to it.userId
+                )
+            )
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

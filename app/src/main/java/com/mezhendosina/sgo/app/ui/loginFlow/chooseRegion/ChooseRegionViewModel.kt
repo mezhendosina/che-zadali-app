@@ -17,7 +17,6 @@
 package com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion
 
 import android.content.Context
-import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,7 +24,6 @@ import androidx.navigation.NavController
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionUiEntity
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionUiEntityItem
-import com.mezhendosina.sgo.app.ui.loginFlow.chooseSchool.ChooseSchoolFragment
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
@@ -80,8 +78,7 @@ class ChooseRegionViewModel(
             withContext(Dispatchers.Main) {
                 NetSchoolSingleton.baseUrl = regionUrl
                 navController.navigate(
-                    R.id.action_chooseRegionFragment_to_chooseSchoolFragment,
-                    bundleOf("from" to ChooseSchoolFragment.FROM_REGION)
+                    R.id.action_chooseRegionFragment_to_welcomeFragment,
                 )
             }
         }
