@@ -41,13 +41,22 @@ class MainViewModel(
 
     suspend fun login(context: Context) {
         try {
-            loginRepository.login(
-                context,
-                SettingsDataStore.LOGIN.getValue(context, "").first(),
-                SettingsDataStore.PASSWORD.getValue(context, "").first(),
-                SettingsDataStore.SCHOOL_ID.getValue(context, -1).first(),
-                false
-            )
+            val login = SettingsDataStore.LOGIN.getValue(context, "").first()
+            if (login.isEmpty()) {
+                loginRepository.gosuslugiLogin(
+                    context,
+                    SettingsDataStore.ESIA_LOGIN_STATE.getValue(context, "").first(),
+                    SettingsDataStore.ESIA_USER_ID.getValue(context, "").first()
+                )
+            } else {
+                loginRepository.login(
+                    context,
+                    SettingsDataStore.LOGIN.getValue(context, "").first(),
+                    SettingsDataStore.PASSWORD.getValue(context, "").first(),
+                    SettingsDataStore.SCHOOL_ID.getValue(context, -1).first(),
+                    false
+                )
+            }
 
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {

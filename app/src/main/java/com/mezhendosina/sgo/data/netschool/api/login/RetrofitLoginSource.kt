@@ -22,13 +22,15 @@ import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.netschool.api.login.entities.SchoolEntity
 import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.NetSchoolExpectedResults
+import com.mezhendosina.sgo.data.netschool.api.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.toMD5
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.GetDataResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LogoutRequestEntity
-import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 class RetrofitLoginSource(
     config: RetrofitConfig
@@ -71,7 +73,11 @@ class RetrofitLoginSource(
             )
         }
 
-    override suspend fun getAccountInfo(loginState: String): AccountInfoResponseEntity =
+    override suspend fun crossLogin(): Response<ResponseBody> = wrapRetrofitExceptions {
+        loginApi.crossLogin()
+    }
+
+    override suspend fun getGosuslugiAccountInfo(loginState: String): AccountInfoResponseEntity =
         wrapRetrofitExceptions {
             loginApi.getAccountInfo(loginState)
         }

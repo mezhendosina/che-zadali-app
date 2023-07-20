@@ -24,7 +24,7 @@ import com.mezhendosina.sgo.app.databinding.ItemUserIdBinding
 import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
 
 class UserIdAdapter(
-    private val onUserClickListener: (Int) -> Unit
+    private val onUserClickListener: (UserUIEntity) -> Unit
 ) : RecyclerView.Adapter<UserIdAdapter.UserIdViewHolder>(), View.OnClickListener {
     var users: List<UserUIEntity> = emptyList()
         set(value) {
@@ -37,7 +37,7 @@ class UserIdAdapter(
     override fun onClick(v: View) {
         val user = v.tag as UserUIEntity
 
-        onUserClickListener.invoke(user.userId)
+        onUserClickListener.invoke(user)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserIdViewHolder {

@@ -16,6 +16,8 @@
 
 package com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo
 
+import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
+
 data class User(
     val binded: Boolean,
     val displayName: String,
@@ -28,3 +30,7 @@ data class User(
     val roles: List<Role>,
     val userId: Int
 )
+
+fun List<User>.toUiEntity(): List<UserUIEntity> {
+    return this.map { UserUIEntity(null, it.id, null, it.displayName, "") }
+}

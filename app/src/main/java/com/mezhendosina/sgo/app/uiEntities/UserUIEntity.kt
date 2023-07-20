@@ -17,8 +17,9 @@
 package com.mezhendosina.sgo.app.uiEntities
 
 data class UserUIEntity(
-    val userId: Int,
-    val profilePhoto: Int,
+    val userId: Int?,
+    val gosuslugiUserId: String?,
+    val profilePhoto: Int?,
     val name: String,
-    val login: String
+    val login: String?
 )

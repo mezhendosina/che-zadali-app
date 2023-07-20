@@ -17,11 +17,13 @@
 package com.mezhendosina.sgo.data.netschool.api.login
 
 import com.mezhendosina.sgo.app.netschool.api.login.entities.SchoolEntity
+import com.mezhendosina.sgo.data.netschool.api.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.GetDataResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LogoutRequestEntity
-import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 interface LoginSource {
 
@@ -33,7 +35,9 @@ interface LoginSource {
 
     suspend fun login(loginEntity: LoginEntity): LoginResponseEntity
 
-    suspend fun getAccountInfo(loginState: String): AccountInfoResponseEntity
+    suspend fun crossLogin(): Response<ResponseBody>
+
+    suspend fun getGosuslugiAccountInfo(loginState: String): AccountInfoResponseEntity
 
     suspend fun gosuslugiLogin(loginState: String, userId: String): LoginResponseEntity
 
