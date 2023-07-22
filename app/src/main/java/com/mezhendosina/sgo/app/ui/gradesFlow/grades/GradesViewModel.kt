@@ -87,10 +87,10 @@ class GradesViewModel(
 
             // save result
             withContext(Dispatchers.Main) {
-                Singleton.gradesOptions.value = _gradeOptions.value
+                Singleton.gradesTerms.value = _gradeOptions.value?.getTerms()
             }
             // find saved termId in response
-            val currentTrimId = SettingsDataStore.CURRENT_TRIM_ID.getValue(context, "")
+            val currentTrimId = SettingsDataStore.CURRENT_TRIM_ID.getValue(context, -1)
             val findId = _gradeOptions.value!!.TERMID.find {
                 it.value == currentTrimId.first().toString()
             }
@@ -98,7 +98,7 @@ class GradesViewModel(
             // if termId not find save and set selected termId
             if (findId == null) SettingsDataStore.CURRENT_TRIM_ID.editPreference(
                 context,
-                _gradeOptions.value!!.TERMID.first { it.is_selected }.value
+                _gradeOptions.value!!.TERMID.first { it.is_selected }.value.toInt()
             )
             val sortedGradesBy =
                 SettingsDataStore.SORT_GRADES_BY.getValue(context, GradeSortType.BY_LESSON_NAME)

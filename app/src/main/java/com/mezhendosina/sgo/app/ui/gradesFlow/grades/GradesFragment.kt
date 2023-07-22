@@ -151,7 +151,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     private fun observeReload() {
 
-        SettingsDataStore.CURRENT_TRIM_ID.getValue(requireContext(), "").asLiveData()
+        SettingsDataStore.CURRENT_TRIM_ID.getValue(requireContext(), -1).asLiveData()
             .observe(viewLifecycleOwner) {
                 CoroutineScope(Dispatchers.IO).launch {
                     viewModel.load(requireContext())

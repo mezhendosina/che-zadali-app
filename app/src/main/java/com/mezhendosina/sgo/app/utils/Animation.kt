@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui
+package com.mezhendosina.sgo.app.utils
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.transition.TransitionManager
 import android.view.View
+import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 
 
 fun showAnimation(view: View) {
@@ -38,4 +41,23 @@ fun hideAnimation(view: View, endVisibility: Int) {
                 view.visibility = endVisibility
             }
         })
+}
+
+
+fun ContainerMainBinding.slideDownAnimation() {
+    apply {
+        val materialFade = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+        TransitionManager.beginDelayedTransition(appbarLayout, materialFade)
+        tabsLayout.visibility = View.VISIBLE
+        gradesTopBar.root.visibility = View.GONE
+
+    }
+}
+
+fun ContainerMainBinding.slideUpAnimation() {
+    val materialFade = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+    TransitionManager.beginDelayedTransition(appbarLayout, materialFade)
+    tabsLayout.visibility = View.GONE
+    gradesTopBar.root.visibility = View.VISIBLE
+
 }

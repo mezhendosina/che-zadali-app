@@ -28,11 +28,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolBinding
-import com.mezhendosina.sgo.app.ui.hideAnimation
 import com.mezhendosina.sgo.app.ui.loginFlow.login.LoginFragment
-import com.mezhendosina.sgo.app.ui.showAnimation
 import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
 import com.mezhendosina.sgo.app.utils.DividerItemDecoration
+import com.mezhendosina.sgo.app.utils.hideAnimation
+import com.mezhendosina.sgo.app.utils.showAnimation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

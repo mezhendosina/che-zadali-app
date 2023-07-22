@@ -38,7 +38,7 @@ class SettingsDataStore {
 
         val CURRENT_USER_ID = intPreferencesKey("current_user_id")
         val THEME = intPreferencesKey("theme")
-        val CURRENT_TRIM_ID = stringPreferencesKey("current_trim_id")
+        val CURRENT_TRIM_ID = intPreferencesKey("current_trim_id")
         val LAST_VERSION_NUMBER = intPreferencesKey("last_version_number")
         val SHOW_UPDATE_DIALOG = booleanPreferencesKey("show_update_dialog")
         val SORT_GRADES_BY = intPreferencesKey("sort_grades_by")

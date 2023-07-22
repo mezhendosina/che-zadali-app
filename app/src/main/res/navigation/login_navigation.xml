@@ -24,9 +24,6 @@
         android:label=""
         android:name="com.mezhendosina.sgo.app.ui.loginFlow.chooseSchool.ChooseSchoolFragment"
         tools:layout="@layout/fragment_choose_school">
-        <argument
-            android:name="schoolId"
-            app:argType="integer" />
         <action
             android:id="@+id/action_chooseSchoolFragment_to_loginFragment"
             app:destination="@id/loginFragment"

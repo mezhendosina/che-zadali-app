@@ -36,7 +36,7 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
-import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.app.utils.errorDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
