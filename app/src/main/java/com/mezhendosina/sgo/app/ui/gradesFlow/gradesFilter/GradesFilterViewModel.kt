@@ -29,6 +29,7 @@ import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListResponseEntity
 import com.mezhendosina.sgo.data.netschool.repo.SettingsRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -44,8 +45,8 @@ class GradesFilterViewModel(
     private val _yearList = MutableLiveData<List<YearListResponseEntity>>()
     val yearList = _yearList.toLiveData()
 
-    private val _selectedYear = MutableLiveData<YearListResponseEntity>()
-    val selectedYear = _selectedYear.toLiveData()
+    private val _currentYear = MutableLiveData<YearListResponseEntity>()
+    val currentYear = _currentYear.toLiveData()
 
     private val _errorDescription = MutableLiveData<String>()
     val errorDescription = _errorDescription.toLiveData()
@@ -71,11 +72,11 @@ class GradesFilterViewModel(
             }
             withContext(Dispatchers.Main) {
                 _yearList.value = yearListResponse
-                _selectedYear.value =
+                _currentYear.value =
                     if (NetSchoolSingleton.gradesYearId.value == null)
                         _yearList.value?.first { !it.name.contains("(*)") }
                     else NetSchoolSingleton.gradesYearId.value
-                NetSchoolSingleton.gradesYearId.value = _selectedYear.value
+                NetSchoolSingleton.gradesYearId.value = _currentYear.value
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -88,16 +89,16 @@ class GradesFilterViewModel(
         }
     }
 
-    fun changeSelectedYear(id: Int) {
-        _selectedYear.value = _yearList.value?.first { it.id == id }
+    fun changeSelectedYear(id: YearListResponseEntity) {
+        NetSchoolSingleton.gradesYearId.value = id
     }
 
 
     suspend fun updateYear() {
         try {
-            settingsRepository.setYear(_selectedYear.value?.id ?: -1)
+            settingsRepository.setYear(_currentYear.value?.id ?: -1)
             withContext(Dispatchers.Main) {
-                NetSchoolSingleton.gradesYearId.value = _selectedYear.value
+                NetSchoolSingleton.gradesYearId.value = _currentYear.value
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -111,6 +112,12 @@ class GradesFilterViewModel(
             _gradesSortType.value =
                 SettingsDataStore.SORT_GRADES_BY.getValue(context, GradeSortType.BY_LESSON_NAME)
                     .first()
+        }
+    }
+
+    fun changeTrimId(context: Context, id: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            SettingsDataStore.CURRENT_TRIM_ID.editPreference(context, id)
         }
     }
 

@@ -22,33 +22,31 @@ liance with the License.
     android:layout_height="wrap_content"
     android:layout_marginVertical="4dp">
 
-    <Button
-        android:id="@+id/term_selector"
-        style="@style/Widget.SGOApp.Button.Secondary"
-        android:layout_width="wrap_content"
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        app:cornerRadius="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="1 триместр" />
-
-    <Button
-        android:id="@+id/sort_grades_button"
-        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:insetLeft="16dp"
-        android:insetTop="12dp"
-        android:insetRight="16dp"
-        android:insetBottom="12dp"
-        app:icon="@drawable/ic_sort"
-        app:iconGravity="start|end|textStart"
-        app:iconSize="24dp"
-        app:iconTint="?attr/colorOnBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/term"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1 триместр" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2022/2023 год" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/sort_grades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipIcon="@drawable/ic_sort"
+            tools:text="По оценке" />
+    </com.google.android.material.chip.ChipGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

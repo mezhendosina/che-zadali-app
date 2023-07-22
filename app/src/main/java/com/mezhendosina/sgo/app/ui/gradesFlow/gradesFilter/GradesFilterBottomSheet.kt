@@ -29,6 +29,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@Deprecated("BottomSheet's ui implemented in chips on grades screen")
 class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_filter_grades) {
 
     private lateinit var binding: BottomSheetFilterGradesBinding
@@ -48,7 +49,6 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
         binding = BottomSheetFilterGradesBinding.bind(view)
 
         setupSortRadioGroup(requireContext())
-        observeSortType()
 
         onYearClickListener()
         observeSelectedYear()
@@ -72,7 +72,7 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
 
 
     private fun observeSelectedYear() {
-        viewModel.selectedYear.observe(viewLifecycleOwner) {
+        viewModel.currentYear.observe(viewLifecycleOwner) {
             binding.yearValue.text = GradesFilterViewModel.filterYearName(it.name)
         }
     }
@@ -97,7 +97,7 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
             val items =
                 viewModel.yearList.value?.map { GradesFilterViewModel.filterYearName(it.name) }
                     ?.toTypedArray()
-            val selectedYearId = viewModel.selectedYear.value
+            val selectedYearId = viewModel.currentYear.value
             val selectedYearName = GradesFilterViewModel.filterYearName(selectedYearId!!.name)
             val selectedYearArrayIndex = items?.indexOf(selectedYearName)
 
@@ -108,9 +108,9 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
                         it.name.contains(
                             items?.get(which) ?: "-1"
                         )
-                    }?.id
+                    }!!
                     viewModel.changeSelectedYear(
-                        selectedId ?: -1
+                        selectedId
                     )
                 }
                 .setPositiveButton("Ок") { dialog, _ ->
@@ -124,18 +124,6 @@ class GradesFilterBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_
         }
     }
 
-    private fun observeSortType() {
-        viewModel.gradesSortType.observe(viewLifecycleOwner) {
-            binding.sortGradeRadioGroup.check(
-                when (it) {
-                    GradeSortType.BY_GRADE_VALUE -> R.id.from_good_to_bad
-                    GradeSortType.BY_GRADE_VALUE_DESC -> R.id.from_bad_to_good
-                    GradeSortType.BY_LESSON_NAME -> R.id.by_lesson_name
-                    else -> GradeSortType.BY_LESSON_NAME
-                }
-            )
-        }
-    }
 
     companion object {
         const val TAG = "gradeFilterBottomSheet"

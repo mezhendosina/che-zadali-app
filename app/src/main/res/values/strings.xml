@@ -168,4 +168,5 @@
     <string name="without_announcements">Объявлений нет</string>
     <string name="show_lessons_as">Отображение уроков в дневнике</string>
     <string name="logged_in_via_esia">Вход через ГосУслуги выполнен!</string>
+    <string name="selected_grade_period">Выбранный период</string>
 </resources>

@@ -23,12 +23,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
+import com.mezhendosina.sgo.app.uiEntities.TermsUIEntity
 import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
-import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
 
 object Singleton {
@@ -42,7 +42,7 @@ object Singleton {
     var lesson: LessonUiEntity? = null
     var pastMandatoryItem: PastMandatoryEntity? = null
 
-    val gradesOptions = MutableLiveData<GradeOptions>()
+    val gradesTerms = MutableLiveData<List<TermsUIEntity>>()
     var grades: List<GradesItem> = emptyList()
     val gradesRecyclerViewLoaded = MutableLiveData<Boolean>(true)
 

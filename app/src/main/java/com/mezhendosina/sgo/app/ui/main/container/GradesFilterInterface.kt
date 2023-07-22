@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions
+package com.mezhendosina.sgo.app.ui.main.container
 
-import com.mezhendosina.sgo.app.uiEntities.TermsUIEntity
+interface GradesFilterInterface {
 
-data class GradeOptions(
-    val PCLID: InputTag,
-    val ReportType: List<SelectTag>,
-    val SID: InputTag,
-    val TERMID: List<SelectTag>
-) {
-    fun getTerms(): List<TermsUIEntity> =
-        TERMID.map { TermsUIEntity(it.value.toInt(), it.name, it.is_selected) }
+    fun observeGradesTrim()
+
+    fun onGradesTrimClickListener()
+
+    fun observeGradesYear()
+
+    fun onGradesYearClickListener()
+
+    fun observeGradesSort()
+
+    fun onGradesSortClickListener()
 
 }

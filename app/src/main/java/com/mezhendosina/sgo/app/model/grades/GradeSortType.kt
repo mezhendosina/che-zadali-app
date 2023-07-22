@@ -16,8 +16,22 @@
 
 package com.mezhendosina.sgo.app.model.grades
 
+import android.content.Context
+import com.mezhendosina.sgo.app.R
+
 object GradeSortType {
     const val BY_GRADE_VALUE = 0
     const val BY_GRADE_VALUE_DESC = 1
     const val BY_LESSON_NAME = 2
+
+    fun toString(context: Context, type: Int): String {
+        return context.getString(
+            when (type) {
+                BY_GRADE_VALUE -> R.string.from_good_to_bad_grade
+                BY_GRADE_VALUE_DESC -> R.string.from_bad_to_good_grade
+                BY_LESSON_NAME -> R.string.by_lesson_name
+                else -> R.string.by_lesson_name
+            }
+        )
+    }
 }
