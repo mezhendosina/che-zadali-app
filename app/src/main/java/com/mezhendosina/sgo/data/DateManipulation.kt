@@ -65,8 +65,8 @@ fun getWeeksList(): List<WeekStartEndEntity> {
 
     minusWeekCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
     plusWeekCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-    while (minusWeekCalendar[Calendar.MONTH] != 7 || plusWeekCalendar[Calendar.MONTH] != 6) {
-        if (minusWeekCalendar[Calendar.MONTH] != 7) {
+    while (minusWeekCalendar[Calendar.MONTH] != Calendar.AUGUST || plusWeekCalendar[Calendar.MONTH] != Calendar.SEPTEMBER) {
+        if (minusWeekCalendar[Calendar.MONTH] != Calendar.AUGUST) {
             minusWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1)
             val weekStart = minusWeekCalendar.dateToSting()
             val weekEnd = minusWeekCalendar.getWeekEnd()
@@ -79,7 +79,7 @@ fun getWeeksList(): List<WeekStartEndEntity> {
                 )
             )
         }
-        if (plusWeekCalendar[Calendar.MONTH] != 6) {
+        if (plusWeekCalendar[Calendar.MONTH] != Calendar.SEPTEMBER) {
             val weekStart = plusWeekCalendar.dateToSting()
             val weekEnd = plusWeekCalendar.getWeekEnd()
             outList.add(
@@ -128,7 +128,6 @@ fun tabDate(date: String): String {
 
 @SuppressLint("SimpleDateFormat")
 fun currentWeekStart(context: Context? = null): String {
-
     val calendar = Calendar.getInstance()
 //        val skipOnSunday = Settings(context).skipSunday.first()
     if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY/* && skipOnSunday == true*/) {
