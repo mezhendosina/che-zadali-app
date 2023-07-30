@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright 2023 Eugene Menshenin
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.317625"
+        android:scaleY="0.317625"
+        android:translateX="28.59"
+        android:translateY="28.59">
+        <group>
+            <clip-path android:pathData="M0,80C0,35.817 35.817,0 80,0V0C124.183,0 160,35.817 160,80V80C160,124.183 124.183,160 80,160V160C35.817,160 0,124.183 0,80V80Z" />
+            <path
+                android:fillAlpha="1"
+                android:fillColor="#3A47A9"
+                android:pathData="M80,80H160V160H80V80Z" />
+            <path
+                android:fillAlpha="0.5"
+                android:fillColor="#78B7FA"
+                android:pathData="M0,80h80v80h-80z" />
+            <path
+                android:fillAlpha="0.5"
+                android:fillColor="#78B7FA"
+                android:pathData="M80,0h80v80h-80z" />
+            <path
+                android:fillAlpha="0.1"
+                android:fillColor="#ffffff"
+                android:pathData="M0,0h80v80h-80z" />
+        </group>
+    </group>
+</vector>
