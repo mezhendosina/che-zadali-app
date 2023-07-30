@@ -27,26 +27,28 @@ class SettingsDataStore {
 
     companion object {
         val REGION_URL = stringPreferencesKey("region")
+        val SCHOOL_ID = intPreferencesKey("scid")
 
         val LOGGED_IN = booleanPreferencesKey("logged_in")
-
         val LOGIN = stringPreferencesKey("login")
+
         val PASSWORD = stringPreferencesKey("password")
-
         val ESIA_LOGIN_STATE = stringPreferencesKey("esia_login_state")
-        val ESIA_USER_ID = stringPreferencesKey("esia_user_id")
 
+        val ESIA_USER_ID = stringPreferencesKey("esia_user_id")
         val CURRENT_USER_ID = intPreferencesKey("current_user_id")
+
+        val CURRENT_TRIM_ID = stringPreferencesKey("current_trim_id")
+        val TRIM_ID = intPreferencesKey("trim_id")
+
         val THEME = intPreferencesKey("theme")
-        val CURRENT_TRIM_ID = intPreferencesKey("current_trim_id")
         val LAST_VERSION_NUMBER = intPreferencesKey("last_version_number")
         val SHOW_UPDATE_DIALOG = booleanPreferencesKey("show_update_dialog")
         val SORT_GRADES_BY = intPreferencesKey("sort_grades_by")
+
         val DIARY_STYLE = stringPreferencesKey("diary_style")
 
         val SKIP_SUNDAY = booleanPreferencesKey("skip_sunday")
-
-        val SCHOOL_ID = intPreferencesKey("scid")
     }
 
     suspend fun saveLogin(context: Context, loginData: LoginEntity, loggedIn: Boolean = true) {

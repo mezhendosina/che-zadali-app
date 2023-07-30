@@ -32,7 +32,6 @@ import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.homework.HomeworkSource
 import com.mezhendosina.sgo.data.netschool.api.login.LoginSource
 import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
-import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListResponseEntity
 import com.mezhendosina.sgo.data.netschool.base.SourceProviderHolder
 import com.mezhendosina.sgo.data.netschool.base.SourcesProvider
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
@@ -45,7 +44,6 @@ object NetSchoolSingleton {
     var baseUrl = ""
     var at = ""
     val journalYearId = MutableLiveData<Int>()
-    val gradesYearId = MutableLiveData<YearListResponseEntity>()
     var assignTypes: List<AssignTypeUiEntity>? = null
     var schools = emptyList<SchoolUiEntity>()
     private val sourcesProvider: SourcesProvider by lazy {

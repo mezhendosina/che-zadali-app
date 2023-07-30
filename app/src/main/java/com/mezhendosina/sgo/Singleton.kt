@@ -23,8 +23,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
-import com.mezhendosina.sgo.app.uiEntities.TermsUIEntity
+import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
 import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
+import com.mezhendosina.sgo.app.utils.GradeUpdateStatus
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
@@ -42,7 +43,7 @@ object Singleton {
     var lesson: LessonUiEntity? = null
     var pastMandatoryItem: PastMandatoryEntity? = null
 
-    val gradesTerms = MutableLiveData<List<TermsUIEntity>>()
+    val gradesTerms = MutableLiveData<List<FilterUiEntity>>()
     var grades: List<GradesItem> = emptyList()
     val gradesRecyclerViewLoaded = MutableLiveData<Boolean>(true)
 
@@ -59,6 +60,9 @@ object Singleton {
 
     val answerUpdated = MutableLiveData<Boolean>(false)
 
+    var filterOptions: List<FilterUiEntity> = emptyList()
+
+    val updateGradeState = MutableLiveData<GradeUpdateStatus>(GradeUpdateStatus.UPDATE)
 
     // --- database
 //    val database: AppDatabase by lazy {

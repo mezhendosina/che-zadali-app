@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions
+package com.mezhendosina.sgo.app.uiEntities
 
-import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
+data class FilterUiEntity(
+    val id: Int,
+    val name: String,
+    val checked: Boolean
+)
 
-data class GradeOptions(
-    val PCLID: InputTag,
-    val ReportType: List<SelectTag>,
-    val SID: InputTag,
-    val TERMID: List<SelectTag>
-) {
-    fun getTerms(): List<FilterUiEntity> =
-        TERMID.map { FilterUiEntity(it.value.toInt(), it.name, it.is_selected) }
-
+fun List<FilterUiEntity>.checkItem(id: Int): List<FilterUiEntity> = this.map {
+    FilterUiEntity(
+        it.id, it.name,
+        it.id == id
+    )
 }

@@ -19,6 +19,7 @@ package com.mezhendosina.sgo.data.netschool.repo
 import android.content.Context
 import android.net.Uri
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
 import com.mezhendosina.sgo.app.utils.getFileNameFromUri
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
@@ -102,6 +103,16 @@ class SettingsRepository(private val settingsSource: SettingsSource) {
         settingsSource.changePassword(userId, password)
     }
 
-    suspend fun getYears() = settingsSource.getYearList()
+    suspend fun getYears(): List<FilterUiEntity> {
+        val res = settingsSource.getYearList()
+        return res.map {
+            FilterUiEntity(
+                it.id,
+                (it.name + " год").removePrefix("(*) "),
+                !it.name.contains("(*) ")
+            )
+        }
+    }
+
     suspend fun setYear(id: Int) = settingsSource.setYear(id)
 }

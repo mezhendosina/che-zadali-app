@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui.gradesFlow.gradesFilter
+package com.mezhendosina.sgo.app.ui.gradesFlow.filter
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
+import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
+import com.mezhendosina.sgo.app.uiEntities.checkItem
+import com.mezhendosina.sgo.app.utils.GradeUpdateStatus
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.editPreference
 import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
-import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListResponseEntity
 import com.mezhendosina.sgo.data.netschool.repo.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,11 +45,11 @@ class GradesFilterViewModel(
     private val _gradesSortType: MutableLiveData<Int> = MutableLiveData()
     val gradesSortType = _gradesSortType.toLiveData()
 
-    private val _yearList = MutableLiveData<List<YearListResponseEntity>>()
+    private val _yearList = MutableLiveData<List<FilterUiEntity>>()
     val yearList = _yearList.toLiveData()
 
-    private val _currentYear = MutableLiveData<YearListResponseEntity>()
-    val currentYear = _currentYear.toLiveData()
+    private val _currentYearId = MutableLiveData<Int>()
+    val currentYearId = _currentYearId.toLiveData()
 
     private val _errorDescription = MutableLiveData<String>()
     val errorDescription = _errorDescription.toLiveData()
@@ -54,29 +57,21 @@ class GradesFilterViewModel(
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading = _isLoading.toLiveData()
 
+
     fun setGradeSort(context: Context, sortBy: Int) {
         viewModelScope.launch {
-            SettingsDataStore.SORT_GRADES_BY.editPreference(
-                context, sortBy
-            )
+            SettingsDataStore.SORT_GRADES_BY.editPreference(context, sortBy)
+            _gradesSortType.value = sortBy
+            Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
         }
     }
 
     suspend fun getYearsList() {
         try {
+            val yearListResponse = settingsRepository.getYears()
             withContext(Dispatchers.Main) {
-                _isLoading.value = true
-            }
-            val yearListResponse = settingsRepository.getYears().map {
-                YearListResponseEntity(it.id, it.name + " год")
-            }
-            withContext(Dispatchers.Main) {
+                _currentYearId.value = yearListResponse.first { it.checked }.id
                 _yearList.value = yearListResponse
-                _currentYear.value =
-                    if (NetSchoolSingleton.gradesYearId.value == null)
-                        _yearList.value?.first { !it.name.contains("(*)") }
-                    else NetSchoolSingleton.gradesYearId.value
-                NetSchoolSingleton.gradesYearId.value = _currentYear.value
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -89,16 +84,17 @@ class GradesFilterViewModel(
         }
     }
 
-    fun changeSelectedYear(id: YearListResponseEntity) {
-        NetSchoolSingleton.gradesYearId.value = id
-    }
-
-
-    suspend fun updateYear() {
+    suspend fun updateYear(yearId: Int) {
         try {
-            settingsRepository.setYear(_currentYear.value?.id ?: -1)
+            settingsRepository.setYear(yearId)
             withContext(Dispatchers.Main) {
-                NetSchoolSingleton.gradesYearId.value = _currentYear.value
+                Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
+            }
+            if (_yearList.value != null) {
+                val checkItems = _yearList.value!!.checkItem(yearId)
+                withContext(Dispatchers.Main) {
+                    _yearList.value = checkItems
+                }
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -117,11 +113,13 @@ class GradesFilterViewModel(
 
     fun changeTrimId(context: Context, id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            SettingsDataStore.CURRENT_TRIM_ID.editPreference(context, id)
-        }
-    }
+            SettingsDataStore.TRIM_ID.editPreference(context, id)
+            val checkItem = Singleton.gradesTerms.value?.checkItem(id)
+            withContext(Dispatchers.Main) {
+                Singleton.gradesTerms.value = checkItem
+                Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
 
-    companion object {
-        fun filterYearName(year: String): String = year.replace("(*) ", "")
+            }
+        }
     }
 }
