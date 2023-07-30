@@ -66,10 +66,10 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         TransitionManager.endTransitions(binding!!.root)
         binding!!.regionList.adapter = null
         binding = null
+        super.onDestroy()
     }
 
     private fun observeSelectedRegion() {
