@@ -38,6 +38,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
+        <!--        <WebView-->
+        <!--            android:id="@+id/homework_body"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:transitionName="announcement_body"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
         <TextView
             android:id="@+id/homework_body"
             style="@style/mainText"
