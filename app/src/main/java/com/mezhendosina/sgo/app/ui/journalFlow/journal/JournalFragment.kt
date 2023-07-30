@@ -79,8 +79,10 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
                 }
                 adapter.weeksList = entityList
                 if (Singleton.currentWeek == null) {
+                    val currentWeekIndex =
+                        entityList.indexOf(entityList.firstOrNull { it.weekStart == weekNow })
                     binding!!.journalPager.setCurrentItem(
-                        entityList.indexOf(entityList.find { it.weekStart == weekNow }),
+                        if (currentWeekIndex != -1) currentWeekIndex else entityList.lastIndex,
                         false
                     )
                 } else {
