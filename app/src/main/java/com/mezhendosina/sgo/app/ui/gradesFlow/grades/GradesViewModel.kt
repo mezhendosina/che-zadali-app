@@ -26,6 +26,8 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradeActionListener
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
+import com.mezhendosina.sgo.app.uiEntities.checkItem
+import com.mezhendosina.sgo.app.utils.GradeUpdateStatus
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.editPreference
@@ -62,11 +64,13 @@ class GradesViewModel(
     }
 
     suspend fun load(context: Context) {
-
+        withContext(Dispatchers.Main) {
+            _grades.value = emptyList()
+        }
         if (Singleton.grades.isNotEmpty() && Singleton.gradesRecyclerViewLoaded.value == false) {
             withContext(Dispatchers.Main) {
                 _grades.value = Singleton.grades
-                _isLoading.value = false
+                Singleton.updateGradeState.value = GradeUpdateStatus.FINISHED
             }
             return
         }
@@ -74,9 +78,7 @@ class GradesViewModel(
         // start firebase performance trace
         val trace = Firebase.performance.newTrace("load_grades_trace")
         trace.start()
-        withContext(Dispatchers.Main) {
-            _isLoading.value = true
-        }
+
         try {
 
             // gradesOption request
@@ -85,18 +87,14 @@ class GradesViewModel(
                 _gradeOptions.value = gradeOptions
             }
 
-            // save result
-            withContext(Dispatchers.Main) {
-                Singleton.gradesTerms.value = _gradeOptions.value?.getTerms()
-            }
             // find saved termId in response
-            val currentTrimId = SettingsDataStore.CURRENT_TRIM_ID.getValue(context, -1)
+            val currentTrimId = SettingsDataStore.TRIM_ID.getValue(context, -1)
             val findId = _gradeOptions.value!!.TERMID.find {
                 it.value == currentTrimId.first().toString()
             }
 
             // if termId not find save and set selected termId
-            if (findId == null) SettingsDataStore.CURRENT_TRIM_ID.editPreference(
+            if (findId == null) SettingsDataStore.TRIM_ID.editPreference(
                 context,
                 _gradeOptions.value!!.TERMID.first { it.is_selected }.value.toInt()
             )
@@ -107,15 +105,21 @@ class GradesViewModel(
                 currentTrimId.first().toString(),
                 sortedGradesBy.first()
             )
-
+            // Save terms into Singleton
+            val trims = _gradeOptions.value!!.getTerms()
+            val checkSelectedTrim = trims.checkItem(currentTrimId.first())
+            withContext(Dispatchers.Main) {
+                Singleton.gradesTerms.value = checkSelectedTrim
+                Singleton.updateGradeState.value = GradeUpdateStatus.FINISHED
+            }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 _errorMessage.value = e.toDescription()
+                Singleton.updateGradeState.value = GradeUpdateStatus.ERROR
             }
         } finally {
             withContext(Dispatchers.Main) {
                 trace.stop()
-                _isLoading.value = false
             }
         }
     }

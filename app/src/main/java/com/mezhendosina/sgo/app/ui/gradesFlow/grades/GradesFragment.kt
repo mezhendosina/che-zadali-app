@@ -24,17 +24,14 @@ import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
+import com.mezhendosina.sgo.app.utils.GradeUpdateStatus
 import com.mezhendosina.sgo.app.utils.findTopNavController
-import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.getValue
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -72,11 +69,13 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         binding!!.gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding!!.gradesRecyclerView.adapter = gradeAdapter
 
+        binding!!.errorMessage.retryButton.setOnClickListener {
+            Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
+        }
+
         observeGrades()
         observeErrors()
-        observeLoading()
-        observeReload()
-
+        observeGradeState()
     }
 
     override fun onDestroyView() {
@@ -92,77 +91,100 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     private fun observeGrades() {
         viewModel.grades.observe(viewLifecycleOwner) { list ->
-            if (binding != null) {
-                if (list.any { !it.avg.isNullOrEmpty() }) {
-                    gradeAdapter.grades = list
-                    binding!!.emptyState.root.visibility = View.GONE
-                    binding!!.emptyState.noHomeworkIcon.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_emty_grade
-                        )
-                    )
-                    binding!!.gradesRecyclerView.visibility = View.VISIBLE
-                } else {
-                    binding!!.emptyState.root.visibility = View.VISIBLE
-                    binding!!.gradesRecyclerView.visibility = View.GONE
-                    binding!!.emptyState.emptyText.text = "Оценок нет"
-                }
-            }
+            gradeAdapter.grades = list
+
         }
     }
 
-    private fun observeLoading() {
-        val fadeThrough = MaterialFadeThrough()
-
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (binding != null) {
-                TransitionManager.beginDelayedTransition(binding!!.loading.root, fadeThrough)
-                TransitionManager.beginDelayedTransition(binding!!.gradesRecyclerView, fadeThrough)
-
-                if (it) {
-                    binding!!.loading.root.visibility = View.VISIBLE
-                    binding!!.gradesRecyclerView.visibility = View.INVISIBLE
-                    binding!!.loading.root.startShimmer()
-                } else {
-                    binding!!.loading.root.stopShimmer()
-                    binding!!.gradesRecyclerView.doOnPreDraw {
-                        binding!!.gradesRecyclerView.visibility = View.VISIBLE
-                        binding!!.loading.root.visibility = View.GONE
-                    }
-                }
-            }
-        }
-    }
 
     private fun observeErrors() {
         viewModel.errorMessage.observe(viewLifecycleOwner) {
-            if (!it.isNullOrEmpty() && binding != null) {
-                binding!!.errorMessage.errorDescription.text = it
-                binding!!.errorMessage.retryButton.setOnClickListener {
+            binding!!.errorMessage.errorDescription.text = it
+        }
+    }
+
+    private fun observeGradeState() {
+        val fadeThrough = MaterialFadeThrough()
+
+        Singleton.updateGradeState.observe(viewLifecycleOwner) {
+            when (it) {
+                GradeUpdateStatus.UPDATE -> {
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.load(requireContext())
                     }
-                    binding!!.errorMessage.root.visibility = View.GONE
+                    if (binding != null) {
+                        TransitionManager.beginDelayedTransition(
+                            binding!!.loading.root,
+                            fadeThrough
+                        )
+                        TransitionManager.beginDelayedTransition(
+                            binding!!.gradesRecyclerView,
+                            fadeThrough
+                        )
+
+
+                        binding!!.loading.root.startShimmer()
+                        binding!!.showLoading()
+                    }
                 }
+
+                GradeUpdateStatus.ERROR -> {
+                    if (binding != null) {
+                        binding!!.loading.root.stopShimmer()
+                        binding!!.showError()
+                    }
+                }
+
+                GradeUpdateStatus.FINISHED -> {
+                    if (binding != null) {
+                        binding!!.loading.root.stopShimmer()
+                        if (viewModel.grades.value.isNullOrEmpty()) {
+                            binding!!.emptyState.noHomeworkIcon.setImageDrawable(
+                                AppCompatResources.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_emty_grade
+                                )
+                            )
+                            binding!!.emptyState.emptyText.text = "Оценок нет"
+                            binding!!.showEmptyState()
+                        } else {
+                            binding!!.gradesRecyclerView.doOnPreDraw {
+                                binding!!.showGrades()
+                            }
+                        }
+                    }
+                }
+
+                else -> {}
             }
         }
     }
 
-    private fun observeReload() {
+    private fun FragmentGradesBinding.showGrades() {
+        gradesRecyclerView.visibility = View.VISIBLE
+        emptyState.root.visibility = View.INVISIBLE
+        loading.root.visibility = View.INVISIBLE
+        errorMessage.root.visibility = View.INVISIBLE
+    }
 
-        SettingsDataStore.CURRENT_TRIM_ID.getValue(requireContext(), -1).asLiveData()
-            .observe(viewLifecycleOwner) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.load(requireContext())
-                }
-            }
-        NetSchoolSingleton.gradesYearId.observe(viewLifecycleOwner) {
-            if (it != null) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.load(requireContext())
-                }
-            }
-        }
+    private fun FragmentGradesBinding.showEmptyState() {
+        emptyState.root.visibility = View.VISIBLE
+        gradesRecyclerView.visibility = View.INVISIBLE
+        loading.root.visibility = View.INVISIBLE
+        errorMessage.root.visibility = View.INVISIBLE
+    }
+
+    private fun FragmentGradesBinding.showLoading() {
+        loading.root.visibility = View.VISIBLE
+        gradesRecyclerView.visibility = View.INVISIBLE
+        emptyState.root.visibility = View.INVISIBLE
+        errorMessage.root.visibility = View.INVISIBLE
+    }
+
+    private fun FragmentGradesBinding.showError() {
+        errorMessage.root.visibility = View.VISIBLE
+        gradesRecyclerView.visibility = View.INVISIBLE
+        emptyState.root.visibility = View.INVISIBLE
+        loading.root.visibility = View.INVISIBLE
     }
 }
