@@ -162,9 +162,9 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     private fun FragmentGradesBinding.showGrades() {
         gradesRecyclerView.visibility = View.VISIBLE
-        emptyState.root.visibility = View.INVISIBLE
-        loading.root.visibility = View.INVISIBLE
-        errorMessage.root.visibility = View.INVISIBLE
+        emptyState.root.visibility = View.GONE
+        loading.root.visibility = View.GONE
+        errorMessage.root.visibility = View.GONE
     }
 
     private fun FragmentGradesBinding.showEmptyState() {
@@ -177,14 +177,14 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
     private fun FragmentGradesBinding.showLoading() {
         loading.root.visibility = View.VISIBLE
         gradesRecyclerView.visibility = View.INVISIBLE
-        emptyState.root.visibility = View.INVISIBLE
-        errorMessage.root.visibility = View.INVISIBLE
+        emptyState.root.visibility = View.GONE
+        errorMessage.root.visibility = View.GONE
     }
 
     private fun FragmentGradesBinding.showError() {
         errorMessage.root.visibility = View.VISIBLE
         gradesRecyclerView.visibility = View.INVISIBLE
-        emptyState.root.visibility = View.INVISIBLE
-        loading.root.visibility = View.INVISIBLE
+        emptyState.root.visibility = View.GONE
+        loading.root.visibility = View.GONE
     }
 }
