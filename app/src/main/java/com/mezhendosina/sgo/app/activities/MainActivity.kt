@@ -135,13 +135,14 @@ class MainActivity : AppCompatActivity() {
         )
         ViewCompat.setOnApplyWindowInsetsListener(binding.container) { view, windowInsets ->
             val insetsNavigation = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            val topBarInset = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.mandatorySystemGestures())
 
             view.setPadding(
-                insetsNavigation.left,
-                insetsNavigation.top,
-                insetsNavigation.right,
-                insets.bottom
+                insets.left,
+                topBarInset.top / 2,
+                insets.right,
+                insetsNavigation.bottom
             )
             windowInsets
         }
