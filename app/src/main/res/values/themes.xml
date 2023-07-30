@@ -70,6 +70,7 @@
         <item name="textAppearanceBodySmall">@style/captions</item>
         <item name="textAppearanceTitleSmall">@style/captions.headers</item>
         <item name="textAppearanceTitleMedium">@style/TextAppearance.SGOApp.Login.Title</item>
+        <item name="bottomSheetStyle">@style/ThemeOverlay.SGOApp.BottomSheetDialog</item>
     </style>
 
 
@@ -139,6 +140,7 @@
     <style name="TextAppearance.SGOApp.Journal.Title" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textIsSelectable">false</item>
     </style>
 
     <style name="TextAppearance.SGOApp.Login.Title" parent="TextAppearance.Material3.HeadlineMedium">
@@ -243,6 +245,7 @@
         <item name="android:layout_marginEnd">16dp</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+        <item name="strokeColor">?attr/colorOutline</item>
         <item name="android:minHeight">60dp</item>
     </style>
 
@@ -268,7 +271,7 @@
     </style>
 
 
-    <style name="Widget.SGOApp.BottomBar" parent="Widget.MaterialComponents.BottomNavigationView" />
+    <style name="Widget.SGOApp.BottomBar" parent="Widget.Material3.BottomNavigationView" />
 
 
     <style name="snackBarStyle" parent="Widget.Material3.Snackbar">
@@ -300,12 +303,14 @@
         <item name="iconTint">?attr/colorOnBackground</item>
     </style>
 
-    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+    <style name="ThemeOverlay.SGOApp.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/modalButtonSheet</item>
     </style>
 
+
     <style name="modalButtonSheet" parent="Widget.Material3.BottomSheet.Modal">
         <item name="backgroundTint">?attr/backgroundColor</item>
+        <item name="behavior_fitToContents">true</item>
         <item name="shapeAppearance">@style/ButtonSheetShape</item>
     </style>
 
