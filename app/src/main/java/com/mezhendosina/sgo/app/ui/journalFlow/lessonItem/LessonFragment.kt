@@ -129,7 +129,6 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
     private fun bindLesson() {
         viewModel.lesson.observe(viewLifecycleOwner) { lesson ->
             if (lesson != null) with(binding!!) {
-                println(lesson)
                 homework.homeworkBody.text = lesson.homework
 
                 if (!lesson.homeworkComment.isNullOrEmpty()) {
