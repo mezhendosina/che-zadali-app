@@ -17,6 +17,7 @@
 package com.mezhendosina.sgo.app.ui.gradesFlow.grades
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -46,9 +47,6 @@ class GradesViewModel(
     private val _grades = MutableLiveData<List<GradesItem>>()
     val grades: LiveData<List<GradesItem>> = _grades
 
-    private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
-
     private val _gradeOptions = MutableLiveData<GradeOptions>()
 
     private val _errorMessage = MutableLiveData<String>()
@@ -64,15 +62,17 @@ class GradesViewModel(
     }
 
     suspend fun load(context: Context) {
-        withContext(Dispatchers.Main) {
-            _grades.value = emptyList()
-        }
+
         if (Singleton.grades.isNotEmpty() && Singleton.gradesRecyclerViewLoaded.value == false) {
             withContext(Dispatchers.Main) {
                 _grades.value = Singleton.grades
                 Singleton.updateGradeState.value = GradeUpdateStatus.FINISHED
             }
             return
+        } else {
+            withContext(Dispatchers.Main) {
+                _grades.value = emptyList()
+            }
         }
 
         // start firebase performance trace
@@ -114,6 +114,7 @@ class GradesViewModel(
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
+                Log.e(null, e.stackTraceToString())
                 _errorMessage.value = e.toDescription()
                 Singleton.updateGradeState.value = GradeUpdateStatus.ERROR
             }

@@ -32,33 +32,21 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_layout"
-            style="@style/AppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:animateLayoutChanges="true"
-            android:background="?attr/colorSurface"
+            android:background="?android:attr/colorBackground"
             android:clipChildren="false"
             android:fitsSystemWindows="false"
             app:elevation="0dp">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="true"
-                app:elevation="0dp"
-                app:layout_scrollFlags="scroll"
-                app:titleEnabled="false">
-
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    android:background="?attr/colorSurface"
-                    app:menu="@menu/main_toolbar_more_menu"
-                    app:title="123"
-                    app:titleTextColor="?attr/colorOnBackground" />
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                android:layout_height="?actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:background="?android:attr/colorBackground"
+                app:menu="@menu/main_toolbar_more_menu" />
 
             <include
                 android:id="@+id/update_progress"
@@ -68,33 +56,33 @@
             <include
                 android:id="@+id/grades_top_bar"
                 layout="@layout/item_grades_top_bar"
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:layout_height="wrap_content" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:tabBackground="?android:attr/colorBackground"
                 app:tabGravity="center"
                 app:tabMode="scrollable"
                 app:tabTextAppearance="@style/mainText" />
-
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/tabs_container"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/journal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/tabs_navigaiton" />
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+        <include
+            android:id="@+id/grades"
+            layout="@layout/fragment_grades"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -113,7 +101,6 @@
         style="@style/Widget.SGOApp.BottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav" />
 

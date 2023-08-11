@@ -95,7 +95,5 @@
         <item name="android:textColor">?attr/colorError</item>
     </style>
 
-    <style name="Widget.SGOApp.BottomBar" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="elevation">0dp</item>
-    </style>
+    <style name="Widget.SGOApp.BottomBar" parent="Widget.Material3.BottomNavigationView" />
 </resources>

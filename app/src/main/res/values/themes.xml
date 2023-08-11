@@ -14,17 +14,15 @@
   ~ limitations under the License.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <dimen name="image_width">120dp</dimen>
     <dimen name="image_final_width">32dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
 
     <style name="Theme.SGOApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <!--        <item name="android:windowTranslucentNavigation">true</item>-->
-        <!--        <item name="android:statusBarColor">@null</item>-->
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
@@ -78,6 +76,33 @@
         <item name="android:background">?android:attr/colorBackground</item>
     </style>
 
+    <style name="Widget.SGOApp.FAB" parent="ThemeOverlay.Material3.FloatingActionButton.Primary">
+        <item name="iconSize">32dp</item>
+    </style>
+
+    <style name="MaterialCardView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardBackgroundColor">?attr/colorSurface</item>
+    </style>
+
+    <style name="AppBarLayout" parent="Widget.Material3.AppBarLayout"></style>
+
+
+    <!-- FONTS -->
+
+    <style name="TextAppearance.SGOApp.Journal.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textIsSelectable">false</item>
+    </style>
+
+    <style name="TextAppearance.SGOApp.Login.Title" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="mainScreenHeaders" parent="TextAppearance.Material3.TitleLarge" />
 
     <style name="specialThanksHeader" parent="mainScreenHeaders">
@@ -91,19 +116,6 @@
     <style name="announcementsToolBarText" parent="mainScreenHeaders">
         <item name="android:textSize">24sp</item>
     </style>
-
-    <style name="Widget.SGOApp.FAB" parent="ThemeOverlay.Material3.FloatingActionButton.Primary">
-        <item name="iconSize">32dp</item>
-
-    </style>
-
-    <style name="MaterialCardView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cardCornerRadius">8dp</item>
-        <item name="cardElevation">4dp</item>
-        <item name="cardBackgroundColor">?attr/colorSurface</item>
-    </style>
-
 
     <style name="lesson_number">
         <item name="android:textColor">?attr/colorPrimary</item>
@@ -129,24 +141,6 @@
         <item name="android:textIsSelectable">false</item>
     </style>
 
-
-    <style name="AppBarLayout" parent="Widget.Material3.AppBarLayout">
-        <item name="android:paddingTop">20dp</item>
-    </style>
-
-
-    <!-- FONTS -->
-
-    <style name="TextAppearance.SGOApp.Journal.Title" parent="TextAppearance.Material3.TitleLarge">
-        <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textIsSelectable">false</item>
-    </style>
-
-    <style name="TextAppearance.SGOApp.Login.Title" parent="TextAppearance.Material3.HeadlineMedium">
-        <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:textStyle">bold</item>
-    </style>
 
     <!-- BUTTONS -->
 
@@ -307,6 +301,10 @@
         <item name="bottomSheetStyle">@style/modalButtonSheet</item>
     </style>
 
+    <style name="ThemeOverlay.SGOApp.TopBar" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+
 
     <style name="modalButtonSheet" parent="Widget.Material3.BottomSheet.Modal">
         <item name="backgroundTint">?attr/backgroundColor</item>
@@ -347,5 +345,8 @@
         <item name="android:paddingBottom">12dp</item>
     </style>
 
+    <style name="TopBarAddons" parent="Widget.Material3.Toolbar.Surface">
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
 
 </resources>

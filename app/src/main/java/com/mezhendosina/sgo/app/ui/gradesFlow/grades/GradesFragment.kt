@@ -92,7 +92,6 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
     private fun observeGrades() {
         viewModel.grades.observe(viewLifecycleOwner) { list ->
             gradeAdapter.grades = list
-
         }
     }
 

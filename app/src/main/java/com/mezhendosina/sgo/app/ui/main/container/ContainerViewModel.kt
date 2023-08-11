@@ -22,11 +22,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.container.ContainerRepository
 import com.mezhendosina.sgo.data.SettingsDataStore
+import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.editPreference
 import com.mezhendosina.sgo.data.getValue
+import com.mezhendosina.sgo.data.getWeeksList
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.base.Download
 import com.mezhendosina.sgo.data.netschool.base.uriFromFile
@@ -56,6 +59,9 @@ class ContainerViewModel(
     val showUpdateDialog: LiveData<Boolean> = _showUpdateDialog
 
 
+    private val _weeks = MutableLiveData<List<WeekStartEndEntity>>()
+    val weeks: LiveData<List<WeekStartEndEntity>> = _weeks
+
     init {
     }
 
@@ -72,7 +78,6 @@ class ContainerViewModel(
     }
 
     fun showUpdateDialog(context: Context) {
-
         viewModelScope.launch {
             val lastVersionNumber =
                 SettingsDataStore.LAST_VERSION_NUMBER.getValue(context, -1).first()
@@ -123,6 +128,20 @@ class ContainerViewModel(
                     }
                 }
             }
+        }
+    }
+
+    suspend fun loadWeeks() {
+        if (Singleton.weeks.isNotEmpty()) {
+            withContext(Dispatchers.Main) {
+                _weeks.value = Singleton.weeks
+            }
+        } else {
+            val a = getWeeksList()
+            withContext(Dispatchers.Main) {
+                _weeks.value = a
+            }
+
         }
     }
 }

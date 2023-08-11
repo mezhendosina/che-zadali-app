@@ -19,7 +19,6 @@ package com.mezhendosina.sgo.app.ui.journalFlow.journal
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.tabs.TabLayoutMediator
@@ -29,14 +28,10 @@ import com.mezhendosina.sgo.app.databinding.FragmentJournalBinding
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.currentWeekStart
 import com.mezhendosina.sgo.data.getValue
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class JournalFragment : Fragment(R.layout.fragment_journal) {
 
     private var binding: FragmentJournalBinding? = null
-    internal val viewModel: JournalViewModel by viewModels()
 
     private val weekNow = currentWeekStart()
 
@@ -46,13 +41,6 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             Singleton.currentWeek = position
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.loadWeeks()
         }
     }
 
@@ -66,29 +54,7 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
             binding!!.journalPager.registerOnPageChangeCallback(onPageChangeCallback)
 
             val tabLayout = Singleton.journalTabsLayout
-            viewModel.weeks.observe(viewLifecycleOwner) { entityList ->
-                if (tabLayout != null) {
-                    tabLayoutMediator = TabLayoutMediator(
-                        tabLayout,
-                        binding!!.journalPager
-                    ) { tab, position ->
-                        tab.text =
-                            "${entityList[position].formattedWeekStart} - ${entityList[position].formattedWeekEnd}"
-                    }
-                    tabLayoutMediator?.attach()
-                }
-                adapter.weeksList = entityList
-                if (Singleton.currentWeek == null) {
-                    val currentWeekIndex =
-                        entityList.indexOf(entityList.firstOrNull { it.weekStart == weekNow })
-                    binding!!.journalPager.setCurrentItem(
-                        if (currentWeekIndex != -1) currentWeekIndex else entityList.lastIndex,
-                        false
-                    )
-                } else {
-                    binding!!.journalPager.setCurrentItem(Singleton.currentWeek!!, false)
-                }
-            }
+
         }
         observeUserId()
     }

@@ -19,10 +19,10 @@ package com.mezhendosina.sgo
 
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
+import com.mezhendosina.sgo.app.ui.main.container.ContainerFragment
 import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
 import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
 import com.mezhendosina.sgo.app.utils.GradeUpdateStatus
@@ -56,21 +56,18 @@ object Singleton {
     val currentDiaryUiEntity = MutableLiveData<DiaryUiEntity>()
 
     var journalTabsLayout: TabLayout? = null
-    var tabLayoutMediator: TabLayoutMediator? = null
 
     val answerUpdated = MutableLiveData<Boolean>(false)
 
-    var filterOptions: List<FilterUiEntity> = emptyList()
 
-    val updateGradeState = MutableLiveData<GradeUpdateStatus>(GradeUpdateStatus.UPDATE)
+    val updateGradeState = MutableLiveData<GradeUpdateStatus>()
+
+    val mainContainerScreen = MutableLiveData<String>(ContainerFragment.JOURNAL)
 
     // --- database
 //    val database: AppDatabase by lazy {
 //        Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database.db").build()
 //    }
-
-    const val ANNOUNCEMENTS_ID = "announcementsID"
-
 
 }
 
