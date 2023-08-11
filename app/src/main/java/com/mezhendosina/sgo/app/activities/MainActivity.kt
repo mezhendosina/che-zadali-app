@@ -16,15 +16,11 @@
 
 package com.mezhendosina.sgo.app.activities
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -37,6 +33,7 @@ import com.google.firebase.ktx.Firebase
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
 import com.mezhendosina.sgo.app.utils.errorDialog
+import com.mezhendosina.sgo.app.utils.setupStatusBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -104,8 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
 //        onBackPressedDispatcher.addCallback(onBackPressedCallback)
-
-        setupStatusBar()
+        setupStatusBar(binding.container)
     }
 
     override fun onRestart() {
@@ -126,30 +122,9 @@ class MainActivity : AppCompatActivity() {
         Singleton.journalTabsLayout = null
     }
 
-    private fun setupStatusBar() {
-        window.statusBarColor = Color.TRANSPARENT
-        val w = window
-        w.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
-        ViewCompat.setOnApplyWindowInsetsListener(binding.container) { view, windowInsets ->
-            val insetsNavigation = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            val topBarInset = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.mandatorySystemGestures())
-
-            view.setPadding(
-                insets.left,
-                topBarInset.top / 2,
-                insets.right,
-                insetsNavigation.bottom
-            )
-            windowInsets
-        }
-    }
 
     override fun onBackPressed() {
         if (navController?.currentDestination?.id == navController?.graph?.startDestinationId) super.onBackPressed()
-        else navController?.navigateUp()
+        else navController?.popBackStack()
     }
 }
