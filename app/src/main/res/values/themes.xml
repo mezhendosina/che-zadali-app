@@ -87,7 +87,7 @@
         <item name="cardBackgroundColor">?attr/colorSurface</item>
     </style>
 
-    <style name="AppBarLayout" parent="Widget.Material3.AppBarLayout"></style>
+    <style name="AppBarLayout" parent="Widget.Material3.AppBarLayout" />
 
 
     <!-- FONTS -->
@@ -117,7 +117,7 @@
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="lesson_number">
+    <style name="lesson_number" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textSize">18sp</item>
     </style>
@@ -349,24 +349,6 @@
         <item name="cornerSize">16dp</item>
     </style>
 
-    <style name="gradeText">
-        <item name="fontFamily">@font/roboto_serif</item>
-        <item name="android:textSize">26sp</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:gravity">center_horizontal|bottom</item>
-    </style>
-
-    <style name="goodGradeText" parent="gradeText">
-        <item name="android:textColor">@color/light_good_grade</item>
-    </style>
-
-    <style name="midGradeText" parent="gradeText">
-        <item name="android:textColor">?attr/colorMidGrade</item>
-    </style>
-
-    <style name="badGradeText" parent="gradeText">
-        <item name="android:textColor">?attr/colorError</item>
-    </style>
 
     <style name="settingsButton.withCaption">
         <item name="android:clickable">true</item>
