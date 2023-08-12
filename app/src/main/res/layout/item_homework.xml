@@ -18,11 +18,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/homework_item"
-    style="@style/Widget.SGOApp.OnCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@null"
-    android:foreground="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingVertical="12dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="24dp">
 
     <TextView
         android:id="@+id/lesson_number"
@@ -35,31 +37,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tool:text="1" />
 
-    <include
-        android:id="@+id/lesson_name"
-        layout="@layout/item_lesson_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@id/lesson_time"
-        app:layout_constraintEnd_toStartOf="@id/assignment_types"
-        app:layout_constraintStart_toEndOf="@id/lesson_number"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        style="@style/TextAppearance.Material3.BodyMedium"
+        android:id="@+id/lesson_name"
+        style="@style/TextAppearance.SGOApp.Journal.Lesson.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-
-        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/lesson_time"
         app:layout_constraintEnd_toStartOf="@id/assignment_types"
         app:layout_constraintStart_toEndOf="@id/lesson_number"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="Литература" />
+        tool:text="Основы безопасности жизнедеятельности" />
 
     <TextView
         android:id="@+id/lesson_time"
