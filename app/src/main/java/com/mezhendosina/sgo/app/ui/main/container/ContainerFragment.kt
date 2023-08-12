@@ -240,12 +240,14 @@ class ContainerFragment
         Singleton.mainContainerScreen.observe(viewLifecycleOwner) {
             when (it) {
                 JOURNAL -> {
+                    binding.toolbar.setTitle(R.string.journal)
                     binding.slideDownAnimation()
                     binding.grades.root.visibility = View.GONE
                     binding.journal.visibility = View.VISIBLE
                 }
 
                 GRADES -> {
+                    binding.toolbar.setTitle(R.string.grades)
                     Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
                     binding.slideUpAnimation()
                     binding.journal.visibility = View.GONE
@@ -360,7 +362,7 @@ class ContainerFragment
             if (!yearList.isNullOrEmpty() && checkedItem != null) {
                 binding.gradesTopBar.year.visibility = View.VISIBLE
                 binding.gradesTopBar.year.isChecked =
-                    checkedItem.id == gradesFilterViewModel.currentYearId.value
+                    checkedItem.id != gradesFilterViewModel.currentYearId.value
                 binding.gradesTopBar.year.text = checkedItem.name
             } else {
                 binding.gradesTopBar.year.visibility = View.GONE
