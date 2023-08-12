@@ -18,4 +18,11 @@
     <dimen name="diary_vertical_padding">8dp</dimen>
     <dimen name="card_diary_horizontal_padding">16dp</dimen>
     <dimen name="list_diary_horizontal_padding">8dp</dimen>
+
+    <dimen name="recyclerview_divider_margin_start">16dp</dimen>
+    <dimen name="recyclerview_divider_margin_end">24dp</dimen>
+
+    <dimen name="journal_lesson_name_drawable_margin">4dp</dimen>
+    <dimen name="grades_lesson_name_drawable_margin">16dp</dimen>
+
 </resources>
