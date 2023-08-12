@@ -17,23 +17,34 @@
 package com.mezhendosina.sgo.app.utils
 
 import android.content.Context
-import android.view.View
+import android.widget.TextView
 import com.mezhendosina.sgo.app.R
-import com.mezhendosina.sgo.app.databinding.ItemLessonNameBinding
 import com.mezhendosina.sgo.app.uiEntities.LessonEmojiUiEntity
+
+enum class LessonNameFrom {
+    JOURNAL,
+    GRADES
+}
 
 fun getEmojiLesson(lessonName: String): Int? {
     return LessonsInEmoji.list.firstOrNull { lessonName.contains(it.name, true) }?.emoji
 }
 
-fun ItemLessonNameBinding.setup(context: Context, lessonName: String) {
+fun TextView.setup(context: Context, lessonName: String, lessonNameFrom: LessonNameFrom) {
     val lessonImage = getEmojiLesson(lessonName)
-    name.text = lessonName
+    text = lessonName
 
     if (lessonImage != null) {
-        emoji.visibility = View.VISIBLE
-        emoji.setImageResource(lessonImage)
-    } else emoji.visibility = View.GONE
+        setCompoundDrawablesRelativeWithIntrinsicBounds(
+            lessonImage, 0, 0, 0
+        )
+        compoundDrawablePadding = context.resources.getDimensionPixelSize(
+            when (lessonNameFrom) {
+                LessonNameFrom.JOURNAL -> R.dimen.journal_lesson_name_drawable_margin
+                LessonNameFrom.GRADES -> R.dimen.grades_lesson_name_drawable_margin
+            }
+        )
+    } else setCompoundDrawables(null, null, null, null)
 }
 
 object LessonsInEmoji {

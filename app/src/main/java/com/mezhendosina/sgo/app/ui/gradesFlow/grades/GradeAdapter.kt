@@ -23,6 +23,7 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemGradeBinding
+import com.mezhendosina.sgo.app.utils.LessonNameFrom
 import com.mezhendosina.sgo.app.utils.setup
 import com.mezhendosina.sgo.app.utils.setupGrade
 import com.mezhendosina.sgo.app.utils.toGradeType
@@ -79,7 +80,7 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
             )
 
             holder.itemView.tag = grade
-            lessonName.setup(holder.itemView.context, grade.name)
+            lessonName.setup(holder.itemView.context, grade.name, LessonNameFrom.GRADES)
 
             val gradeType = grade.avgGrade().toGradeType()
             this.grade.setupGrade(
