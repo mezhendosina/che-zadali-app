@@ -45,7 +45,6 @@ liance with the License.
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkable="true"
             tools:text="2022/2023 год" />
 
         <com.google.android.material.chip.Chip
