@@ -20,8 +20,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
-import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionUiEntity
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionUiEntityItem
 import com.mezhendosina.sgo.app.utils.toDescription
@@ -71,15 +69,13 @@ class ChooseRegionViewModel(
         _selectedRegion.value = _regions.value?.first { it.name == newValue }!!
     }
 
-    fun setRegion(context: Context, navController: NavController) {
+    fun setRegion(context: Context, onComplete: () -> Unit) {
         val regionUrl = _selectedRegion.value!!.url
         CoroutineScope(Dispatchers.IO).launch {
             SettingsDataStore.REGION_URL.editPreference(context, regionUrl)
             withContext(Dispatchers.Main) {
                 NetSchoolSingleton.baseUrl = regionUrl
-                navController.navigate(
-                    R.id.action_chooseRegionFragment_to_welcomeFragment,
-                )
+                onComplete.invoke()
             }
         }
     }

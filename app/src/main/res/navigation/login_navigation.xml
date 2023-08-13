@@ -18,7 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_navigation"
-    app:startDestination="@id/chooseRegionFragment">
+    app:startDestination="@id/welcomeFragment">
     <fragment
         android:id="@+id/chooseSchoolFragment"
         android:label=""
@@ -53,21 +53,23 @@
         android:label=""
         tools:layout="@layout/fragment_choose_region">
         <action
-            android:id="@+id/action_chooseRegionFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment" />
-
+            android:id="@+id/action_chooseRegionFragment_to_chooseSchoolFragment"
+            app:destination="@id/chooseSchoolFragment" />
+        <action
+            android:id="@+id/action_chooseRegionFragment_to_gosuslugiFragment"
+            app:destination="@id/gosuslugiFragment" />
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.mezhendosina.sgo.app.ui.loginFlow.welcome.WelcomeFragment"
-        android:label="fragment_welcome"
+        android:label=""
         tools:layout="@layout/fragment_welcome">
         <action
-            android:id="@+id/action_welcomeFragment_to_gosuslugiFragment"
-            app:destination="@id/gosuslugiFragment" />
-        <action
-            android:id="@+id/action_welcomeFragment_to_chooseSchoolFragment"
-            app:destination="@id/chooseSchoolFragment" />
+            android:id="@+id/action_welcomeFragment_to_chooseRegionFragment"
+            app:destination="@id/chooseRegionFragment"
+            app:restoreState="true"
+            app:popUpToSaveState="true"
+            app:popUpTo="@id/welcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/gosuslugiFragment"

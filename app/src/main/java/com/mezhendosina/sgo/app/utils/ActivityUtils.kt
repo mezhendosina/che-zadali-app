@@ -17,14 +17,14 @@
 package com.mezhendosina.sgo.app.utils
 
 import android.graphics.Color
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.FragmentContainerView
 
 
-fun AppCompatActivity.setupStatusBar(fragmentContainer: FragmentContainerView) {
+fun AppCompatActivity.setupStatusBar(fragmentContainer: View) {
     window.statusBarColor = Color.TRANSPARENT
     val w = window
     w.setFlags(

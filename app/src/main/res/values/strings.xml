@@ -46,7 +46,7 @@
     <string name="why_grade">За что оценка?</string>
     <string name="teacher_comment">Подробности от учителя</string>
     <string name="past_mandatory_header">Есть просроченные задания</string>
-    <string name="choose_school">Выберите школу</string>
+    <string name="choose_school">Выбери школу</string>
     <string name="author">Автор</string>
     <string name="change_profile_photo">Изменить аватарку</string>
     <string name="birthday">Дата рождения</string>
@@ -99,8 +99,8 @@
     <string name="current_year">Текущий учебный год</string>
     <string name="change_email">Изменить email</string>
     <string name="change_phone_number">Изменить номер телефона</string>
-    <string name="choose_year">Выберите год</string>
-    <string name="choose_user">Выберите пользователя</string>
+    <string name="choose_year">Выбери год</string>
+    <string name="choose_user">Выбери пользователя</string>
 
     <string name="test_announcements_item">Общероссийская олимпиада школьников РАНХиГС по обществознанию, английскому языку, немецкому языку, китайскому языку, истории, журналистике, политологии, экономике и финансовой грамотности.
 
@@ -119,7 +119,7 @@
     <string name="special_thanks">Даниилу Барменкову\nВячеславу Сумину\nМарии Левчановой\nhttps://github.com/ArtemBay</string>
     <string name="telegram_channel">Telegram-канал приложения</string>
     <string name="github_repo">GitHub-репозиторий</string>
-    <string name="choose_region">Выберите регион</string>
+    <string name="choose_region">Выбери регион</string>
     <string name="not_found_question">Не нашел своего региона в списке? Напиши сюда!</string>
     <string name="grade_calculator_header">Сколько оценок до…</string>
     <string name="or">или</string>
@@ -169,4 +169,9 @@
     <string name="show_lessons_as">Отображение уроков в дневнике</string>
     <string name="logged_in_via_esia">Вход через ГосУслуги выполнен!</string>
     <string name="selected_grade_period">Выбранный период</string>
+    <string name="signin_with_login_password">Войти через логин и пароль</string>
+    <string name="signin_via_gosuslugi">Войти через Госуслуги</string>
+    <string name="hi">Привет!</string>
+    <string name="you_in_sgo_app">Ты попал в SGO app</string>
+    <string name="welcome_about">Неофициальный порт электронного дневника «Сетевой город. Образование» на Android</string>
 </resources>

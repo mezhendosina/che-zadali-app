@@ -21,22 +21,70 @@
     android:layout_height="match_parent"
     tools:context=".ui.loginFlow.welcome.WelcomeFragment">
 
-    <Button
-        android:id="@+id/default_login"
+    <TextView
+        android:id="@+id/hi"
+        style="@style/TextAppearance.SGOApp.Login.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="login"
-        app:layout_constraintBottom_toTopOf="@id/gosuslugi_login"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="256dp"
+        android:drawablePadding="8dp"
+        android:text="@string/hi"
+        android:visibility="invisible"
+        app:drawableEndCompat="@drawable/ic_hi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/you_in"
+        style="@style/TextAppearance.SGOApp.Login.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/you_in_sgo_app"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/hi"
+        app:layout_constraintTop_toBottomOf="@id/hi" />
+
+    <TextView
+        android:id="@+id/about"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/welcome_about"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/hi"
+        app:layout_constraintTop_toBottomOf="@id/you_in" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/gosuslugi_login"
+        style="@style/Widget.SGOApp.Button.Login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/signin_via_gosuslugi"
+        app:icon="@drawable/ic_gosuslugi"
+        android:visibility="invisible"
+        app:iconPadding="8dp"
+        app:iconSize="28dp"
+        app:iconTint="@null"
+        app:layout_constraintBottom_toTopOf="@id/default_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/gosuslugi_login"
-        android:layout_width="wrap_content"
+        android:id="@+id/default_login"
+        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
+        android:layout_width="0dp"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="32dp"
-        android:text="gosuslugi"
+        android:text="@string/signin_with_login_password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

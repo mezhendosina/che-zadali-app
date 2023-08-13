@@ -62,7 +62,6 @@ class GosuslugiFragment : Fragment(R.layout.fragment_gosuslugi) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGosuslugiBinding.bind(view)
 
-
         with(binding!!.root) {
             loadUrl("${NetSchoolSingleton.baseUrl}/webapi/sso/esia/crosslogin?esia_permissions=1&esia_role=1")
             settings.apply {

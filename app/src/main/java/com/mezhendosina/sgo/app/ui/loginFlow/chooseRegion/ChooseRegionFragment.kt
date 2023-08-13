@@ -17,15 +17,16 @@
 package com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion
 
 import android.os.Bundle
-import android.transition.TransitionManager
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.transition.platform.MaterialSharedAxis
+import androidx.transition.TransitionManager
+import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseRegionBinding
+import com.mezhendosina.sgo.app.ui.loginFlow.welcome.WelcomeFragment
 
 class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
 
@@ -43,8 +44,8 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         adapter.selectedItem = viewModel.selectedRegion.value?.name ?: ""
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
@@ -58,7 +59,16 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         binding!!.button.setOnClickListener {
-            viewModel.setRegion(requireContext(), findNavController())
+            viewModel.setRegion(requireContext()) {
+                val into = arguments?.getString(WelcomeFragment.FROM_WELCOME)
+                findNavController().navigate(
+                    when (into) {
+                        WelcomeFragment.TO_ESIA -> R.id.action_chooseRegionFragment_to_gosuslugiFragment
+                        WelcomeFragment.TO_SIGN_IN -> R.id.action_chooseRegionFragment_to_chooseSchoolFragment
+                        else -> R.id.action_chooseRegionFragment_to_chooseSchoolFragment
+                    }
+                )
+            }
         }
 
         observeRegions()

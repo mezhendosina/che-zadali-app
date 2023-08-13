@@ -33,7 +33,7 @@ import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
 
 object Singleton {
-
+    var welcomeShowed = false
     var announcements: List<AnnouncementsResponseEntity> = emptyList()
     var selectedAnnouncement: AnnouncementsResponseEntity? = null
 

@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
             if (navController.currentDestination?.id == navController.graph.startDestinationId) {
                 finish()
             } else {
-                navController.navigateUp()
+                navController.popBackStack()
             }
         }
     }
@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
         val navHost =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         navController = navHost.navController
-        setupStatusBar(binding!!.fragmentContainer)
+        setupStatusBar(binding!!.root)
         binding!!.toolbar.setupWithNavController(navController)
     }
 
