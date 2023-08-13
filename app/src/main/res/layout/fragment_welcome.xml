@@ -41,10 +41,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="@string/you_in_sgo_app"
+        android:text="@string/you_in"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@id/hi"
         app:layout_constraintTop_toBottomOf="@id/hi" />
+
+    <TextView
+        android:id="@+id/sgo_app"
+        style="@style/TextAppearance.SGOApp.Login.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:visibility="invisible"
+        android:drawablePadding="4dp"
+        android:text="@string/app_name"
+        app:drawableStartCompat="@drawable/ic_main_icon"
+        app:layout_constraintBottom_toBottomOf="@id/you_in"
+        app:layout_constraintStart_toEndOf="@id/you_in"
+        app:layout_constraintTop_toTopOf="@id/you_in" />
 
     <TextView
         android:id="@+id/about"
@@ -64,14 +78,27 @@
         style="@style/Widget.SGOApp.Button.Login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:enabled="false"
         android:gravity="center"
         android:text="@string/signin_via_gosuslugi"
-        app:icon="@drawable/ic_gosuslugi"
         android:visibility="invisible"
+        app:icon="@drawable/ic_gosuslugi"
         app:iconPadding="8dp"
         app:iconSize="28dp"
-        app:iconTint="@null"
+        app:layout_constraintBottom_toTopOf="@id/why_disabled"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/why_disabled"
+        style="@style/TextAppearance.Material3.BodySmall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:visibility="invisible"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="Пока недоступно, но скоро обязательно будет :)"
         app:layout_constraintBottom_toTopOf="@id/default_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -80,11 +107,11 @@
         android:id="@+id/default_login"
         style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
         android:layout_width="0dp"
-        android:visibility="invisible"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="32dp"
         android:text="@string/signin_with_login_password"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

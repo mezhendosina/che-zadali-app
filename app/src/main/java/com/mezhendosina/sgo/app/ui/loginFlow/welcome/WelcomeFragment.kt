@@ -65,6 +65,8 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
             with(binding!!) {
                 hi.visibility = View.VISIBLE
                 youIn.visibility = View.VISIBLE
+                sgoApp.visibility = View.VISIBLE
+                whyDisabled.visibility = View.VISIBLE
                 about.visibility = View.VISIBLE
                 gosuslugiLogin.visibility = View.VISIBLE
                 defaultLogin.visibility = View.VISIBLE
@@ -84,9 +86,13 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
             val transition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
             binding!!.hi.visibility = View.VISIBLE
             delay(1500)
+
             TransitionManager.beginDelayedTransition(binding!!.root, transition)
             binding!!.youIn.visibility = View.VISIBLE
+            TransitionManager.beginDelayedTransition(binding!!.root, transition)
+            binding!!.sgoApp.visibility = View.VISIBLE
             delay(1000)
+
             TransitionManager.beginDelayedTransition(binding!!.root, transition)
             binding!!.about.visibility = View.VISIBLE
             delay(500)
@@ -100,6 +106,7 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         TransitionManager.beginDelayedTransition(binding!!.root, transition)
         binding!!.gosuslugiLogin.visibility = View.VISIBLE
         binding!!.defaultLogin.visibility = View.VISIBLE
+        binding!!.whyDisabled.visibility = View.VISIBLE
     }
 
 

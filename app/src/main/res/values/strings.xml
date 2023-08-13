@@ -169,9 +169,9 @@
     <string name="show_lessons_as">Отображение уроков в дневнике</string>
     <string name="logged_in_via_esia">Вход через ГосУслуги выполнен!</string>
     <string name="selected_grade_period">Выбранный период</string>
-    <string name="signin_with_login_password">Войти через логин и пароль</string>
+    <string name="signin_with_login_password">Войти с помощью логина и пароля</string>
     <string name="signin_via_gosuslugi">Войти через Госуслуги</string>
     <string name="hi">Привет!</string>
-    <string name="you_in_sgo_app">Ты попал в SGO app</string>
+    <string name="you_in">Ты попал в</string>
     <string name="welcome_about">Неофициальный порт электронного дневника «Сетевой город. Образование» на Android</string>
 </resources>
