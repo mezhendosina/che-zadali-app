@@ -22,7 +22,6 @@ import android.view.View
 import android.widget.TextView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
-import jp.wasabeef.blurry.Blurry
 
 object GradesType {
     const val GOOD_GRADE = 2
@@ -81,7 +80,7 @@ fun View.setupGradeBackground(context: Context, gradeType: Int) {
             else -> 0
         }
     )
-    Blurry.with(context).capture(this)
+//    Blurry.with(context).capture(this)
 }
 
 fun TextView.setupColorWithGrade(context: Context, gradeType: Int) {
