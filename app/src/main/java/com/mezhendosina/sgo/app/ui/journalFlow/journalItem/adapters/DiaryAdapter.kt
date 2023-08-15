@@ -21,12 +21,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ItemDiaryBinding
-import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.journal.entities.WeekDayUiEntity
-import com.mezhendosina.sgo.app.utils.setupCardDesign
-import com.mezhendosina.sgo.app.utils.setupListDesign
 
 class DiaryAdapter(
     private val onHomeworkClickListener: OnHomeworkClickListener
@@ -69,11 +65,6 @@ class DiaryAdapter(
         val diaryItem = weekDays[position]
         holder.binding.day.text = diaryItem.date
         holder.homeworkAdapter.lessons = diaryItem.lessons
-
-        when (Singleton.diaryStyle.value) {
-            DiaryStyle.AS_CARD -> holder.binding.homeworkRecyclerView.setupCardDesign()
-            DiaryStyle.AS_LIST -> holder.binding.homeworkRecyclerView.setupListDesign()
-        }
         holder.binding.homeworkRecyclerView.apply {
             adapter = holder.homeworkAdapter
             layoutManager = holder.layoutManager
