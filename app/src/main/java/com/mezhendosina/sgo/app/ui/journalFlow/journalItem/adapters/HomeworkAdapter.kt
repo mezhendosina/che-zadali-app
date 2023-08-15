@@ -26,8 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemHomeworkBinding
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
-import com.mezhendosina.sgo.app.utils.LessonNameFrom
-import com.mezhendosina.sgo.app.utils.setup
+import com.mezhendosina.sgo.app.utils.setupAsLessonEmoji
 
 typealias OnHomeworkClickListener = (LessonUiEntity, View) -> Unit
 
@@ -110,14 +109,15 @@ class HomeworkAdapter(
                 )
             )
             holder.itemView.tag = lesson
-            lessonNumber.text = lesson.number.toString()
-            lessonName.setup(holder.itemView.context, lesson.subjectName, LessonNameFrom.JOURNAL)
+            lessonEmoji.setupAsLessonEmoji(holder.itemView.context, lesson.subjectName)
+//            lessonNumber.text = lesson.number.toString()
+            lessonName.text = lesson.subjectName
+//            lessonName.setLessonEmoji(holder.itemView.context, lesson.subjectName, LessonNameFrom.JOURNAL)
             lessonTime.text = holder.itemView.context.getString(
                 R.string.start_end_date,
                 lesson.startTime,
                 lesson.endTime
             )
-
             if (lesson.homework != null || lesson.assignments?.find { it.mark != null } != null) {
                 if (lesson.homework?.assignmentName?.isNotEmpty() == true) {
                     homework.visibility = View.VISIBLE

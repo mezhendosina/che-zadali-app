@@ -17,7 +17,13 @@
 package com.mezhendosina.sgo.app.utils
 
 import android.content.Context
+import android.util.TypedValue
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.toBitmap
+import androidx.palette.graphics.Palette
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.uiEntities.LessonEmojiUiEntity
 
@@ -30,7 +36,7 @@ fun getEmojiLesson(lessonName: String): Int? {
     return LessonsInEmoji.list.firstOrNull { lessonName.contains(it.name, true) }?.emoji
 }
 
-fun TextView.setup(context: Context, lessonName: String, lessonNameFrom: LessonNameFrom) {
+fun TextView.setLessonEmoji(context: Context, lessonName: String, lessonNameFrom: LessonNameFrom) {
     val lessonImage = getEmojiLesson(lessonName)
     text = lessonName
 
@@ -45,6 +51,27 @@ fun TextView.setup(context: Context, lessonName: String, lessonNameFrom: LessonN
             }
         )
     } else setCompoundDrawables(null, null, null, null)
+}
+
+fun ImageView.setupAsLessonEmoji(context: Context, lessonName: String) {
+    val lessonImage = getEmojiLesson(lessonName)
+    if (lessonImage != null) {
+        val bitmap = AppCompatResources.getDrawable(context, lessonImage)?.toBitmap()
+        val defaultColor = TypedValue()
+        context.theme.resolveAttribute(
+            com.google.android.material.R.attr.colorPrimaryContainer,
+            defaultColor,
+            true
+        )
+        if (bitmap != null) {
+            setImageBitmap(bitmap)
+            val palette = Palette.from(bitmap).generate()
+            background.setTint(palette.getVibrantColor(defaultColor.data))
+            background.alpha = 64
+        }
+    } else {
+        visibility = View.GONE
+    }
 }
 
 object LessonsInEmoji {

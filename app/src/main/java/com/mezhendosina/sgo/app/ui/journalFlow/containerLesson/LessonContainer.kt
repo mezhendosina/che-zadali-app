@@ -31,7 +31,7 @@ import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment.Companion.A
 import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment.Companion.EDIT_ANSWER
 import com.mezhendosina.sgo.app.utils.addOnToolbarCollapseListener
 import com.mezhendosina.sgo.app.utils.getEmojiLesson
-import com.mezhendosina.sgo.app.utils.setup
+import com.mezhendosina.sgo.app.utils.setLessonEmoji
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,7 +60,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
             toolbar.title = viewModel.lesson?.subjectName ?: ""
             val emoji = getEmojiLesson(viewModel.lesson?.subjectName ?: "")
-            setup(emoji)
+            setLessonEmoji(emoji)
 
             toolbar.setNavigationOnClickListener {
                 if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) findNavController().navigateUp()

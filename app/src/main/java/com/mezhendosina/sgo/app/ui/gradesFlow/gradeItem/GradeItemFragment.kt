@@ -32,7 +32,7 @@ import com.mezhendosina.sgo.app.utils.ItemOffsetDecoration
 import com.mezhendosina.sgo.app.utils.addOnToolbarCollapseListener
 import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.app.utils.getEmojiLesson
-import com.mezhendosina.sgo.app.utils.setup
+import com.mezhendosina.sgo.app.utils.setLessonEmoji
 import com.mezhendosina.sgo.app.utils.setupColorWithGrade
 import com.mezhendosina.sgo.app.utils.setupGrade
 import com.mezhendosina.sgo.app.utils.toGradeType
@@ -84,7 +84,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
             collapsingtoolbarlayout.title = lesson.name
             toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
             addOnToolbarCollapseListener(emoji)
-            setup(emoji)
+            setLessonEmoji(emoji)
         }
 
         binding!!.gradeCalculator.calculateGrade.adapter = calculateGradeAdapter

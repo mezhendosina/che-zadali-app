@@ -23,6 +23,19 @@
     android:minHeight="56dp"
     android:paddingVertical="8dp">
 
+    <ImageView
+        android:id="@+id/lesson_emoji"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/shape_lesson_emoji"
+        android:backgroundTint="?attr/colorPrimaryContainer"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:src="@drawable/lesson_astronomy" />
+
     <TextView
         android:id="@+id/lesson_name"
         style="@style/TextAppearance.SGOApp.Grades.Lesson.Title"
@@ -32,7 +45,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/grade"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lesson_emoji"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="123" />
 
