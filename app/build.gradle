@@ -172,4 +172,8 @@ dependencies {
 
 //    // netschoolapi
 //    implementation 'io.github.theentropyshard:netschoolapi:1.0'
+
+    // get color pallete from image
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+
 }
