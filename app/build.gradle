@@ -169,6 +169,8 @@ dependencies {
     // check memory leaks
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
+    // Blur
+//    implementation 'jp.wasabeef:blurry:4.0.1'
 
 //    // netschoolapi
 //    implementation 'io.github.theentropyshard:netschoolapi:1.0'
