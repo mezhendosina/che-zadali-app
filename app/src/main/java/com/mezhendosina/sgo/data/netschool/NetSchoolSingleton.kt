@@ -21,7 +21,6 @@ import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.model.answer.AnswerRepository
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
-import com.mezhendosina.sgo.app.model.container.ContainerRepository
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.model.grades.GradesSource
 import com.mezhendosina.sgo.app.model.journal.DiarySource
@@ -99,8 +98,8 @@ object NetSchoolSingleton {
         SettingsRepository(settingsSource)
     }
 
-    val containerRepository by lazy {
-        ContainerRepository()
+    val githubUpdateDownloader by lazy {
+        sourcesProvider.getGithubUpdateDownloader()
     }
 
     val attachmentsRepository by lazy {

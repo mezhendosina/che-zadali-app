@@ -20,6 +20,7 @@ import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.model.grades.GradesSource
 import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
+import com.mezhendosina.sgo.data.github.GithubUpdateDownloader
 import com.mezhendosina.sgo.data.netschool.api.announcements.RetrofitAnnouncementsSource
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.attachments.RetrofitAttachmentsSource
@@ -41,6 +42,7 @@ class RetrofitSourcesProvider(private val config: RetrofitConfig) : SourcesProvi
         return RetrofitAttachmentsSource(config)
     }
 
+
     override fun getDiarySource(): DiarySource {
         return RetrofitDiarySource(config)
     }
@@ -59,5 +61,9 @@ class RetrofitSourcesProvider(private val config: RetrofitConfig) : SourcesProvi
 
     override fun getGradesSource(): GradesSource {
         return RetrofitGradesService(config)
+    }
+
+    override fun getGithubUpdateDownloader(): GithubUpdateDownloader {
+        return GithubUpdateDownloader(config)
     }
 }

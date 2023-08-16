@@ -19,6 +19,7 @@ package com.mezhendosina.sgo.data.netschool.base
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.model.grades.GradesSource
 import com.mezhendosina.sgo.app.model.journal.DiarySource
+import com.mezhendosina.sgo.data.github.GithubUpdateDownloader
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.homework.HomeworkSource
 import com.mezhendosina.sgo.data.netschool.api.login.LoginSource
@@ -39,4 +40,6 @@ interface SourcesProvider {
     fun getSettingsSource(): SettingsSource
 
     fun getGradesSource(): GradesSource
+
+    fun getGithubUpdateDownloader(): GithubUpdateDownloader
 }
