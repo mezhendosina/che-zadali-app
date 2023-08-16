@@ -9,31 +9,7 @@ plugins {
 }
 
 android {
-
-//    lint {
-//        baseline = file("lint-baseline.xml")
-//    }
-
-
-    compileSdk 33
-
-    defaultConfig {
-        applicationId "com.mezhendosina.sgo.app"
-        minSdk 24
-        targetSdk 33
-        versionCode 34
-        versionName '2.5.0'
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-//        kapt {
-//            arguments {
-//                arg("room.shemaLocation", "$projectDir/schemas")
-//            }
-//        }
-        signingConfig signingConfigs.debug
-    }
-
+    compileSdk 34
     signingConfigs {
         release {
             def keystoreProperties = new Properties()
@@ -53,6 +29,28 @@ android {
             }
         }
     }
+    defaultConfig {
+        applicationId "com.mezhendosina.sgo.app"
+        minSdk 24
+        targetSdk 33
+        versionCode 34
+        versionName '2.5.0'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+//        kapt {
+//            arguments {
+//                arg("room.shemaLocation", "$projectDir/schemas")
+//            }
+//        }
+        signingConfig signingConfigs.debug
+    }
+
+
+//    lint {
+//        baseline = file("lint-baseline.xml")
+//    }
+
 
     buildTypes {
         debug {
@@ -94,10 +92,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.fragment:fragment-ktx:1.6.0'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.4'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
