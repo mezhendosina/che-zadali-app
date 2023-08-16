@@ -17,22 +17,19 @@
 package com.mezhendosina.sgo.app.ui.main.container
 
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
-import com.mezhendosina.sgo.app.model.container.ContainerRepository
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.editPreference
 import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.getWeeksList
+import com.mezhendosina.sgo.data.github.GithubUpdateDownloader
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
-import com.mezhendosina.sgo.data.netschool.base.Download
-import com.mezhendosina.sgo.data.netschool.base.uriFromFile
 import com.mezhendosina.sgo.data.requests.github.checkUpdates.CheckUpdates
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +39,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class ContainerViewModel(
-    private val containerRepository: ContainerRepository = NetSchoolSingleton.containerRepository
+    private val githubUpdateDownloader: GithubUpdateDownloader = NetSchoolSingleton.githubUpdateDownloader
 ) : ViewModel() {
 
     private val _errorMessage = MutableLiveData("")
@@ -68,7 +65,7 @@ class ContainerViewModel(
     fun checkUpdates() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val checkUpdates = containerRepository.checkUpdates()
+                val checkUpdates = githubUpdateDownloader.getLastVersion()
                 withContext(Dispatchers.Main) {
                     _latestUpdate.value = checkUpdates
                 }
@@ -104,31 +101,27 @@ class ContainerViewModel(
     }
 
     fun downloadUpdate(context: Context, file: File, url: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            //TODO exception handling
-            containerRepository.downloadFile(url, file).collect {
-                when (it) {
-                    is Download.Progress -> {
-                        withContext(Dispatchers.Main) {
-                            _downloadState.value = it.percent
-                        }
-                    }
-
-                    is Download.Finished -> {
-                        val intent = Intent(Intent.ACTION_VIEW).apply {
-                            setDataAndType(
-                                uriFromFile(context, file),
-                                "application/vnd.android.package-archive"
-                            )
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        }
-                        withContext(Dispatchers.Main) { _downloadState.value = 100 }
-                        context.startActivity(intent)
-                    }
-                }
-            }
-        }
+        //TODO exception handling
+//        githubUpdateDownloader.downloadUpdate(context, url) {
+//            when (it) {
+//                100 -> {
+//                    val intent = Intent(Intent.ACTION_VIEW).apply {
+//                        setDataAndType(
+//                            uriFromFile(context, file),
+//                            "application/vnd.android.package-archive"
+//                        )
+//                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//                    }
+//                    _downloadState.value = 100
+//                    context.startActivity(intent)
+//                }
+//
+//                else -> {
+//                    _downloadState.value = it
+//                }
+//            }
+//        }
     }
 
     suspend fun loadWeeks() {
