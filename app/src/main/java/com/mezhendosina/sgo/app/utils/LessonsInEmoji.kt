@@ -24,8 +24,11 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
+import androidx.transition.TransitionManager
 import com.mezhendosina.sgo.app.R
+import com.mezhendosina.sgo.app.databinding.ItemLessonToolbarBinding
 import com.mezhendosina.sgo.app.uiEntities.LessonEmojiUiEntity
+import kotlin.math.abs
 
 enum class LessonNameFrom {
     JOURNAL,
@@ -67,24 +70,55 @@ fun ImageView.setupAsLessonEmoji(context: Context, lessonName: String) {
             setImageBitmap(bitmap)
             val palette = Palette.from(bitmap).generate()
             background.setTint(palette.getVibrantColor(defaultColor.data))
-            background.alpha = 64
+            background.alpha = 28
         }
     } else {
         visibility = View.GONE
     }
 }
 
+
+fun ItemLessonToolbarBinding.addOnToolbarCollapseListener(emoji: Int?) {
+    if (emoji != null) {
+        val fadeTransition = com.google.android.material.transition.MaterialFadeThrough()
+        this.appbarlayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            TransitionManager.beginDelayedTransition(this.root, fadeTransition)
+            collapsedIcon.visibility =
+                if (abs(verticalOffset) - appBarLayout.totalScrollRange == 0) {
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
+                }
+        }
+    }
+}
+
+fun ItemLessonToolbarBinding.setLessonEmoji(context: Context, emoji: Int?) {
+    if (emoji != null) {
+        expandedIcon.setImageResource(emoji)
+        collapsedIcon.setImageResource(emoji)
+//        if (collapsingtoolbarlayout.lineCount > 1) {
+//
+//        }
+    } else {
+        expandedIcon.visibility = View.GONE
+        collapsingtoolbarlayout.expandedTitleMarginStart =
+            collapsingtoolbarlayout.expandedTitleMarginStart
+        collapsedIcon.visibility = View.GONE
+    }
+}
+
 object LessonsInEmoji {
     val list = listOf(
         LessonEmojiUiEntity("русский", R.drawable.lesson_russia),
-        LessonEmojiUiEntity("математика", R.drawable.lesson_math),
-        LessonEmojiUiEntity("информатика", R.drawable.lesson_inf),
-        LessonEmojiUiEntity("литература", R.drawable.lesson_lit),
-        LessonEmojiUiEntity("английский", R.drawable.lesson_eng),
-        LessonEmojiUiEntity("иностранный", R.drawable.lesson_languages),
-        LessonEmojiUiEntity("немецкий", R.drawable.lesson_german),
-        LessonEmojiUiEntity("алгебра", R.drawable.lesson_math),
-        LessonEmojiUiEntity("геометрия", R.drawable.lesson_geometry),
+        LessonEmojiUiEntity("математик", R.drawable.lesson_math),
+        LessonEmojiUiEntity("информатик", R.drawable.lesson_inf),
+        LessonEmojiUiEntity("литератур", R.drawable.lesson_lit),
+        LessonEmojiUiEntity("английск", R.drawable.lesson_eng),
+        LessonEmojiUiEntity("иностранн", R.drawable.lesson_languages),
+        LessonEmojiUiEntity("немецк", R.drawable.lesson_german),
+        LessonEmojiUiEntity("алгебр", R.drawable.lesson_math),
+        LessonEmojiUiEntity("геометр", R.drawable.lesson_geometry),
         LessonEmojiUiEntity("основы безопасности жизнедеятельности", R.drawable.lesson_obz),
         LessonEmojiUiEntity("география", R.drawable.lesson_geo),
         LessonEmojiUiEntity("обществознание", R.drawable.lesson_social),

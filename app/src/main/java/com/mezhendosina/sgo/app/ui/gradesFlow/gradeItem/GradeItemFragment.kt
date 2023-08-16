@@ -84,7 +84,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
             collapsingtoolbarlayout.title = lesson.name
             toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
             addOnToolbarCollapseListener(emoji)
-            setLessonEmoji(emoji)
+            setLessonEmoji(requireContext(), emoji)
         }
 
         binding!!.gradeCalculator.calculateGrade.adapter = calculateGradeAdapter
