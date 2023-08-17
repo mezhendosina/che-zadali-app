@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
+import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.editPreference
@@ -55,12 +56,11 @@ class ContainerViewModel(
     private val _showUpdateDialog = MutableLiveData(true)
     val showUpdateDialog: LiveData<Boolean> = _showUpdateDialog
 
+    private val _showEngageDialog = MutableLiveData(false)
+    val showEngageDialog = _showEngageDialog.toLiveData()
 
     private val _weeks = MutableLiveData<List<WeekStartEndEntity>>()
     val weeks: LiveData<List<WeekStartEndEntity>> = _weeks
-
-    init {
-    }
 
     fun checkUpdates() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -86,6 +86,9 @@ class ContainerViewModel(
                     context,
                     BuildConfig.VERSION_CODE
                 )
+                if (BuildConfig.VERSION_CODE == 35) {
+                    _showEngageDialog.value = true
+                }
             } else if (showUpdateDialog) {
                 _showUpdateDialog.value = true
             } else if (!showUpdateDialog) {

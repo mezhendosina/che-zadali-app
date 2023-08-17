@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.main.container
 
+import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.MenuItem
@@ -31,6 +32,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.material.transition.platform.MaterialSharedAxis
@@ -162,6 +164,7 @@ class ContainerFragment
         observeGrades()
 
         observeContainerScreen()
+        observeShowEngageDialog()
     }
 
     override fun onDestroy() {
@@ -170,11 +173,25 @@ class ContainerFragment
         binding.journal.unregisterOnPageChangeCallback(journalOnPageChangeCallback)
     }
 
-    private fun observeGradesRecyclerViewLoad() {
-        Singleton.gradesRecyclerViewLoaded.observe(viewLifecycleOwner) {
-            if (!it) {
-                startPostponedEnterTransition()
-                Singleton.gradesRecyclerViewLoaded.value = true
+    private fun observeShowEngageDialog() {
+        containerViewModel.showEngageDialog.observe(viewLifecycleOwner) {
+            if (it) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Понравилось приложение?")
+                    .setMessage("Если да, то поделись им с одноклассниками, чтобы они тоже могли воспользоваться самым удобным дневником!")
+                    .setPositiveButton("Поделиться") { dialog, _ ->
+                        val sendIntent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, "https://sgoapp.ru")
+                            type = "text/plain"
+                        }
+                        val shareIntent =
+                            Intent.createChooser(sendIntent, "Поделиться ссылкой на SGO app")
+                        startActivity(shareIntent)
+                        dialog.dismiss()
+                    }.setNegativeButton("Нет") { dialog, _ ->
+                        dialog.cancel()
+                    }.show()
             }
         }
     }
