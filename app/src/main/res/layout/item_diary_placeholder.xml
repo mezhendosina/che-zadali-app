@@ -27,9 +27,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/item_homework_placeholder" />
+        <TextView
+            android:text="Понедельник день бездельник"
+            style="@style/TextAppearance.SGOApp.Journal.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp" />
 
         <include layout="@layout/item_homework_placeholder" />
+
+        <TextView
+            android:text="Вторник повторник"
+            style="@style/TextAppearance.SGOApp.Journal.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp" />
+
+
+        <include layout="@layout/item_homework_placeholder" />
+
+        <TextView
+            android:text="Среда тамада"
+            style="@style/TextAppearance.SGOApp.Journal.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp" />
+
 
         <include layout="@layout/item_homework_placeholder" />
 
