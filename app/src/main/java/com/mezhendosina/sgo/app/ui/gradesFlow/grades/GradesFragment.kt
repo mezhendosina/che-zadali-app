@@ -30,7 +30,7 @@ import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
-import com.mezhendosina.sgo.app.utils.GradeUpdateStatus
+import com.mezhendosina.sgo.app.utils.LoadStatus
 import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import kotlinx.coroutines.CoroutineScope
@@ -70,7 +70,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
         binding!!.gradesRecyclerView.adapter = gradeAdapter
 
         binding!!.errorMessage.retryButton.setOnClickListener {
-            Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
+            Singleton.updateGradeState.value = LoadStatus.UPDATE
         }
 
         observeGrades()
@@ -107,7 +107,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
 
         Singleton.updateGradeState.observe(viewLifecycleOwner) {
             when (it) {
-                GradeUpdateStatus.UPDATE -> {
+                LoadStatus.UPDATE -> {
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.load(requireContext())
                     }
@@ -127,14 +127,14 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
                     }
                 }
 
-                GradeUpdateStatus.ERROR -> {
+                LoadStatus.ERROR -> {
                     if (binding != null) {
                         binding!!.loading.root.stopShimmer()
                         binding!!.showError()
                     }
                 }
 
-                GradeUpdateStatus.FINISHED -> {
+                LoadStatus.FINISHED -> {
                     if (binding != null) {
                         binding!!.loading.root.stopShimmer()
                         if (viewModel.grades.value.isNullOrEmpty()) {

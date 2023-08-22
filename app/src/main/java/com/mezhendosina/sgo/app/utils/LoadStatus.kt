@@ -16,7 +16,7 @@
 
 package com.mezhendosina.sgo.app.utils
 
-enum class GradeUpdateStatus {
+enum class LoadStatus {
     UPDATE,
     ERROR,
     FINISHED

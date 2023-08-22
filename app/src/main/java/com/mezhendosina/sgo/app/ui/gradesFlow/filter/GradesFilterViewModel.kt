@@ -24,7 +24,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
 import com.mezhendosina.sgo.app.uiEntities.checkItem
-import com.mezhendosina.sgo.app.utils.GradeUpdateStatus
+import com.mezhendosina.sgo.app.utils.LoadStatus
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
@@ -62,7 +62,7 @@ class GradesFilterViewModel(
         viewModelScope.launch {
             SettingsDataStore.SORT_GRADES_BY.editPreference(context, sortBy)
             _gradesSortType.value = sortBy
-            Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
+            Singleton.updateGradeState.value = LoadStatus.UPDATE
         }
     }
 
@@ -88,7 +88,7 @@ class GradesFilterViewModel(
         try {
             settingsRepository.setYear(yearId)
             withContext(Dispatchers.Main) {
-                Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
+                Singleton.updateGradeState.value = LoadStatus.UPDATE
             }
             if (_yearList.value != null) {
                 val checkItems = _yearList.value!!.checkItem(yearId)
@@ -117,7 +117,7 @@ class GradesFilterViewModel(
             val checkItem = Singleton.gradesTerms.value?.checkItem(id)
             withContext(Dispatchers.Main) {
                 Singleton.gradesTerms.value = checkItem
-                Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
+                Singleton.updateGradeState.value = LoadStatus.UPDATE
 
             }
         }

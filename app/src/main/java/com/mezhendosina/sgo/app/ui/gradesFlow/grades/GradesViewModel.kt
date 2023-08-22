@@ -28,7 +28,7 @@ import com.mezhendosina.sgo.app.model.grades.GradeActionListener
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.uiEntities.checkItem
-import com.mezhendosina.sgo.app.utils.GradeUpdateStatus
+import com.mezhendosina.sgo.app.utils.LoadStatus
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.editPreference
@@ -66,7 +66,7 @@ class GradesViewModel(
         if (Singleton.grades.isNotEmpty() && Singleton.gradesRecyclerViewLoaded.value == false) {
             withContext(Dispatchers.Main) {
                 _grades.value = Singleton.grades
-                Singleton.updateGradeState.value = GradeUpdateStatus.FINISHED
+                Singleton.updateGradeState.value = LoadStatus.FINISHED
             }
             return
         } else {
@@ -110,13 +110,13 @@ class GradesViewModel(
             val checkSelectedTrim = trims.checkItem(currentTrimId.first())
             withContext(Dispatchers.Main) {
                 Singleton.gradesTerms.value = checkSelectedTrim
-                Singleton.updateGradeState.value = GradeUpdateStatus.FINISHED
+                Singleton.updateGradeState.value = LoadStatus.FINISHED
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 Log.e(null, e.stackTraceToString())
                 _errorMessage.value = e.toDescription()
-                Singleton.updateGradeState.value = GradeUpdateStatus.ERROR
+                Singleton.updateGradeState.value = LoadStatus.ERROR
             }
         } finally {
             withContext(Dispatchers.Main) {

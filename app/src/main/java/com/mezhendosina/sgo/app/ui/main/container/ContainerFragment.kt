@@ -52,7 +52,7 @@ import com.mezhendosina.sgo.app.ui.gradesFlow.grades.OnGradeClickListener
 import com.mezhendosina.sgo.app.ui.journalFlow.journal.JournalPagerAdapter
 import com.mezhendosina.sgo.app.ui.main.updateBottomSheet.UpdateBottomSheetFragment
 import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
-import com.mezhendosina.sgo.app.utils.GradeUpdateStatus
+import com.mezhendosina.sgo.app.utils.LoadStatus
 import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.app.utils.slideDownAnimation
 import com.mezhendosina.sgo.app.utils.slideUpAnimation
@@ -134,7 +134,7 @@ class ContainerFragment
             gradesRecyclerView.adapter = gradeAdapter
 
             errorMessage.retryButton.setOnClickListener {
-                Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
+                Singleton.updateGradeState.value = LoadStatus.UPDATE
             }
         }
 
@@ -265,7 +265,7 @@ class ContainerFragment
 
                 GRADES -> {
                     binding.toolbar.setTitle(R.string.grades)
-                    Singleton.updateGradeState.value = GradeUpdateStatus.UPDATE
+                    Singleton.updateGradeState.value = LoadStatus.UPDATE
                     binding.slideUpAnimation()
                     binding.journal.visibility = View.GONE
                     binding.grades.root.visibility = View.VISIBLE
@@ -470,7 +470,7 @@ class ContainerFragment
         Singleton.updateGradeState.observe(viewLifecycleOwner) {
             with(binding.grades) {
                 when (it) {
-                    GradeUpdateStatus.UPDATE -> {
+                    LoadStatus.UPDATE -> {
                         CoroutineScope(Dispatchers.IO).launch {
                             gradesViewModel.load(requireContext())
                         }
@@ -487,12 +487,12 @@ class ContainerFragment
                         showLoading()
                     }
 
-                    GradeUpdateStatus.ERROR -> {
+                    LoadStatus.ERROR -> {
                         loading.root.stopShimmer()
                         showError()
                     }
 
-                    GradeUpdateStatus.FINISHED -> {
+                    LoadStatus.FINISHED -> {
                         loading.root.stopShimmer()
                         if (gradesViewModel.grades.value.isNullOrEmpty()) {
                             emptyState.noHomeworkIcon.setImageDrawable(
