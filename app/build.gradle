@@ -165,7 +165,7 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // check memory leaks
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
     // Blur
 //    implementation 'jp.wasabeef:blurry:4.0.1'
