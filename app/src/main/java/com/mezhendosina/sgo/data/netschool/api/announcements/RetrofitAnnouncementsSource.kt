@@ -20,9 +20,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.NetSchoolExpectedResults
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import java.lang.reflect.Type
 
 class RetrofitAnnouncementsSource(

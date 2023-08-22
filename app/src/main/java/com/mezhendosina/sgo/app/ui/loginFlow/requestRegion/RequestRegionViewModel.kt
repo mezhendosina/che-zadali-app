@@ -19,8 +19,8 @@ package com.mezhendosina.sgo.app.ui.loginFlow.requestRegion
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

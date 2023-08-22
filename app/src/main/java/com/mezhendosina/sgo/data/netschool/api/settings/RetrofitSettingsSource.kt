@@ -16,13 +16,13 @@
 
 package com.mezhendosina.sgo.data.netschool.api.settings
 
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.ChangePasswordEntity
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsRequestEntity
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.SendPhotoRequestEntity
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListResponseEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response

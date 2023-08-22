@@ -18,11 +18,11 @@ package com.mezhendosina.sgo.data.netschool.api.diary
 
 import com.mezhendosina.sgo.app.model.journal.DiaryModelRequestEntity
 import com.mezhendosina.sgo.app.model.journal.DiarySource
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.DiaryInitResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.DiaryResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 
 class RetrofitDiarySource(config: RetrofitConfig) : BaseRetrofitSource(config), DiarySource {
 

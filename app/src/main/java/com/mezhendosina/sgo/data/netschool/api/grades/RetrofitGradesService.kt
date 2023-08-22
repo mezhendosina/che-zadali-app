@@ -17,8 +17,8 @@
 package com.mezhendosina.sgo.data.netschool.api.grades
 
 import com.mezhendosina.sgo.app.model.grades.GradesSource
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import okhttp3.ResponseBody
 import retrofit2.Response
 

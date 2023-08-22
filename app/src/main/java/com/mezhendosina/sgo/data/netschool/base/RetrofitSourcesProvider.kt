@@ -19,7 +19,6 @@ package com.mezhendosina.sgo.data.netschool.base
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.model.grades.GradesSource
 import com.mezhendosina.sgo.app.model.journal.DiarySource
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.github.GithubUpdateDownloader
 import com.mezhendosina.sgo.data.netschool.api.announcements.RetrofitAnnouncementsSource
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource

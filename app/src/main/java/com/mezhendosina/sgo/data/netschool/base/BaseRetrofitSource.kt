@@ -20,7 +20,6 @@ import com.google.gson.JsonParseException
 import com.mezhendosina.sgo.app.netschool.base.BackendException
 import com.mezhendosina.sgo.app.netschool.base.ConnectionException
 import com.mezhendosina.sgo.app.netschool.base.ParseBackendResponseException
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.app.netschool.base.TimeOutError
 import okio.IOException
 import retrofit2.HttpException

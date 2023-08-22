@@ -18,7 +18,6 @@ package com.mezhendosina.sgo.data.netschool.base
 
 import com.google.gson.Gson
 import com.mezhendosina.sgo.app.BuildConfig
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton.baseUrl
 import okhttp3.Cookie

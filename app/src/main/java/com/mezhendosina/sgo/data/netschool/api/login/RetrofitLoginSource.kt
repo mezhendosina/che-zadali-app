@@ -16,15 +16,11 @@
 
 package com.mezhendosina.sgo.data.netschool.api.login
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.netschool.api.login.entities.SchoolEntity
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
-import com.mezhendosina.sgo.data.netschool.NetSchoolExpectedResults
 import com.mezhendosina.sgo.data.netschool.api.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.base.toMD5
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.GetDataResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
@@ -42,13 +38,8 @@ class RetrofitLoginSource(
 
     override suspend fun getSchools(query: String): List<SchoolEntity> =
         wrapRetrofitExceptions {
-            val schools =
-                if (!BuildConfig.DEBUG)
-                    loginApi.getSchools(query)
-                else {
-                    val itemsListType = object : TypeToken<List<SchoolEntity>>() {}.type
-                    Gson().fromJson(NetSchoolExpectedResults.schools, itemsListType)
-                }
+            val schools = loginApi.getSchools(query)
+
             schools.filter { it.name.contains("(МБОУ)|(МКОУ)|(СОШ)|(МАОУ)|(МКШ)|(СУНЦ)|(ШНОР)|(ШВОР)|(ГБПОУ)|(ГКОУ)".toRegex()) }
         }
 

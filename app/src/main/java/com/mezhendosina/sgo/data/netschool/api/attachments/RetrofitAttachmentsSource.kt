@@ -16,12 +16,12 @@
 
 package com.mezhendosina.sgo.data.netschool.api.attachments
 
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.AttachmentsRequestEntity
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.AttachmentsResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.DeleteAttachmentRequestEntity
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.SendFileRequestEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response

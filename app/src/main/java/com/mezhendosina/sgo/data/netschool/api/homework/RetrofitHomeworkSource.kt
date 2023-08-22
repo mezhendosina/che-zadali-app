@@ -16,11 +16,11 @@
 
 package com.mezhendosina.sgo.data.netschool.api.homework
 
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.AssignmentTypesResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.homework.entities.AssignResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.homework.entities.GetAnswerResponseEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 
 
 class RetrofitHomeworkSource(config: RetrofitConfig) :

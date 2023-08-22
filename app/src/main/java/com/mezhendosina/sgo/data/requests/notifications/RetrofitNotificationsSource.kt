@@ -16,8 +16,8 @@
 
 package com.mezhendosina.sgo.data.requests.notifications
 
-import com.mezhendosina.sgo.app.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.notifications.entities.NotificationUserEntity
 import com.mezhendosina.sgo.data.requests.notifications.entities.UnregisterUserEntity
 import okhttp3.ResponseBody
