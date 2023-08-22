@@ -29,7 +29,6 @@
             android:id="@+id/diary_item"
             layout="@layout/item_diary"
             android:animateLayoutChanges="true"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
