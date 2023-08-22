@@ -197,6 +197,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/diary_settings"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/new_grade_notification" />
