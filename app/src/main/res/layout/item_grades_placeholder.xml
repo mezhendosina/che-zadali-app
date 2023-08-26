@@ -37,5 +37,33 @@
 
         <include layout="@layout/item_grade" />
 
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
+        <include layout="@layout/item_grade" />
+
     </LinearLayout>
 </com.facebook.shimmer.ShimmerFrameLayout>
