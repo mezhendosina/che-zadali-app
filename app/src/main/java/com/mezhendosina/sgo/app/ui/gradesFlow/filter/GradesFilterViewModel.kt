@@ -86,10 +86,10 @@ class GradesFilterViewModel(
 
     suspend fun updateYear(yearId: Int) {
         try {
-            settingsRepository.setYear(yearId)
             withContext(Dispatchers.Main) {
                 Singleton.updateGradeState.value = LoadStatus.UPDATE
             }
+            settingsRepository.setYear(yearId)
             if (_yearList.value != null) {
                 val checkItems = _yearList.value!!.checkItem(yearId)
                 withContext(Dispatchers.Main) {
