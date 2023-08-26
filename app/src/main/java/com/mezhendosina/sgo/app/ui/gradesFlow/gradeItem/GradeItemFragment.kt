@@ -92,6 +92,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
             LinearLayoutManager(requireContext())
         binding!!.gradeCalculator.calculateGrade.itemAnimator = null
 
+        if (Singleton.gradesWithWeight) binding!!.gradeCalculator.root.visibility = View.GONE
 
         countGradeAdapter.countGrades = lesson.countGradesToList()
         val itemOffsetDecoration = ItemOffsetDecoration(36)

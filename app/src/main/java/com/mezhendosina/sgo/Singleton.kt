@@ -60,6 +60,8 @@ object Singleton {
     val answerUpdated = MutableLiveData<Boolean>(false)
 
 
+    var gradesWithWeight = false
+
     val updateGradeState = MutableLiveData<LoadStatus>()
 
     val mainContainerScreen = MutableLiveData<String>(ContainerFragment.JOURNAL)
