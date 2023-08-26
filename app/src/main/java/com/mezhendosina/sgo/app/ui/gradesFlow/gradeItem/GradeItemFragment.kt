@@ -79,7 +79,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGradeItemBinding.bind(view)
-        val emoji = getEmojiLesson(lesson.name)
+        val emoji = getEmojiLesson(lesson.name)?.emoji
         with(binding!!.toolbar) {
             collapsingtoolbarlayout.title = lesson.name
             toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
