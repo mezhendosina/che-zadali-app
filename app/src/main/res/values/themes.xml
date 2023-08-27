@@ -363,4 +363,10 @@
         <item name="elevationOverlayEnabled">false</item>
     </style>
 
+    <style name="Widget.SGOapp.Lesson.Emoji" parent="">
+        <item name="android:background">@drawable/shape_lesson_emoji</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryContainer</item>
+        <item name="android:padding">6dp</item>
+    </style>
+
 </resources>

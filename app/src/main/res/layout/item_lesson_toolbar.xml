@@ -41,12 +41,13 @@
 
         <ImageView
             android:id="@+id/expanded_icon"
+            style="@style/Widget.SGOapp.Lesson.Emoji"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_gravity="bottom"
             android:layout_marginStart="16dp"
-
             android:layout_marginBottom="8dp"
+            android:background="@drawable/shape_lesson_emoji"
             tool:src="@drawable/lesson_astronomy" />
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -63,9 +64,12 @@
 
             <ImageView
                 android:id="@+id/collapsed_icon"
+                style="@style/Widget.SGOapp.Lesson.Emoji"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/shape_lesson_emoji"
+                android:padding="4dp" />
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>

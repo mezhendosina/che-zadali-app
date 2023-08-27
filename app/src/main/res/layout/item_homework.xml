@@ -41,12 +41,10 @@
 
     <ImageView
         android:id="@+id/lesson_emoji"
+        style="@style/Widget.SGOapp.Lesson.Emoji"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:background="@drawable/shape_lesson_emoji"
-        android:backgroundTint="?attr/colorPrimaryContainer"
-        android:padding="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
