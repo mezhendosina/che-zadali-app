@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.data.netschool.api.diary
 
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.journal.DiaryModelRequestEntity
 import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.DiaryInitResponseEntity
@@ -30,7 +31,9 @@ class RetrofitDiarySource(config: RetrofitConfig) : BaseRetrofitSource(config), 
 
     override suspend fun diaryInit(): DiaryInitResponseEntity =
         wrapRetrofitExceptions {
-            diaryApi.diaryInit()
+            val resp = diaryApi.diaryInit()
+            if (resp.weight) Singleton.gradesWithWeight = true
+            resp
         }
 
     override suspend fun diary(diaryEntity: DiaryModelRequestEntity): DiaryResponseEntity =
