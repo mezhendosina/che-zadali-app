@@ -60,7 +60,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
             toolbar.title = viewModel.lesson?.subjectName ?: ""
             val lessonNameUiEntity = getEmojiLesson(viewModel.lesson?.subjectName ?: "")
-            setLessonEmoji(requireContext(), lessonNameUiEntity?.emoji)
+            setLessonEmoji(requireContext(), lessonNameUiEntity?.nameId)
 
             toolbar.setNavigationOnClickListener {
                 if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) findNavController().navigateUp()
