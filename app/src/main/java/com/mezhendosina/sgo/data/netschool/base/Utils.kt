@@ -18,6 +18,7 @@ package com.mezhendosina.sgo.data.netschool.base
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
+import com.mezhendosina.sgo.app.utils.getEmojiLesson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -53,6 +54,16 @@ fun ByteArray.toHex(): String {
 fun uriFromFile(context: Context, file: File): Uri? =
     FileProvider.getUriForFile(context, context.packageName + ".provider", file)
 
+fun String.shortcutLesson(lessonsName: List<String>): String {
+    if (lessonsName.count { it.contains(this) } > 1) {
+        return this
+    }
+    val lesson = getEmojiLesson(this)
+    if (lesson?.name != null) {
+        return lesson.name
+    }
+    return this
+}
 
 fun ResponseBody.downloadToFileWithProgress(file: File): Flow<Download> =
     flow {
