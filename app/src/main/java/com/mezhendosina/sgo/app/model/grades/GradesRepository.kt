@@ -17,6 +17,7 @@
 package com.mezhendosina.sgo.app.model.grades
 
 import com.mezhendosina.sgo.Singleton
+import com.mezhendosina.sgo.app.model.journal.DiarySource
 import com.mezhendosina.sgo.data.grades.GradesFromHtml
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
@@ -27,7 +28,8 @@ import kotlinx.coroutines.withContext
 typealias GradeActionListener = (grade: List<GradesItem>) -> Unit
 
 class GradesRepository(
-    private val gradesSource: GradesSource
+    private val gradesSource: GradesSource,
+    private val diarySource: DiarySource
 ) {
 
     private var grades = mutableListOf<GradesItem>()
@@ -75,6 +77,20 @@ class GradesRepository(
             notifyListeners()
         }
     }
+
+//    suspend fun loadGradesWithWeight(context: Context, gradesCalculator: GradesCalculator) {
+//        diarySource.diaryInit()
+//        val studentId = SettingsDataStore.CURRENT_USER_ID.getValue(context, -1)
+//        diarySource.diary(
+//            DiaryRequestEntity(
+//                studentId,
+//                "",
+//                "",
+//                true,
+//
+//            )
+//        )
+//    }
 
     fun addListener(listener: GradeActionListener) {
         listeners.add(listener)

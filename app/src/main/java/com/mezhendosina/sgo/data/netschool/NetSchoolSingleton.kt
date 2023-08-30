@@ -91,7 +91,7 @@ object NetSchoolSingleton {
     }
 
     val gradesRepository by lazy {
-        GradesRepository(gradesSource)
+        GradesRepository(gradesSource, diarySource)
     }
 
     val settingsRepository by lazy {

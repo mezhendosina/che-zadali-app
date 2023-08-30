@@ -62,7 +62,6 @@ class GradesViewModel(
     }
 
     suspend fun load(context: Context) {
-
         if (Singleton.grades.isNotEmpty() && Singleton.gradesRecyclerViewLoaded.value == false) {
             withContext(Dispatchers.Main) {
                 _grades.value = Singleton.grades
@@ -124,6 +123,7 @@ class GradesViewModel(
             }
         }
     }
+
 
     private suspend fun loadGrades(gradesOptions: GradeOptions, termID: String, sortType: Int) =
         withContext(Dispatchers.IO) {
