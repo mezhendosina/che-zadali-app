@@ -18,7 +18,6 @@ package com.mezhendosina.sgo.app.ui.settingsFlow
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,7 +29,6 @@ import com.mezhendosina.sgo.app.databinding.FragmentSettingsBinding
 import com.mezhendosina.sgo.app.ui.settingsFlow.changeControlQuestion.ChangeControlQuestionFragment
 import com.mezhendosina.sgo.app.ui.settingsFlow.changeEmail.ChangeEmailFragment
 import com.mezhendosina.sgo.app.ui.settingsFlow.changePhone.ChangePhoneFragment
-import com.mezhendosina.sgo.data.DateManipulation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -76,11 +74,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSettingsBinding.bind(view)
 
-        when (AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.MODE_NIGHT_NO -> binding.lightTheme.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_YES -> binding.darkTheme.isChecked = true
-            else -> binding.sameAsSystem.isChecked = true
-        }
 
         viewModel.loadProfilePhoto(
             requireContext(),
@@ -123,13 +116,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             )
         }
 
-        binding.changeDiaryDesign.setOnClickListener {
+        binding.changeTheme.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_changeDiaryStyleFragment)
         }
 
-        binding.changeThemeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            viewModel.changeTheme(checkedId, requireContext())
-        }
 
         binding.aboutApp.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_aboutAppFragment)
@@ -181,15 +171,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 it.middleName
             )
             binding.profileCard.userLogin.text = it.loginName
-            val birthday = DateManipulation(it.birthDate).dateFormatter()
-            binding.birthdayDate.text = birthday
 
-            if (!it.mobilePhone.isNullOrEmpty()) binding.phoneNumberValue.text =
+            binding.phoneNumberValue.text = if (!it.mobilePhone.isNullOrEmpty())
                 regex.replace(it.mobilePhone, "+$1 ($2) $3-$4$5")
-            else binding.phoneNumberValue.visibility = View.GONE
+            else getString(R.string.empty)
 
-            if (!it.email.isNullOrEmpty()) binding.emailValue.text = it.email
-            else binding.emailValue.visibility = View.GONE
+            binding.emailValue.text = if (!it.email.isNullOrEmpty()) it.email
+            else getString(R.string.empty)
         }
     }
 }

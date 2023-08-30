@@ -20,18 +20,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
-import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.activities.LoginActivity
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.editPreference
 import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
@@ -135,20 +132,6 @@ class SettingsViewModel(
 //            }
 //        }
 //    }
-
-    fun changeTheme(selectedThemeId: Int, context: Context) {
-        val themeId = when (selectedThemeId) {
-            R.id.light_theme -> AppCompatDelegate.MODE_NIGHT_NO
-            R.id.dark_theme -> AppCompatDelegate.MODE_NIGHT_YES
-            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            SettingsDataStore.THEME.editPreference(context, themeId)
-        }
-
-        AppCompatDelegate.setDefaultNightMode(themeId)
-    }
 
 //    suspend fun changeGradeNotifications(context: Context) {
 //        withContext(Dispatchers.Main) {

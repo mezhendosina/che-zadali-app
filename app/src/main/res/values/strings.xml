@@ -174,4 +174,6 @@
     <string name="hi">Привет!</string>
     <string name="you_in">Ты попал в</string>
     <string name="welcome_about">Неофициальный порт электронного дневника «Сетевой город. Образование» на Android</string>
+    <string name="theme">Тема</string>
+    <string name="empty">Не заполнено</string>
 </resources>
