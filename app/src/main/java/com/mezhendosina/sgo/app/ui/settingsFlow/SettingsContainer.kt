@@ -30,6 +30,7 @@ class SettingsContainer : Fragment(R.layout.container_settings) {
 
     lateinit var binding: ContainerSettingsBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
@@ -47,6 +48,7 @@ class SettingsContainer : Fragment(R.layout.container_settings) {
 
         val appBarConfiguration = AppBarConfiguration.Builder()
             .setFallbackOnNavigateUpListener {
+                this.activity?.onBackPressedDispatcher?.onBackPressed()
                 true
             }.build()
 
@@ -55,6 +57,15 @@ class SettingsContainer : Fragment(R.layout.container_settings) {
             navController,
             appBarConfiguration
         )
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.settingsFragment) {
+                binding.appBarLayout.setExpanded(true)
+            } else {
+                binding.appBarLayout.setExpanded(false)
+            }
+
+        }
         binding.toolbar.setNavigationOnClickListener { this.activity?.onBackPressedDispatcher?.onBackPressed() }
     }
 }

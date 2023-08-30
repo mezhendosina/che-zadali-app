@@ -229,16 +229,18 @@
     <style name="Widget.SGOApp.Button.Settings" parent="@style/Widget.Material3.Button.TextButton">
         <item name="android:gravity">start|center_vertical</item>
         <item name="textAllCaps">false</item>
-        <item name="android:textAppearance">@style/mainText</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.BodyLarge</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="iconGravity">start</item>
         <item name="iconSize">24dp</item>
         <item name="iconPadding">32dp</item>
         <item name="backgroundColor">?attr/colorSurface</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
         <item name="cornerRadius">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
         <item name="iconTint">?attr/colorOnBackground</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">24dp</item>
     </style>
 
 
@@ -354,9 +356,11 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingTop">8dp</item>
         <item name="android:minHeight">60dp</item>
-        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">24dp</item>
     </style>
 
     <style name="TopBarAddons" parent="Widget.Material3.Toolbar.Surface">
@@ -367,6 +371,12 @@
         <item name="android:background">@drawable/shape_lesson_emoji</item>
         <item name="android:backgroundTint">?attr/colorPrimaryContainer</item>
         <item name="android:padding">6dp</item>
+    </style>
+
+    <style name="Widget.SGOapp.Shimmer" parent="">
+        <item name="shimmer_base_color">?attr/colorOnBackground</item>
+        <item name="shimmer_duration">1500</item>
+        <item name="shimmer_repeat_mode">restart</item>
     </style>
 
 </resources>

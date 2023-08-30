@@ -130,6 +130,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         observeMySettings()
 //        observeGradesNotifications()
         observeErrors()
+        observeLoading()
     }
 
 //    private fun observeGradesNotifications() {
@@ -152,6 +153,23 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 //            binding.newGradeNotification.root.isClickable = !it
 //        }
 //    }
+
+    private fun observeLoading() {
+        viewModel.loading.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.phoneShimmer.startShimmer()
+                binding.emailShimmer.startShimmer()
+                binding.profileCardShimmer.root.visibility = View.VISIBLE
+                binding.profileCard.root.visibility = View.INVISIBLE
+
+            } else {
+                binding.phoneShimmer.hideShimmer()
+                binding.emailShimmer.hideShimmer()
+                binding.profileCard.root.visibility = View.VISIBLE
+                binding.profileCardShimmer.root.visibility = View.GONE
+            }
+        }
+    }
 
     private fun observeErrors() {
         viewModel.errorMessage.observe(viewLifecycleOwner) {

@@ -31,8 +31,13 @@
             layout="@layout/item_settings_profile_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/profile_card_shimmer"
+            layout="@layout/item_settings_profile_card_shimmer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -57,66 +62,41 @@
             app:layout_constraintTop_toBottomOf="@id/profile_card" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/birthday"
+            android:id="@+id/phone_number"
             style="@style/settingsButton.withCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:paddingHorizontal="18dp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/change_profile_photo">
 
             <TextView
-                android:id="@+id/birthday_header"
-                style="@style/mainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/birthday"
-                app:layout_constraintBottom_toTopOf="@id/birthday_date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/birthday_date"
-                style="@style/captions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textIsSelectable="false"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/birthday_header"
-                tools:text="22.09.2005" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/phone_number"
-            style="@style/settingsButton.withCaption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/birthday">
-
-            <TextView
                 android:id="@+id/phone_number_header"
-                style="@style/mainText"
+                style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/phone_number"
-                app:layout_constraintBottom_toTopOf="@id/phone_number_value"
+                app:layout_constraintBottom_toTopOf="@id/phone_shimmer"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/phone_number_value"
-                style="@style/captions"
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/phone_shimmer"
+                style="@style/Widget.SGOapp.Shimmer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="22.09.2005" />
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/phone_number_value"
+                    style="@style/captions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -125,29 +105,36 @@
             style="@style/settingsButton.withCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/phone_number">
 
             <TextView
-                android:id="@+id/email_header"
-                style="@style/mainText"
+                style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
-                app:layout_constraintBottom_toTopOf="@id/email_value"
+                app:layout_constraintBottom_toTopOf="@id/email_shimmer"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/email_value"
-                style="@style/captions"
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/email_shimmer"
+                style="@style/Widget.SGOapp.Shimmer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="22.09.2005" />
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/email_value"
+                    style="@style/captions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -156,14 +143,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="0dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingHorizontal="18dp"
             android:paddingVertical="16dp"
             android:text="@string/change_password"
-            app:icon="@drawable/ic_change_password"
             app:iconGravity="start"
-            app:iconPadding="16dp"
             app:layout_constraintTop_toBottomOf="@id/email" />
 
         <com.google.android.material.button.MaterialButton
@@ -171,15 +153,18 @@
             style="@style/Widget.SGOApp.Button.Settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingHorizontal="18dp"
             android:paddingVertical="16dp"
             android:text="@string/change_control_question"
-            app:icon="@drawable/ic_change_question"
-            app:iconGravity="start"
-            app:iconPadding="16dp"
             app:layout_constraintTop_toBottomOf="@id/change_password" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/change_theme"
+            style="@style/Widget.SGOApp.Button.Settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="16dp"
+            android:text="@string/theme"
+            app:layout_constraintTop_toBottomOf="@id/change_control_question" />
 
         <include
             android:id="@+id/new_grade_notification"
@@ -206,6 +191,7 @@
             android:id="@+id/change_theme_divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/change_diary_design" />
 
@@ -216,47 +202,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:text="@string/select_theme"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/change_theme_divider" />
-
-        <RadioGroup
-            android:id="@+id/change_theme_radio_group"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:paddingHorizontal="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/change_theme_header">
-
-            <RadioButton
-                android:id="@+id/light_theme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/light_theme" />
-
-            <RadioButton
-                android:id="@+id/dark_theme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/dark_theme" />
-
-            <RadioButton
-                android:id="@+id/same_as_system"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/same_as_system"
-                android:textColorHighlight="?attr/colorPrimary" />
-        </RadioGroup>
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/about_app_divider"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/change_theme_radio_group" />
 
         <Button
             android:id="@+id/about_app"
@@ -265,25 +213,22 @@
             android:layout_height="60dp"
             android:text="@string/about_app"
             android:textColor="?attr/colorOnBackground"
-            app:icon="@drawable/ic_info"
             app:iconTint="?attr/colorOnBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_app_divider" />
+            app:layout_constraintTop_toBottomOf="@id/change_theme" />
 
         <Button
             android:id="@+id/logout_button"
-            style="@style/Widget.SGOApp.Button.OutlinedButton"
+            style="@style/Widget.SGOApp.Button.Settings"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginTop="64dp"
             android:text="@string/logout"
-            android:textColor="?attr/colorOnErrorContainer"
-            app:icon="@drawable/ic_logout"
-            app:iconTint="?attr/colorOnErrorContainer"
+            android:textColor="?attr/colorError"
+            app:iconPadding="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_app" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
