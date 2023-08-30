@@ -67,6 +67,7 @@
                 android:id="@+id/item_why_grade"
                 layout="@layout/item_lesson_why_grade"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/send_homework" />
