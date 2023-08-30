@@ -57,7 +57,16 @@ fun ImageView.setupAsLessonEmoji(context: Context, lessonName: String) {
 
 
 fun ItemLessonToolbarBinding.addOnToolbarCollapseListener(emoji: Int?) {
-    if (emoji != null) {
+
+}
+
+fun ItemLessonToolbarBinding.setLessonEmoji(context: Context, lessonName: String?) {
+    if (lessonName != null) {
+        expandedIcon.setupAsLessonEmoji(context, lessonName)
+        collapsedIcon.setupAsLessonEmoji(context, lessonName)
+//        if (collapsingtoolbarlayout.lineCount > 1) {
+//
+//        }
         val fadeTransition = com.google.android.material.transition.MaterialFadeThrough()
         this.appbarlayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             TransitionManager.beginDelayedTransition(this.root, fadeTransition)
@@ -68,22 +77,14 @@ fun ItemLessonToolbarBinding.addOnToolbarCollapseListener(emoji: Int?) {
                     View.INVISIBLE
                 }
         }
-    }
-}
-
-fun ItemLessonToolbarBinding.setLessonEmoji(context: Context, lessonName: String?) {
-    if (lessonName != null) {
-        expandedIcon.setupAsLessonEmoji(context, lessonName)
-        collapsedIcon.setupAsLessonEmoji(context, lessonName)
-//        if (collapsingtoolbarlayout.lineCount > 1) {
-//
-//        }
     } else {
         expandedIcon.visibility = View.GONE
         collapsingtoolbarlayout.expandedTitleMarginStart =
             collapsingtoolbarlayout.expandedTitleMarginStart
         collapsedIcon.visibility = View.GONE
     }
+
+
 }
 
 object Lessons {
