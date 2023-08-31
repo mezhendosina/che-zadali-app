@@ -25,6 +25,10 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerSettingsBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SettingsContainer : Fragment(R.layout.container_settings) {
 
@@ -59,13 +63,16 @@ class SettingsContainer : Fragment(R.layout.container_settings) {
         )
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.settingsFragment) {
-                binding.appBarLayout.setExpanded(true)
-            } else {
-                binding.appBarLayout.setExpanded(false)
+            CoroutineScope(Dispatchers.Main).launch {
+                if (destination.id == R.id.settingsFragment) {
+                    binding.appBarLayout.setExpanded(true)
+                    delay(100)
+                } else {
+                    binding.appBarLayout.setExpanded(false)
+                    delay(200)
+                }
+                binding.collapsingtoolbarlayout.title = destination.label
             }
-
         }
-        binding.toolbar.setNavigationOnClickListener { this.activity?.onBackPressedDispatcher?.onBackPressed() }
     }
 }
