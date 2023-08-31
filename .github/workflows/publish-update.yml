@@ -108,7 +108,7 @@ jobs:
         run: echo last_tag=${{ steps.fetch-latest-release.outputs.tag_name }} << $GITHUB_OUTPUT
       - name: Check release tag
         id: check-release-tag
-        run: echo is_update=${{ steps.get-release-tag.outputs.last_tag }} == ${{ needs.get-apk-version.outputs.apk-version-name }} << $GITHUB_OUTPUT
+        run: echo is_update=${{ steps.get-release-tag.outputs.last_tag }} != ${{ needs.get-apk-version.outputs.apk-version-name }} << $GITHUB_OUTPUT
 
   send-to-channel:
     needs: [ prepare-release-notes, get-apk-version ]
