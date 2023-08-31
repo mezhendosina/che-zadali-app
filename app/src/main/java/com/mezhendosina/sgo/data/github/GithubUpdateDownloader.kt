@@ -42,7 +42,7 @@ class GithubUpdateDownloader(retrofitConfig: RetrofitConfig) : BaseRetrofitSourc
     fun downloadUpdate(
         context: Context,
         url: String,
-        onProgressChanged: (progress: Int, id: Int) -> Unit
+        onProgressChanged: (progress: Int, uri: Uri?) -> Unit
     ) {
         val urlToUri = Uri.parse(url)
         val r = DownloadManager.Request(urlToUri)
@@ -60,7 +60,11 @@ class GithubUpdateDownloader(retrofitConfig: RetrofitConfig) : BaseRetrofitSourc
                         val bytesTotal =
                             cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
                         val progress = (bytesDownloaded * 100L / bytesTotal).toInt()
-                        onProgressChanged.invoke(progress, -1)
+                        val id = cursor.getColumnIndex(DownloadManager.COLUMN_ID)
+                        onProgressChanged.invoke(
+                            progress,
+                            manager.getUriForDownloadedFile(cursor.getLong(id))
+                        )
                     }
                 }
             }

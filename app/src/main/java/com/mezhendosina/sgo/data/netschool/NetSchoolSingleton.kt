@@ -17,6 +17,7 @@
 package com.mezhendosina.sgo.data.netschool
 
 import androidx.lifecycle.MutableLiveData
+import com.mezhendosina.sgo.app.model.ContainerRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
 import com.mezhendosina.sgo.app.model.answer.AnswerRepository
@@ -100,6 +101,10 @@ object NetSchoolSingleton {
 
     val githubUpdateDownloader by lazy {
         sourcesProvider.getGithubUpdateDownloader()
+    }
+
+    val containerRepository by lazy {
+        ContainerRepository()
     }
 
     val attachmentsRepository by lazy {
