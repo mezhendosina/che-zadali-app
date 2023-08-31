@@ -20,33 +20,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:transitionName="@string/grade_item_details_transition_name"
-    tools:context=".ui.gradeItem.GradeItemFragment">
+    tools:context=".ui.gradesFlow.gradeItem.GradeItemFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        style="@style/AppBarLayout"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/item_lesson_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingtoolbarlayout"
-            android:layout_width="match_parent"
-            android:layout_height="158dp"
-            app:expandedTitleMarginBottom="32dp"
-            app:expandedTitleMarginStart="16dp"
-            app:expandedTitleTextAppearance="@style/expandedToolBarText"
-            app:extraMultilineHeightEnabled="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:maxLines="3">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="?actionBarSize"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:navigationIconTint="?attr/colorOnBackground"
-                tools:title="Русский язык" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"

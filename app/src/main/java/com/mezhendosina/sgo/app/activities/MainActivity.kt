@@ -16,18 +16,11 @@
 
 package com.mezhendosina.sgo.app.activities
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
-import android.widget.FrameLayout
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -39,7 +32,8 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
-import com.mezhendosina.sgo.app.ui.errorDialog
+import com.mezhendosina.sgo.app.utils.errorDialog
+import com.mezhendosina.sgo.app.utils.setupStatusBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,19 +55,21 @@ class MainActivity : AppCompatActivity() {
         ) {
             super.onFragmentCreated(fm, f, savedInstanceState)
             if (f.findNavController() != navController) navController = f.findNavController()
+            println("start destination ${navController?.graph?.startDestDisplayName}")
+
         }
     }
     private lateinit var analytics: FirebaseAnalytics
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (navController?.currentDestination?.id == navController?.graph?.startDestinationId) {
-                finish()
-            } else {
-                navController?.enableOnBackPressed(true)
-            }
-        }
-    }
+//    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+//        override fun handleOnBackPressed() {
+//            if (navController?.currentDestination?.id == R.id.journalFragment) {
+//                finish()
+//            } else {
+//                navController?.navigateUp()
+//            }
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,9 +100,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
-        onBackPressedDispatcher.addCallback(onBackPressedCallback)
-
-        setupStatusBar()
+//        onBackPressedDispatcher.addCallback(onBackPressedCallback)
+        setupStatusBar(binding.container)
     }
 
     override fun onRestart() {
@@ -127,25 +122,9 @@ class MainActivity : AppCompatActivity() {
         Singleton.journalTabsLayout = null
     }
 
-    private fun setupStatusBar() {
-        window.statusBarColor = Color.TRANSPARENT
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
-
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                leftMargin = insets.left
-                bottomMargin = insets.bottom
-                rightMargin = insets.right
-            }
-
-            WindowInsetsCompat.CONSUMED
-        }
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
+    override fun onBackPressed() {
+        if (navController?.currentDestination?.id == navController?.graph?.startDestinationId) super.onBackPressed()
+        else navController?.popBackStack()
     }
 }

@@ -21,7 +21,7 @@
     <string name="announcements">Объявления</string>
     <string name="grades">Оценки</string>
     <string name="login">Логин</string>
-    <string name="login_title">Вход</string>
+    <string name="login_title">Введите логин и пароль</string>
     <string name="password">Пароль</string>
     <string name="selected_school">Выбранная школа</string>
     <string name="start_typing">Начните вводить…</string>
@@ -46,7 +46,7 @@
     <string name="why_grade">За что оценка?</string>
     <string name="teacher_comment">Подробности от учителя</string>
     <string name="past_mandatory_header">Есть просроченные задания</string>
-    <string name="choose_school">Выберите школу</string>
+    <string name="choose_school">Выбери школу</string>
     <string name="author">Автор</string>
     <string name="change_profile_photo">Изменить аватарку</string>
     <string name="birthday">Дата рождения</string>
@@ -88,7 +88,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="duty_mark">Просроченное задание</string>
-    <string name="retry_button">Повторить</string>
+    <string name="retry_button">Повторить попытку</string>
     <string name="send_file">Загрузить файл</string>
     <string name="replace_file">Заменить файл</string>
     <string name="edit_description">Изменить описание</string>
@@ -99,8 +99,8 @@
     <string name="current_year">Текущий учебный год</string>
     <string name="change_email">Изменить email</string>
     <string name="change_phone_number">Изменить номер телефона</string>
-    <string name="choose_year">Выберите год</string>
-    <string name="choose_user">Выберите пользователя</string>
+    <string name="choose_year">Выбери год</string>
+    <string name="choose_user">Выбери пользователя</string>
 
     <string name="test_announcements_item">Общероссийская олимпиада школьников РАНХиГС по обществознанию, английскому языку, немецкому языку, китайскому языку, истории, журналистике, политологии, экономике и финансовой грамотности.
 
@@ -119,7 +119,7 @@
     <string name="special_thanks">Даниилу Барменкову\nВячеславу Сумину\nМарии Левчановой\nhttps://github.com/ArtemBay</string>
     <string name="telegram_channel">Telegram-канал приложения</string>
     <string name="github_repo">GitHub-репозиторий</string>
-    <string name="choose_region">Выберите регион</string>
+    <string name="choose_region">Выбери регион</string>
     <string name="not_found_question">Не нашел своего региона в списке? Напиши сюда!</string>
     <string name="grade_calculator_header">Сколько оценок до…</string>
     <string name="or">или</string>
@@ -139,7 +139,8 @@
     <string name="sgo_app_logo">Логотип SGO app</string>
     <string name="file_icon">Иконка файла</string>
     <string name="copy_text">Скоприровать в буфер обмена</string>
-    <string name="edit_text_answer">Изменить ответ</string>
+    <string name="edit_answer">Изменить ответ</string>
+    <string name="add_answer">Отправить ответ на задание</string>
     <string name="main_icon">Иконка приложения</string>
     <string name="app_version">v %1$s</string>
     <string name="publication_date">Дата публикации: %1$s</string>
@@ -154,8 +155,25 @@
     <string name="grade_item_transition_name">grade_item_%1$s</string>
     <string name="lesson_item_transition_name">lesson_item_%1$s</string>
     <string name="lesson_item_details_transition_name">lesson_item_destination</string>
+    <string name="grades_title_with_year">Оценки за %1$s</string>
     <string name="app_web_site">Сайт приложения</string>
     <string name="diawry_with_drawable">Карточками</string>
     <string name="diary_as_list">Списком</string>
     <string name="diary_settings">Дневник</string>
+    <string name="find_school">Поиск школы</string>
+    <string name="continue_">Продолжить</string>
+    <string name="answer_text_warning">Это поле можно оставить пустым</string>
+    <string name="answer_sended">Ответ отправлен</string>
+    <string name="week_without_lessons">На этой неделе уроков нет</string>
+    <string name="without_announcements">Объявлений нет</string>
+    <string name="show_lessons_as">Отображение уроков в дневнике</string>
+    <string name="logged_in_via_esia">Вход через ГосУслуги выполнен!</string>
+    <string name="selected_grade_period">Выбранный период</string>
+    <string name="signin_with_login_password">Войти с помощью логина и пароля</string>
+    <string name="signin_via_gosuslugi">Войти через Госуслуги</string>
+    <string name="hi">Привет!</string>
+    <string name="you_in">Ты попал в</string>
+    <string name="welcome_about">Неофициальный порт электронного дневника «Сетевой город. Образование» на Android</string>
+    <string name="theme">Тема</string>
+    <string name="empty">Не заполнено</string>
 </resources>

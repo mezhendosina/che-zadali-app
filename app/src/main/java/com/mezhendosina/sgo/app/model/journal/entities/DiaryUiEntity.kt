@@ -16,10 +16,10 @@
 
 package com.mezhendosina.sgo.app.model.journal.entities
 
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.Mark
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.TextAnswer
-import com.mezhendosina.sgo.data.requests.sgo.homework.entities.AttachmentsResponseEntity
+import com.mezhendosina.sgo.app.uiEntities.MarkUiEntity
+import com.mezhendosina.sgo.data.netschool.api.attachments.entities.AttachmentsResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.TextAnswer
 
 data class DiaryUiEntity(
     val weekDays: List<WeekDayUiEntity>,
@@ -44,17 +44,76 @@ data class LessonUiEntity(
     val relay: Int,
     val startTime: String,
     val subjectName: String
-)
+) {
+    fun addHomework(homework: AssignmentUiEntity) = LessonUiEntity(
+        assignments,
+        homework,
+        classmeetingId,
+        day,
+        endTime,
+        isEaLesson,
+        number,
+        relay,
+        startTime,
+        subjectName
+    )
+
+    fun addWhyGrades(marks: List<MarkUiEntity>): LessonUiEntity {
+        val outAssignments =
+            mutableListOf<AssignmentUiEntity>()
+        assignments?.forEach { assign ->
+            val mark = marks.firstOrNull { it.id == assign.id }
+            if (mark != null) {
+                outAssignments.add(
+                    AssignmentUiEntity(
+                        assign.assignmentName,
+                        assign.classMeetingId,
+                        assign.dueDate,
+                        assign.id,
+                        mark,
+                        assign.textAnswer,
+                        assign.typeId,
+                        assign.weight,
+                        assign.attachments
+                    )
+                )
+            } else {
+                outAssignments.add(assign)
+            }
+        }
+        return LessonUiEntity(
+            outAssignments,
+            homework,
+            classmeetingId,
+            day,
+            endTime,
+            isEaLesson,
+            number,
+            relay,
+            startTime,
+            subjectName
+        )
+    }
+}
 
 data class AssignmentUiEntity(
     val assignmentName: String,
     val classMeetingId: Int,
     val dueDate: String,
     val id: Int,
-    val mark: Mark?,
-    val markComment: String?,
+    val mark: MarkUiEntity?,
     val textAnswer: TextAnswer?,
     val typeId: Int,
     val weight: Int,
     val attachments: List<AttachmentsResponseEntity>
 )
+//
+//data class MarkUiEntity(
+//    val assignId: Int,
+//    val assignName: String,
+//    val comment: String?,
+//    val mark: Int,
+//    val dutyMark: Boolean,
+//    val resultScore: Int,
+//    val typeId: Int,
+//)

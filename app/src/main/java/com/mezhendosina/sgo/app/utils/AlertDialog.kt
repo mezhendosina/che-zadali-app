@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.ui
+package com.mezhendosina.sgo.app.utils
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

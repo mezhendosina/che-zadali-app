@@ -9,31 +9,7 @@ plugins {
 }
 
 android {
-
-//    lint {
-//        baseline = file("lint-baseline.xml")
-//    }
-
-
-    compileSdk 33
-
-    defaultConfig {
-        applicationId "com.mezhendosina.sgo.app"
-        minSdk 24
-        targetSdk 33
-        versionCode 34
-        versionName '2.5.0'
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-//        kapt {
-//            arguments {
-//                arg("room.shemaLocation", "$projectDir/schemas")
-//            }
-//        }
-        signingConfig signingConfigs.debug
-    }
-
+    compileSdk 34
     signingConfigs {
         release {
             def keystoreProperties = new Properties()
@@ -53,6 +29,28 @@ android {
             }
         }
     }
+    defaultConfig {
+        applicationId "com.mezhendosina.sgo.app"
+        minSdk 24
+        targetSdk 33
+        versionCode 35
+        versionName '3.0.0'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+//        kapt {
+//            arguments {
+//                arg("room.shemaLocation", "$projectDir/schemas")
+//            }
+//        }
+        signingConfig signingConfigs.debug
+    }
+
+
+//    lint {
+//        baseline = file("lint-baseline.xml")
+//    }
+
 
     buildTypes {
         debug {
@@ -81,22 +79,23 @@ android {
     buildFeatures {
         viewBinding true
     }
+
     namespace 'com.mezhendosina.sgo.app'
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.aar"])
 
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.fragment:fragment-ktx:1.5.5'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.4'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -123,7 +122,7 @@ dependencies {
 //    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     // viewpager 2
-    implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
+    implementation "androidx.viewpager2:viewpager2:1.1.0-beta02"
 
     // markdown support
     implementation "io.noties.markwon:core:$markwon_version"
@@ -153,7 +152,7 @@ dependencies {
     implementation 'com.tinder.scarlet:scarlet:0.1.12'
 
     // Splashscreen api
-    implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // Room
 //    implementation "androidx.room:room-runtime:$room_version"
@@ -166,9 +165,15 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // check memory leaks
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
+    // Blur
+//    implementation 'jp.wasabeef:blurry:4.0.1'
 
 //    // netschoolapi
 //    implementation 'io.github.theentropyshard:netschoolapi:1.0'
+
+    // get color pallete from image
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+
 }

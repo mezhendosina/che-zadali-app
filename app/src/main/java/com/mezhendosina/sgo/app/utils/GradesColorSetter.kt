@@ -48,7 +48,7 @@ fun Float.toGradeType(): Int {
 }
 
 fun ItemGradeValueBinding.setupWithBackground(context: Context, gradeType: Int, grade: String) {
-    this.root.setupGradeBackground(gradeType)
+    this.root.setupGradeBackground(context, gradeType)
     this.setupGrade(context, gradeType, grade, true)
 }
 
@@ -71,7 +71,7 @@ fun ItemGradeValueBinding.setupGrade(
 }
 
 
-fun View.setupGradeBackground(gradeType: Int) {
+fun View.setupGradeBackground(context: Context, gradeType: Int) {
     this.setBackgroundResource(
         when (gradeType) {
             GradesType.GOOD_GRADE -> R.drawable.shape_good_grade
@@ -80,6 +80,7 @@ fun View.setupGradeBackground(gradeType: Int) {
             else -> 0
         }
     )
+//    Blurry.with(context).capture(this)
 }
 
 fun TextView.setupColorWithGrade(context: Context, gradeType: Int) {

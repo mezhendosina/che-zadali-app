@@ -14,157 +14,127 @@
   ~ limitations under the License.
   -->
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
     android:transitionGroup="true"
-    tool:context=".ui.announcements.AnnouncementsFragment">
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+    tool:context=".ui.announcementsFlow.announcementsItem.AnnouncementsItemFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbarlayout"
-        style="@style/AppBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:fitsSystemWindows="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingtoolbarlayout"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:nestedScrollingEnabled="true"
-            app:expandedTitleMarginStart="16dp"
-            app:expandedTitleTextAppearance="@style/announcementsToolBarText"
-            app:extraMultilineHeightEnabled="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:maxLines="10">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="0dp"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:navigationIconTint="?attr/colorOnBackground"
-                tool:title="Олимпиада РАНХиГС" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:animateLayoutChanges="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true">
-
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-            <TextView
-                android:id="@+id/homework_body"
-                style="@style/mainText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
-                android:autoLink="all"
-                android:background="@null"
-                android:textIsSelectable="true"
-                android:transitionName="announcement_body"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tool:text="@string/test_announcements_item" />
+        <!--        <WebView-->
+        <!--            android:id="@+id/homework_body"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:transitionName="announcement_body"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <TextView
+            android:id="@+id/homework_body"
+            style="@style/mainText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:autoLink="all"
+            android:background="@null"
+            android:textIsSelectable="true"
+            android:transitionName="announcement_body"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tool:text="@string/test_announcements_item" />
 
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/attachments_divider"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homework_body" />
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/attachments_divider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/homework_body" />
 
-            <include
-                android:id="@+id/attachments_list"
-                layout="@layout/item_attachments_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/attachments_divider" />
+        <include
+            android:id="@+id/attachments_list"
+            layout="@layout/item_attachments_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/attachments_divider" />
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/author_divider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/attachments_list" />
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/author_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/attachments_list" />
 
-            <TextView
-                android:id="@+id/author_header"
-                style="@style/captions.headers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/author"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/author_divider" />
+        <TextView
+            android:id="@+id/author_header"
+            style="@style/captions.headers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/author"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/author_divider" />
 
-            <ImageView
-                android:id="@+id/author_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:contentDescription="@string/author_profile_photo"
-                android:paddingTop="20dp"
-                android:paddingBottom="16dp"
-                android:src="@drawable/profile_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/author_header" />
+        <ImageView
+            android:id="@+id/author_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/author_profile_photo"
+            android:paddingTop="20dp"
+            android:paddingBottom="16dp"
+            android:src="@drawable/profile_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/author_header" />
 
-            <TextView
-                android:id="@+id/author"
-                style="@style/mainText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textIsSelectable="true"
-                app:layout_constraintBottom_toBottomOf="@id/author_image"
-                app:layout_constraintStart_toEndOf="@id/author_image"
-                app:layout_constraintTop_toTopOf="@id/author_image"
-                tool:text="Нафикова Елена Владимировна" />
+        <TextView
+            android:id="@+id/author"
+            style="@style/mainText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textIsSelectable="true"
+            app:layout_constraintBottom_toBottomOf="@id/author_image"
+            app:layout_constraintStart_toEndOf="@id/author_image"
+            app:layout_constraintTop_toTopOf="@id/author_image"
+            tool:text="Нафикова Елена Владимировна" />
 
 
-            <TextView
-                android:id="@+id/date"
-                style="@style/TextAppearance.MaterialComponents.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textIsSelectable="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/author_image"
-                tool:text="Дата публикации: 12.01.22 12:50" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <TextView
+            android:id="@+id/date"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textIsSelectable="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/author_image"
+            tool:text="Дата публикации: 12.01.22 12:50" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

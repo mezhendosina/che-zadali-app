@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import com.mezhendosina.sgo.app.R
 
 
 class DividerItemDecoration : ItemDecoration {
@@ -45,8 +46,10 @@ class DividerItemDecoration : ItemDecoration {
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        val left = 41
-        val right = parent.width - 41
+        val left =
+            parent.context.resources.getDimensionPixelSize(R.dimen.recyclerview_divider_margin_start)
+        val right =
+            parent.width - parent.context.resources.getDimensionPixelSize(R.dimen.recyclerview_divider_margin_end)
         val childCount = parent.childCount
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)

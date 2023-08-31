@@ -25,7 +25,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:visibility="gone"
         app:dividerThickness="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +38,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/why_grade"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/why_grade_divider" />
 
@@ -50,7 +48,6 @@
         android:layout_marginTop="8dp"
         android:nestedScrollingEnabled="true"
         android:overScrollMode="never"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/why_grade_header"

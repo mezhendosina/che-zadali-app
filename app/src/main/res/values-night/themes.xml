@@ -53,6 +53,7 @@
         <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
         <item name="colorOutline">@color/md_theme_dark_outline</item>
+        <item name="colorOutlineVariant">@color/md_theme_dark_outlineVariant</item>
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorGoodGrade">@color/dark_good_grade</item>
@@ -94,7 +95,5 @@
         <item name="android:textColor">?attr/colorError</item>
     </style>
 
-    <style name="bottomBar" parent="Widget.Material3.BottomNavigationView">
-        <item name="elevation">0dp</item>
-    </style>
+    <style name="Widget.SGOApp.BottomBar" parent="Widget.Material3.BottomNavigationView" />
 </resources>

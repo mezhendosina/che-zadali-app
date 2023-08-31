@@ -19,7 +19,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".activities.LoginActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -31,25 +30,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingtoolbarlayout"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="158dp"
-
-            android:nestedScrollingEnabled="true"
-            app:expandedTitleMarginStart="16dp"
-            app:expandedTitleTextAppearance="@style/expandedToolBarText"
-            app:extraMultilineHeightEnabled="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:maxLines="3">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:elevation="0dp"
-                app:navigationIconTint="?attr/colorPrimary" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            android:layout_height="?actionBarSize"
+            android:elevation="0dp"
+            app:navigationIconTint="?attr/colorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
 

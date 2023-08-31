@@ -26,6 +26,8 @@ open class AppException : RuntimeException {
 class ConnectionException(cause: Throwable) : AppException(cause = cause)
 class TimeOutError(cause: Throwable) : AppException(cause = cause)
 
+class PermissionNotGranted : RuntimeException()
+
 /**
  * Server error exception
  */
@@ -36,6 +38,7 @@ open class BackendException(
 class ParseBackendResponseException(
     cause: Throwable
 ) : AppException(cause = cause)
+
 
 fun Exception.toDescription(): String {
     println(this.stackTraceToString())

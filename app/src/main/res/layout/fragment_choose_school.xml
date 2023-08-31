@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2023 Eugene Menshenin
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="?android:attr/colorBackground"
+    tools:context=".ui.loginFlow.chooseSchool.ChooseSchoolFragment">
+
+    <!--    <com.google.android.material.appbar.AppBarLayout-->
+    <!--        style="@style/AppBarLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:background="?android:attr/colorBackground"-->
+    <!--        android:layout_height="wrap_content">-->
+
+    <!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="200dp"-->
+    <!--            android:background="?android:attr/colorBackground"-->
+    <!--            android:fitsSystemWindows="true"-->
+    <!--            app:collapsedTitleGravity="center_vertical"-->
+    <!--            app:expandedTitleGravity="center_horizontal"-->
+    <!--            app:expandedTitleMarginTop="140dp"-->
+
+    <!--            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"-->
+    <!--            app:title="@string/choose_school">-->
+
+    <!--            <com.google.android.material.appbar.MaterialToolbar-->
+    <!--                android:id="@+id/header"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:background="?android:attr/colorBackground"-->
+    <!--                android:layout_height="?attr/actionBarSize"-->
+    <!--                app:layout_collapseMode="pin">-->
+
+    <!--                <ImageView-->
+    <!--                    android:id="@+id/collapsed_target"-->
+    <!--                    android:layout_width="40dp"-->
+    <!--                    android:layout_height="40dp"-->
+    <!--                    android:layout_gravity="center_vertical"-->
+    <!--                    android:layout_marginBottom="16dp" />-->
+    <!--            </com.google.android.material.appbar.MaterialToolbar>-->
+
+    <!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
+    <!--    </com.google.android.material.appbar.AppBarLayout>-->
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/ic_school"
+                android:layout_width="184dp"
+                android:layout_height="184dp"
+                android:src="@drawable/ic_school"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/header"
+                style="@style/TextAppearance.SGOApp.Login.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_school"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ic_school" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/choose_school_text_view"
+                style="@style/Widget.SGOApp.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@null"
+                app:endIconDrawable="@drawable/ic_search"
+                app:endIconMode="custom"
+                app:endIconScaleType="centerInside"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/school_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/find_school"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/choose_school_text_view" />
+
+            <include
+                android:id="@+id/load_error"
+                layout="@layout/item_load_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/school_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_indicator"
+                tools:listitem="@layout/item_school" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="158dp"-->
+    <!--        android:layout_height="158dp"-->
+    <!--        android:layout_gravity="top|center_horizontal"-->
+    <!--        android:elevation="8dp"-->
+    <!--        android:src="@drawable/ic_school"-->
+    <!--        app:collapsedTarget="@id/collapsed_target"-->
+    <!--        app:layout_behavior=".ui.loginFlow.chooseSchool.ChooseSchoolImageBehavior" />-->
+
+    <FrameLayout
+        android:id="@+id/button_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button"
+            style="@style/Widget.SGOApp.Button.Login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:text="@string/continue_"
+            android:visibility="gone"
+            app:icon="@drawable/ic_arrow_forward" />
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

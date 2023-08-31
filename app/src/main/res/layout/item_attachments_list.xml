@@ -14,11 +14,12 @@
   ~ limitations under the License.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/attachments_header"
@@ -34,15 +35,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/attachments_list_recycler_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:background="@drawable/shape_attachments"
         android:paddingVertical="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/attachments_header"
         tools:itemCount="2"
         tools:listitem="@layout/item_attachment" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

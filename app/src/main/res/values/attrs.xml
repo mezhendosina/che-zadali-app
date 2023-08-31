@@ -25,4 +25,9 @@
     <attr name="colorMidGradeContainer" format="color" />
     <attr name="colorOnMidGradeContainer" format="color" />
     <attr name="harmonizeMidGrade" format="boolean" />
+
+    <declare-styleable name="ChooseSchoolImageBehavior">
+        <attr name="collapsedTarget" format="reference" />
+    </declare-styleable>
+
 </resources>

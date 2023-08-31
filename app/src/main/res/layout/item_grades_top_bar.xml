@@ -2,7 +2,8 @@
   ~ Copyright 2023 Eugene Menshenin
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
+  ~ you may not use this file except in comp        android:gravity="center"
+liance with the License.
   ~ You may obtain a copy of the License at
   ~
   ~     http://www.apache.org/licenses/LICENSE-2.0
@@ -14,42 +15,44 @@
   ~ limitations under the License.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="4dp">
+    android:layout_marginVertical="4dp"
+    android:background="@android:color/transparent"
+    android:scrollbars="none">
 
-    <Button
-        android:id="@+id/term_selector"
-        style="@style/Widget.SGOApp.Button.OutlinedButton"
+    <com.google.android.material.chip.ChipGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:icon="@drawable/ic_expand_more"
-        app:iconGravity="textEnd"
-        app:iconSize="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:color/transparent"
+        android:isScrollContainer="true"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="1 триместр" />
+        app:singleLine="true">
 
-    <Button
-        android:id="@+id/sort_grades_button"
-        style="@style/Widget.SGOApp.Button.OutlinedButton.IconOnly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:insetLeft="16dp"
-        android:insetTop="12dp"
-        android:insetRight="16dp"
-        android:insetBottom="12dp"
-        app:icon="@drawable/ic_sort"
-        app:iconGravity="start|end|textStart"
-        app:iconSize="24dp"
-        app:iconTint="?attr/colorOnBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/term"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1 триместр" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2022/2023 год" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/sort_grades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipIcon="@drawable/ic_sort"
+            app:chipIconTint="?attr/colorOnSurface"
+            tools:text="По огромной огромной оценке" />
+    </com.google.android.material.chip.ChipGroup>
+</HorizontalScrollView>

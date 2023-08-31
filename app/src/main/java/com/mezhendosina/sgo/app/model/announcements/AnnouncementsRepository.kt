@@ -17,7 +17,7 @@
 package com.mezhendosina.sgo.app.model.announcements
 
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

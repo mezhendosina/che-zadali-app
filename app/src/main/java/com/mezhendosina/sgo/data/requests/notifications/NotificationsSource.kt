@@ -17,7 +17,7 @@
 package com.mezhendosina.sgo.data.requests.notifications
 
 import com.google.gson.Gson
-import com.mezhendosina.sgo.data.requests.sgo.base.RetrofitConfig
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

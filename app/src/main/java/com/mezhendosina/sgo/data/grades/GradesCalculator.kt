@@ -16,9 +16,16 @@
 
 package com.mezhendosina.sgo.data.grades
 
-import com.mezhendosina.sgo.app.ui.gradeItem.GradeItemFragment
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
-import kotlin.math.roundToInt
+import androidx.lifecycle.MutableLiveData
+import com.mezhendosina.sgo.app.ui.gradesFlow.gradeItem.GradeItemFragment
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 data class CalculateGradeItem(
     val countFive: Int,
@@ -77,42 +84,46 @@ data class CalculateGradeItem(
         )
 }
 
-@Deprecated("New calculate grade method available")
-class GradesCalculator(
-    private val gradesItem: GradesItem
-) {
-    fun autoCalculateGrade(
-        changeTo: Float
-    ): CalculateGradeItem {
-        val changeGradeItem = mutableListOf(0, 0, 0)
-        if (changeTo <= 2.5f) {
-            changeGradeItem[0] = doCalc(FIVE_GRADE, changeTo)
-            changeGradeItem[1] = doCalc(FOUR_GRADE, changeTo)
-            changeGradeItem[2] = doCalc(THREE_GRADE, changeTo)
-        } else if (changeTo <= 4.0f) {
-            changeGradeItem[0] = doCalc(FIVE_GRADE, changeTo)
-            changeGradeItem[1] = doCalc(FOUR_GRADE, changeTo)
-        } else if (changeTo > 4.0f)
-            changeGradeItem[0] = doCalc(FIVE_GRADE, changeTo)
+data class GradeItem(
+    val value: Int,
+    val weight: Int
+)
 
-        return CalculateGradeItem(
-            changeGradeItem[0],
-            changeGradeItem[1],
-            changeGradeItem[2],
-            gradesItem.two ?: 0
-        )
+class GradesCalculator(initGradesList: List<GradeItem>?) {
+
+    val avgGrade = MutableLiveData<Float?>()
+    val gradeList = MutableStateFlow(initGradesList ?: emptyList())
+
+    init {
+        CoroutineScope(Dispatchers.IO).launch {
+            gradeList.collect {
+                calculateGrade()
+            }
+        }
     }
 
-    // formula created by https://github.com/0ladyshek
-    private fun doCalc(i: Int, changeTo: Float): Int {
-        return ((gradesItem.countGrades() * (gradesItem.avgGrade() - changeTo)) / (changeTo - i)).roundToInt()
+    private suspend fun calculateGrade() {
+        withContext(Dispatchers.Main) {
+            avgGrade.value = null
+        }
+        var sumGrades = 0
+        var sumWeight = 0
+        gradeList.last().forEach {
+            withContext(Dispatchers.Main) {
+                sumGrades += it.value * it.weight
+                sumWeight += it.weight
+            }
+        }
+        withContext(Dispatchers.Main) {
+            avgGrade.value = (sumGrades / sumWeight).toFloat()
+        }
     }
 
-    companion object {
-        const val FIVE_GRADE = 5
-        const val FOUR_GRADE = 4
-        const val THREE_GRADE = 3
+    fun addGrade(grade: GradeItem) {
+        gradeList.update { it.plus(grade) }
+    }
+
+    fun deleteGrade(grade: GradeItem) {
+        gradeList.update { it.minus(grade) }
     }
 }
-
-

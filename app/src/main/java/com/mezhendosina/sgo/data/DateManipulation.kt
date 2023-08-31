@@ -49,10 +49,8 @@ fun dateToRussian(date: String): String {
     val a = SimpleDateFormat("yyyy-MM-dd'T'00:00:00").parse(date)
     val locale = Locale("ru", "RU")
 
-    return SimpleDateFormat("EEEE, dd MMMM", locale).format(a!!).replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase(
-            Locale.getDefault()
-        ) else it.toString()
+    return SimpleDateFormat("EEEE, d MMMM", locale).format(a!!).replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
     }
 }
 
@@ -67,8 +65,8 @@ fun getWeeksList(): List<WeekStartEndEntity> {
 
     minusWeekCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
     plusWeekCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-    while (minusWeekCalendar[Calendar.MONTH] != 7 || plusWeekCalendar[Calendar.MONTH] != 6) {
-        if (minusWeekCalendar[Calendar.MONTH] != 7) {
+    while (minusWeekCalendar[Calendar.MONTH] != Calendar.AUGUST || plusWeekCalendar[Calendar.MONTH] != Calendar.SEPTEMBER) {
+        if (minusWeekCalendar[Calendar.MONTH] != Calendar.AUGUST) {
             minusWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1)
             val weekStart = minusWeekCalendar.dateToSting()
             val weekEnd = minusWeekCalendar.getWeekEnd()
@@ -81,7 +79,7 @@ fun getWeeksList(): List<WeekStartEndEntity> {
                 )
             )
         }
-        if (plusWeekCalendar[Calendar.MONTH] != 6) {
+        if (plusWeekCalendar[Calendar.MONTH] != Calendar.SEPTEMBER) {
             val weekStart = plusWeekCalendar.dateToSting()
             val weekEnd = plusWeekCalendar.getWeekEnd()
             outList.add(
@@ -125,12 +123,11 @@ fun tabDate(date: String): String {
     val locale = Locale("ru", "RU")
 
     val s = SimpleDateFormat("yyyy-MM-dd").parse(date)
-    return SimpleDateFormat("dd MMM", locale).format(s!!)
+    return SimpleDateFormat("d MMM", locale).format(s!!)
 }
 
 @SuppressLint("SimpleDateFormat")
 fun currentWeekStart(context: Context? = null): String {
-
     val calendar = Calendar.getInstance()
 //        val skipOnSunday = Settings(context).skipSunday.first()
     if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY/* && skipOnSunday == true*/) {

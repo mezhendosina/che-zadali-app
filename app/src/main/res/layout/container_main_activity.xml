@@ -20,8 +20,6 @@
     android:name="androidx.navigation.fragment.NavHostFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:defaultNavHost="true"
-    app:navGraph="@navigation/main_navigation"
     tools:context=".activities.MainActivity">
 
     <include
@@ -35,6 +33,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        android:fitsSystemWindows="true"
         app:navGraph="@navigation/main_navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

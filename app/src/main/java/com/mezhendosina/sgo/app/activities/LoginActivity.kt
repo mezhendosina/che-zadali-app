@@ -17,24 +17,19 @@
 package com.mezhendosina.sgo.app.activities
 
 import android.os.Bundle
-import android.transition.TransitionManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.transition.platform.MaterialSharedAxis
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerLoginBinding
+import com.mezhendosina.sgo.app.utils.setupStatusBar
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var binding: ContainerLoginBinding? = null
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -42,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
             if (navController.currentDestination?.id == navController.graph.startDestinationId) {
                 finish()
             } else {
-                navController.navigateUp()
+                navController.popBackStack()
             }
         }
     }
@@ -50,37 +45,20 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
-
         binding = ContainerLoginBinding.inflate(layoutInflater)
-        firebaseAnalytics = Firebase.analytics
-        if (binding != null) {
-            setContentView(binding!!.root)
-            setSupportActionBar(binding!!.toolbar)
-
-            val navHost =
-                supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
-            navController = navHost.navController
-
-            binding!!.collapsingtoolbarlayout.setupWithNavController(
-                binding!!.toolbar,
-                navController
-            )
-
-            navController.addOnDestinationChangedListener { _, _, _ ->
-                val materialSharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-                TransitionManager.beginDelayedTransition(
-                    binding!!.collapsingtoolbarlayout,
-                    materialSharedAxis
-                )
-            }
-
-        }
+        setContentView(binding!!.root)
+        setSupportActionBar(binding!!.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+        navController = navHost.navController
+        setupStatusBar(binding!!.root)
+        binding!!.toolbar.setupWithNavController(navController)
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        TransitionManager.endTransitions(binding?.collapsingtoolbarlayout)
         binding = null
     }
 }

@@ -21,41 +21,42 @@
     app:startDestination="@id/containerFragment">
 
     <fragment
-        android:id="@+id/lessonFragment"
-        android:name="com.mezhendosina.sgo.app.ui.lessonItem.LessonFragment"
-        android:label="lesson_item"
-        tools:layout="@layout/fragment_item_lesson" />
+        android:id="@+id/lessonContainer"
+        android:name="com.mezhendosina.sgo.app.ui.journalFlow.containerLesson.LessonContainer"
+        android:label="container_lesson"
+        tools:layout="@layout/container_lesson" />
     <fragment
         android:id="@+id/containerFragment"
-        android:name="com.mezhendosina.sgo.app.ui.container.ContainerFragment"
+        android:name="com.mezhendosina.sgo.app.ui.main.container.ContainerFragment"
         android:label="main_container"
         tools:layout="@layout/container_main">
-        <action
-            android:id="@+id/action_containerFragment_to_lessonFragment"
-            app:destination="@id/lessonFragment" />
-        <action
-            android:id="@+id/action_containerFragment_to_announcementsFragment"
-            app:destination="@id/announcementsFragment" />
         <action
             android:id="@+id/action_containerFragment_to_settingsContainer"
             app:destination="@id/settingsContainer" />
         <action
             android:id="@+id/action_containerFragment_to_gradeItemFragment"
-            app:destination="@id/gradeItemFragment" />
+            app:destination="@id/gradeItemFragment"
+            app:restoreState="true" />
+        <action
+            android:id="@+id/action_containerFragment_to_lessonContainer"
+            app:destination="@id/lessonContainer" />
+        <action
+            android:id="@+id/action_containerFragment_to_announcementsContainerFragment2"
+            app:destination="@id/announcementsContainerFragment2" />
     </fragment>
     <fragment
-        android:id="@+id/announcementsFragment"
-        android:name="com.mezhendosina.sgo.app.ui.announcements.AnnouncementsFragment"
-        android:label="announcements_fragment"
-        tools:layout="@layout/fragment_announcement_item" />
-    <fragment
         android:id="@+id/settingsContainer"
-        android:name="com.mezhendosina.sgo.app.ui.settings.SettingsContainer"
+        android:name="com.mezhendosina.sgo.app.ui.settingsFlow.SettingsContainer"
         android:label="container_settings"
         tools:layout="@layout/container_settings" />
     <fragment
         android:id="@+id/gradeItemFragment"
-        android:name="com.mezhendosina.sgo.app.ui.gradeItem.GradeItemFragment"
+        android:name="com.mezhendosina.sgo.app.ui.gradesFlow.gradeItem.GradeItemFragment"
         android:label="grade_fragment"
         tools:layout="@layout/fragment_grade_item" />
+    <fragment
+        android:id="@+id/announcementsContainerFragment2"
+        android:name="com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsContainer.AnnouncementsContainerFragment"
+        android:label="container_announcements"
+        tools:layout="@layout/container_announcements" />
 </navigation>

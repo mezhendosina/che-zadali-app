@@ -18,15 +18,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_navigation"
-    app:startDestination="@id/chooseRegionFragment">
+    app:startDestination="@id/welcomeFragment">
     <fragment
         android:id="@+id/chooseSchoolFragment"
-        android:name="com.mezhendosina.sgo.app.ui.chooseSchool.ChooseSchoolFragment"
-        android:label="@string/choose_school"
-        tools:layout="@layout/fragment_choose_school_or_region">
-        <argument
-            android:name="schoolId"
-            app:argType="integer" />
+        android:label=""
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.chooseSchool.ChooseSchoolFragment"
+        tools:layout="@layout/fragment_choose_school">
         <action
             android:id="@+id/action_chooseSchoolFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -34,8 +31,8 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.mezhendosina.sgo.app.ui.login.LoginFragment"
-        android:label="@string/log_in"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.login.LoginFragment"
+        android:label=""
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_chooseUserIdFragment"
@@ -43,23 +40,52 @@
     </fragment>
     <fragment
         android:id="@+id/chooseUserIdFragment"
-        android:name="com.mezhendosina.sgo.app.ui.chooseUserId.ChooseUserIdFragment"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.chooseUserId.ChooseUserIdFragment"
         android:label="@string/choose_user"
-        tools:layout="@layout/fragment_choose_user_id" />
+        tools:layout="@layout/fragment_choose_user_id">
+        <action
+            android:id="@+id/action_chooseUserIdFragment_to_gosuslugiResult"
+            app:destination="@id/gosuslugiResult" />
+    </fragment>
     <fragment
         android:id="@+id/chooseRegionFragment"
-        android:name="com.mezhendosina.sgo.app.ui.chooseRegion.ChooseRegionFragment"
-        android:label="@string/choose_region"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.ChooseRegionFragment"
+        android:label=""
         tools:layout="@layout/fragment_choose_region">
         <action
             android:id="@+id/action_chooseRegionFragment_to_chooseSchoolFragment"
             app:destination="@id/chooseSchoolFragment" />
         <action
-            android:id="@+id/action_chooseRegionFragment_to_requestRegionFragment"
-            app:destination="@id/requestRegionFragment" />
+            android:id="@+id/action_chooseRegionFragment_to_gosuslugiFragment"
+            app:destination="@id/gosuslugiFragment" />
     </fragment>
     <fragment
-        android:id="@+id/requestRegionFragment"
-        android:name="com.mezhendosina.sgo.app.ui.requestRegion.RequestRegionFragment"
-        android:label="@string/request_region" />
+        android:id="@+id/welcomeFragment"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.welcome.WelcomeFragment"
+        android:label=""
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_welcomeFragment_to_chooseRegionFragment"
+            app:destination="@id/chooseRegionFragment"
+            app:restoreState="true"
+            app:popUpToSaveState="true"
+            app:popUpTo="@id/welcomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gosuslugiFragment"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.gosuslugi.GosuslugiFragment"
+        android:label="fragment_gosuslugi"
+        tools:layout="@layout/fragment_gosuslugi">
+        <action
+            android:id="@+id/action_gosuslugiFragment_to_chooseUserIdFragment"
+            app:destination="@id/chooseUserIdFragment" />
+        <action
+            android:id="@+id/action_gosuslugiFragment_to_gosuslugiResult"
+            app:destination="@id/gosuslugiResult" />
+    </fragment>
+    <fragment
+        android:id="@+id/gosuslugiResult"
+        android:name="com.mezhendosina.sgo.app.ui.loginFlow.gosuslugiResult.GosuslugiResultFragment"
+        android:label="GosuslugiResult" />
+
 </navigation>

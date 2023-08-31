@@ -18,45 +18,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/homework_item"
-    style="@style/Widget.SGOApp.OnCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@null"
-    android:foreground="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingVertical="12dp"
+    android:paddingEnd="24dp">
 
-    <TextView
-        android:id="@+id/lesson_number"
-        style="@style/lesson_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:textIsSelectable="false"
-        android:textStyle="bold"
+    <!--    <TextView-->
+    <!--        android:id="@+id/lesson_number"-->
+    <!--        style="@style/lesson_number"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@null"-->
+    <!--        android:textIsSelectable="false"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.0"-->
+    <!--        tool:text="1" />-->
+
+    <ImageView
+        android:id="@+id/lesson_emoji"
+        style="@style/Widget.SGOapp.Lesson.Emoji"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="1" />
+        tool:src="@drawable/lesson_astronomy" />
 
     <TextView
         android:id="@+id/lesson_name"
-        style="@style/TextAppearance.Material3.BodyMedium"
+        style="@style/TextAppearance.SGOApp.Journal.Lesson.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:background="@null"
-        android:textIsSelectable="false"
-        android:textSize="16sp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@id/lesson_time"
         app:layout_constraintEnd_toStartOf="@id/assignment_types"
-        app:layout_constraintStart_toEndOf="@id/lesson_number"
+        app:layout_constraintStart_toEndOf="@id/lesson_emoji"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="Литература" />
+        tool:text="Основы безопасности жизнедеятельности" />
 
     <TextView
         android:id="@+id/lesson_time"
         style="@style/TextAppearance.Material3.BodySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:background="@null"
         app:layout_constraintStart_toStartOf="@id/lesson_name"
         app:layout_constraintTop_toBottomOf="@id/lesson_name"
@@ -92,7 +104,7 @@
         style="@style/mainText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="2dp"
         android:autoLink="web"
         android:background="@null"
         android:ellipsize="end"
@@ -101,7 +113,7 @@
         android:textColor="?attr/colorPrimary"
         android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/assignment_types"
+        app:layout_constraintEnd_toEndOf="@id/lesson_name"
         app:layout_constraintStart_toStartOf="@id/lesson_name"
         app:layout_constraintTop_toBottomOf="@+id/lesson_time"
         tool:text="Выучить" />

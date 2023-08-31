@@ -16,59 +16,34 @@
 
 package com.mezhendosina.sgo
 
-import android.content.Context
+
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
-import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
-import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
-import com.mezhendosina.sgo.app.model.chooseSchool.ChooseSchoolRepository
-import com.mezhendosina.sgo.app.model.chooseSchool.SchoolUiEntity
-import com.mezhendosina.sgo.app.model.chooseSchool.SchoolsSource
-import com.mezhendosina.sgo.app.model.container.ContainerRepository
-import com.mezhendosina.sgo.app.model.grades.GradesRepository
-import com.mezhendosina.sgo.app.model.grades.GradesSource
-import com.mezhendosina.sgo.app.model.homework.HomeworkSource
-import com.mezhendosina.sgo.app.model.journal.DiarySource
-import com.mezhendosina.sgo.app.model.journal.JournalRepository
+import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
-import com.mezhendosina.sgo.app.model.login.LoginRepository
-import com.mezhendosina.sgo.app.model.login.LoginSource
-import com.mezhendosina.sgo.app.model.settings.SettingsRepository
-import com.mezhendosina.sgo.app.model.settings.SettingsSource
-import com.mezhendosina.sgo.app.utils.SourcesProvider
-import com.mezhendosina.sgo.data.Settings
+import com.mezhendosina.sgo.app.ui.main.container.ContainerFragment
+import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
+import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
+import com.mezhendosina.sgo.app.utils.LoadStatus
 import com.mezhendosina.sgo.data.WeekStartEndEntity
-import com.mezhendosina.sgo.data.requests.sgo.SourceProviderHolder
-import com.mezhendosina.sgo.data.requests.sgo.announcements.AnnouncementsResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.diary.entities.PastMandatoryEntity
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.GradesItem
-import com.mezhendosina.sgo.data.requests.sgo.grades.entities.gradeOptions.GradeOptions
-import com.mezhendosina.sgo.data.requests.sgo.login.entities.StudentResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.settings.entities.MySettingsResponseEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
+import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
+import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
 
 object Singleton {
-
-    private lateinit var applicationContext: Context
-
-    var at: String = ""
+    var welcomeShowed = false
     var announcements: List<AnnouncementsResponseEntity> = emptyList()
+    var selectedAnnouncement: AnnouncementsResponseEntity? = null
 
-    var currentYearId = MutableLiveData<Int>()
+    val diaryStyle = MutableLiveData<String>(DiaryStyle.AS_CARD)
 
-    var users: List<StudentResponseEntity> = emptyList()
+    var users: List<UserUIEntity> = emptyList()
     var lesson: LessonUiEntity? = null
     var pastMandatoryItem: PastMandatoryEntity? = null
 
-
-    var schools = mutableListOf<SchoolUiEntity>()
-    val gradesOptions = MutableLiveData<GradeOptions>()
+    val gradesTerms = MutableLiveData<List<FilterUiEntity>>()
     var grades: List<GradesItem> = emptyList()
     val gradesRecyclerViewLoaded = MutableLiveData<Boolean>(true)
 
@@ -79,97 +54,22 @@ object Singleton {
     var currentWeek: Int? = null
     val loadedDiaryUiEntity: MutableList<DiaryUiEntity> = mutableListOf()
     val currentDiaryUiEntity = MutableLiveData<DiaryUiEntity>()
-    val diaryRecyclerViewLoaded = MutableLiveData<Boolean>(true)
 
     var journalTabsLayout: TabLayout? = null
-    var tabLayoutMediator: TabLayoutMediator? = null
-    var baseUrl = ""
+
+    val answerUpdated = MutableLiveData<Boolean>(false)
 
 
-    private val sourcesProvider: SourcesProvider by lazy {
-        SourceProviderHolder.sourcesProvider
-    }
+    var gradesWithWeight = false
 
-    // --- sources
-    private val schoolsSource: SchoolsSource by lazy {
-        sourcesProvider.getSchoolsSource()
-    }
+    val updateGradeState = MutableLiveData<LoadStatus>()
 
-    private val loginSource: LoginSource by lazy {
-        sourcesProvider.getLoginSource()
-    }
-
-    private val diarySource: DiarySource by lazy {
-        sourcesProvider.getDiarySource()
-    }
-
-    val homeworkSource: HomeworkSource by lazy {
-        sourcesProvider.getHomeworkSource()
-    }
-
-    private val announcementsSource: AnnouncementsSource by lazy {
-        sourcesProvider.getAnnouncementsSource()
-    }
-
-    private val gradesSource: GradesSource by lazy {
-        sourcesProvider.getGradesSource()
-    }
-
-    private val settingsSource: SettingsSource by lazy {
-        sourcesProvider.getSettingsSource()
-    }
-
-    // --- repositories
-
-    val chooseSchoolRepository: ChooseSchoolRepository by lazy {
-        ChooseSchoolRepository(schoolsSource)
-    }
-
-    val loginRepository: LoginRepository by lazy {
-        LoginRepository(loginSource, settingsSource)
-    }
-
-    val announcementsRepository by lazy {
-        AnnouncementsRepository(announcementsSource)
-    }
-
-    val gradesRepository by lazy {
-        GradesRepository(gradesSource)
-    }
-
-    val settingsRepository by lazy {
-        SettingsRepository(settingsSource)
-    }
-
-    val containerRepository by lazy {
-        ContainerRepository()
-    }
-
-    val attachmentsRepository by lazy {
-        AttachmentsRepository(homeworkSource)
-    }
-
-    val journalRepository by lazy {
-        JournalRepository(homeworkSource, diarySource)
-    }
+    val mainContainerScreen = MutableLiveData<String>(ContainerFragment.JOURNAL)
 
     // --- database
 //    val database: AppDatabase by lazy {
 //        Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database.db").build()
 //    }
-
-    const val ANNOUNCEMENTS_ID = "announcementsID"
-
-
-    fun loadContext(context: Context) {
-        applicationContext = context
-        CoroutineScope(Dispatchers.IO).launch {
-            val settings = Settings(context)
-            baseUrl = settings.regionUrl.first()
-        }
-    }
-
-    fun getContext(): Context = applicationContext
 
 }
 
