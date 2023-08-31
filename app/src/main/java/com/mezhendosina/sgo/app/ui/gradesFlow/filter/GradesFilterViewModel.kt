@@ -107,7 +107,7 @@ class GradesFilterViewModel(
         viewModelScope.launch {
             _gradesSortType.value =
                 SettingsDataStore.SORT_GRADES_BY.getValue(context, GradeSortType.BY_LESSON_NAME)
-                    .first()
+                    .first()!!
         }
     }
 
