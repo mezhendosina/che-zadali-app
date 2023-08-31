@@ -17,6 +17,7 @@
 package com.mezhendosina.sgo.data.netschool.api.login
 
 import com.mezhendosina.sgo.app.netschool.api.login.entities.SchoolEntity
+import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.login.entities.StudentResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
@@ -34,26 +35,26 @@ class RetrofitLoginSource(
 
     private val loginApi = retrofit.create(LoginApi::class.java)
 
-    override suspend fun loginData() = wrapRetrofitExceptions { loginApi.loginData() }
+    override suspend fun loginData() = wrapRetrofitExceptions(false) { loginApi.loginData() }
 
     override suspend fun getSchools(query: String): List<SchoolEntity> =
-        wrapRetrofitExceptions {
+        wrapRetrofitExceptions(false) {
             val schools = loginApi.getSchools(query)
 
             schools.filter { it.name.contains("(МБОУ)|(МКОУ)|(СОШ)|(МАОУ)|(МКШ)|(СУНЦ)|(ШНОР)|(ШВОР)|(ГБПОУ)|(ГКОУ)".toRegex()) }
         }
 
     override suspend fun getData(): GetDataResponseEntity =
-        wrapRetrofitExceptions {
+        wrapRetrofitExceptions(false) {
             loginApi.getData()
         }
 
     override suspend fun login(loginEntity: LoginEntity): LoginResponseEntity =
-        wrapRetrofitExceptions {
+        wrapRetrofitExceptions(false) {
             val passwordMD5 =
                 (loginEntity.salt + loginEntity.password).toMD5()
 
-            loginApi.login(
+            val resp = loginApi.login(
                 loginType = 1,
                 scid = loginEntity.schoolId,
                 UN = loginEntity.login,
@@ -62,19 +63,21 @@ class RetrofitLoginSource(
                 lt = loginEntity.lt,
                 ver = loginEntity.ver
             )
+            NetSchoolSingleton.loggedIn = true
+            resp
         }
 
-    override suspend fun crossLogin(): Response<ResponseBody> = wrapRetrofitExceptions {
+    override suspend fun crossLogin(): Response<ResponseBody> = wrapRetrofitExceptions(false) {
         loginApi.crossLogin()
     }
 
     override suspend fun getGosuslugiAccountInfo(loginState: String): AccountInfoResponseEntity =
-        wrapRetrofitExceptions {
+        wrapRetrofitExceptions(false) {
             loginApi.getAccountInfo(loginState)
         }
 
     override suspend fun gosuslugiLogin(loginState: String, userId: String): LoginResponseEntity =
-        wrapRetrofitExceptions {
+        wrapRetrofitExceptions(false) {
             loginApi.gosuslugiLogin(loginState, userId)
         }
 
@@ -86,6 +89,8 @@ class RetrofitLoginSource(
 
     override suspend fun logout(logoutRequestEntity: LogoutRequestEntity) =
         wrapRetrofitExceptions {
-            loginApi.logout(logoutRequestEntity.at)
+            val resp = loginApi.logout(logoutRequestEntity.at)
+            NetSchoolSingleton.loggedIn = false
+            resp
         }
 }

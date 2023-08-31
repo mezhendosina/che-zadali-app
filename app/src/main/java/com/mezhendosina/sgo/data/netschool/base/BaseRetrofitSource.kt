@@ -21,6 +21,8 @@ import com.mezhendosina.sgo.app.netschool.base.BackendException
 import com.mezhendosina.sgo.app.netschool.base.ConnectionException
 import com.mezhendosina.sgo.app.netschool.base.ParseBackendResponseException
 import com.mezhendosina.sgo.app.netschool.base.TimeOutError
+import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import kotlinx.coroutines.delay
 import okio.IOException
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
@@ -30,17 +32,25 @@ open class BaseRetrofitSource(retrofitConfig: RetrofitConfig) {
 
     private val errorAdapter = retrofitConfig.gson.getAdapter(Error::class.java)
 
-    suspend fun <T> wrapRetrofitExceptions(block: suspend () -> T): T {
-        return try {
-            block()
-        } catch (e: JsonParseException) {
-            throw ParseBackendResponseException(e)
-        } catch (e: HttpException) {
-            throw createBackendException(e)
-        } catch (e: SocketTimeoutException) {
-            throw TimeOutError(e)
-        } catch (e: IOException) {
-            throw ConnectionException(e)
+    suspend fun <T> wrapRetrofitExceptions(
+        requireLogin: Boolean = true,
+        block: suspend () -> T
+    ): T {
+        if (NetSchoolSingleton.loggedIn || !requireLogin) {
+            return try {
+                block()
+            } catch (e: JsonParseException) {
+                throw ParseBackendResponseException(e)
+            } catch (e: HttpException) {
+                throw createBackendException(e)
+            } catch (e: SocketTimeoutException) {
+                throw TimeOutError(e)
+            } catch (e: IOException) {
+                throw ConnectionException(e)
+            }
+        } else {
+            delay(10)
+            return wrapRetrofitExceptions { block() }
         }
     }
 

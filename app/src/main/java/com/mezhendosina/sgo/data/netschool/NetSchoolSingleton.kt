@@ -50,7 +50,7 @@ object NetSchoolSingleton {
         SourceProviderHolder.sourcesProvider
     }
 
-
+    var loggedIn = false
     // --- sources
 
     private val loginSource: LoginSource by lazy {
