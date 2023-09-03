@@ -49,7 +49,6 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
     private val storagePermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            println(it)
         }
 
     private val onAttachmentClickListener = object : AttachmentClickListener {

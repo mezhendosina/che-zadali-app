@@ -17,16 +17,14 @@
 package com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsItem
 
 import android.content.Context
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
+import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
 import com.mezhendosina.sgo.app.utils.PermissionNotGranted
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
-import com.mezhendosina.sgo.data.netschool.api.attachments.entities.Attachment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -40,14 +38,13 @@ class AnnouncementsFragmentViewModel(
 
     suspend fun downloadAttachment(
         context: Context,
-        attachment: Attachment,
-        binding: ItemAttachmentBinding
+        attachment: FileUiEntity,
     ) {
         try {
             attachmentsRepository.downloadAttachment(
                 context,
-                attachment.id,
-                attachment.originalFileName
+                attachment.id!!,
+                attachment.fileName
             )
         } catch (e: Exception) {
             if (e is PermissionNotGranted) {
@@ -56,10 +53,6 @@ class AnnouncementsFragmentViewModel(
                 withContext(Dispatchers.Main) {
                     _errorMessage.value = e.toDescription()
                 }
-            }
-        } finally {
-            withContext(Dispatchers.Main) {
-                binding.progressBar.visibility = View.GONE
             }
         }
     }
