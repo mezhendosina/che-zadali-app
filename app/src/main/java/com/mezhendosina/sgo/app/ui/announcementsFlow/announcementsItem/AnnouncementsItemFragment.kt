@@ -16,6 +16,8 @@
 
 package com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsItem
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,6 +37,9 @@ import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
 
@@ -44,8 +49,10 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
 
     internal val viewModel: AnnouncementsFragmentViewModel by viewModels()
 
-    private val registerPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
+
+    private val storagePermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +90,18 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
             val attachmentAdapter = AttachmentAdapter(
                 object : AttachmentClickListener {
                     override fun invoke(attachment: FileUiEntity, loadingList: MutableList<Int>) {
-                        TODO("Not yet implemented")
+                        val permission =
+                            requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        if (permission == PackageManager.PERMISSION_GRANTED) {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                viewModel.downloadAttachment(
+                                    requireContext(),
+                                    attachment,
+                                )
+                            }
+                        } else {
+                            storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        }
                     }
                 }
             )

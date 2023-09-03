@@ -112,7 +112,7 @@ jobs:
 
   send-to-channel:
     needs: [ prepare-release-notes, get-apk-version ]
-    if: ${{ needs.get-last-release-version.outputs.is-update }}
+#    if: ${{ needs.get-last-release-version.outputs.is-update }}
     runs-on: ubuntu-latest
     steps:
       - name: Get APK
@@ -131,7 +131,7 @@ jobs:
 
   create-release:
     needs: [ prepare-release-notes, get-apk-version ]
-    if: ${{ needs.get-last-release-version.outputs.is-update }}
+    #    if: ${{ needs.get-last-release-version.outputs.is-update }}
     runs-on: ubuntu-latest
     steps:
       - name: Get APK

@@ -62,36 +62,38 @@ fun getWeeksList(): List<WeekStartEndEntity> {
     minusWeekCalendar.timeInMillis = currentYearTime
     val plusWeekCalendar = Calendar.getInstance()
     plusWeekCalendar.timeInMillis = currentYearTime
+    val currentCalendar = Calendar.getInstance()
+    currentCalendar.timeInMillis = currentYearTime
 
     minusWeekCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
     plusWeekCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-    while (minusWeekCalendar[Calendar.MONTH] != Calendar.AUGUST || plusWeekCalendar[Calendar.MONTH] != Calendar.SEPTEMBER) {
-        if (minusWeekCalendar[Calendar.MONTH] != Calendar.AUGUST) {
-            minusWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1)
-            val weekStart = minusWeekCalendar.dateToSting()
-            val weekEnd = minusWeekCalendar.getWeekEnd()
-            outList.add(
-                WeekStartEndEntity(
-                    weekStart,
-                    weekEnd,
-                    tabDate(weekStart),
-                    tabDate(weekEnd)
-                )
+
+    while (minusWeekCalendar[Calendar.MONTH] != Calendar.AUGUST) {
+        minusWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1)
+        val weekStart = minusWeekCalendar.dateToSting()
+        val weekEnd = minusWeekCalendar.getWeekEnd()
+        outList.add(
+            WeekStartEndEntity(
+                weekStart,
+                weekEnd,
+                tabDate(weekStart),
+                tabDate(weekEnd)
             )
-        }
-        if (plusWeekCalendar[Calendar.MONTH] != Calendar.SEPTEMBER) {
-            val weekStart = plusWeekCalendar.dateToSting()
-            val weekEnd = plusWeekCalendar.getWeekEnd()
-            outList.add(
-                WeekStartEndEntity(
-                    weekStart,
-                    weekEnd,
-                    tabDate(weekStart),
-                    tabDate(weekEnd)
-                )
+        )
+    }
+
+    while (plusWeekCalendar[Calendar.YEAR] != currentCalendar[Calendar.YEAR] + 1 || plusWeekCalendar[Calendar.MONTH] != Calendar.SEPTEMBER) {
+        val weekStart = plusWeekCalendar.dateToSting()
+        val weekEnd = plusWeekCalendar.getWeekEnd()
+        outList.add(
+            WeekStartEndEntity(
+                weekStart,
+                weekEnd,
+                tabDate(weekStart),
+                tabDate(weekEnd)
             )
-            plusWeekCalendar.add(Calendar.WEEK_OF_YEAR, 1)
-        }
+        )
+        plusWeekCalendar.add(Calendar.WEEK_OF_YEAR, 1)
     }
 
     return outList.sortedBy { it.weekStart }

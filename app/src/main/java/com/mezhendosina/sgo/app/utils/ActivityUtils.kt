@@ -16,7 +16,7 @@
 
 package com.mezhendosina.sgo.app.utils
 
-import android.graphics.Color
+import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -25,24 +25,29 @@ import androidx.core.view.WindowInsetsCompat
 
 
 fun AppCompatActivity.setupStatusBar(fragmentContainer: View) {
-    window.statusBarColor = Color.TRANSPARENT
     val w = window
-    w.setFlags(
-        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-    )
-    ViewCompat.setOnApplyWindowInsetsListener(fragmentContainer) { view, windowInsets ->
-        val insetsNavigation =
-            windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
-        val topBarInset = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
-        val insets =
-            windowInsets.getInsets(WindowInsetsCompat.Type.mandatorySystemGestures())
-        view.setPadding(
-            insets.left,
-            topBarInset.top,
-            insets.right,
-            insetsNavigation.bottom
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+        w.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
-        windowInsets
+        ViewCompat.setOnApplyWindowInsetsListener(fragmentContainer) { view, windowInsets ->
+            val insetsNavigation =
+                windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            val topBarInset = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val insets =
+                windowInsets.getInsets(WindowInsetsCompat.Type.mandatorySystemGestures())
+            view.setPadding(
+                insets.left,
+                topBarInset.top,
+                insets.right,
+                insetsNavigation.bottom
+            )
+            windowInsets
+        }
+    } else {
+        fragmentContainer.fitsSystemWindows = true
     }
+
 }
