@@ -182,6 +182,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                             emptyState.root.visibility = View.GONE
                         } else {
                             diary.visibility = View.GONE
+                            binding!!.loading.root.visibility = View.GONE
                             emptyState.root.visibility = View.VISIBLE
                         }
                     }
