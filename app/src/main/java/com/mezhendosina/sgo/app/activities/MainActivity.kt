@@ -97,11 +97,12 @@ class MainActivity : AppCompatActivity() {
                 )
                 binding.splashScreen.root.visibility = View.GONE
                 binding.container.visibility = View.VISIBLE
+                setupStatusBar(binding.root)
+
             }
         }
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
 //        onBackPressedDispatcher.addCallback(onBackPressedCallback)
-        setupStatusBar(binding.container)
     }
 
     override fun onRestart() {
