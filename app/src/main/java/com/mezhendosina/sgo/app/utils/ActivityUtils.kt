@@ -26,7 +26,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 
 
-fun AppCompatActivity.setupStatusBar(fragmentContainer: View) {
+fun AppCompatActivity.setupInsets(fragmentContainer: View) {
     val w = window
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         w.setFlags(
