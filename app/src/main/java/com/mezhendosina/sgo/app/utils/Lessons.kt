@@ -107,7 +107,7 @@ object Lessons {
         LessonNameUiEntity("обществознание", R.drawable.lesson_social, "Обществознание"),
         LessonNameUiEntity("история", R.drawable.lesson_history, "История"),
         LessonNameUiEntity(
-            "изобразительное искусство",
+            "изо",
             R.drawable.lesson_paint,
             "Изобразительное искусство"
         ),
