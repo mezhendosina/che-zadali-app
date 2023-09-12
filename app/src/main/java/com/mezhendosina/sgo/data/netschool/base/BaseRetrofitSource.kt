@@ -49,7 +49,7 @@ open class BaseRetrofitSource(retrofitConfig: RetrofitConfig) {
                 throw ConnectionException(e)
             }
         } else {
-            delay(10)
+            delay(400)
             return wrapRetrofitExceptions { block() }
         }
     }
