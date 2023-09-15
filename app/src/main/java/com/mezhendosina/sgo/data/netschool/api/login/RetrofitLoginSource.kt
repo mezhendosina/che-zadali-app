@@ -41,7 +41,7 @@ class RetrofitLoginSource(
         wrapRetrofitExceptions(false) {
             val schools = loginApi.getSchools(query)
 
-            schools.filter { it.name.contains("(МБОУ)|(МКОУ)|(СОШ)|(МАОУ)|(МКШ)|(СУНЦ)|(ШНОР)|(ШВОР)|(ГБПОУ)|(ГКОУ)".toRegex()) }
+            schools.filter { it.name.contains("(МБОУ)|(МКОУ)|(СОШ)|(МАОУ)|(МКШ)|(СУНЦ)|(ШНОР)|(ШВОР)|(ГБПОУ)|(ГКОУ)|(ГБОУ)".toRegex()) }
         }
 
     override suspend fun getData(): GetDataResponseEntity =

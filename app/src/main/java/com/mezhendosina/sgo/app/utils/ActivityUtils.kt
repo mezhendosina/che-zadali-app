@@ -18,16 +18,17 @@ package com.mezhendosina.sgo.app.utils
 
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 
 
-fun AppCompatActivity.setupStatusBar(fragmentContainer: View) {
+fun AppCompatActivity.setupInsets(fragmentContainer: View) {
     val w = window
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-
         w.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
@@ -38,16 +39,23 @@ fun AppCompatActivity.setupStatusBar(fragmentContainer: View) {
             val topBarInset = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
             val insets =
                 windowInsets.getInsets(WindowInsetsCompat.Type.mandatorySystemGestures())
-            view.setPadding(
-                insets.left,
-                topBarInset.top,
-                insets.right,
-                insetsNavigation.bottom
-            )
-            windowInsets
+
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+                view.updateLayoutParams<MarginLayoutParams> {
+                    topMargin = insets.top
+                    this.bottomMargin = insetsNavigation.bottom
+                }
+            } else {
+                view.setPadding(
+                    insets.left,
+                    topBarInset.top,
+                    insets.right,
+                    insetsNavigation.bottom
+                )
+            }
+            WindowInsetsCompat.CONSUMED
         }
     } else {
         fragmentContainer.fitsSystemWindows = true
     }
-
 }

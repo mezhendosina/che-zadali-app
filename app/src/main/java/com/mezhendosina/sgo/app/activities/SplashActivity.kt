@@ -22,9 +22,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.color.DynamicColors
 import com.google.firebase.FirebaseApp
-import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
-import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
@@ -58,10 +56,6 @@ class SplashActivity : Activity() {
 
             val intent =
                 if (SettingsDataStore.LOGGED_IN.getValue(this@SplashActivity, false).first()) {
-                    Singleton.diaryStyle.value = SettingsDataStore.DIARY_STYLE.getValue(
-                        this@SplashActivity,
-                        DiaryStyle.AS_CARD
-                    ).first()
                     Intent(this@SplashActivity, MainActivity::class.java)
                 } else {
                     Intent(this@SplashActivity, LoginActivity::class.java)

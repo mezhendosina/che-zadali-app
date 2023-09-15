@@ -33,7 +33,7 @@ import com.google.firebase.ktx.Firebase
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
 import com.mezhendosina.sgo.app.utils.errorDialog
-import com.mezhendosina.sgo.app.utils.setupStatusBar
+import com.mezhendosina.sgo.app.utils.setupInsets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
         CoroutineScope(Dispatchers.IO).launch {
-
             withContext(Dispatchers.Main) {
                 viewModel.errorMessage.observe(this@MainActivity) {
                     errorDialog(this@MainActivity, it)
@@ -97,11 +96,11 @@ class MainActivity : AppCompatActivity() {
                 )
                 binding.splashScreen.root.visibility = View.GONE
                 binding.container.visibility = View.VISIBLE
+                setupInsets(binding.root)
             }
         }
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
 //        onBackPressedDispatcher.addCallback(onBackPressedCallback)
-        setupStatusBar(binding.container)
     }
 
     override fun onRestart() {

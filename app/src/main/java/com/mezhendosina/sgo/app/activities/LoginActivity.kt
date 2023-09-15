@@ -24,7 +24,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerLoginBinding
-import com.mezhendosina.sgo.app.utils.setupStatusBar
+import com.mezhendosina.sgo.app.utils.setupInsets
 
 class LoginActivity : AppCompatActivity() {
 
@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
         val navHost =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         navController = navHost.navController
-        setupStatusBar(binding!!.root)
+        setupInsets(binding!!.root)
         binding!!.toolbar.setupWithNavController(navController)
     }
 
