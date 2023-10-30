@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.main.container
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionManager
@@ -167,6 +168,11 @@ class ContainerFragment
         observeShowEngageDialog()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         file.delete()
@@ -271,7 +277,8 @@ class ContainerFragment
                     binding.grades.root.visibility = View.VISIBLE
                     CoroutineScope(Dispatchers.IO).launch {
                         gradesFilterViewModel.getYearsList()
-                        gradesFilterViewModel.getGradeSort(requireContext())
+                        if (this@ContainerFragment.context != null)
+                            gradesFilterViewModel.getGradeSort(requireContext())
                     }
                 }
             }

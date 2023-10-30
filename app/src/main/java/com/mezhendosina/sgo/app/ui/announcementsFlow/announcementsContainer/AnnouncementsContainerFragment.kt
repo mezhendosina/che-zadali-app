@@ -43,7 +43,7 @@ class AnnouncementsContainerFragment : Fragment(R.layout.container_announcements
             childFragmentManager.findFragmentById(binding!!.lessonFragmentContainer.id)
                 ?.findNavController()
 
-        binding!!.toolbar.setNavigationOnClickListener {
+        binding!!.announcementToolbar.setNavigationOnClickListener {
             if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) {
                 findTopNavController().navigateUp()
             } else {
