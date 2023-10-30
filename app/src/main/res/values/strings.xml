@@ -16,7 +16,7 @@
 
 <resources>
     <string name="app_name">SGO app</string>
-    <string name="main">Главная</string>
+    <string name="main">че задали?</string>
     <string name="journal">Дневник</string>
     <string name="announcements">Объявления</string>
     <string name="grades">Оценки</string>
@@ -176,4 +176,6 @@
     <string name="welcome_about">Неофициальный порт электронного дневника «Сетевой город. Образование» на Android</string>
     <string name="theme">Тема</string>
     <string name="empty">Не заполнено</string>
+    <string name="che_zadali">че задали?</string>
+    <string name="share_app">Поделиться приложением</string>
 </resources>
