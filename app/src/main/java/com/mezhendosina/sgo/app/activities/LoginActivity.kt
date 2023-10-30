@@ -47,13 +47,13 @@ class LoginActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
         binding = ContainerLoginBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
-        setSupportActionBar(binding!!.toolbar)
+        setSupportActionBar(binding!!.loginToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         val navHost =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         navController = navHost.navController
         setupInsets(binding!!.root)
-        binding!!.toolbar.setupWithNavController(navController)
+        binding!!.loginToolbar.setupWithNavController(navController)
     }
 
     override fun onDestroy() {

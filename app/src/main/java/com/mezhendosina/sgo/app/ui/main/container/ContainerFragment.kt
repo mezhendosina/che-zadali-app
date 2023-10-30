@@ -125,8 +125,8 @@ class ContainerFragment
         val journalPagerAdapter =
             JournalPagerAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
 
-        binding.gradesTopBar.root.background = binding.toolbar.background
-        binding.toolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
+        binding.gradesTopBar.root.background = binding.mainToolbar.background
+        binding.mainToolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
         binding.bottomNavigation.setOnItemSelectedListener { onBottomNavItemClickListener(it) }
 
         with(binding.grades) {
@@ -257,14 +257,14 @@ class ContainerFragment
         Singleton.mainContainerScreen.observe(viewLifecycleOwner) {
             when (it) {
                 JOURNAL -> {
-                    binding.toolbar.setTitle(R.string.journal)
+                    binding.mainToolbar.setTitle(R.string.journal)
                     binding.slideDownAnimation()
                     binding.grades.root.visibility = View.GONE
                     binding.journal.visibility = View.VISIBLE
                 }
 
                 GRADES -> {
-                    binding.toolbar.setTitle(R.string.grades)
+                    binding.mainToolbar.setTitle(R.string.grades)
                     Singleton.updateGradeState.value = LoadStatus.UPDATE
                     binding.slideUpAnimation()
                     binding.journal.visibility = View.GONE
@@ -320,7 +320,7 @@ class ContainerFragment
                 )
                 modalSheet.show(childFragmentManager, UpdateBottomSheetFragment.TAG)
             }
-            if (updates.tagName != BuildConfig.VERSION_NAME) binding.toolbar.menu[0].isVisible =
+            if (updates.tagName != BuildConfig.VERSION_NAME) binding.mainToolbar.menu[0].isVisible =
                 true
         }
     }
