@@ -43,7 +43,7 @@
             tools:title="Настройки">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/settings_toolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@null"

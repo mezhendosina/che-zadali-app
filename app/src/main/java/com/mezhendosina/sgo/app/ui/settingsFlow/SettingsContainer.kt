@@ -57,7 +57,7 @@ class SettingsContainer : Fragment(R.layout.container_settings) {
             }.build()
 
         NavigationUI.setupWithNavController(
-            binding.toolbar,
+            binding.settingsToolbar,
             navController,
             appBarConfiguration
         )

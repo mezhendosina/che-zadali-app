@@ -56,13 +56,13 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
             childFragmentManager.findFragmentById(binding!!.lessonFragmentContainer.id)
                 ?.findNavController()
 
-        with(binding!!.toolbar) {
+        with(binding!!.lessonToolbar) {
 
-            toolbar.title = viewModel.lesson?.subjectName ?: ""
+            itemToolbar.title = viewModel.lesson?.subjectName ?: ""
             val lessonNameUiEntity = getEmojiLesson(viewModel.lesson?.subjectName ?: "")
             setLessonEmoji(requireContext(), lessonNameUiEntity?.nameId)
 
-            toolbar.setNavigationOnClickListener {
+            itemToolbar.setNavigationOnClickListener {
                 if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) findNavController().navigateUp()
                 else innerNavController?.navigateUp()
             }
@@ -73,7 +73,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
         innerNavController?.addOnDestinationChangedListener { _, destination, args ->
             when (destination.id) {
                 R.id.answerFragment -> {
-                    binding!!.toolbar.appbarlayout.setExpanded(false)
+                    binding!!.lessonToolbar.appbarlayout.setExpanded(false)
                     with(binding!!.send) {
                         when (args?.getString("action")) {
                             ADD_ANSWER -> {
@@ -92,7 +92,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
                 R.id.lessonFragment2 -> {
                     binding!!.send.hide()
-                    binding!!.toolbar.appbarlayout.setExpanded(true)
+                    binding!!.lessonToolbar.appbarlayout.setExpanded(true)
                 }
             }
         }
@@ -110,7 +110,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
     override fun onDestroy() {
         super.onDestroy()
-        TransitionManager.endTransitions(binding!!.toolbar.root)
+        TransitionManager.endTransitions(binding!!.lessonToolbar.root)
         binding = null
     }
 
