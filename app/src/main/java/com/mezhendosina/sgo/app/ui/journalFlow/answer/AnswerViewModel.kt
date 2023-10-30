@@ -41,7 +41,7 @@ class AnswerViewModel(
     }
 
     fun getHomework() =
-        if (Singleton.lesson != null) Singleton.lesson!!.homework!!.assignmentName
+        if (Singleton.lesson?.homework != null) Singleton.lesson!!.homework!!.assignmentName
         else if (Singleton.pastMandatoryItem != null) Singleton.pastMandatoryItem!!.assignmentName
         else null
 
