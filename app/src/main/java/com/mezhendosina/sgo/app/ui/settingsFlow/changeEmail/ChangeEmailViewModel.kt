@@ -24,13 +24,18 @@ import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.netschool.repo.SettingsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ChangeEmailViewModel(
-    private val settingsRepository: SettingsRepository = NetSchoolSingleton.settingsRepository
+
+@HiltViewModel
+class ChangeEmailViewModel
+    @Inject constructor(
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _errorDescription = MutableLiveData<String>()

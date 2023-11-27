@@ -23,10 +23,13 @@ import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemAnnouncementBinding
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
+import dagger.Module
 import org.jsoup.Jsoup
+import javax.inject.Singleton
 
 typealias OnAnnouncementClickListener = (AnnouncementsResponseEntity) -> Unit
 
+@Singleton
 class AnnouncementsAdapter(
     private val onAnnouncementClickListener: OnAnnouncementClickListener,
 ) :

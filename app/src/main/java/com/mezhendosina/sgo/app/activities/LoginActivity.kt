@@ -25,7 +25,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerLoginBinding
 import com.mezhendosina.sgo.app.utils.setupInsets
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController

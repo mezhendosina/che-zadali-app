@@ -32,10 +32,12 @@ import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment.Companion.E
 import com.mezhendosina.sgo.app.utils.addOnToolbarCollapseListener
 import com.mezhendosina.sgo.app.utils.getEmojiLesson
 import com.mezhendosina.sgo.app.utils.setLessonEmoji
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LessonContainer : Fragment(R.layout.container_lesson) {
 
     private var binding: ContainerLessonBinding? = null

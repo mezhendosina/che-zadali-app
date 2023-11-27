@@ -22,39 +22,31 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
+import com.mezhendosina.sgo.app.model.attachments.AttachmentsUtils
 import com.mezhendosina.sgo.app.utils.PermissionNotGranted
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 
-class AnnouncementsFragmentViewModel(
-    private val attachmentsRepository: AttachmentsRepository = NetSchoolSingleton.attachmentsRepository
+@HiltViewModel
+class AnnouncementsFragmentViewModel
+@Inject constructor(
+    private val attachmentsRepository: AttachmentsRepository
 ) : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
     suspend fun downloadAttachment(
-        context: Context,
         attachment: FileUiEntity,
+        context: Context
     ) {
-        try {
-            attachmentsRepository.downloadAttachment(
-                context,
-                attachment.id!!,
-                attachment.fileName
-            )
-        } catch (e: Exception) {
-            if (e is PermissionNotGranted) {
-                throw PermissionNotGranted()
-            } else {
-                withContext(Dispatchers.Main) {
-                    _errorMessage.value = e.toDescription()
-                }
-            }
-        }
+        TODO()
     }
 }
 

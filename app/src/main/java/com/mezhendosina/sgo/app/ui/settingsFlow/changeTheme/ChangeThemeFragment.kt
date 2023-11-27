@@ -50,7 +50,7 @@ class ChangeThemeFragment : Fragment(R.layout.fragment_settings_theme) {
 
 
         binding!!.changeThemeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            viewModel.changeTheme(checkedId, requireContext())
+            viewModel.changeTheme(checkedId)
         }
 
     }

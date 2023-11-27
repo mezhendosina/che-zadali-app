@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemChangeCalculatedGradeBinding
+import dagger.Module
+import javax.inject.Singleton
 
 interface ChangeGradeClickListener {
 
@@ -34,6 +36,7 @@ interface ChangeGradeClickListener {
     fun manualEditGrade(grade: Int, value: Int)
 }
 
+@Singleton
 class CalculateGradeAdapter(
     private val changeGradeClickListener: ChangeGradeClickListener
 ) : RecyclerView.Adapter<CalculateGradeAdapter.ViewHolder>(), View.OnClickListener {

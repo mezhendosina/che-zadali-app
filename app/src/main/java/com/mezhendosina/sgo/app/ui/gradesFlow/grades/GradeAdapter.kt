@@ -27,9 +27,12 @@ import com.mezhendosina.sgo.app.utils.setupAsLessonEmoji
 import com.mezhendosina.sgo.app.utils.setupGrade
 import com.mezhendosina.sgo.app.utils.toGradeType
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import dagger.Module
+import javax.inject.Singleton
 
 typealias OnGradeClickListener = (GradesItem, View) -> Unit
 
+@Singleton
 class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     RecyclerView.Adapter<GradeAdapter.GradeViewHolder>(), View.OnClickListener {
 

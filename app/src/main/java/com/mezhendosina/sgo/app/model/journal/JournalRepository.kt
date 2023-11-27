@@ -30,8 +30,14 @@ import com.mezhendosina.sgo.data.netschool.api.diary.entities.Assignment
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.DiaryResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.Lesson
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
 
-class JournalRepository(
+@Module
+@InstallIn(SingletonComponent::class)
+class JournalRepository @Inject constructor(
     private val attachmentsSource: AttachmentsSource,
     private val diarySource: DiarySource
 ) {

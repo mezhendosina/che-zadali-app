@@ -20,8 +20,16 @@ import com.google.gson.Gson
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionUiEntity
 import com.mezhendosina.sgo.data.netschool.api.regions.Regions
 import com.mezhendosina.sgo.data.netschool.api.regions.RegionsApi
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
 
-class RegionsRepository : RegionsApi {
+
+@Module
+@InstallIn(ActivityComponent::class)
+class RegionsRepository @Inject constructor() : RegionsApi {
     override fun getRegions(): ChooseRegionUiEntity = Gson().fromJson(
         Regions.REGIONS,
         ChooseRegionUiEntity::class.java

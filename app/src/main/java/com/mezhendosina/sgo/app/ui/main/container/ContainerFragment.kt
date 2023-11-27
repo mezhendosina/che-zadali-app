@@ -59,17 +59,20 @@ import com.mezhendosina.sgo.app.utils.slideDownAnimation
 import com.mezhendosina.sgo.app.utils.slideUpAnimation
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.currentWeekStart
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
+import javax.inject.Inject
 
 class ContainerFragment
     : Fragment(R.layout.container_main), GradesFilterInterface, GradesActionsInterface,
     ContainerNavigationInterface {
+
+    @Inject
+    lateinit var settingsDataStore: SettingsDataStore
 
     private lateinit var binding: ContainerMainBinding
 
@@ -115,7 +118,7 @@ class ContainerFragment
         CoroutineScope(Dispatchers.IO).launch {
             containerViewModel.checkUpdates()
             containerViewModel.loadWeeks()
-            containerViewModel.showUpdateDialog(requireContext())
+            containerViewModel.showUpdateDialog()
         }
     }
 
@@ -203,9 +206,11 @@ class ContainerFragment
     }
 
     override fun observeUserId() {
-        SettingsDataStore.CURRENT_USER_ID.getValue(requireContext(), -1).asLiveData()
+        settingsDataStore.getValue(SettingsDataStore.CURRENT_USER_ID).asLiveData()
             .observe(viewLifecycleOwner) {
-                binding.journal.invalidate()
+                if (it != null) {
+                    binding.journal.invalidate()
+                }
             }
     }
 
@@ -237,7 +242,7 @@ class ContainerFragment
     private fun observeDiaryStyle() {
         val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         CoroutineScope(Dispatchers.Main).launch {
-            SettingsDataStore.DIARY_STYLE.getValue(requireContext(), DiaryStyle.AS_CARD).collect {
+            settingsDataStore.getValue(SettingsDataStore.DIARY_STYLE).collect {
                 firebaseAnalytics.setUserProperty("diary_style", it)
             }
         }
@@ -352,7 +357,7 @@ class ContainerFragment
                 binding.gradesTopBar.term.visibility = View.VISIBLE
                 CoroutineScope(Dispatchers.Main).launch {
                     val trimId =
-                        SettingsDataStore.TRIM_ID.getValue(requireContext(), -1).first()
+                        settingsDataStore.getValue(SettingsDataStore.TRIM_ID).first()
                     binding.gradesTopBar.term.text =
                         gradeOptions.firstOrNull { it.id == trimId }?.name
                 }
@@ -369,7 +374,7 @@ class ContainerFragment
                     requireContext().getString(R.string.selected_grade_period),
                     Singleton.gradesTerms.value!!
                 ) {
-                    gradesFilterViewModel.changeTrimId(requireContext(), it)
+                    gradesFilterViewModel.changeTrimId(it)
                 }
 
                 filterBottomSheet.show(
@@ -421,9 +426,8 @@ class ContainerFragment
     override fun onGradesSortClickListener() {
         binding.gradesTopBar.sortGrades.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                val selectedItem = SettingsDataStore.SORT_GRADES_BY.getValue(
-                    requireContext(),
-                    GradeSortType.BY_LESSON_NAME
+                val selectedItem = settingsDataStore.getValue(
+                    SettingsDataStore.SORT_GRADES_BY
                 ).first()
                 val list = listOf(
                     FilterUiEntity(
@@ -449,7 +453,7 @@ class ContainerFragment
                     requireContext().getString(R.string.sort_grades_by),
                     list,
                 ) { id ->
-                    gradesFilterViewModel.setGradeSort(requireContext(), id)
+                    gradesFilterViewModel.setGradeSort(id)
                 }
                 bottomSheet.show(
                     requireActivity().supportFragmentManager,
@@ -479,7 +483,7 @@ class ContainerFragment
                 when (it) {
                     LoadStatus.UPDATE -> {
                         CoroutineScope(Dispatchers.IO).launch {
-                            gradesViewModel.load(requireContext())
+                            gradesViewModel.load()
                         }
                         TransitionManager.beginDelayedTransition(
                             loading.root,

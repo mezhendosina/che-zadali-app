@@ -23,9 +23,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemSchoolBinding
 import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
+import dagger.Module
+import javax.inject.Singleton
 
 typealias OnSchoolClickListener = (SchoolUiEntity) -> Unit
 
+@Singleton
 class ChooseSchoolAdapter(private val onSchoolClickListener: OnSchoolClickListener) :
     RecyclerView.Adapter<ChooseSchoolAdapter.ChooseSchoolViewHolder>(),
     View.OnClickListener {

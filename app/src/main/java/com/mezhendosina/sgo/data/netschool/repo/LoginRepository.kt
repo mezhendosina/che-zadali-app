@@ -17,9 +17,9 @@
 package com.mezhendosina.sgo.data.netschool.repo
 
 import android.content.Context
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.editPreference
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.login.LoginEntity
 import com.mezhendosina.sgo.data.netschool.api.login.LoginSource
@@ -28,52 +28,77 @@ import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.User
 import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LogoutRequestEntity
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class LoginRepository(
+
+@Module
+@InstallIn(ActivityComponent::class)
+class LoginRepository
+@Inject constructor(
     private val loginSource: LoginSource,
+    private val settingsDataStore: SettingsDataStore,
     private val settingsSource: SettingsSource
 ) {
-    val schools = MutableSharedFlow<List<SchoolUiEntity>>()
-
+    private val _schools = MutableSharedFlow<List<SchoolUiEntity>>()
+    val schools: SharedFlow<List<SchoolUiEntity>> = _schools
     suspend fun findSchool(name: String) {
         val schoolsList = loginSource.getSchools(name).map { it.toUiEntity() }
 
         withContext(Dispatchers.Main) {
-            schools.emit(schoolsList)
-            NetSchoolSingleton.schools = schoolsList
+            _schools.emit(schoolsList)
         }
     }
 
     suspend fun login(
-        context: Context,
-        login: String,
-        password: String,
-        schoolId: Int,
+        login: String? = null,
+        password: String? = null,
+        schoolId: Int? = null,
         firstLogin: Boolean = true,
         onOneUser: () -> Unit = {},
         onMoreUser: (List<StudentResponseEntity>) -> Unit = {}
     ) {
+
+
         loginSource.loginData()
         val getData = loginSource.getData()
-        val loginEntity = LoginEntity(
-            schoolId,
-            login,
-            password,
-            getData.lt,
-            getData.salt,
-            getData.ver
-        )
+
+        val loginEntity =
+            if (login.isNullOrEmpty() || password.isNullOrEmpty() || schoolId == null) {
+                LoginEntity(
+                    settingsDataStore.getValue(SettingsDataStore.SCHOOL_ID).first() ?: -1,
+                    settingsDataStore.getValue(SettingsDataStore.LOGIN).first() ?: "",
+                    settingsDataStore.getValue(SettingsDataStore.PASSWORD).first() ?: "",
+                    getData.lt,
+                    getData.salt,
+                    getData.ver
+                )
+            } else {
+                LoginEntity(
+                    schoolId,
+                    login,
+                    password,
+                    getData.lt,
+                    getData.salt,
+                    getData.ver
+                )
+            }
         val loginRequest = loginSource.login(loginEntity)
 
-        NetSchoolSingleton.at = loginRequest.at
-        postLogin(context, loginEntity, loginRequest, firstLogin, onOneUser, onMoreUser)
+        postLogin(loginEntity, loginRequest, firstLogin, onOneUser, onMoreUser)
     }
 
     private suspend fun postLogin(
-        context: Context,
         loginEntity: LoginEntity,
         loginRequest: LoginResponseEntity,
         firstLogin: Boolean,
@@ -86,23 +111,23 @@ class LoginRepository(
                 withContext(Dispatchers.Main) {
                     if (studentsRequest != null) {
                         if (studentsRequest.size <= 1) {
-                            SettingsDataStore.CURRENT_USER_ID.editPreference(
-                                context,
+                            settingsDataStore.setValue(
+                                SettingsDataStore.CURRENT_USER_ID,
                                 studentsRequest.first().id
                             )
                             onOneUser.invoke()
-                            SettingsDataStore().saveLogin(context, loginEntity)
+                            settingsDataStore.saveLogin(loginEntity)
                         } else {
                             onMoreUser.invoke(studentsRequest)
-                            SettingsDataStore().saveLogin(context, loginEntity, false)
+                            settingsDataStore.saveLogin(loginEntity, false)
                         }
                     } else {
-                        SettingsDataStore.CURRENT_USER_ID.editPreference(
-                            context,
+                        settingsDataStore.setValue(
+                            SettingsDataStore.CURRENT_USER_ID,
                             loginRequest.accountInfo.user.id
                         )
                         onOneUser.invoke()
-                        SettingsDataStore().saveLogin(context, loginEntity)
+                        settingsDataStore.saveLogin(loginEntity)
                     }
                 }
             }
@@ -117,11 +142,12 @@ class LoginRepository(
         loginSource.getGosuslugiAccountInfo(loginState).users
 
     suspend fun gosuslugiLogin(
-        context: Context,
-        loginState: String,
-        userId: String,
         firstLogin: Boolean = false
     ) {
+        val loginState =
+            settingsDataStore.getValue(SettingsDataStore.ESIA_LOGIN_STATE).first() ?: ""
+        val userId = settingsDataStore.getValue(SettingsDataStore.ESIA_USER_ID).first() ?: ""
+
         val login = if (!firstLogin) {
             loginSource.crossLogin()
             loginSource.gosuslugiLogin(loginState, userId)
@@ -131,13 +157,13 @@ class LoginRepository(
 
         withContext(Dispatchers.Main) {
             if (firstLogin) {
-                SettingsDataStore().saveEsiaLogin(context, loginState, userId)
-                SettingsDataStore.LOGGED_IN.editPreference(context, true)
+                settingsDataStore.saveEsiaLogin(loginState, userId)
+                settingsDataStore.setValue(SettingsDataStore.LOGGED_IN, true)
             }
-            NetSchoolSingleton.at = login.at
+            Singleton.at = login.at
         }
     }
 
-    suspend fun logout() = loginSource.logout(LogoutRequestEntity(NetSchoolSingleton.at))
+    suspend fun logout() = loginSource.logout()
 
 }

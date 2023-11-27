@@ -29,10 +29,12 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAnswerBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.utils.getFileNameFromUri
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AnswerFragment : Fragment(R.layout.fragment_answer) {
 
     private var binding: FragmentAnswerBinding? = null

@@ -22,9 +22,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemChooseYearBinding
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListResponseEntity
+import dagger.Module
+import javax.inject.Singleton
 
 typealias OnYearClickListener = (year: YearListResponseEntity) -> Unit
 
+@Singleton
 class ChooseYearAdapter(
     private val onYearClickListener: OnYearClickListener
 ) : RecyclerView.Adapter<ChooseYearAdapter.ChooseYearViewHolder>(),

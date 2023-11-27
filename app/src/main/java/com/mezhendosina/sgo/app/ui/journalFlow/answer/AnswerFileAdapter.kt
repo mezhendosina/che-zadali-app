@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import dagger.Module
+import javax.inject.Singleton
 
 interface FileActionListener {
     fun onClick(file: FileUiEntity)
@@ -33,6 +35,7 @@ interface FileActionListener {
 }
 
 
+@Singleton
 class AnswerFileAdapter(
     private val viewModel: AnswerViewModel,
     private val fileActionListener: FileActionListener

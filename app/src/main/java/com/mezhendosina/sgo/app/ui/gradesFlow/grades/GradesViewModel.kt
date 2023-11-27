@@ -31,17 +31,22 @@ import com.mezhendosina.sgo.app.uiEntities.checkItem
 import com.mezhendosina.sgo.app.utils.LoadStatus
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.editPreference
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions
+import dagger.hilt.InstallIn
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class GradesViewModel(
-    private val gradeServices: GradesRepository = NetSchoolSingleton.gradesRepository
+@HiltViewModel
+class GradesViewModel
+@Inject constructor(
+    private val gradeServices: GradesRepository,
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     private val _grades = MutableLiveData<List<GradesItem>>()
@@ -61,7 +66,7 @@ class GradesViewModel(
         gradeServices.addListener(gradeActionListener)
     }
 
-    suspend fun load(context: Context) {
+    suspend fun load() {
         if (Singleton.grades.isNotEmpty() && Singleton.gradesRecyclerViewLoaded.value == false) {
             withContext(Dispatchers.Main) {
                 _grades.value = Singleton.grades
@@ -87,26 +92,25 @@ class GradesViewModel(
             }
 
             // find saved termId in response
-            val currentTrimId = SettingsDataStore.TRIM_ID.getValue(context, -1)
+            val currentTrimId = settingsDataStore.getValue(SettingsDataStore.TRIM_ID).first() ?: -1
             val findId = _gradeOptions.value!!.TERMID.find {
-                it.value == currentTrimId.first().toString()
+                it.value == currentTrimId.toString()
             }
 
             // if termId not find save and set selected termId
-            if (findId == null) SettingsDataStore.TRIM_ID.editPreference(
-                context,
+            if (findId == null) settingsDataStore.setValue(
+                SettingsDataStore.TRIM_ID,
                 _gradeOptions.value!!.TERMID.first { it.is_selected }.value.toInt()
             )
             val sortedGradesBy =
-                SettingsDataStore.SORT_GRADES_BY.getValue(context, GradeSortType.BY_LESSON_NAME)
+                settingsDataStore.getValue(SettingsDataStore.SORT_GRADES_BY).first()
+                    ?: GradeSortType.BY_LESSON_NAME
             loadGrades(
-                _gradeOptions.value!!,
-                currentTrimId.first().toString(),
-                sortedGradesBy.first()
+                _gradeOptions.value!!, currentTrimId.toString(), sortedGradesBy
             )
             // Save terms into Singleton
             val trims = _gradeOptions.value!!.getTerms()
-            val checkSelectedTrim = trims.checkItem(currentTrimId.first())
+            val checkSelectedTrim = trims.checkItem(currentTrimId)
             withContext(Dispatchers.Main) {
                 Singleton.gradesTerms.value = checkSelectedTrim
                 Singleton.updateGradeState.value = LoadStatus.FINISHED

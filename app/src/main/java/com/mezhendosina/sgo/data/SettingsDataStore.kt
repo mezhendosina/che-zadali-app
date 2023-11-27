@@ -9,21 +9,21 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.mezhendosina.sgo.data.netschool.api.login.LoginEntity
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-fun <T> Preferences.Key<T>.getValue(context: Context, defaultValue: T): Flow<T> =
-    context.dataStore.data.map { it[this] ?: defaultValue }
-
-suspend fun <T> Preferences.Key<T>.editPreference(context: Context, value: T) =
-    context.dataStore.edit {
-        it[this] = value
-    }
-
-class SettingsDataStore {
+class SettingsDataStore @Inject constructor(@ApplicationContext private val context: Context) :
+    AppSettings {
 
     companion object {
         val REGION_URL = stringPreferencesKey("region")
@@ -51,7 +51,17 @@ class SettingsDataStore {
         val SKIP_SUNDAY = booleanPreferencesKey("skip_sunday")
     }
 
-    suspend fun saveLogin(context: Context, loginData: LoginEntity, loggedIn: Boolean = true) {
+    override fun <T> getValue(value: Preferences.Key<T>): Flow<T?> {
+        return context.dataStore.data.map { it[value] }
+    }
+
+    override suspend fun <T> setValue(value: Preferences.Key<T>, key: T) {
+        context.dataStore.edit {
+            it[value] = key
+        }
+    }
+
+    override suspend fun saveLogin(loginData: LoginEntity, loggedIn: Boolean) {
         context.dataStore.edit { prefs ->
             prefs[LOGGED_IN] = loggedIn
             prefs[LOGIN] = loginData.login
@@ -60,7 +70,7 @@ class SettingsDataStore {
         }
     }
 
-    suspend fun saveEsiaLogin(context: Context, loginState: String, userId: String) {
+    override suspend fun saveEsiaLogin(loginState: String, userId: String) {
         context.dataStore.edit { prefs ->
             prefs[LOGIN] = ""
             prefs[PASSWORD] = ""
@@ -70,7 +80,7 @@ class SettingsDataStore {
         }
     }
 
-    suspend fun logout(context: Context) {
+    override suspend fun logout() {
         context.dataStore.edit { prefs ->
             prefs[LOGGED_IN] = false
             prefs[LOGIN] = ""

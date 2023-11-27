@@ -33,6 +33,8 @@ import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
 
 object Singleton {
+    var loggedIn = false
+    var at = ""
     var welcomeShowed = false
     var announcements: List<AnnouncementsResponseEntity> = emptyList()
     var selectedAnnouncement: AnnouncementsResponseEntity? = null
@@ -65,11 +67,5 @@ object Singleton {
     val updateGradeState = MutableLiveData<LoadStatus>()
 
     val mainContainerScreen = MutableLiveData<String>(ContainerFragment.JOURNAL)
-
-    // --- database
-//    val database: AppDatabase by lazy {
-//        Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database.db").build()
-//    }
-
 }
 

@@ -28,23 +28,27 @@ import com.mezhendosina.sgo.app.model.ContainerRepository
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.WeekStartEndEntity
-import com.mezhendosina.sgo.data.editPreference
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.getWeeksList
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.base.Download
 import com.mezhendosina.sgo.data.netschool.base.uriFromFile
 import com.mezhendosina.sgo.data.requests.github.checkUpdates.CheckUpdates
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import javax.inject.Inject
 
-class ContainerViewModel(
+
+@HiltViewModel
+class ContainerViewModel
+@Inject constructor(
 //    private val githubUpdateDownloader: GithubUpdateDownloader = NetSchoolSingleton.githubUpdateDownloader
-    private val containerRepository: ContainerRepository = NetSchoolSingleton.containerRepository
+    private val containerRepository: ContainerRepository,
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     private val _errorMessage = MutableLiveData("")
@@ -78,16 +82,16 @@ class ContainerViewModel(
         }
     }
 
-    fun showUpdateDialog(context: Context) {
+    fun showUpdateDialog() {
         viewModelScope.launch {
             val lastVersionNumber =
-                SettingsDataStore.LAST_VERSION_NUMBER.getValue(context, -1).first()
+                settingsDataStore.getValue(SettingsDataStore.LAST_VERSION_NUMBER).first() ?: -1
             val showUpdateDialog =
-                SettingsDataStore.SHOW_UPDATE_DIALOG.getValue(context, true).first()
+                settingsDataStore.getValue(SettingsDataStore.SHOW_UPDATE_DIALOG).first() ?: true
             if (BuildConfig.VERSION_CODE > lastVersionNumber) {
-                SettingsDataStore.SHOW_UPDATE_DIALOG.editPreference(context, true)
-                SettingsDataStore.LAST_VERSION_NUMBER.editPreference(
-                    context,
+                settingsDataStore.setValue(SettingsDataStore.SHOW_UPDATE_DIALOG, true)
+                settingsDataStore.setValue(
+                    SettingsDataStore.LAST_VERSION_NUMBER,
                     BuildConfig.VERSION_CODE
                 )
                 if (BuildConfig.VERSION_CODE == 35) {
@@ -101,13 +105,13 @@ class ContainerViewModel(
         }
     }
 
-    fun changeUpdateDialogState(context: Context, b: Boolean) {
+    fun changeUpdateDialogState(b: Boolean) {
         viewModelScope.launch {
-            SettingsDataStore.SHOW_UPDATE_DIALOG.editPreference(context, b)
+            settingsDataStore.setValue(SettingsDataStore.SHOW_UPDATE_DIALOG, b)
         }
     }
 
-    fun downloadUpdate(context: Context, file: File, url: String) {
+    fun downloadUpdate(@ApplicationContext context: Context, file: File, url: String) {
 //        //TODO exception handling
 //        githubUpdateDownloader.downloadUpdate(context, url) { progress, uri ->
 //            when (progress) {

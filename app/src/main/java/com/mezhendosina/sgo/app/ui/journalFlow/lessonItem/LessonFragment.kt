@@ -38,10 +38,12 @@ import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment
 import com.mezhendosina.sgo.app.utils.AttachmentAdapter
 import com.mezhendosina.sgo.app.utils.AttachmentClickListener
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
     internal val viewModel: LessonViewModel by viewModels()
@@ -57,7 +59,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
                 requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             if (permission == PackageManager.PERMISSION_GRANTED) {
                 CoroutineScope(Dispatchers.Main).launch {
-                    viewModel.downloadAttachment(requireContext(), attachment)
+                    viewModel.downloadAttachment(attachment)
                 }
             } else {
                 storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -77,12 +79,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         whyGradeAdapter = WhyGradeAdapter()
         attachmentAdapter = AttachmentAdapter(onAttachmentClickListener)
         answerFileAdapter = AttachmentAdapter(onAttachmentClickListener)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.init(requireContext())
-        }
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -213,7 +210,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         Singleton.answerUpdated.observe(viewLifecycleOwner) {
             if (it) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.init(requireContext())
+                    viewModel.loadLesson()
                 }
                 Singleton.answerUpdated.value = false
             }

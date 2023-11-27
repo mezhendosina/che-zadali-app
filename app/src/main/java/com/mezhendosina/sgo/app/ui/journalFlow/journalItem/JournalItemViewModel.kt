@@ -26,14 +26,17 @@ import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.WeekStartEndEntity
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class JournalItemViewModel(
-    private val journalRepository: JournalRepository = NetSchoolSingleton.journalRepository
+@HiltViewModel
+class JournalItemViewModel @Inject constructor(
+    private val journalRepository: JournalRepository,
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     private val _week = MutableLiveData<DiaryUiEntity>()
@@ -62,9 +65,10 @@ class JournalItemViewModel(
                 val a = if (Singleton.currentDiaryUiEntity.value?.weekStart == weekStart) {
                     Singleton.currentDiaryUiEntity.value!!
                 } else {
-                    val currentUserId = SettingsDataStore.CURRENT_USER_ID.getValue(context, -1)
+                    val currentUserId =
+                        settingsDataStore.getValue(SettingsDataStore.CURRENT_USER_ID).first() ?: -1
                     val getWeek = journalRepository.getWeek(
-                        currentUserId.first(),
+                        currentUserId,
                         WeekStartEndEntity(weekStart!!, weekEnd!!),
                         NetSchoolSingleton.journalYearId.value ?: 0
                     )

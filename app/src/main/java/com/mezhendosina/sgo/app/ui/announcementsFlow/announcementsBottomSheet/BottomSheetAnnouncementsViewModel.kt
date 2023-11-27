@@ -25,13 +25,17 @@ import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class BottomSheetAnnouncementsViewModel(
-    private val announcementsRepository: AnnouncementsRepository = NetSchoolSingleton.announcementsRepository
+@HiltViewModel
+class BottomSheetAnnouncementsViewModel
+@Inject constructor(
+    private val announcementsRepository: AnnouncementsRepository
 ) : ViewModel() {
 
     private val _loading = MutableLiveData(false)

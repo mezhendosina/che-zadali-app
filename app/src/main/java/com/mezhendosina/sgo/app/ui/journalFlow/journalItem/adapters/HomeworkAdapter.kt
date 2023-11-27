@@ -27,9 +27,12 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemHomeworkBinding
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.utils.setupAsLessonEmoji
+import dagger.Module
+import javax.inject.Singleton
 
 typealias OnHomeworkClickListener = (LessonUiEntity, View) -> Unit
 
+@Singleton
 class HomeworkAdapter(
     private val onHomeworkClickListener: OnHomeworkClickListener
 ) : RecyclerView.Adapter<HomeworkAdapter.HomeworkViewHolder>(), View.OnClickListener {

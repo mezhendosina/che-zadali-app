@@ -21,8 +21,12 @@ import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import okhttp3.ResponseBody
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RetrofitGradesService(config: RetrofitConfig) : BaseRetrofitSource(config), GradesSource {
+@Singleton
+class RetrofitGradesSource @Inject constructor(config: RetrofitConfig) :
+    BaseRetrofitSource(config), GradesSource {
 
     private val gradesApi = retrofit.create(GradesApi::class.java)
 

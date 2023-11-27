@@ -22,7 +22,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemUserIdBinding
 import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
+import dagger.Module
+import javax.inject.Singleton
 
+@Singleton
 class UserIdAdapter(
     private val onUserClickListener: (UserUIEntity) -> Unit
 ) : RecyclerView.Adapter<UserIdAdapter.UserIdViewHolder>(), View.OnClickListener {

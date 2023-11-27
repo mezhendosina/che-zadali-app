@@ -27,11 +27,13 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentWelcomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
     private var binding: FragmentWelcomeBinding? = null
 

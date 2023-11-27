@@ -35,6 +35,7 @@ import com.mezhendosina.sgo.app.utils.AttachmentAdapter
 import com.mezhendosina.sgo.app.utils.AttachmentClickListener
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
+import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +44,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
 
+@AndroidEntryPoint
 class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) {
 
     private lateinit var binding: FragmentAnnouncementItemBinding
@@ -94,10 +96,8 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
                             requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         if (permission == PackageManager.PERMISSION_GRANTED) {
                             CoroutineScope(Dispatchers.Main).launch {
-                                viewModel.downloadAttachment(
-                                    requireContext(),
-                                    attachment,
-                                )
+                                TODO()
+//                                viewModel.downloadAttachment(attachment)
                             }
                         } else {
                             storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)

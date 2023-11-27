@@ -23,30 +23,35 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import com.mezhendosina.sgo.app.utils.PermissionNotGranted
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.io.File
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AttachmentsRepository(
+@Module
+@InstallIn(SingletonComponent::class)
+class AttachmentsRepository
+@Inject constructor(
     private val attachmentsSource: AttachmentsSource
 ) {
+
+
     suspend fun downloadAttachment(
-        context: Context,
+        file: File?,
         attachmentId: Int,
-        attachmentName: String,
-    ) {
-        if (!AttachmentsUtils.checkPermissions(context)) throw PermissionNotGranted()
-        val downloadsFolder = AttachmentsUtils.getDownloadsFolder(context)
-        val file = File(downloadsFolder, attachmentName)
-
-        val isExist = withContext(Dispatchers.IO) {
-            file.createNewFile()
-        }
-
-
-        val a = if (isExist) CoroutineScope(Dispatchers.IO).async {
+    ): File? {
+        val a = if (file != null) CoroutineScope(Dispatchers.IO).async {
             attachmentsSource.downloadAttachment(
                 attachmentId,
                 file
@@ -54,37 +59,8 @@ class AttachmentsRepository(
         } else null
 
         a?.await()
-        openFile(context, file)
+        return file
     }
-
-    private fun openFile(context: Context, file: File) {
-        val contentType = getMimeType(file.toURI().toString())
-
-        val fileUri = FileProvider.getUriForFile(
-            context,
-            context.applicationContext.packageName + ".provider",
-            file
-        )
-
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(fileUri, contentType)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-        context.startActivity(intent)
-    }
-
-    fun openFile(context: Context, file: Uri) {
-        val contentType = getMimeType(file.toString())
-
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(file, contentType)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-        context.startActivity(intent)
-    }
-
 
     suspend fun deleteAttachment(assignmentId: Int, attachmentId: Int) {
         attachmentsSource.deleteAttachment(assignmentId, attachmentId)
@@ -94,12 +70,4 @@ class AttachmentsRepository(
         attachmentsSource.editAttachmentDescription(attachmentId, description)
 
 
-    private fun getMimeType(url: String?): String? {
-        var type: String? = null
-        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
-        if (extension != null) {
-            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
-        }
-        return type
-    }
 }

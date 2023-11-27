@@ -22,12 +22,19 @@ import com.mezhendosina.sgo.data.grades.GradesFromHtml
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 typealias GradeActionListener = (grade: List<GradesItem>) -> Unit
 
-class GradesRepository(
+@Module
+@InstallIn(SingletonComponent::class)
+class GradesRepository
+    @Inject constructor(
     private val gradesSource: GradesSource,
     private val diarySource: DiarySource
 ) {
@@ -38,13 +45,13 @@ class GradesRepository(
 
     suspend fun loadGradesOptions(): GradeOptions {
         val parentInfoLetter =
-            gradesSource.getParentInfoLetter(NetSchoolSingleton.at).body()?.string() ?: ""
+            gradesSource.getParentInfoLetter(Singleton.at).body()?.string() ?: ""
         return GradesFromHtml().getOptions(parentInfoLetter)
     }
 
 
     suspend fun loadGrades(gradeOptions: GradeOptions, termid: String, sortType: Int) {
-        val at = NetSchoolSingleton.at
+        val at = Singleton.at
         val getGradesRequest = gradesSource.getGrades(
             at,
             gradeOptions.PCLID.value,

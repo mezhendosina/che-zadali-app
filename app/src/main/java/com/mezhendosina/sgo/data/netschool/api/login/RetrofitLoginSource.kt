@@ -28,9 +28,12 @@ import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LogoutRequestEntity
 import okhttp3.ResponseBody
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RetrofitLoginSource(
-    config: RetrofitConfig
+@Singleton
+class RetrofitLoginSource @Inject constructor(
+    config: RetrofitConfig,
 ) : BaseRetrofitSource(config), LoginSource {
 
     private val loginApi = retrofit.create(LoginApi::class.java)
@@ -65,7 +68,8 @@ class RetrofitLoginSource(
                 lt = loginEntity.lt,
                 ver = loginEntity.ver
             )
-            NetSchoolSingleton.loggedIn = true
+            com.mezhendosina.sgo.Singleton.at = resp.at
+            com.mezhendosina.sgo.Singleton.loggedIn = true
             resp
         }
 
@@ -89,10 +93,10 @@ class RetrofitLoginSource(
             loginApi.getStudents().body()
         }
 
-    override suspend fun logout(logoutRequestEntity: LogoutRequestEntity) =
+    override suspend fun logout() =
         wrapRetrofitExceptions {
-            val resp = loginApi.logout(logoutRequestEntity.at)
-            NetSchoolSingleton.loggedIn = false
+            val resp = loginApi.logout(com.mezhendosina.sgo.Singleton.at)
+            com.mezhendosina.sgo.Singleton.loggedIn = false
             resp
         }
 }

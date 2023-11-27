@@ -19,20 +19,29 @@ package com.mezhendosina.sgo.data.netschool.repo
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.uiEntities.AboutLessonUiEntity
+import com.mezhendosina.sgo.app.uiEntities.AssignTypeUiEntity
 import com.mezhendosina.sgo.app.uiEntities.WhyGradeEntity
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.AttachmentsRequestEntity
 import com.mezhendosina.sgo.data.netschool.api.homework.HomeworkSource
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 typealias LessonActionListener = (lesson: AboutLessonUiEntity?) -> Unit
 
-class LessonRepository(
+@Module
+@InstallIn(SingletonComponent::class)
+class LessonRepository @Inject constructor(
     private val homeworkSource: HomeworkSource,
     private val attachmentsSource: AttachmentsSource,
 ) {
+    private var assignTypes: List<AssignTypeUiEntity>? = null
+
 
     private var lesson: AboutLessonUiEntity? = null
     private val listeners = mutableSetOf<LessonActionListener>()
@@ -85,7 +94,7 @@ class LessonRepository(
 
     private suspend fun loadGrades(lessonUiEntity: LessonUiEntity): List<WhyGradeEntity> {
         val gradesList = mutableListOf<WhyGradeEntity>()
-        if (NetSchoolSingleton.assignTypes.isNullOrEmpty()) NetSchoolSingleton.assignTypes =
+        if (assignTypes.isNullOrEmpty()) assignTypes =
             homeworkSource.assignmentTypes().map { it.toUiEntity() }
 
         lessonUiEntity.assignments?.forEach { assign ->
@@ -94,7 +103,7 @@ class LessonRepository(
                     WhyGradeEntity(
                         assign.assignmentName,
                         assign.mark,
-                        NetSchoolSingleton.assignTypes?.firstOrNull { it.id == assign.typeId }?.name
+                        assignTypes?.firstOrNull { it.id == assign.typeId }?.name
                     )
                 )
             }

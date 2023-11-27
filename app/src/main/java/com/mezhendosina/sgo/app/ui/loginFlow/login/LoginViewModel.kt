@@ -22,23 +22,29 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
 import com.mezhendosina.sgo.app.utils.toDescription
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.login.entities.toUiEntity
 import com.mezhendosina.sgo.data.netschool.base.toMD5
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class LoginViewModel(
-    private val loginRepository: LoginRepository = NetSchoolSingleton.loginRepository
+
+@HiltViewModel
+class LoginViewModel
+@Inject constructor(
+    private val loginRepository: LoginRepository
 ) : ViewModel() {
 
     private val _isLoading = MutableLiveData(false)
@@ -47,6 +53,8 @@ class LoginViewModel(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
+    private val _foundSchool = MutableLiveData<SchoolUiEntity?>()
+    val foundSchool: LiveData<SchoolUiEntity?> = _foundSchool
 
     fun login(
         context: Context,
@@ -61,10 +69,9 @@ class LoginViewModel(
                 val passwordHash = password.toMD5()
                 val school = findSchool(schoolId)
                 loginRepository.login(
-                    context,
                     login,
                     passwordHash,
-                    school.id,
+                    _foundSchool.value?.id,
                     onOneUser = {
                         val intent = Intent(context, MainActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -89,8 +96,8 @@ class LoginViewModel(
     }
 
 
-    fun findSchool(schoolId: Int): SchoolUiEntity {
-        return NetSchoolSingleton.schools.first { it.id == schoolId }
+    suspend fun findSchool(schoolId: Int) {
+        _foundSchool.value = loginRepository.schools.first().first { it.id == schoolId }
     }
 }
 

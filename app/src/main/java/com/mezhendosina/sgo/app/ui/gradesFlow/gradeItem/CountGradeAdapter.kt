@@ -25,7 +25,10 @@ import com.mezhendosina.sgo.app.model.grades.entities.CountGradeEntity
 import com.mezhendosina.sgo.app.utils.GradesType
 import com.mezhendosina.sgo.app.utils.setupColorWithGrade
 import com.mezhendosina.sgo.app.utils.setupGrade
+import dagger.Module
+import javax.inject.Singleton
 
+@Singleton
 class CountGradeAdapter : RecyclerView.Adapter<CountGradeAdapter.CountGradeAdapterViewHolder>() {
 
     var countGrades = emptyList<CountGradeEntity>()

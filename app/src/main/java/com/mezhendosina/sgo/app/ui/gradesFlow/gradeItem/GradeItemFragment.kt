@@ -35,7 +35,9 @@ import com.mezhendosina.sgo.app.utils.setupColorWithGrade
 import com.mezhendosina.sgo.app.utils.setupGrade
 import com.mezhendosina.sgo.app.utils.toGradeType
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
     var binding: FragmentGradeItemBinding? = null

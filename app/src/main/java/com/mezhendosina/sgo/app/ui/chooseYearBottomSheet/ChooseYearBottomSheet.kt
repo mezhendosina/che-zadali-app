@@ -24,7 +24,9 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.BottomSheetChooseYearBinding
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListResponseEntity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChooseYearBottomSheet(
     private val yearList: List<YearListResponseEntity>
 ) : BottomSheetDialogFragment(R.layout.bottom_sheet_choose_year) {

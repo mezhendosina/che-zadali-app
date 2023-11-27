@@ -88,7 +88,7 @@ class UpdateBottomSheetFragment(
                     }
                 },
                 onCancel = {
-                    viewModel.changeUpdateDialogState(context, false)
+                    viewModel.changeUpdateDialogState(false)
                 }
             )
             return modalSheet

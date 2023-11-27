@@ -32,95 +32,15 @@ import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.homework.HomeworkSource
 import com.mezhendosina.sgo.data.netschool.api.login.LoginSource
 import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
-import com.mezhendosina.sgo.data.netschool.base.SourceProviderHolder
-import com.mezhendosina.sgo.data.netschool.base.SourcesProvider
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
 import com.mezhendosina.sgo.data.netschool.repo.RegionsRepository
 import com.mezhendosina.sgo.data.netschool.repo.SettingsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 
 
 object NetSchoolSingleton {
-    var baseUrl = ""
-    var at = ""
     val journalYearId = MutableLiveData<Int>()
-    var assignTypes: List<AssignTypeUiEntity>? = null
-    var schools = emptyList<SchoolUiEntity>()
-    private val sourcesProvider: SourcesProvider by lazy {
-        SourceProviderHolder.sourcesProvider
-    }
 
-    var loggedIn = false
-    // --- sources
-
-    private val loginSource: LoginSource by lazy {
-        sourcesProvider.getLoginSource()
-    }
-
-    private val settingsSource: SettingsSource by lazy {
-        sourcesProvider.getSettingsSource()
-    }
-
-    private val attachmentsSource: AttachmentsSource by lazy {
-        sourcesProvider.getAttachmentsSource()
-    }
-
-    private val diarySource: DiarySource by lazy {
-        sourcesProvider.getDiarySource()
-    }
-    private val homeworkSource: HomeworkSource by lazy {
-        sourcesProvider.getHomeworkSource()
-    }
-    private val announcementsSource: AnnouncementsSource by lazy {
-        sourcesProvider.getAnnouncementsSource()
-    }
-    private val gradesSource: GradesSource by lazy {
-        sourcesProvider.getGradesSource()
-    }
-    // --- repositories
-
-    val regionsRepository: RegionsRepository by lazy {
-        RegionsRepository()
-    }
-
-    val loginRepository: LoginRepository by lazy {
-        LoginRepository(loginSource, settingsSource)
-    }
-
-    val announcementsRepository by lazy {
-        AnnouncementsRepository(announcementsSource)
-    }
-
-    val gradesRepository by lazy {
-        GradesRepository(gradesSource, diarySource)
-    }
-
-    val settingsRepository by lazy {
-        SettingsRepository(settingsSource)
-    }
-
-    val githubUpdateDownloader by lazy {
-        sourcesProvider.getGithubUpdateDownloader()
-    }
-
-    val containerRepository by lazy {
-        ContainerRepository()
-    }
-
-    val attachmentsRepository by lazy {
-        AttachmentsRepository(attachmentsSource)
-    }
-
-    val journalRepository by lazy {
-        JournalRepository(attachmentsSource, diarySource)
-    }
-
-    val answerRepository by lazy {
-        AnswerRepository(attachmentsSource, lessonRepository)
-    }
-
-    val lessonRepository by lazy {
-        LessonRepository(homeworkSource, attachmentsSource)
-    }
-
+    val loggedIn = MutableStateFlow(false)
 }

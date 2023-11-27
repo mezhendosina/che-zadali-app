@@ -28,7 +28,9 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAnnouncementsBinding
 import com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsBottomSheet.AnnouncementsAdapter
 import com.mezhendosina.sgo.app.ui.announcementsFlow.announcementsBottomSheet.BottomSheetAnnouncementsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AnnouncementsFragment : Fragment(R.layout.fragment_announcements) {
 
     private var binding: FragmentAnnouncementsBinding? = null

@@ -24,7 +24,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mezhendosina.sgo.app.ui.journalFlow.journalItem.JournalItemFragment
 import com.mezhendosina.sgo.data.WeekStartEndEntity
+import dagger.Module
+import javax.inject.Singleton
 
+@Singleton
 class JournalPagerAdapter(
     val fragment: FragmentManager,
     val lifecycle: Lifecycle

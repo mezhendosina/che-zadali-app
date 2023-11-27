@@ -27,8 +27,9 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import javax.inject.Inject
 
-class AnswerRepository(
+class AnswerRepository @Inject constructor(
     private val attachmentsSource: AttachmentsSource,
     private val lessonRepository: LessonRepository
 ) {

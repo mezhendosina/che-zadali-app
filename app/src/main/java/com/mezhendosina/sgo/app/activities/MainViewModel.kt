@@ -22,40 +22,36 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MainViewModel(
-    private val loginRepository: LoginRepository = NetSchoolSingleton.loginRepository
+
+@HiltViewModel
+class MainViewModel
+@Inject constructor(
+    private val loginRepository: LoginRepository,
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
 
-    suspend fun login(context: Context) {
+    suspend fun login() {
         try {
-            val login = SettingsDataStore.LOGIN.getValue(context, "").first()
+            val login = settingsDataStore.getValue(SettingsDataStore.LOGIN).first() ?: ""
             if (login.isEmpty()) {
-                loginRepository.gosuslugiLogin(
-                    context,
-                    SettingsDataStore.ESIA_LOGIN_STATE.getValue(context, "").first(),
-                    SettingsDataStore.ESIA_USER_ID.getValue(context, "").first()
-                )
+                loginRepository.gosuslugiLogin()
             } else {
-                loginRepository.login(
-                    context,
-                    SettingsDataStore.LOGIN.getValue(context, "").first(),
-                    SettingsDataStore.PASSWORD.getValue(context, "").first(),
-                    SettingsDataStore.SCHOOL_ID.getValue(context, -1).first(),
-                    false
-                )
+                loginRepository.login(firstLogin = false)
             }
 
         } catch (e: Exception) {

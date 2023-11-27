@@ -21,14 +21,18 @@ import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
+import com.mezhendosina.sgo.app.model.attachments.AttachmentsUtils
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class AnswerViewModel(
-    private val lessonRepository: LessonRepository = NetSchoolSingleton.lessonRepository,
-    private val attachmentsRepository: AttachmentsRepository = NetSchoolSingleton.attachmentsRepository
+@HiltViewModel
+class AnswerViewModel @Inject constructor(
+    private val lessonRepository: LessonRepository,
+    private val attachmentsRepository: AttachmentsRepository
 ) : ViewModel() {
 
 
@@ -46,16 +50,7 @@ class AnswerViewModel(
         else null
 
     suspend fun openFile(context: Context, fileUiEntity: FileUiEntity) {
-        if (fileUiEntity.file != null) attachmentsRepository.openFile(context, fileUiEntity.file)
-        else {
-            withContext(Dispatchers.IO) {
-                attachmentsRepository.downloadAttachment(
-                    context,
-                    fileUiEntity.id!!,
-                    fileUiEntity.fileName
-                )
-            }
-        }
+        TODO()
     }
 
     fun addFile(fileUiEntity: FileUiEntity) {
