@@ -60,6 +60,7 @@ import com.mezhendosina.sgo.app.utils.slideUpAnimation
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.currentWeekStart
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -67,6 +68,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ContainerFragment
     : Fragment(R.layout.container_main), GradesFilterInterface, GradesActionsInterface,
     ContainerNavigationInterface {

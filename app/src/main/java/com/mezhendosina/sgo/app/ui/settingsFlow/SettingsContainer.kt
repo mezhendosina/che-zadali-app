@@ -25,11 +25,13 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SettingsContainer : Fragment(R.layout.container_settings) {
 
     lateinit var binding: ContainerSettingsBinding

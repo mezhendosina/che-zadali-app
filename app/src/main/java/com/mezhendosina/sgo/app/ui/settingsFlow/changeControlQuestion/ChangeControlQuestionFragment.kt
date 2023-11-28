@@ -30,7 +30,9 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChangeControlQuestionBinding
 import com.mezhendosina.sgo.app.ui.settingsFlow.SettingsViewModel
 import com.mezhendosina.sgo.data.netschool.base.toMD5
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChangeControlQuestionFragment : Fragment(R.layout.fragment_change_control_question) {
 
     private lateinit var binding: FragmentChangeControlQuestionBinding

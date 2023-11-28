@@ -32,12 +32,15 @@ import com.mezhendosina.sgo.app.databinding.FragmentSettingsBinding
 import com.mezhendosina.sgo.app.ui.settingsFlow.changeControlQuestion.ChangeControlQuestionFragment
 import com.mezhendosina.sgo.app.ui.settingsFlow.changeEmail.ChangeEmailFragment
 import com.mezhendosina.sgo.app.ui.settingsFlow.changePhone.ChangePhoneFragment
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val viewModel: SettingsViewModel by viewModels()

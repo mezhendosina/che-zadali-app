@@ -1,16 +1,11 @@
 package com.mezhendosina.sgo.di
 
 import com.google.gson.Gson
-import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.first
-import okhttp3.Cookie
-import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,24 +13,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.CookieManager
 import java.net.CookiePolicy
-import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.math.log
-
-data class BaseUrl(val baseUrl: String)
 
 @Module
 @InstallIn(SingletonComponent::class)
 class BaseRetrofit {
-
-    @Inject
-    lateinit var settingsDataStore: SettingsDataStore
-
-    var baseUrl = BaseUrl("")
-
-    @Provides
-    @Singleton
-    fun createBaseUrl(): BaseUrl = baseUrl
 
     @Provides
     @Singleton
@@ -61,12 +43,13 @@ class BaseRetrofit {
     fun createOkHttpClient(
         baseUrlInterceptor: BaseUrlInterceptor,
         headersInterceptor: HeadersInterceptor,
+        myCookieJar: MyCookieJar,
         loggingInterceptor: Interceptor
     ): OkHttpClient {
         val cookieManager = CookieManager()
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL)
         return OkHttpClient.Builder()
-            .cookieJar(MyCookieJar())
+            .cookieJar(myCookieJar)
             .addInterceptor(baseUrlInterceptor)
             .addInterceptor(headersInterceptor)
             .addInterceptor(loggingInterceptor)
@@ -77,14 +60,14 @@ class BaseRetrofit {
     @Singleton
     fun createHeadersInterceptor(
         myCookieJar: MyCookieJar,
-        baseUrl: BaseUrl,
+        settingsDataStore: SettingsDataStore
     ): HeadersInterceptor =
-        HeadersInterceptor(myCookieJar, baseUrl.baseUrl)
+        HeadersInterceptor(myCookieJar, settingsDataStore)
 
     @Provides
     @Singleton
-    fun createBaseUrlInterceptor(baseUrl: BaseUrl): BaseUrlInterceptor =
-        BaseUrlInterceptor(baseUrl.baseUrl)
+    fun createBaseUrlInterceptor(settingsDataStore: SettingsDataStore): BaseUrlInterceptor =
+        BaseUrlInterceptor(settingsDataStore)
 
     @Provides
     @Singleton
@@ -92,4 +75,6 @@ class BaseRetrofit {
         return HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
     }
+
+
 }

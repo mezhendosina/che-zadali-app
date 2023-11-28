@@ -24,7 +24,9 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentSettingsThemeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChangeThemeFragment : Fragment(R.layout.fragment_settings_theme) {
 
     private var binding: FragmentSettingsThemeBinding? = null

@@ -11,8 +11,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.mezhendosina.sgo.data.netschool.api.login.LoginEntity
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +20,8 @@ import javax.inject.Inject
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
+@Module
+@InstallIn(SingletonComponent::class)
 class SettingsDataStore @Inject constructor(@ApplicationContext private val context: Context) :
     AppSettings {
 

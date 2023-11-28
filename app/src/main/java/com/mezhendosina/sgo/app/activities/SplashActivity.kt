@@ -38,9 +38,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
-    @Inject lateinit var settingsDataStore: AppSettings
+    @Inject
+    lateinit var settingsDataStore: AppSettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         runBlocking {
             AppCompatDelegate.setDefaultNightMode(
                 settingsDataStore.getValue(SettingsDataStore.THEME).first()
@@ -49,7 +51,6 @@ class SplashActivity : AppCompatActivity() {
         }
         if (!BuildConfig.DEBUG) DynamicColors.applyToActivitiesIfAvailable(this.application)
 //        DynamicColors.applyToActivitiesIfAvailable(this.application)
-        super.onCreate(savedInstanceState)
 
 
         CoroutineScope(Dispatchers.Main).launch {
