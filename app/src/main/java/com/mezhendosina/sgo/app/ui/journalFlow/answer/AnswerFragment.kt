@@ -16,7 +16,10 @@
 
 package com.mezhendosina.sgo.app.ui.journalFlow.answer
 
+import android.app.DownloadManager
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,14 +31,19 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAnswerBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
 import com.mezhendosina.sgo.app.utils.getFileNameFromUri
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AnswerFragment : Fragment(R.layout.fragment_answer) {
+
+    @Inject
+    lateinit var attachmentDownloadManager: AttachmentDownloadManager
 
     private var binding: FragmentAnswerBinding? = null
 
@@ -56,8 +64,10 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+
         adapter = AnswerFileAdapter(
             viewModel,
             object : FileActionListener {

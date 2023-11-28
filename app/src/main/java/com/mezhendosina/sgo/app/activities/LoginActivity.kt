@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.activities
 
+import android.app.DownloadManager
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -46,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
         binding = ContainerLoginBinding.inflate(layoutInflater)
         setContentView(binding!!.root)

@@ -22,7 +22,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
+import com.mezhendosina.sgo.app.model.attachments.HOMEWORK
 import com.mezhendosina.sgo.data.netschool.base.PermissionNotGranted
 import com.mezhendosina.sgo.data.netschool.base.toDescription
 import com.mezhendosina.sgo.app.uiEntities.AboutLessonUiEntity
@@ -32,6 +34,7 @@ import com.mezhendosina.sgo.data.netschool.repo.LessonActionListener
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -42,7 +45,7 @@ import javax.inject.Inject
 class LessonViewModel
 @Inject constructor(
     private val lessonRepository: LessonRepository,
-    private val attachmentsRepository: AttachmentsRepository,
+    private val attachmentDownloadManager: AttachmentDownloadManager,
     private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
@@ -79,13 +82,27 @@ class LessonViewModel
         }
     }
 
-    suspend fun downloadAttachment(
+    fun downloadAttachment(
+        context: Context,
         attachment: FileUiEntity,
     ) {
         try {
-            withContext(Dispatchers.IO) {
-        TODO()
+            CoroutineScope(Dispatchers.IO).launch {
+                attachmentDownloadManager.downloadFile(
+                    context,
+                    HOMEWORK,
+                    lesson.value!!.id,
+                    attachment
+                )
+                withContext(Dispatchers.Main) {
+                    attachmentDownloadManager.openFile(
+                        context, HOMEWORK,
+                        lesson.value!!.id,
+                        attachment.fileName
+                    )
+                }
             }
+
         } catch (e: Exception) {
             if (e is PermissionNotGranted) {
                 throw PermissionNotGranted()

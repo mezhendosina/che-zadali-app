@@ -19,6 +19,7 @@ package com.mezhendosina.sgo.app.ui.journalFlow.containerLesson
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -44,20 +45,23 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
     private val viewModel by viewModels<LessonContainerViewModel>()
 
+    val r = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform()
         sharedElementReturnTransition = MaterialContainerTransform()
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ContainerLessonBinding.bind(view)
         val innerNavController =
             childFragmentManager.findFragmentById(binding!!.lessonFragmentContainer.id)
                 ?.findNavController()
-
+        r.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         with(binding!!.lessonToolbar) {
 
             itemToolbar.title = viewModel.lesson?.subjectName ?: ""

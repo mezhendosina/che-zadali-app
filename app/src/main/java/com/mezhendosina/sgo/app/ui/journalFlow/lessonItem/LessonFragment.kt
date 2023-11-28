@@ -17,9 +17,11 @@
 package com.mezhendosina.sgo.app.ui.journalFlow.lessonItem
 
 import android.Manifest
+import android.app.DownloadManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
@@ -35,6 +37,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentItemLessonBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
 import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment
 import com.mezhendosina.sgo.app.utils.AttachmentAdapter
 import com.mezhendosina.sgo.app.utils.AttachmentClickListener
@@ -42,6 +45,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
@@ -49,17 +53,21 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
     internal val viewModel: LessonViewModel by viewModels()
     private var binding: FragmentItemLessonBinding? = null
 
+    @Inject
+    lateinit var attachmentDownloadManager: AttachmentDownloadManager
+
     private val storagePermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         }
 
     private val onAttachmentClickListener = object : AttachmentClickListener {
         override fun invoke(attachment: FileUiEntity, loadingList: MutableList<Int>) {
+            viewModel.downloadAttachment(requireContext(),attachment)
+
             val permission =
                 requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             if (permission == PackageManager.PERMISSION_GRANTED) {
                 CoroutineScope(Dispatchers.Main).launch {
-                    viewModel.downloadAttachment(attachment)
                 }
             } else {
                 storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -75,6 +83,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+
 
         whyGradeAdapter = WhyGradeAdapter()
         attachmentAdapter = AttachmentAdapter(onAttachmentClickListener)

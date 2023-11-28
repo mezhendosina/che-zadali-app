@@ -19,6 +19,7 @@ package com.mezhendosina.sgo
 
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
+import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.model.journal.entities.DiaryUiEntity
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
@@ -31,6 +32,7 @@ import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsRespon
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
+import okhttp3.internal.http2.Header
 
 object Singleton {
     var loggedIn = false
@@ -67,5 +69,17 @@ object Singleton {
     val updateGradeState = MutableLiveData<LoadStatus>()
 
     val mainContainerScreen = MutableLiveData<String>(ContainerFragment.JOURNAL)
+
+    val STATIC_HEADERS = mutableListOf(
+        Header("UserAgent", "che-zadali-app v${BuildConfig.VERSION_NAME}"),
+        Header("X-Requested-With", "XMLHttpRequest"),
+        Header("Sec-Fetch-Site", "same-origin"),
+        Header("Sec-Fetch-Mode", "cors"),
+        Header("Sec-Fetch-Dest", "empty"),
+        Header(
+            "sec-ch-ua",
+            "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"105\", \"Microsoft Edge\";v=\"105\""
+        )
+    )
 }
 

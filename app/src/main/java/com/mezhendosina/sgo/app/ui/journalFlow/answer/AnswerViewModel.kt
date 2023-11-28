@@ -20,6 +20,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsUtils
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
@@ -32,7 +33,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AnswerViewModel @Inject constructor(
     private val lessonRepository: LessonRepository,
-    private val attachmentsRepository: AttachmentsRepository
+    private val attachmentDownloadManager: AttachmentDownloadManager,
 ) : ViewModel() {
 
 
@@ -50,7 +51,7 @@ class AnswerViewModel @Inject constructor(
         else null
 
     suspend fun openFile(context: Context, fileUiEntity: FileUiEntity) {
-        TODO()
+
     }
 
     fun addFile(fileUiEntity: FileUiEntity) {

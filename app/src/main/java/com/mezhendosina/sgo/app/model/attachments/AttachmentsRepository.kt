@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.model.attachments
 
+import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
