@@ -14,7 +14,7 @@ jobs:
   build-apk:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           ref: release
 
@@ -26,18 +26,18 @@ jobs:
           cache: gradle
 
       - name: Create google-services.json
-        run: cat ./app/google-services.json | base64
+        run: cat /home/runner/work/che-zadali-app/che-zadali-app/app/google-services.json | base64
 
       - name: Putting data into google-services.json
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA > /home/runner/work/sgo-app/sgo-app/app/google-services.json
+        run: echo $DATA > /home/runner/work/che-zadali-app/che-zadali-app/app/google-services.json
 
       - name: Decode Keystore
         env:
           ENCODED_STRING: ${{ secrets.KEYSTORE_FILE }}
         run: |
-          TMP_KEYSTORE_FILE_PATH=/home/runner/work/sgo-app/sgo-app/app/keystore
+          TMP_KEYSTORE_FILE_PATH=/home/runner/work/che-zadali-app/che-zadali-app/app/keystore
           mkdir "${TMP_KEYSTORE_FILE_PATH}"
           echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/mezhendosina_key.jks
 
@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: SGO app.apk
-          path: /home/runner/work/sgo-app/sgo-app/app/build/outputs/apk/release/app-release.apk
+          path: /home/runner/work/che-zadali-app/che-zadali-app/app/build/outputs/apk/release/app-release.apk
 
   get-apk-version:
     needs: build-apk
@@ -68,7 +68,7 @@ jobs:
         id: apk-info
         uses: mezhendosina/apk-info-action@0.0.1
         with:
-          apk-path: /home/runner/work/sgo-app/sgo-app/app-release.apk
+          apk-path: /home/runner/work/che-zadali-app/che-zadali-app/app-release.apk
 
   
 
@@ -89,7 +89,7 @@ jobs:
         id: getRelease
         run: |
           echo "release<<EOF" >> $GITHUB_ENV
-          echo -e $(cat /home/runner/work/sgo-app/sgo-app/RELEASE_NOTES.md) >> $GITHUB_ENV
+          echo -e $(cat /home/runner/work/che-zadali-app/che-zadali-app/RELEASE_NOTES.md) >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
   get-last-release-version:
@@ -122,12 +122,12 @@ jobs:
           path: ./
 
       - name: rename APK
-        run: mv /home/runner/work/sgo-app/sgo-app/app-release.apk /home/runner/work/sgo-app/sgo-app/SGO-app-v${{ needs.get-apk-version.outputs.apk-version-name }}.apk
+        run: mv /home/runner/work/che-zadali-app/che-zadali-app/app-release.apk /home/runner/work/che-zadali-app/che-zadali-app/che-zadali-app-v${{ needs.get-apk-version.outputs.apk-version-name }}.apk
 
       - name: Send release notes to Telegram channel
         run: curl -F chat_id=-1001621609379 -F parse_mode=Markdown -F text="${{ needs.prepare-release-notes.outputs.release-notes-with-header }}"  https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendMessage
       - name: Send file to Telegram channel
-        run: curl -F document=@"/home/runner/work/sgo-app/sgo-app/SGO-app-v${{ needs.get-apk-version.outputs.apk-version-name }}.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001621609379
+        run: curl -F document=@"/home/runner/work/che-zadali-app/che-zadali-app/che-zadali-app-v${{ needs.get-apk-version.outputs.apk-version-name }}.apk" https://api.telegram.org/bot${{ secrets.TELEGRAM_API_TOKEN }}/sendDocument?chat_id=-1001621609379
 
   create-release:
     needs: [ prepare-release-notes, get-apk-version ]
@@ -141,7 +141,7 @@ jobs:
           path: ./
 
       - name: rename APK
-        run: mv /home/runner/work/sgo-app/sgo-app/app-release.apk /home/runner/work/sgo-app/sgo-app/SGO-app.apk
+        run: mv /home/runner/work/che-zadali-app/che-zadali-app/app-release.apk /home/runner/work/che-zadali-app/che-zadali-app/che-zadali-app.apk
 
 
       - name: Create Release
@@ -161,6 +161,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /home/runner/work/sgo-app/sgo-app/SGO-app.apk
-          asset_name: SGO-app.apk
+          asset_path: /home/runner/work/che-zadali-app/che-zadali-app/che-zadali-app.apk
+          asset_name: che-zadali-app.apk
           asset_content_type: application/vnd.android.package-archive
