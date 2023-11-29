@@ -71,15 +71,16 @@ class ContainerViewModel
     val weeks: LiveData<List<WeekStartEndEntity>> = _weeks
 
     fun checkUpdates() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val checkUpdates = containerRepository.checkUpdates()
-                withContext(Dispatchers.Main) {
-                    _latestUpdate.value = checkUpdates
+        if (BuildConfig.BUILD_TYPE != "rustore_release")
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val checkUpdates = containerRepository.checkUpdates()
+                    withContext(Dispatchers.Main) {
+                        _latestUpdate.value = checkUpdates
+                    }
+                } catch (_: Exception) {
                 }
-            } catch (_: Exception) {
             }
-        }
     }
 
     fun showUpdateDialog() {
