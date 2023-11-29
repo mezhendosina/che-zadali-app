@@ -33,10 +33,12 @@ import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 import com.mezhendosina.sgo.app.utils.LoadStatus
 import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class GradesFragment : Fragment(R.layout.fragment_grades) {
 
     private var binding: FragmentGradesBinding? = null
@@ -109,7 +111,7 @@ class GradesFragment : Fragment(R.layout.fragment_grades) {
             when (it) {
                 LoadStatus.UPDATE -> {
                     CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.load(requireContext())
+                        viewModel.load()
                     }
                     if (binding != null) {
                         TransitionManager.beginDelayedTransition(

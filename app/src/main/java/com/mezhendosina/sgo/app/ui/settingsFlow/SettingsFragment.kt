@@ -16,8 +16,10 @@
 
 package com.mezhendosina.sgo.app.ui.settingsFlow
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,15 +27,20 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
+import com.mezhendosina.sgo.app.activities.LoginActivity
 import com.mezhendosina.sgo.app.databinding.FragmentSettingsBinding
 import com.mezhendosina.sgo.app.ui.settingsFlow.changeControlQuestion.ChangeControlQuestionFragment
 import com.mezhendosina.sgo.app.ui.settingsFlow.changeEmail.ChangeEmailFragment
 import com.mezhendosina.sgo.app.ui.settingsFlow.changePhone.ChangePhoneFragment
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val viewModel: SettingsViewModel by viewModels()
@@ -125,7 +132,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             findNavController().navigate(R.id.action_settingsFragment_to_aboutAppFragment)
         }
 
-        binding.logoutButton.setOnClickListener { viewModel.logout(requireContext()) }
+        binding.logoutButton.setOnClickListener {
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.logout()
+            withContext(Dispatchers.Main) {
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                ContextCompat.startActivity(requireContext(), intent, null)
+            }
+        }
+        }
 
         observeMySettings()
 //        observeGradesNotifications()

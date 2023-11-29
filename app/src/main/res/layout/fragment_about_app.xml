@@ -155,6 +155,7 @@
         android:gravity="start|center_vertical"
         android:text="@string/app_web_site"
         android:textColor="?attr/colorOnBackground"
+        android:visibility="gone"
         app:icon="@drawable/ic_web_site"
         app:iconSize="32dp"
         app:iconTint="?attr/colorOnBackground"

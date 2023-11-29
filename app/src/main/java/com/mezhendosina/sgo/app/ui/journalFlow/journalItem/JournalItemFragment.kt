@@ -33,10 +33,12 @@ import com.mezhendosina.sgo.app.ui.journalFlow.journalItem.adapters.DiaryAdapter
 import com.mezhendosina.sgo.app.ui.journalFlow.journalItem.adapters.OnHomeworkClickListener
 import com.mezhendosina.sgo.app.ui.journalFlow.journalItem.adapters.PastMandatoryAdapter
 import com.mezhendosina.sgo.app.utils.findTopNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
 
 

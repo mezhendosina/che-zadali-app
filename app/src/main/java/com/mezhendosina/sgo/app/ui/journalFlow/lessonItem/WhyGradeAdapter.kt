@@ -24,7 +24,10 @@ import com.mezhendosina.sgo.app.databinding.ItemWhyGradeBinding
 import com.mezhendosina.sgo.app.uiEntities.WhyGradeEntity
 import com.mezhendosina.sgo.app.utils.setupGrade
 import com.mezhendosina.sgo.app.utils.toGradeType
+import dagger.Module
+import javax.inject.Singleton
 
+@Singleton
 class WhyGradeAdapter : RecyclerView.Adapter<WhyGradeAdapter.WhyGradeViewHolder>() {
 
     var grades: List<WhyGradeEntity> = emptyList()

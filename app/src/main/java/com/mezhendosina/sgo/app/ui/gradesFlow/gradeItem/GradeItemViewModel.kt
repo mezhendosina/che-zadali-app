@@ -21,8 +21,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.data.grades.CalculateGradeItem
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class GradeItemViewModel : ViewModel() {
+@HiltViewModel
+class GradeItemViewModel @Inject constructor() : ViewModel() {
 
     private val _calculatedGrade = MutableLiveData<CalculateGradeItem>()
     val calculatedGrade: LiveData<CalculateGradeItem> = _calculatedGrade

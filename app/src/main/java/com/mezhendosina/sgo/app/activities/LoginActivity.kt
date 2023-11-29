@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.activities
 
+import android.app.DownloadManager
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +26,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerLoginBinding
 import com.mezhendosina.sgo.app.utils.setupInsets
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
@@ -44,16 +47,17 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
         binding = ContainerLoginBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
-        setSupportActionBar(binding!!.toolbar)
+        setSupportActionBar(binding!!.loginToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         val navHost =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         navController = navHost.navController
         setupInsets(binding!!.root)
-        binding!!.toolbar.setupWithNavController(navController)
+        binding!!.loginToolbar.setupWithNavController(navController)
     }
 
     override fun onDestroy() {

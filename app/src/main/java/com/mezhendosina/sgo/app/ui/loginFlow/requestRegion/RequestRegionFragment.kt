@@ -21,7 +21,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentRequestRegionBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RequestRegionFragment : Fragment(R.layout.fragment_request_region) {
 
     private lateinit var binding: FragmentRequestRegionBinding

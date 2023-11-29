@@ -21,19 +21,22 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.POST
+import javax.inject.Inject
 
 interface RegionRequest {
     @POST("/requestRegion")
     suspend fun requestRegion()
 }
 
-class RequestRegionViewModel : ViewModel() {
+@HiltViewModel
+class RequestRegionViewModel @Inject constructor() : ViewModel() {
 
     private val loginInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)

@@ -22,6 +22,10 @@ import com.mezhendosina.sgo.data.netschool.base.Download
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.base.downloadToFileWithProgress
 import com.mezhendosina.sgo.data.requests.github.checkUpdates.CheckUpdates
+import dagger.Module
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -32,6 +36,7 @@ import retrofit2.http.GET
 import retrofit2.http.Streaming
 import retrofit2.http.Url
 import java.io.File
+import javax.inject.Inject
 
 interface UpdateApi {
 
@@ -43,7 +48,9 @@ interface UpdateApi {
     suspend fun downloadFile(@Url url: String): ResponseBody
 }
 
-class ContainerRepository {
+@Module
+@InstallIn(SingletonComponent::class)
+class ContainerRepository @Inject constructor() {
     private val loginInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
     private val client = OkHttpClient.Builder()

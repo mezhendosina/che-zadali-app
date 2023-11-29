@@ -15,8 +15,8 @@
   -->
 
 <resources>
-    <string name="app_name">SGO app</string>
-    <string name="main">Главная</string>
+    <string name="app_name">че задали</string>
+    <string name="main">че задали?</string>
     <string name="journal">Дневник</string>
     <string name="announcements">Объявления</string>
     <string name="grades">Оценки</string>
@@ -172,8 +172,10 @@
     <string name="signin_with_login_password">Войти с помощью логина и пароля</string>
     <string name="signin_via_gosuslugi">Войти через Госуслуги</string>
     <string name="hi">Привет!</string>
-    <string name="you_in">Ты попал в</string>
+    <string name="you_in">Это че задали</string>
     <string name="welcome_about">Неофициальный порт электронного дневника «Сетевой город. Образование» на Android</string>
     <string name="theme">Тема</string>
     <string name="empty">Не заполнено</string>
+    <string name="che_zadali">че задали?</string>
+    <string name="share_app">Поделиться приложением</string>
 </resources>

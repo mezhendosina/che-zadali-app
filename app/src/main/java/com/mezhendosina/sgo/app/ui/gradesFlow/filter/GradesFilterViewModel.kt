@@ -28,18 +28,22 @@ import com.mezhendosina.sgo.app.utils.LoadStatus
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.editPreference
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.repo.SettingsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class GradesFilterViewModel(
-    private val settingsRepository: SettingsRepository = NetSchoolSingleton.settingsRepository
+@HiltViewModel
+class GradesFilterViewModel
+@Inject constructor(
+    private val settingsRepository: SettingsRepository,
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     private val _gradesSortType: MutableLiveData<Int> = MutableLiveData()
@@ -58,9 +62,9 @@ class GradesFilterViewModel(
     val isLoading = _isLoading.toLiveData()
 
 
-    fun setGradeSort(context: Context, sortBy: Int) {
+    fun setGradeSort(sortBy: Int) {
         viewModelScope.launch {
-            SettingsDataStore.SORT_GRADES_BY.editPreference(context, sortBy)
+            settingsDataStore.setValue(SettingsDataStore.SORT_GRADES_BY, sortBy)
             _gradesSortType.value = sortBy
             Singleton.updateGradeState.value = LoadStatus.UPDATE
         }
@@ -103,22 +107,21 @@ class GradesFilterViewModel(
         }
     }
 
-    fun getGradeSort(context: Context) {
+    fun getGradeSort(@ApplicationContext context: Context) {
         viewModelScope.launch {
             _gradesSortType.value =
-                SettingsDataStore.SORT_GRADES_BY.getValue(context, GradeSortType.BY_LESSON_NAME)
-                    .first()!!
+                settingsDataStore.getValue(SettingsDataStore.SORT_GRADES_BY)
+                    .first() ?: GradeSortType.BY_LESSON_NAME
         }
     }
 
-    fun changeTrimId(context: Context, id: Int) {
+    fun changeTrimId(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            SettingsDataStore.TRIM_ID.editPreference(context, id)
+            settingsDataStore.setValue(SettingsDataStore.TRIM_ID, id)
             val checkItem = Singleton.gradesTerms.value?.checkItem(id)
             withContext(Dispatchers.Main) {
                 Singleton.gradesTerms.value = checkItem
                 Singleton.updateGradeState.value = LoadStatus.UPDATE
-
             }
         }
     }

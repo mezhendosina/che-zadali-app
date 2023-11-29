@@ -18,14 +18,36 @@ package com.mezhendosina.sgo.app.model.attachments
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Environment
+import android.webkit.MimeTypeMap
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import com.mezhendosina.sgo.app.utils.PermissionNotGranted
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class AttachmentsUtils {
 
     companion object {
+
+
+        fun getFile(context: Context, name: String): File {
+            if (!checkPermissions(context)) throw PermissionNotGranted()
+            val downloadsFolder = getDownloadsFolder(context)
+            return File(downloadsFolder, name)
+        }
+
+        suspend fun createFile(context: Context, name: String): File? {
+            val file = getFile(context, name)
+            val isExist = withContext(Dispatchers.IO) {
+                file.createNewFile()
+            }
+            return if (isExist) file else null
+        }
+
         fun checkPermissions(context: Context) =
             ContextCompat.checkSelfPermission(
                 context,
@@ -39,6 +61,34 @@ class AttachmentsUtils {
             appDownloadFolder.mkdir()
             return appDownloadFolder
         }
+
+        fun openFile(context: Context, file: File) {
+            val contentType = getMimeType(file.toURI().toString())
+
+            val fileUri = FileProvider.getUriForFile(
+                context,
+                context.applicationContext.packageName + ".provider",
+                file
+            )
+
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(fileUri, contentType)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            context.startActivity(intent)
+        }
+
+        private fun getMimeType(url: String?): String? {
+            var type: String? = null
+            val extension = MimeTypeMap.getFileExtensionFromUrl(url)
+            if (extension != null) {
+                type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+            }
+            return type
+        }
+
     }
+
 
 }

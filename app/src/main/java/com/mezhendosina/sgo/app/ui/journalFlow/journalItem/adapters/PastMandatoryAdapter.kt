@@ -23,9 +23,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemPastMandatoryBinding
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
+import dagger.Module
+import javax.inject.Singleton
 
 typealias PastMandatoryClickListener = (PastMandatoryEntity) -> Unit
 
+@Singleton
 class PastMandatoryAdapter(
     private val pastMandatoryClickListener: PastMandatoryClickListener
 ) : RecyclerView.Adapter<PastMandatoryAdapter.PastMandatoryViewHolder>(),

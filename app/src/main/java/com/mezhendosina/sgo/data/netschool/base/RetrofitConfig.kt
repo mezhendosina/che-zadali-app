@@ -18,8 +18,12 @@ package com.mezhendosina.sgo.data.netschool.base
 
 import com.google.gson.Gson
 import retrofit2.Retrofit
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RetrofitConfig(
+
+@Singleton
+class RetrofitConfig @Inject constructor(
     val retrofit: Retrofit,
-    val gson: Gson
+    val gson: Gson,
 )

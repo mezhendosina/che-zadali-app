@@ -25,12 +25,14 @@ import androidx.fragment.app.viewModels
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.databinding.FragmentGosuslugiResultBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class GosuslugiResultFragment : Fragment(R.layout.fragment_gosuslugi_result) {
 
 
@@ -41,11 +43,10 @@ class GosuslugiResultFragment : Fragment(R.layout.fragment_gosuslugi_result) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         CoroutineScope(Dispatchers.IO).launch {
-            viewModel.auth(
-                requireContext(),
-                arguments?.getString(LOGIN_STATE)!!,
-                arguments?.getString(USER_ID)!!
-            )
+//            viewModel.auth(
+//                arguments?.getString(LOGIN_STATE)!!,
+//                arguments?.getString(USER_ID)!!
+//            )
         }
     }
 

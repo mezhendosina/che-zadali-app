@@ -25,14 +25,21 @@ import androidx.navigation.fragment.findNavController
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentGosuslugiBinding
 import com.mezhendosina.sgo.app.ui.loginFlow.gosuslugiResult.GosuslugiResultFragment
+import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-
+import javax.inject.Inject
+@AndroidEntryPoint
 class GosuslugiFragment : Fragment(R.layout.fragment_gosuslugi) {
 
     private val viewModel by viewModels<GosuslugiViewModel>()
+
+    @Inject
+    lateinit var settingsDataStore: SettingsDataStore
 
     private val webView = GosuslugiWebView { loginState ->
         CoroutineScope(Dispatchers.IO).launch {
@@ -63,7 +70,13 @@ class GosuslugiFragment : Fragment(R.layout.fragment_gosuslugi) {
         binding = FragmentGosuslugiBinding.bind(view)
 
         with(binding!!.root) {
-            loadUrl("${NetSchoolSingleton.baseUrl}/webapi/sso/esia/crosslogin?esia_permissions=1&esia_role=1")
+            CoroutineScope(Dispatchers.Main).launch {
+                loadUrl(
+                    "${
+                        settingsDataStore.getValue(SettingsDataStore.REGION_URL).first()
+                    }/webapi/sso/esia/crosslogin?esia_permissions=1&esia_role=1"
+                )
+            }
             settings.apply {
                 loadsImagesAutomatically = true
                 javaScriptEnabled = true

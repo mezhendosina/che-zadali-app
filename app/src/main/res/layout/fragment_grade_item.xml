@@ -23,7 +23,7 @@
     tools:context=".ui.gradesFlow.gradeItem.GradeItemFragment">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/grade_toolbar"
         layout="@layout/item_lesson_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

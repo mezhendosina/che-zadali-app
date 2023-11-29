@@ -39,6 +39,7 @@ class ParseBackendResponseException(
     cause: Throwable
 ) : AppException(cause = cause)
 
+class LessonNotFoundException() : NullPointerException()
 
 fun Exception.toDescription(): String {
     println(this.stackTraceToString())

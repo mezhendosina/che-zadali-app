@@ -24,8 +24,11 @@ import com.mezhendosina.sgo.data.netschool.api.diary.entities.DiaryResponseEntit
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
+import javax.inject.Inject
 
-class RetrofitDiarySource(config: RetrofitConfig) : BaseRetrofitSource(config), DiarySource {
+@javax.inject.Singleton
+class RetrofitDiarySource @Inject constructor(config: RetrofitConfig) : BaseRetrofitSource(config),
+    DiarySource {
 
     private val diaryApi = retrofit.create(DiaryApi::class.java)
 

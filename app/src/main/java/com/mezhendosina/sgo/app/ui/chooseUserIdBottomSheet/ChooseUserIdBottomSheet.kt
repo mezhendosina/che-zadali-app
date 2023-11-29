@@ -25,17 +25,20 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseUserIdBinding
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseUserId.UserIdAdapter
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.editPreference
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ChooseUserIdBottomSheet : BottomSheetDialogFragment(R.layout.fragment_choose_user_id) {
 
     private lateinit var binding: FragmentChooseUserIdBinding
 
+    @Inject lateinit var settingsDataStore: SettingsDataStore
 
     private val adapter = UserIdAdapter {
         lifecycleScope.launch {
-            SettingsDataStore.CURRENT_USER_ID.editPreference(requireContext(), it.userId ?: -1)
+            settingsDataStore.setValue(SettingsDataStore.CURRENT_USER_ID, it.userId ?: -1)
         }
     }
 

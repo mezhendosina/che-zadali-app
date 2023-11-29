@@ -26,8 +26,11 @@ import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import java.io.File
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RetrofitAttachmentsSource(config: RetrofitConfig) :
+@Singleton
+class RetrofitAttachmentsSource @Inject constructor(config: RetrofitConfig) :
     BaseRetrofitSource(config), AttachmentsSource {
 
     private val attachmentsSource = retrofit.create(AttachmentsApi::class.java)

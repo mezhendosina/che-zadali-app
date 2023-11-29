@@ -26,9 +26,9 @@ data class GetAnswerResponseEntity(
     val studentId: Int,
     val text: TextAnswer?
 ) {
-    fun toUiEntity() = AnswerUiEntity(
+    fun toUiEntity(assignType: String, assignId: Int) = AnswerUiEntity(
         text?.answer,
-        files.map { it.toUiEntity() }
+        files.map { it.toUiEntity(assignType, assignId) }
     )
 }
 
@@ -41,6 +41,8 @@ data class FileEntity(
     val saved: Int,
     val userId: Int?
 ) {
-    fun toUiEntity() = FileUiEntity(id, fileName, description)
+    fun toUiEntity(assignType: String, assignId: Int) =
+        FileUiEntity(id, assignType, assignId, fileName, description)
+
     fun toAttachmentEntity() = Attachment(description, id, fileName, fileName)
 }

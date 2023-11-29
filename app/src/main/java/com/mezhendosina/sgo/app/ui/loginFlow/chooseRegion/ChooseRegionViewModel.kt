@@ -25,16 +25,22 @@ import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionU
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.editPreference
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.repo.RegionsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ChooseRegionViewModel(
-    private val regionsRepository: RegionsRepository = NetSchoolSingleton.regionsRepository
+
+@HiltViewModel
+class ChooseRegionViewModel
+@Inject constructor(
+    private val regionsRepository: RegionsRepository,
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     private val _regions = MutableLiveData<ChooseRegionUiEntity>()
@@ -69,12 +75,11 @@ class ChooseRegionViewModel(
         _selectedRegion.value = _regions.value?.first { it.name == newValue }!!
     }
 
-    fun setRegion(context: Context, onComplete: () -> Unit) {
+    fun setRegion(@ApplicationContext context: Context, onComplete: () -> Unit) {
         val regionUrl = _selectedRegion.value!!.url
         CoroutineScope(Dispatchers.IO).launch {
-            SettingsDataStore.REGION_URL.editPreference(context, regionUrl)
+            settingsDataStore.setValue(SettingsDataStore.REGION_URL, regionUrl)
             withContext(Dispatchers.Main) {
-                NetSchoolSingleton.baseUrl = regionUrl
                 onComplete.invoke()
             }
         }

@@ -25,9 +25,11 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAboutAppBinding
+import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
 
+@AndroidEntryPoint
 class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
 
     private lateinit var binding: FragmentAboutAppBinding

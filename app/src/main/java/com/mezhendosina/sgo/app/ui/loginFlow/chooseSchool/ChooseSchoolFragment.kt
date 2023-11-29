@@ -33,11 +33,13 @@ import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
 import com.mezhendosina.sgo.app.utils.DividerItemDecoration
 import com.mezhendosina.sgo.app.utils.hideAnimation
 import com.mezhendosina.sgo.app.utils.showAnimation
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
 
     private var binding: FragmentChooseSchoolBinding? = null

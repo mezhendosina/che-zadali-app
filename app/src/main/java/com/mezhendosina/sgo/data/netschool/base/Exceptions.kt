@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.app.netschool.base
+package com.mezhendosina.sgo.data.netschool.base
 
 import android.content.ActivityNotFoundException
 

@@ -24,8 +24,11 @@ import com.mezhendosina.sgo.data.netschool.NetSchoolExpectedResults
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import java.lang.reflect.Type
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RetrofitAnnouncementsSource(
+@Singleton
+class RetrofitAnnouncementsSource @Inject constructor(
     config: RetrofitConfig
 ) : BaseRetrofitSource(config), AnnouncementsSource {
 

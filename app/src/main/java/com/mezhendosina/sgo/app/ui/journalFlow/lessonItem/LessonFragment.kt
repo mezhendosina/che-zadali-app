@@ -17,9 +17,11 @@
 package com.mezhendosina.sgo.app.ui.journalFlow.lessonItem
 
 import android.Manifest
+import android.app.DownloadManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
@@ -35,17 +37,24 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentItemLessonBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
 import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment
 import com.mezhendosina.sgo.app.utils.AttachmentAdapter
 import com.mezhendosina.sgo.app.utils.AttachmentClickListener
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
     internal val viewModel: LessonViewModel by viewModels()
     private var binding: FragmentItemLessonBinding? = null
+
+    @Inject
+    lateinit var attachmentDownloadManager: AttachmentDownloadManager
 
     private val storagePermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -53,11 +62,12 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
     private val onAttachmentClickListener = object : AttachmentClickListener {
         override fun invoke(attachment: FileUiEntity, loadingList: MutableList<Int>) {
+            viewModel.downloadAttachment(requireContext(),attachment)
+
             val permission =
                 requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             if (permission == PackageManager.PERMISSION_GRANTED) {
                 CoroutineScope(Dispatchers.Main).launch {
-                    viewModel.downloadAttachment(requireContext(), attachment)
                 }
             } else {
                 storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -74,15 +84,11 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
 
+
         whyGradeAdapter = WhyGradeAdapter()
         attachmentAdapter = AttachmentAdapter(onAttachmentClickListener)
         answerFileAdapter = AttachmentAdapter(onAttachmentClickListener)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.init(requireContext())
-        }
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -130,41 +136,47 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
             if (lesson != null) with(binding!!) {
                 homework.homeworkBody.text = lesson.homework
 
-                if (!lesson.homeworkComment.isNullOrEmpty()) {
-                    homework.commentBody.text = lesson.homeworkComment
-                    homework.commentBody.visibility = View.VISIBLE
-                    homework.commentHeader.visibility = View.VISIBLE
-                } else {
-                    homework.commentBody.visibility = View.GONE
-                    homework.commentHeader.visibility = View.GONE
+                if (lesson.homework.isEmpty()){
+                    homework.root.visibility = View.GONE
+                } else{
+                    if (!lesson.homeworkComment.isNullOrEmpty()) {
+                        homework.commentBody.text = lesson.homeworkComment
+                        homework.commentBody.visibility = View.VISIBLE
+                        homework.commentHeader.visibility = View.VISIBLE
+                    } else {
+                        homework.commentBody.visibility = View.GONE
+                        homework.commentHeader.visibility = View.GONE
+                    }
+
+                    if (!lesson.attachments.isNullOrEmpty()) {
+                        homework.attachmentsList.root.visibility = View.VISIBLE
+                        attachmentAdapter?.attachments = lesson.attachments
+                    } else {
+                        homework.attachmentsList.root.visibility = View.GONE
+                    }
+                    if (lesson.answerText.isNullOrBlank() && lesson.answerFiles.isNullOrEmpty()) {
+                        sendHomework.root.visibility = View.GONE
+                        homework.addAnswerButton.visibility = View.VISIBLE
+                    } else {
+                        sendHomework.root.visibility = View.VISIBLE
+                        homework.addAnswerButton.visibility = View.GONE
+
+                        if (lesson.answerFiles.isNullOrEmpty()) {
+                            sendHomework.sendAttachmentList.visibility = View.GONE
+                        } else {
+                            sendHomework.sendAttachmentList.visibility = View.VISIBLE
+                            answerFileAdapter?.attachments = lesson.answerFiles
+                        }
+                        if (lesson.answerText.isNullOrEmpty()) {
+                            sendHomework.answerText.visibility = View.GONE
+                        } else {
+                            sendHomework.answerText.visibility = View.VISIBLE
+                            sendHomework.answerText.text = lesson.answerText
+                        }
+                    }
                 }
 
-                if (!lesson.attachments.isNullOrEmpty()) {
-                    homework.attachmentsList.root.visibility = View.VISIBLE
-                    attachmentAdapter?.attachments = lesson.attachments
-                } else {
-                    homework.attachmentsList.root.visibility = View.GONE
-                }
-                if (lesson.answerText.isNullOrBlank() && lesson.answerFiles.isNullOrEmpty()) {
-                    sendHomework.root.visibility = View.GONE
-                    homework.addAnswerButton.visibility = View.VISIBLE
-                } else {
-                    sendHomework.root.visibility = View.VISIBLE
-                    homework.addAnswerButton.visibility = View.GONE
 
-                    if (lesson.answerFiles.isNullOrEmpty()) {
-                        sendHomework.sendAttachmentList.visibility = View.GONE
-                    } else {
-                        sendHomework.sendAttachmentList.visibility = View.VISIBLE
-                        answerFileAdapter?.attachments = lesson.answerFiles
-                    }
-                    if (lesson.answerText.isNullOrEmpty()) {
-                        sendHomework.answerText.visibility = View.GONE
-                    } else {
-                        sendHomework.answerText.visibility = View.VISIBLE
-                        sendHomework.answerText.text = lesson.answerText
-                    }
-                }
 
                 if (!lesson.whyGradeEntity.isNullOrEmpty()) {
                     itemWhyGrade.root.visibility = View.VISIBLE
@@ -213,7 +225,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         Singleton.answerUpdated.observe(viewLifecycleOwner) {
             if (it) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.init(requireContext())
+                    viewModel.loadLesson()
                 }
                 Singleton.answerUpdated.value = false
             }

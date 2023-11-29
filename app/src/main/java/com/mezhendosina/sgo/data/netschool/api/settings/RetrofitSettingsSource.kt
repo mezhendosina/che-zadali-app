@@ -26,8 +26,12 @@ import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RetrofitSettingsSource(config: RetrofitConfig) : BaseRetrofitSource(config), SettingsSource {
+@Singleton
+class RetrofitSettingsSource @Inject constructor(config: RetrofitConfig) :
+    BaseRetrofitSource(config), SettingsSource {
 
     private val settingsApi = retrofit.create(SettingsApi::class.java)
 
@@ -47,9 +51,10 @@ class RetrofitSettingsSource(config: RetrofitConfig) : BaseRetrofitSource(config
         }
 
 
-    override suspend fun getProfilePhoto(at: String, userId: Int): ByteArray? =
+    override suspend fun getProfilePhoto(userId: Int): ByteArray? =
         wrapRetrofitExceptions {
-            settingsApi.getProfilePhoto(at, userId).body()?.byteStream()?.readBytes()
+            settingsApi.getProfilePhoto(com.mezhendosina.sgo.Singleton.at, userId).body()
+                ?.byteStream()?.readBytes()
         }
 
     override suspend fun changePassword(userId: Int, password: ChangePasswordEntity) =

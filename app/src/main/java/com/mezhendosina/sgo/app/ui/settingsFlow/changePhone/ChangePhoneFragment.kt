@@ -26,10 +26,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChangePhoneNumberBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ChangePhoneFragment : Fragment(R.layout.fragment_change_phone_number) {
 
     lateinit var binding: FragmentChangePhoneNumberBinding

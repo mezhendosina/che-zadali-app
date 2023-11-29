@@ -31,10 +31,12 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAnnouncementItemBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import com.mezhendosina.sgo.app.model.attachments.ANNOUNCEMENT
 import com.mezhendosina.sgo.app.utils.AttachmentAdapter
 import com.mezhendosina.sgo.app.utils.AttachmentClickListener
 import com.mezhendosina.sgo.data.DateManipulation
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
+import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +45,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
 
+@AndroidEntryPoint
 class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) {
 
     private lateinit var binding: FragmentAnnouncementItemBinding
@@ -94,10 +97,8 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
                             requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         if (permission == PackageManager.PERMISSION_GRANTED) {
                             CoroutineScope(Dispatchers.Main).launch {
-                                viewModel.downloadAttachment(
-                                    requireContext(),
-                                    attachment,
-                                )
+                                TODO()
+//                                viewModel.downloadAttachment(attachment)
                             }
                         } else {
                             storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -106,7 +107,7 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
                 }
             )
             attachmentAdapter.attachments =
-                announcement.attachments.map { it.toUiEntity() }
+                announcement.attachments.map { it.toUiEntity(ANNOUNCEMENT, announcement.id) }
             binding.attachmentsList.attachmentsListRecyclerView.adapter = attachmentAdapter
             binding.attachmentsList.attachmentsListRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

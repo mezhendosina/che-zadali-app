@@ -29,19 +29,24 @@ import com.mezhendosina.sgo.app.activities.LoginActivity
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.netschool.repo.SettingsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import javax.inject.Inject
 
-class SettingsViewModel(
-    private val settingsRepository: SettingsRepository = NetSchoolSingleton.settingsRepository
+@HiltViewModel
+class SettingsViewModel
+@Inject constructor(
+    private val settingsRepository: SettingsRepository,
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     private val _mySettingsResponseEntity = MutableLiveData<MySettingsResponseEntity>()
@@ -53,12 +58,6 @@ class SettingsViewModel(
 
     private val controlQuestion = MutableLiveData<String>()
     private val controlAnswer = MutableLiveData<String>()
-
-    private val _enableGradeNotifications = MutableLiveData<Boolean>()
-    val enableGradeNotifications: LiveData<Boolean> = _enableGradeNotifications
-
-    private val _gradesNotificationsLoading = MutableLiveData<Boolean>(false)
-    val gradesNotificationsLoading = _gradesNotificationsLoading.toLiveData()
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
@@ -74,8 +73,6 @@ class SettingsViewModel(
                 _loading.value = true
             }
             val settingsResponse = settingsRepository.getMySettings()
-//            val settings = Settings(context)
-//            isGradesNotifySignIn(settings)
             withContext(Dispatchers.Main) {
                 _mySettingsResponseEntity.value = settingsResponse
                 phoneNumber.value = settingsResponse.mobilePhone ?: ""
@@ -106,9 +103,8 @@ class SettingsViewModel(
             try {
 
                 settingsRepository.loadProfilePhoto(
-                    SettingsDataStore.CURRENT_USER_ID.getValue(context, -1).first(),
-                    photoFile,
-                    isExist
+                    settingsDataStore.getValue(SettingsDataStore.CURRENT_USER_ID).first() ?: -1,
+                    photoFile
                 )
 
                 withContext(Dispatchers.Main) {
@@ -121,105 +117,10 @@ class SettingsViewModel(
             }
         }
     }
-
-//    suspend fun changeProfilePhoto(context: Context, photo: Uri?) {
-//        try {
-//            val settings = Settings(context)
-//            settingsRepository.changeProfilePhoto(context, photo, settings.currentUserId.first())
-//        } catch (e: Exception) {
-//            withContext(Dispatchers.Main) {
-//                _errorMessage.value = e.toDescription()
-//            }
-//        }
-//    }
-
-//    suspend fun changeGradeNotifications(context: Context) {
-//        withContext(Dispatchers.Main) {
-//            _gradesNotificationsLoading.value = true
-//        }
-//        try {
-//            val token =
-//                if (firebaseToken != null) firebaseToken
-//                else {
-////                    isGradesNotifySignIn(settings)
-//                    firebaseToken
-//                }
-//            val loginData = settings.getLoginData()
-//            val userId = settings.currentUserId.first()
-//            val user = NotificationUserEntity(
-//                userId,
-//                token ?: "",
-//                loginData.UN,
-//                loginData.PW,
-//                settings.regionUrl.first().dropLast(1),
-//                loginData.schoolId,
-//                true
-//            )
-//            if (!_enableGradeNotifications.value!!) {
-//                settingsRepository.registerGradesNotifications(user)
-//            } else {
-//                settingsRepository.unregisterGradesNotifications(userId, token ?: "")
-//            }
-//            withContext(Dispatchers.Main) {
-//                _enableGradeNotifications.value = !_enableGradeNotifications.value!!
-//            }
-//        } catch (e: Exception) {
-//            withContext(Dispatchers.Main) {
-//                _errorMessage.value = e.toDescription()
-//                _enableGradeNotifications.value = _enableGradeNotifications.value!!
-//            }
-//        } finally {
-//            withContext(Dispatchers.Main) {
-//                _gradesNotificationsLoading.value = false
-//            }
-//        }
-//    }
-
-    fun logout(context: Context) {
-        CoroutineScope(Dispatchers.IO).launch {
-            SettingsDataStore().logout(context)
-            withContext(Dispatchers.Main) {
-                val intent = Intent(context, LoginActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(context, intent, null)
-            }
-        }
+    suspend fun logout() {
+        settingsDataStore.logout()
     }
 
-//    private suspend fun isGradesNotifySignIn(context: Context) {
-//        if (firebaseToken == null) {
-//            withContext(Dispatchers.Main) {
-//                _gradesNotificationsLoading.value = true
-//            }
-//            FirebaseMessaging.getInstance().token.addOnSuccessListener {
-//                CoroutineScope(Dispatchers.IO).launch {
-//                    val isExist = settingsRepository.isGradesNotifyUserExist(
-//                        settings.currentUserId.first(),
-//                        it
-//                    )
-//                    withContext(Dispatchers.Main) {
-//                        _enableGradeNotifications.value = isExist
-//                        firebaseToken = it
-//                        _gradesNotificationsLoading.value = false
-//                    }
-//                }
-//            }
-//        } else {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                withContext(Dispatchers.Main) {
-//                    _gradesNotificationsLoading.value = true
-//                }
-//                val isExist = settingsRepository.isGradesNotifyUserExist(
-//                    settings.currentUserId.first(),
-//                    firebaseToken ?: ""
-//                )
-//                withContext(Dispatchers.Main) {
-//                    _enableGradeNotifications.value = isExist
-//                    _gradesNotificationsLoading.value = false
-//                }
-//            }
-//        }
-//    }
 
     companion object {
         const val CONTROL_QUESTION = "control_question"

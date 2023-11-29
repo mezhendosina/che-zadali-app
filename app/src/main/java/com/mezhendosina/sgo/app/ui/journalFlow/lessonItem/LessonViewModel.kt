@@ -19,24 +19,35 @@ package com.mezhendosina.sgo.app.ui.journalFlow.lessonItem
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
-import com.mezhendosina.sgo.app.netschool.base.PermissionNotGranted
-import com.mezhendosina.sgo.app.netschool.base.toDescription
+import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
+import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
+import com.mezhendosina.sgo.app.model.attachments.HOMEWORK
+import com.mezhendosina.sgo.data.netschool.base.PermissionNotGranted
+import com.mezhendosina.sgo.data.netschool.base.toDescription
 import com.mezhendosina.sgo.app.uiEntities.AboutLessonUiEntity
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.getValue
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton.attachmentsRepository
 import com.mezhendosina.sgo.data.netschool.repo.LessonActionListener
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
+import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class LessonViewModel(
-    private val lessonRepository: LessonRepository = NetSchoolSingleton.lessonRepository
+@HiltViewModel
+class LessonViewModel
+@Inject constructor(
+    private val lessonRepository: LessonRepositoryInterface,
+    private val attachmentDownloadManager: AttachmentDownloadManager,
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     private val _lesson = MutableLiveData<AboutLessonUiEntity>()
@@ -51,16 +62,19 @@ class LessonViewModel(
 
     init {
         lessonRepository.addListener(lessonListener)
+        viewModelScope.launch {
+            loadLesson()
+        }
     }
 
-    suspend fun init(context: Context) {
+    suspend fun loadLesson() {
         try {
             withContext(Dispatchers.Main) {
                 _error.value = ""
             }
             lessonRepository.getAboutLesson(
                 if (Singleton.lesson != null) Singleton.lesson!! else Singleton.pastMandatoryItem!!.toLessonEntity(),
-                SettingsDataStore.CURRENT_USER_ID.getValue(context, -1).first()
+                settingsDataStore.getValue(SettingsDataStore.CURRENT_USER_ID).first() ?: -1
             )
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -69,18 +83,24 @@ class LessonViewModel(
         }
     }
 
-    suspend fun downloadAttachment(
+    fun downloadAttachment(
         context: Context,
         attachment: FileUiEntity,
     ) {
         try {
-            withContext(Dispatchers.IO) {
-                attachmentsRepository.downloadAttachment(
+            CoroutineScope(Dispatchers.IO).launch {
+                attachmentDownloadManager.downloadFile(
                     context,
-                    attachment.id!!,
-                    attachment.fileName
+                    attachment
                 )
+                withContext(Dispatchers.Main) {
+                    attachmentDownloadManager.openFile(
+                        context,
+                        attachment
+                    )
+                }
             }
+
         } catch (e: Exception) {
             if (e is PermissionNotGranted) {
                 throw PermissionNotGranted()
@@ -95,91 +115,3 @@ class LessonViewModel(
         lessonRepository.removeListener(lessonListener)
     }
 }
-
-
-//class LessonViewModel(
-//    private val attachmentsRepository: AttachmentsRepository = NetSchoolSingleton.attachmentsRepository,
-//    val answerRepository: AnswerRepository = NetSchoolSingleton.answerRepository
-//) : ViewModel() {
-//
-//    private val _lesson = MutableLiveData<LessonUiEntity>()
-//    val lesson: LiveData<LessonUiEntity> = _lesson
-//
-//    private val _types = MutableLiveData<List<AssignmentTypesResponseEntity>>()
-//    val types: LiveData<List<AssignmentTypesResponseEntity>> = _types
-//
-//    private val _errorMessage = MutableLiveData<String>()
-//    val errorMessage: LiveData<String> = _errorMessage
-//
-//    private val _snackBar = MutableLiveData(false)
-//    val snackbar: LiveData<Boolean> = _snackBar
-//
-//
-//    suspend fun init(context: Context, fullUpdate: Boolean = false) {
-//        if (fullUpdate) {
-//            if (Singleton.lesson != null) {
-//                loadHomework(context)
-//                loadGrades()
-//            } else if (Singleton.pastMandatoryItem != null) {
-//                loadHomework(context, Singleton.pastMandatoryItem!!.id)
-//            }
-//        } else {
-//            if (Singleton.lesson != null) {
-//                withContext(Dispatchers.Main) {
-//                    _lesson.value = Singleton.lesson
-//                }
-//                loadGrades()
-//            } else if (Singleton.pastMandatoryItem != null) {
-//                withContext(Dispatchers.Main) {
-//                    _lesson.value = Singleton.pastMandatoryItem!!.toLessonEntity()
-//                }
-//                loadHomework(context, Singleton.pastMandatoryItem!!.id)
-//            }
-//        }
-//    }
-//
-//
-//    fun deleteFile(context: Context, fileId: Int, onComplete: () -> Unit) {
-//        CoroutineScope(Dispatchers.Main).launch {
-//            try {
-//                withContext(Dispatchers.IO) {
-//                    val assignmentId = _lesson.value?.assignments?.find { it.typeId == 3 }?.id ?: 0
-//                    attachmentsRepository.deleteAttachment(assignmentId, fileId)
-//                    withContext(Dispatchers.Main) {
-//                        onComplete.invoke()
-//                    }
-//                    loadHomework(context)
-//                }
-//            } catch (e: Exception) {
-//                _errorMessage.value = e.toDescription()
-//            }
-//        }
-//    }
-//
-//    fun loadHomework(context: Context, id: Int? = null) {
-//        val settings = Settings(context)
-//        CoroutineScope(Dispatchers.IO).launch {
-//            try {
-//                val homeworkId =
-//                    id ?: _lesson.value?.assignments?.first { it.typeId == 3 }?.id ?: -1
-//                val studentId = settings.currentUserId.first()
-//                val response = homeworkSource.getAboutAssign(
-//                    homeworkId,
-//                    studentId
-//                )
-//                answerRepository.loadAnswer(studentId, homeworkId)
-//                withContext(Dispatchers.Main) {
-//                    _homework.value = response
-//                    _attachments.value = response.attachments
-//                }
-//            } catch (e: Exception) {
-//                withContext(Dispatchers.Main) {
-//                    _errorMessage.value = e.toDescription()
-//                }
-//            }
-//        }
-//    }
-//
-//
-
-//}
