@@ -24,6 +24,7 @@ import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
+import com.mezhendosina.sgo.data.netschool.repo.LoginRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +38,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel
 @Inject constructor(
-    private val loginRepository: LoginRepository,
+    private val loginRepository: LoginRepositoryInterface,
     private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 

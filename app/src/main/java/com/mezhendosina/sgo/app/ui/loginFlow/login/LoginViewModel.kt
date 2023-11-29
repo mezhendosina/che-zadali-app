@@ -22,7 +22,6 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
@@ -31,10 +30,11 @@ import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.netschool.api.login.entities.toUiEntity
 import com.mezhendosina.sgo.data.netschool.base.toMD5
-import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
+import com.mezhendosina.sgo.data.netschool.repo.LoginRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,7 +44,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel
 @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepositoryInterface
 ) : ViewModel() {
 
     private val _isLoading = MutableLiveData(false)
@@ -67,7 +67,6 @@ class LoginViewModel
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val passwordHash = password.toMD5()
-                val school = findSchool(schoolId)
                 loginRepository.login(
                     login,
                     passwordHash,
@@ -97,7 +96,13 @@ class LoginViewModel
 
 
     suspend fun findSchool(schoolId: Int) {
-        _foundSchool.value = loginRepository.schools.first().first { it.id == schoolId }
+        loginRepository.getSchools().collectLatest { schoolUiEntities ->
+            val findSchool = schoolUiEntities.firstOrNull { it.id == schoolId}
+            withContext(Dispatchers.Main) {
+                _foundSchool.value = findSchool
+            }
+        }
+
     }
 }
 

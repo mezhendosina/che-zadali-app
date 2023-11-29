@@ -23,6 +23,7 @@ import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
+import com.mezhendosina.sgo.data.netschool.repo.LoginRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +34,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GosuslugiResultViewModel
 @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepositoryInterface
 ) : ViewModel() {
 
     private val _loggedIn = MutableLiveData<Boolean?>(null)

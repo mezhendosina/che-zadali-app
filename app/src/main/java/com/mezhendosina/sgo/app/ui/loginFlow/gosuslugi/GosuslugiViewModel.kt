@@ -21,6 +21,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.toUiEntity
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
+import com.mezhendosina.sgo.data.netschool.repo.LoginRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GosuslugiViewModel
     @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepositoryInterface
 ) : ViewModel() {
     suspend fun login(
         loginState: String,

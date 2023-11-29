@@ -16,7 +16,6 @@
 
 package com.mezhendosina.sgo.data.netschool.repo
 
-import android.content.Context
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
 import com.mezhendosina.sgo.data.SettingsDataStore
@@ -27,32 +26,33 @@ import com.mezhendosina.sgo.data.netschool.api.login.entities.StudentResponseEnt
 import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.User
 import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.login.entities.LogoutRequestEntity
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-
-@Module
-@InstallIn(ActivityComponent::class)
-class LoginRepository
-@Inject constructor(
+class LoginRepository @Inject constructor(
     private val loginSource: LoginSource,
     private val settingsDataStore: SettingsDataStore,
     private val settingsSource: SettingsSource
-) {
-    private val _schools = MutableSharedFlow<List<SchoolUiEntity>>()
-    val schools: SharedFlow<List<SchoolUiEntity>> = _schools
-    suspend fun findSchool(name: String) {
+) : LoginRepositoryInterface {
+    private val _schools = MutableStateFlow<List<SchoolUiEntity>>(emptyList())
+    override suspend fun findSchool(schoolId: Int): SchoolUiEntity {
+        return _schools.last().first{ it.id == schoolId}
+    }
+
+
+    override fun getSchools(): StateFlow<List<SchoolUiEntity>> {
+        return _schools
+    }
+
+
+    override suspend fun mapSchools(name: String) {
         val schoolsList = loginSource.getSchools(name).map { it.toUiEntity() }
 
         withContext(Dispatchers.Main) {
@@ -60,13 +60,13 @@ class LoginRepository
         }
     }
 
-    suspend fun login(
-        login: String? = null,
-        password: String? = null,
-        schoolId: Int? = null,
-        firstLogin: Boolean = true,
-        onOneUser: () -> Unit = {},
-        onMoreUser: (List<StudentResponseEntity>) -> Unit = {}
+    override suspend fun login(
+        login: String?,
+        password: String?,
+        schoolId: Int?,
+        firstLogin: Boolean,
+        onOneUser: () -> Unit,
+        onMoreUser: (List<StudentResponseEntity>) -> Unit
     ) {
 
 
@@ -138,12 +138,10 @@ class LoginRepository
         }
     }
 
-    suspend fun getGosuslugiUsers(loginState: String): List<User> =
+    override suspend fun getGosuslugiUsers(loginState: String): List<User> =
         loginSource.getGosuslugiAccountInfo(loginState).users
 
-    suspend fun gosuslugiLogin(
-        firstLogin: Boolean = false
-    ) {
+    override suspend fun gosuslugiLogin(firstLogin: Boolean) {
         val loginState =
             settingsDataStore.getValue(SettingsDataStore.ESIA_LOGIN_STATE).first() ?: ""
         val userId = settingsDataStore.getValue(SettingsDataStore.ESIA_USER_ID).first() ?: ""
@@ -164,6 +162,6 @@ class LoginRepository
         }
     }
 
-    suspend fun logout() = loginSource.logout()
+    override suspend fun logout() = loginSource.logout()
 
 }

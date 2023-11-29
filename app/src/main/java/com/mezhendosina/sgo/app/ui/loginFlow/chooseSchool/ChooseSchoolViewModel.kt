@@ -23,8 +23,7 @@ import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
-import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
+import com.mezhendosina.sgo.data.netschool.repo.LoginRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -35,7 +34,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChooseSchoolViewModel
 @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepositoryInterface
 ) : ViewModel() {
     private val _schools = MutableLiveData<List<SchoolUiEntity>>()
     val schools: LiveData<List<SchoolUiEntity>> = _schools
@@ -55,7 +54,7 @@ class ChooseSchoolViewModel
 
     init {
         viewModelScope.launch {
-            loginRepository.schools.collectLatest {
+            loginRepository.getSchools().collectLatest {
                 _schools.value = it
             }
         }
@@ -67,7 +66,7 @@ class ChooseSchoolViewModel
             _isLoading.value = true
         }
         try {
-            loginRepository.findSchool(string)
+            loginRepository.mapSchools(string)
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 _errorMessage.value = e.toDescription()
