@@ -17,32 +17,50 @@
 package com.mezhendosina.sgo.data.netschool.repo
 
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import com.mezhendosina.sgo.app.model.attachments.ANSWERS
+import com.mezhendosina.sgo.app.model.attachments.HOMEWORK
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.uiEntities.AboutLessonUiEntity
+import com.mezhendosina.sgo.app.uiEntities.AssignTypeUiEntity
 import com.mezhendosina.sgo.app.uiEntities.WhyGradeEntity
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.AttachmentsRequestEntity
 import com.mezhendosina.sgo.data.netschool.api.homework.HomeworkSource
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 typealias LessonActionListener = (lesson: AboutLessonUiEntity?) -> Unit
 
-class LessonRepository(
+class LessonRepository @Inject constructor(
     private val homeworkSource: HomeworkSource,
     private val attachmentsSource: AttachmentsSource,
-) {
+) : LessonRepositoryInterface {
+    private var assignTypes: List<AssignTypeUiEntity>? = null
+
 
     private var lesson: AboutLessonUiEntity? = null
     private val listeners = mutableSetOf<LessonActionListener>()
 
     var answerFiles: List<FileUiEntity> = emptyList()
-    var answerText: String = ""
+    private var answerText: String = ""
+    override fun getAnswerText(): String = answerText
 
-    fun getLesson(): AboutLessonUiEntity? = lesson
+    override fun editAnswerText(text: String) {
+        answerText = text
+    }
 
-    suspend fun getAboutLesson(
+
+    override fun getLesson(): AboutLessonUiEntity? {
+        return lesson
+
+    }
+
+    override suspend fun getAboutLesson(
         lessonUiEntity: LessonUiEntity,
         studentId: Int
     ) {
@@ -51,8 +69,18 @@ class LessonRepository(
             AttachmentsRequestEntity(lessonUiEntity.assignments?.map { it.id } ?: emptyList())
         )
         val answerFilesResponse =
-            attachmentsR.firstOrNull()?.answerFiles?.map { it.attachment.toUiEntity() }
-        val attachments = attachmentsR.firstOrNull()?.attachments?.map { it.toUiEntity() }
+            attachmentsR.firstOrNull()?.answerFiles?.map {
+                it.attachment.toUiEntity(
+                    ANSWERS,
+                    lessonUiEntity.classmeetingId
+                )
+            }
+        val attachments = attachmentsR.firstOrNull()?.attachments?.map {
+            it.toUiEntity(
+                HOMEWORK,
+                lessonUiEntity.classmeetingId
+            )
+        }
         val aboutAssign =
             lessonUiEntity.homework?.id?.let { homeworkSource.getAboutAssign(it, studentId) }
         val answerTextResponse =
@@ -78,14 +106,14 @@ class LessonRepository(
         }
     }
 
-    fun editAnswers(files: List<FileUiEntity>?) {
+    override fun editAnswers(files: List<FileUiEntity>?) {
         lesson = lesson?.editAnswers(answerText, files)
         notifyListeners()
     }
 
     private suspend fun loadGrades(lessonUiEntity: LessonUiEntity): List<WhyGradeEntity> {
         val gradesList = mutableListOf<WhyGradeEntity>()
-        if (NetSchoolSingleton.assignTypes.isNullOrEmpty()) NetSchoolSingleton.assignTypes =
+        if (assignTypes.isNullOrEmpty()) assignTypes =
             homeworkSource.assignmentTypes().map { it.toUiEntity() }
 
         lessonUiEntity.assignments?.forEach { assign ->
@@ -94,7 +122,7 @@ class LessonRepository(
                     WhyGradeEntity(
                         assign.assignmentName,
                         assign.mark,
-                        NetSchoolSingleton.assignTypes?.firstOrNull { it.id == assign.typeId }?.name
+                        assignTypes?.firstOrNull { it.id == assign.typeId }?.name
                     )
                 )
             }
@@ -103,11 +131,11 @@ class LessonRepository(
     }
 
 
-    fun addListener(listener: LessonActionListener) {
+    override fun addListener(listener: LessonActionListener) {
         listeners.add(listener)
     }
 
-    fun removeListener(listener: LessonActionListener) {
+    override fun removeListener(listener: LessonActionListener) {
         listeners.remove(listener)
     }
 

@@ -28,10 +28,14 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.activities.MainActivity
 import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.editPreference
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ChooseUserIdViewModel : ViewModel() {
+@HiltViewModel
+class ChooseUserIdViewModel @Inject constructor(
+    private val settingsDataStore: SettingsDataStore
+) : ViewModel() {
 
     private val _usersId = MutableLiveData<List<UserUIEntity>>()
     val usersId: LiveData<List<UserUIEntity>> = _usersId
@@ -44,8 +48,8 @@ class ChooseUserIdViewModel : ViewModel() {
     fun login(context: Context, userUIEntity: UserUIEntity) {
         try {
             viewModelScope.launch {
-                SettingsDataStore.CURRENT_USER_ID.editPreference(context, userUIEntity.userId!!)
-                SettingsDataStore.LOGGED_IN.editPreference(context, true)
+                settingsDataStore.setValue(SettingsDataStore.CURRENT_USER_ID, userUIEntity.userId!!)
+                settingsDataStore.setValue(SettingsDataStore.LOGGED_IN, true)
             }
             val intent = Intent(context, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

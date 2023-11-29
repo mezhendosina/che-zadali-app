@@ -26,34 +26,51 @@ import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.ChangePasswordEntity
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsRequestEntity
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
+import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.requests.notifications.NotificationsSource
 import com.mezhendosina.sgo.data.requests.notifications.entities.NotificationUserEntity
 import com.mezhendosina.sgo.data.requests.notifications.entities.UnregisterUserEntity
+import com.mezhendosina.sgo.di.BaseRetrofit
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import javax.inject.Inject
 
-class SettingsRepository(private val settingsSource: SettingsSource) {
-    private val notificationsSource = NotificationsSource()
+@Module
+@InstallIn(ActivityComponent::class)
+class SettingsRepository
+@Inject constructor(
+    private val settingsSource: SettingsSource
+) {
 
     suspend fun getMySettings(): MySettingsResponseEntity {
         return if (Singleton.mySettings.value != null) Singleton.mySettings.value!!
         else settingsSource.getSettings()
     }
 
-    suspend fun loadProfilePhoto(userId: Int, file: File, isExist: Boolean) {
-        if (isExist) {
-            val photo = settingsSource.getProfilePhoto(NetSchoolSingleton.at, userId)
-            if (photo != null) {
-                file.writeBytes(photo)
-            }
+    suspend fun loadProfilePhoto(userId: Int, file: File) {
+        val photo = settingsSource.getProfilePhoto(userId)
+        if (photo != null) {
+            file.writeBytes(photo)
         }
     }
 
-    suspend fun changeProfilePhoto(context: Context, uri: Uri?, studentId: Int) {
+
+    suspend fun changeProfilePhoto(
+        context: Context,
+        uri: Uri?,
+        studentId: Int
+    ) {
         val contentResolver = context.contentResolver
         val a = uri?.let { contentResolver.openInputStream(it) }
 
@@ -67,29 +84,6 @@ class SettingsRepository(private val settingsSource: SettingsSource) {
         withContext(Dispatchers.IO) {
             a?.close()
         }
-    }
-
-
-    suspend fun registerGradesNotifications(userEntity: NotificationUserEntity) {
-        notificationsSource.notificationsSource.registerUser(userEntity)
-    }
-
-    suspend fun isGradesNotifyUserExist(userId: Int, firebaseToken: String): Boolean =
-        notificationsSource.notificationsSource.isUserExist(
-            UnregisterUserEntity(
-                userId,
-                firebaseToken
-            )
-        )
-
-
-    suspend fun unregisterGradesNotifications(userId: Int, token: String) {
-        notificationsSource.notificationsSource.unregisterUser(
-            UnregisterUserEntity(
-                userId,
-                token
-            )
-        )
     }
 
     suspend fun sendSettings(mySettingsRequestEntity: MySettingsRequestEntity) {

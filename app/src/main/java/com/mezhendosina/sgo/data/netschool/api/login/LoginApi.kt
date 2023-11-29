@@ -21,6 +21,9 @@ import com.mezhendosina.sgo.data.netschool.api.login.entities.StudentResponseEnt
 import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.GetDataResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Field

@@ -25,9 +25,11 @@ data class AnswerUiEntity(
 
 data class FileUiEntity(
     val id: Int?,
+    val assignType: String,
+    val assignId: Int,
     val fileName: String,
     val description: String?,
-    val file: Uri? = null
 ) {
-    fun addId(id: Int?): FileUiEntity = FileUiEntity(id, fileName, description, file)
+    fun addId(id: Int?): FileUiEntity =
+        FileUiEntity(id, assignType, assignId, fileName, description)
 }

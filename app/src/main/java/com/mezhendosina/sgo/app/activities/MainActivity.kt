@@ -34,12 +34,13 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
 import com.mezhendosina.sgo.app.utils.errorDialog
 import com.mezhendosina.sgo.app.utils.setupInsets
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ContainerMainActivityBinding
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                     errorDialog(this@MainActivity, it)
                 }
             }
-            viewModel.login(this@MainActivity)
+            viewModel.login()
 
             withContext(Dispatchers.Main) {
                 TransitionManager.beginDelayedTransition(
@@ -106,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         CoroutineScope(Dispatchers.IO).launch {
-            viewModel.login(this@MainActivity)
+            viewModel.login()
         }
     }
 

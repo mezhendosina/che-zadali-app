@@ -30,7 +30,12 @@ import com.mezhendosina.sgo.app.databinding.FragmentLoginBinding
 import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.app.utils.hideAnimation
 import com.mezhendosina.sgo.app.utils.showAnimation
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private lateinit var binding: FragmentLoginBinding
@@ -48,6 +53,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,7 +61,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         binding = FragmentLoginBinding.bind(view)
         schoolId = requireArguments().getInt(ARG_SCHOOL_ID)
-        binding.selectedSchool.text = viewModel.findSchool(schoolId!!).name
+
         binding.selectedSchoolCard.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -64,6 +70,17 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         observeErrors()
         observeLoading()
+        observeFoundSchool()
+    }
+
+    private fun observeFoundSchool() {
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.findSchool(schoolId ?: -1)
+        }
+        viewModel.foundSchool.observe(viewLifecycleOwner) {
+            if (it != null)
+                binding.selectedSchool.text = it.name
+        }
     }
 
     private fun observeErrors() {

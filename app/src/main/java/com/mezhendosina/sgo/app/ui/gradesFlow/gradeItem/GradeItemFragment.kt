@@ -35,7 +35,9 @@ import com.mezhendosina.sgo.app.utils.setupColorWithGrade
 import com.mezhendosina.sgo.app.utils.setupGrade
 import com.mezhendosina.sgo.app.utils.toGradeType
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
     var binding: FragmentGradeItemBinding? = null
@@ -77,9 +79,9 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGradeItemBinding.bind(view)
-        with(binding!!.toolbar) {
+        with(binding!!.gradeToolbar) {
             collapsingtoolbarlayout.title = lesson.name
-            toolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
+            itemToolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
             setLessonEmoji(requireContext(), lesson.name)
         }
 

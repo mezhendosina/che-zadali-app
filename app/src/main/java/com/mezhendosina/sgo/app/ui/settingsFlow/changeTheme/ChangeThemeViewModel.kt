@@ -21,14 +21,18 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.editPreference
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ChangeThemeViewModel : ViewModel() {
+@HiltViewModel
+class ChangeThemeViewModel @Inject constructor(private val settingsDataStore: SettingsDataStore) :
+    ViewModel() {
 
-    fun changeTheme(selectedThemeId: Int, context: Context) {
+    fun changeTheme(selectedThemeId: Int) {
         val themeId = when (selectedThemeId) {
             R.id.light_theme -> AppCompatDelegate.MODE_NIGHT_NO
             R.id.dark_theme -> AppCompatDelegate.MODE_NIGHT_YES
@@ -36,7 +40,7 @@ class ChangeThemeViewModel : ViewModel() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            SettingsDataStore.THEME.editPreference(context, themeId)
+            settingsDataStore.setValue(SettingsDataStore.THEME, themeId)
         }
 
         AppCompatDelegate.setDefaultNightMode(themeId)

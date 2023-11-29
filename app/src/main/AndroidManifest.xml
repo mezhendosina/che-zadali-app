@@ -19,14 +19,15 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
+    <!--    <uses-permission-->
+    <!--        android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
+    <!--        android:maxSdkVersion="32" />-->
+    <!--    <uses-permission-->
+    <!--        android:name="android.permission.READ_EXTERNAL_STORAGE"-->
+    <!--        android:maxSdkVersion="28" />-->
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"

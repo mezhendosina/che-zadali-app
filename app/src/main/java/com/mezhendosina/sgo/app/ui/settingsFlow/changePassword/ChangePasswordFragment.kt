@@ -26,14 +26,17 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChangePasswordBinding
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.base.toMD5
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ChangePasswordFragment : Fragment(R.layout.fragment_change_password) {
+@AndroidEntryPoint
+class ChangePasswordFragment @Inject constructor(private val settingsDataStore: SettingsDataStore) :
+    Fragment(R.layout.fragment_change_password) {
 
     private lateinit var binding: FragmentChangePasswordBinding
     private var currentPassword = ""
@@ -48,7 +51,7 @@ class ChangePasswordFragment : Fragment(R.layout.fragment_change_password) {
 
 
         CoroutineScope(Dispatchers.Main).launch {
-            currentPassword = SettingsDataStore.PASSWORD.getValue(requireContext(), "").first()
+            currentPassword = settingsDataStore.getValue(SettingsDataStore.PASSWORD).first() ?: ""
         }
     }
 
@@ -117,7 +120,8 @@ class ChangePasswordFragment : Fragment(R.layout.fragment_change_password) {
                 requireContext()
             )
             CoroutineScope(Dispatchers.IO).launch {
-                currentPassword = SettingsDataStore.PASSWORD.getValue(requireContext(), "").first()
+                currentPassword =
+                    settingsDataStore.getValue(SettingsDataStore.PASSWORD).first() ?: ""
             }
             findNavController().navigateUp()
         }

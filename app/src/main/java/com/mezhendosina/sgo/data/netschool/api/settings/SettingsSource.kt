@@ -20,6 +20,9 @@ import com.mezhendosina.sgo.data.netschool.api.settings.entities.ChangePasswordE
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsRequestEntity
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.MySettingsResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.settings.entities.YearListResponseEntity
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -32,7 +35,7 @@ interface SettingsSource {
 
     suspend fun sendSettings(mySettingsRequestEntity: MySettingsRequestEntity)
 
-    suspend fun getProfilePhoto(at: String, userId: Int): ByteArray?
+    suspend fun getProfilePhoto(userId: Int): ByteArray?
 
     suspend fun changePassword(userId: Int, password: ChangePasswordEntity)
 

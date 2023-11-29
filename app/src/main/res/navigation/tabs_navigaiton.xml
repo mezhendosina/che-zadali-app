@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/journalFragment"
         android:name="com.mezhendosina.sgo.app.ui.journalFlow.journal.JournalFragment"
-        android:label="@string/journal"
+        android:label="@string/che_zadali"
         tools:layout="@layout/fragment_journal" />
     <fragment
         android:id="@+id/gradesFragment"

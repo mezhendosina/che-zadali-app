@@ -24,7 +24,10 @@ import com.mezhendosina.sgo.app.databinding.ItemGradeValueBinding
 import com.mezhendosina.sgo.app.model.journal.entities.AssignmentUiEntity
 import com.mezhendosina.sgo.app.utils.setupGrade
 import com.mezhendosina.sgo.app.utils.toGradeType
+import dagger.Module
+import javax.inject.Singleton
 
+@Singleton
 class HomeworkGradeAdapter : RecyclerView.Adapter<HomeworkGradeAdapter.HomeworkGradeViewHolder>() {
 
     var grades: List<AssignmentUiEntity> = emptyList()

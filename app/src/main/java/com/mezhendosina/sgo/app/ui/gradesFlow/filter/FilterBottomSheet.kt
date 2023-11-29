@@ -30,8 +30,10 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.BottomSheetFilterBinding
 import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class FilterBottomSheet(
     private val header: String,
     private val content: List<FilterUiEntity>,

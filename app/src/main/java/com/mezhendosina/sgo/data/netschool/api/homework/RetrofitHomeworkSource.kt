@@ -21,9 +21,12 @@ import com.mezhendosina.sgo.data.netschool.api.homework.entities.AssignResponseE
 import com.mezhendosina.sgo.data.netschool.api.homework.entities.GetAnswerResponseEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
-class RetrofitHomeworkSource(config: RetrofitConfig) :
+@Singleton
+class RetrofitHomeworkSource @Inject constructor(config: RetrofitConfig) :
     BaseRetrofitSource(config), HomeworkSource {
 
     private val homeworkSource = retrofit.create(HomeworkApi::class.java)

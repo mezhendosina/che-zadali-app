@@ -27,8 +27,10 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentJournalBinding
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.currentWeekStart
-import com.mezhendosina.sgo.data.getValue
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class JournalFragment : Fragment(R.layout.fragment_journal) {
 
     private var binding: FragmentJournalBinding? = null
@@ -36,6 +38,8 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
     private val weekNow = currentWeekStart()
 
     private var tabLayoutMediator: TabLayoutMediator? = null
+
+    @Inject lateinit var settingsDataStore: SettingsDataStore
 
     private val onPageChangeCallback = object : OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -60,7 +64,7 @@ class JournalFragment : Fragment(R.layout.fragment_journal) {
     }
 
     private fun observeUserId() {
-        SettingsDataStore.CURRENT_USER_ID.getValue(requireContext(), -1).asLiveData()
+        settingsDataStore.getValue(SettingsDataStore.CURRENT_USER_ID).asLiveData()
             .observe(viewLifecycleOwner) {
                 if (binding != null)
                     binding!!.journalPager.invalidate()

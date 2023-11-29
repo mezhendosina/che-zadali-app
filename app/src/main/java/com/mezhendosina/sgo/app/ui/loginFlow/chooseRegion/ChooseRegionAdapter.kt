@@ -29,9 +29,12 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemRegionBinding
 import com.mezhendosina.sgo.app.ui.loginFlow.chooseRegion.entities.ChooseRegionUiEntityItem
 import com.mezhendosina.sgo.data.netschool.api.regions.Regions
+import dagger.Module
+import javax.inject.Singleton
 
 typealias OnRegionClickListener = (regionName: String) -> Unit
 
+@Singleton
 class ChooseRegionAdapter(
     private val onRegionClickListener: OnRegionClickListener
 ) : RecyclerView.Adapter<ChooseRegionAdapter.ChooseRegionViewHolder>(),

@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.app.ui.main.container
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionManager
@@ -58,17 +59,22 @@ import com.mezhendosina.sgo.app.utils.slideDownAnimation
 import com.mezhendosina.sgo.app.utils.slideUpAnimation
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.currentWeekStart
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ContainerFragment
     : Fragment(R.layout.container_main), GradesFilterInterface, GradesActionsInterface,
     ContainerNavigationInterface {
+
+    @Inject
+    lateinit var settingsDataStore: SettingsDataStore
 
     private lateinit var binding: ContainerMainBinding
 
@@ -114,7 +120,7 @@ class ContainerFragment
         CoroutineScope(Dispatchers.IO).launch {
             containerViewModel.checkUpdates()
             containerViewModel.loadWeeks()
-            containerViewModel.showUpdateDialog(requireContext())
+            containerViewModel.showUpdateDialog()
         }
     }
 
@@ -125,8 +131,8 @@ class ContainerFragment
         val journalPagerAdapter =
             JournalPagerAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
 
-        binding.gradesTopBar.root.background = binding.toolbar.background
-        binding.toolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
+        binding.gradesTopBar.root.background = binding.mainToolbar.background
+        binding.mainToolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
         binding.bottomNavigation.setOnItemSelectedListener { onBottomNavItemClickListener(it) }
 
         with(binding.grades) {
@@ -167,6 +173,11 @@ class ContainerFragment
         observeShowEngageDialog()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         file.delete()
@@ -174,32 +185,34 @@ class ContainerFragment
     }
 
     private fun observeShowEngageDialog() {
-        containerViewModel.showEngageDialog.observe(viewLifecycleOwner) {
-            if (it) {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Понравилось приложение?")
-                    .setMessage("Если да, то поделись им с одноклассниками, чтобы они тоже могли воспользоваться самым удобным дневником!")
-                    .setPositiveButton("Поделиться") { dialog, _ ->
-                        val sendIntent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_TEXT, "https://sgoapp.ru")
-                            type = "text/plain"
-                        }
-                        val shareIntent =
-                            Intent.createChooser(sendIntent, "Поделиться ссылкой на SGO app")
-                        startActivity(shareIntent)
-                        dialog.dismiss()
-                    }.setNegativeButton("Нет") { dialog, _ ->
-                        dialog.cancel()
-                    }.show()
-            }
-        }
+//        containerViewModel.showEngageDialog.observe(viewLifecycleOwner) {
+//            if (it) {
+//                MaterialAlertDialogBuilder(requireContext())
+//                    .setTitle("Понравилось приложение?")
+//                    .setMessage("Если да, то поделись им с одноклассниками, чтобы они тоже могли воспользоваться самым удобным дневником!")
+//                    .setPositiveButton("Поделиться") { dialog, _ ->
+//                        val sendIntent = Intent().apply {
+//                            action = Intent.ACTION_SEND
+//                            putExtra(Intent.EXTRA_TEXT, "https://sgoapp.ru")
+//                            type = "text/plain"
+//                        }
+//                        val shareIntent =
+//                            Intent.createChooser(sendIntent, "Поделиться ссылкой на SGO app")
+//                        startActivity(shareIntent)
+//                        dialog.dismiss()
+//                    }.setNegativeButton("Нет") { dialog, _ ->
+//                        dialog.cancel()
+//                    }.show()
+//            }
+//        }
     }
 
     override fun observeUserId() {
-        SettingsDataStore.CURRENT_USER_ID.getValue(requireContext(), -1).asLiveData()
+        settingsDataStore.getValue(SettingsDataStore.CURRENT_USER_ID).asLiveData()
             .observe(viewLifecycleOwner) {
-                binding.journal.invalidate()
+                if (it != null) {
+                    binding.journal.invalidate()
+                }
             }
     }
 
@@ -231,7 +244,7 @@ class ContainerFragment
     private fun observeDiaryStyle() {
         val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         CoroutineScope(Dispatchers.Main).launch {
-            SettingsDataStore.DIARY_STYLE.getValue(requireContext(), DiaryStyle.AS_CARD).collect {
+            settingsDataStore.getValue(SettingsDataStore.DIARY_STYLE).collect {
                 firebaseAnalytics.setUserProperty("diary_style", it)
             }
         }
@@ -257,21 +270,22 @@ class ContainerFragment
         Singleton.mainContainerScreen.observe(viewLifecycleOwner) {
             when (it) {
                 JOURNAL -> {
-                    binding.toolbar.setTitle(R.string.journal)
+                    binding.mainToolbar.setTitle(R.string.che_zadali)
                     binding.slideDownAnimation()
                     binding.grades.root.visibility = View.GONE
                     binding.journal.visibility = View.VISIBLE
                 }
 
                 GRADES -> {
-                    binding.toolbar.setTitle(R.string.grades)
+                    binding.mainToolbar.setTitle(R.string.grades)
                     Singleton.updateGradeState.value = LoadStatus.UPDATE
                     binding.slideUpAnimation()
                     binding.journal.visibility = View.GONE
                     binding.grades.root.visibility = View.VISIBLE
                     CoroutineScope(Dispatchers.IO).launch {
                         gradesFilterViewModel.getYearsList()
-                        gradesFilterViewModel.getGradeSort(requireContext())
+                        if (this@ContainerFragment.context != null)
+                            gradesFilterViewModel.getGradeSort(requireContext())
                     }
                 }
             }
@@ -320,7 +334,7 @@ class ContainerFragment
                 )
                 modalSheet.show(childFragmentManager, UpdateBottomSheetFragment.TAG)
             }
-            if (updates.tagName != BuildConfig.VERSION_NAME) binding.toolbar.menu[0].isVisible =
+            if (updates.tagName != BuildConfig.VERSION_NAME) binding.mainToolbar.menu[0].isVisible =
                 true
         }
     }
@@ -345,7 +359,7 @@ class ContainerFragment
                 binding.gradesTopBar.term.visibility = View.VISIBLE
                 CoroutineScope(Dispatchers.Main).launch {
                     val trimId =
-                        SettingsDataStore.TRIM_ID.getValue(requireContext(), -1).first()
+                        settingsDataStore.getValue(SettingsDataStore.TRIM_ID).first()
                     binding.gradesTopBar.term.text =
                         gradeOptions.firstOrNull { it.id == trimId }?.name
                 }
@@ -362,7 +376,7 @@ class ContainerFragment
                     requireContext().getString(R.string.selected_grade_period),
                     Singleton.gradesTerms.value!!
                 ) {
-                    gradesFilterViewModel.changeTrimId(requireContext(), it)
+                    gradesFilterViewModel.changeTrimId(it)
                 }
 
                 filterBottomSheet.show(
@@ -414,9 +428,8 @@ class ContainerFragment
     override fun onGradesSortClickListener() {
         binding.gradesTopBar.sortGrades.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                val selectedItem = SettingsDataStore.SORT_GRADES_BY.getValue(
-                    requireContext(),
-                    GradeSortType.BY_LESSON_NAME
+                val selectedItem = settingsDataStore.getValue(
+                    SettingsDataStore.SORT_GRADES_BY
                 ).first()
                 val list = listOf(
                     FilterUiEntity(
@@ -442,7 +455,7 @@ class ContainerFragment
                     requireContext().getString(R.string.sort_grades_by),
                     list,
                 ) { id ->
-                    gradesFilterViewModel.setGradeSort(requireContext(), id)
+                    gradesFilterViewModel.setGradeSort(id)
                 }
                 bottomSheet.show(
                     requireActivity().supportFragmentManager,
@@ -472,7 +485,7 @@ class ContainerFragment
                 when (it) {
                     LoadStatus.UPDATE -> {
                         CoroutineScope(Dispatchers.IO).launch {
-                            gradesViewModel.load(requireContext())
+                            gradesViewModel.load()
                         }
                         TransitionManager.beginDelayedTransition(
                             loading.root,

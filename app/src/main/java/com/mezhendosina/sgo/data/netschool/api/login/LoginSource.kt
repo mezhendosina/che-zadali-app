@@ -22,8 +22,12 @@ import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.Accoun
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.GetDataResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LogoutRequestEntity
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.ResponseBody
 import retrofit2.Response
+
 
 interface LoginSource {
 
@@ -43,5 +47,5 @@ interface LoginSource {
 
     suspend fun getStudents(): List<StudentResponseEntity>?
 
-    suspend fun logout(logoutRequestEntity: LogoutRequestEntity)
+    suspend fun logout()
 }

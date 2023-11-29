@@ -19,6 +19,7 @@ package com.mezhendosina.sgo.app.ui.journalFlow.containerLesson
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -32,15 +33,21 @@ import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment.Companion.E
 import com.mezhendosina.sgo.app.utils.addOnToolbarCollapseListener
 import com.mezhendosina.sgo.app.utils.getEmojiLesson
 import com.mezhendosina.sgo.app.utils.setLessonEmoji
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LessonContainer : Fragment(R.layout.container_lesson) {
 
     private var binding: ContainerLessonBinding? = null
 
     private val viewModel by viewModels<LessonContainerViewModel>()
+
+    val r = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,21 +55,20 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
         sharedElementReturnTransition = MaterialContainerTransform()
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ContainerLessonBinding.bind(view)
         val innerNavController =
             childFragmentManager.findFragmentById(binding!!.lessonFragmentContainer.id)
                 ?.findNavController()
+        r.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        with(binding!!.lessonToolbar) {
 
-        with(binding!!.toolbar) {
-
-            toolbar.title = viewModel.lesson?.subjectName ?: ""
+            itemToolbar.title = viewModel.lesson?.subjectName ?: ""
             val lessonNameUiEntity = getEmojiLesson(viewModel.lesson?.subjectName ?: "")
             setLessonEmoji(requireContext(), lessonNameUiEntity?.nameId)
 
-            toolbar.setNavigationOnClickListener {
+            itemToolbar.setNavigationOnClickListener {
                 if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) findNavController().navigateUp()
                 else innerNavController?.navigateUp()
             }
@@ -73,7 +79,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
         innerNavController?.addOnDestinationChangedListener { _, destination, args ->
             when (destination.id) {
                 R.id.answerFragment -> {
-                    binding!!.toolbar.appbarlayout.setExpanded(false)
+                    binding!!.lessonToolbar.appbarlayout.setExpanded(false)
                     with(binding!!.send) {
                         when (args?.getString("action")) {
                             ADD_ANSWER -> {
@@ -92,7 +98,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
                 R.id.lessonFragment2 -> {
                     binding!!.send.hide()
-                    binding!!.toolbar.appbarlayout.setExpanded(true)
+                    binding!!.lessonToolbar.appbarlayout.setExpanded(true)
                 }
             }
         }
@@ -110,7 +116,7 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
     override fun onDestroy() {
         super.onDestroy()
-        TransitionManager.endTransitions(binding!!.toolbar.root)
+        TransitionManager.endTransitions(binding!!.lessonToolbar.root)
         binding = null
     }
 

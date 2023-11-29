@@ -22,18 +22,22 @@ import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.model.answer.AnswerRepository
-import com.mezhendosina.sgo.app.netschool.base.toDescription
+import com.mezhendosina.sgo.data.netschool.base.toDescription
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.getValue
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
+import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class LessonContainerViewModel(
-    private val answerRepository: AnswerRepository = NetSchoolSingleton.answerRepository,
-    private val lessonRepository: LessonRepository = NetSchoolSingleton.lessonRepository
+@HiltViewModel
+class LessonContainerViewModel @Inject constructor(
+    private val answerRepository: AnswerRepository,
+    private val lessonRepository: LessonRepositoryInterface,
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     val lesson = if (Singleton.lesson != null) {
@@ -45,20 +49,21 @@ class LessonContainerViewModel(
 
     suspend fun sendAnswers(context: Context) {
         try {
-            val currentUserId = SettingsDataStore.CURRENT_USER_ID.getValue(context, -1).first()
+            val currentUserId =
+                settingsDataStore.getValue(SettingsDataStore.CURRENT_USER_ID).first() ?: -1
             val assignId = lesson?.homework?.id ?: -1
             answerRepository.sendTextAnswer(
                 assignId,
-                lessonRepository.answerText,
+                lessonRepository.getAnswerText(),
                 currentUserId
             )
-            val files = answerRepository.sendFiles(
-                context,
-                lessonRepository.answerFiles,
-                lesson?.homework?.id ?: -1
-            ) // TODO null exception handler
+//            val files = answerRepository.sendFiles(
+//                context,
+//                lessonRepository.answerFiles,
+//                lesson?.homework?.id ?: -1
+//            ) // TODO null exception handler
             withContext(Dispatchers.Main) {
-                lessonRepository.editAnswers(files)
+//                lessonRepository.editAnswers(files)
             }
             withContext(Dispatchers.Main) {
                 Toast.makeText(

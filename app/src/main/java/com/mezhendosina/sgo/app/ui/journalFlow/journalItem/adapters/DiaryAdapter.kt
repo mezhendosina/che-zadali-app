@@ -23,7 +23,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.databinding.ItemDiaryBinding
 import com.mezhendosina.sgo.app.model.journal.entities.WeekDayUiEntity
+import dagger.Module
+import javax.inject.Singleton
 
+@Singleton
 class DiaryAdapter(
     private val onHomeworkClickListener: OnHomeworkClickListener
 ) : RecyclerView.Adapter<DiaryAdapter.ViewHolder>() {

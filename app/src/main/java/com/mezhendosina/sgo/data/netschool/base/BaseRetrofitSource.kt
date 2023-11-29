@@ -17,26 +17,28 @@
 package com.mezhendosina.sgo.data.netschool.base
 
 import com.google.gson.JsonParseException
-import com.mezhendosina.sgo.app.netschool.base.BackendException
-import com.mezhendosina.sgo.app.netschool.base.ConnectionException
-import com.mezhendosina.sgo.app.netschool.base.ParseBackendResponseException
-import com.mezhendosina.sgo.app.netschool.base.TimeOutError
+import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.delay
 import okio.IOException
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
+import javax.inject.Inject
 
-open class BaseRetrofitSource(retrofitConfig: RetrofitConfig) {
+@Module
+@InstallIn(SingletonComponent::class)
+open class BaseRetrofitSource
+@Inject constructor(retrofitConfig: RetrofitConfig) {
     val retrofit = retrofitConfig.retrofit
-
     private val errorAdapter = retrofitConfig.gson.getAdapter(Error::class.java)
 
     suspend fun <T> wrapRetrofitExceptions(
-        requireLogin: Boolean = true,
-        block: suspend () -> T
+        requireLogin: Boolean = true, block: suspend () -> T
     ): T {
-        if (NetSchoolSingleton.loggedIn || !requireLogin) {
+        if (Singleton.loggedIn || !requireLogin) {
             return try {
                 block()
             } catch (e: JsonParseException) {

@@ -25,7 +25,9 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerAnnouncementsBinding
 import com.mezhendosina.sgo.app.utils.findTopNavController
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AnnouncementsContainerFragment : Fragment(R.layout.container_announcements) {
 
     private var binding: ContainerAnnouncementsBinding? = null
@@ -43,7 +45,7 @@ class AnnouncementsContainerFragment : Fragment(R.layout.container_announcements
             childFragmentManager.findFragmentById(binding!!.lessonFragmentContainer.id)
                 ?.findNavController()
 
-        binding!!.toolbar.setNavigationOnClickListener {
+        binding!!.announcementToolbar.setNavigationOnClickListener {
             if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) {
                 findTopNavController().navigateUp()
             } else {

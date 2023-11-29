@@ -18,12 +18,20 @@ package com.mezhendosina.sgo.app.model.announcements
 
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 typealias AnnouncementsActionListener = (announcements: List<AnnouncementsResponseEntity>) -> Unit
 
-class AnnouncementsRepository(
+@Module
+@InstallIn(SingletonComponent::class)
+class AnnouncementsRepository
+@Inject constructor(
     private val announcementsSource: AnnouncementsSource
 ) {
     private var announcements = mutableListOf<AnnouncementsResponseEntity>()
