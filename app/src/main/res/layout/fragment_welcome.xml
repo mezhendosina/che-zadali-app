@@ -47,20 +47,6 @@
         app:layout_constraintTop_toBottomOf="@id/hi" />
 
     <TextView
-        android:id="@+id/sgo_app"
-        style="@style/TextAppearance.SGOApp.Login.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:visibility="invisible"
-        android:drawablePadding="4dp"
-        android:text="@string/app_name"
-        app:drawableStartCompat="@drawable/ic_main_icon"
-        app:layout_constraintBottom_toBottomOf="@id/you_in"
-        app:layout_constraintStart_toEndOf="@id/you_in"
-        app:layout_constraintTop_toTopOf="@id/you_in" />
-
-    <TextView
         android:id="@+id/about"
         style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="0dp"
