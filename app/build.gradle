@@ -12,6 +12,23 @@ plugins {
 android {
     compileSdk 34
     signingConfigs {
+        rustore_release {
+            def keystoreProperties = new Properties()
+            def keystorePropsFile = file("keystore/keystore_config")
+
+            if (keystorePropsFile.exists()) {
+                file("keystore/keystore_config").withInputStream { keystoreProperties.load(it) }
+                storeFile file("$keystoreProperties.storeFile")
+                storePassword "$keystoreProperties.storePassword"
+                keyAlias "$keystoreProperties.keyAlias"
+                keyPassword "$keystoreProperties.keyPassword"
+            } else {
+                storeFile file("keystore/mezhendosina_key.jks")
+                storePassword System.getenv('KEYSTORE_PASSWORD')
+                keyAlias System.getenv('RELEASE_SIGN_KEY_ALIAS')
+                keyPassword System.getenv('RELEASE_SIGN_KEY_PASSWORD')
+            }
+        }
         release {
             def keystoreProperties = new Properties()
             def keystorePropsFile = file("keystore/keystore_config")
@@ -34,8 +51,8 @@ android {
         applicationId "com.mezhendosina.sgo.app"
         minSdk 24
         targetSdk 33
-        versionCode 37
-        versionName '3.0.2'
+        versionCode 39
+        versionName '3.0.3'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -57,6 +74,14 @@ android {
         debug {
             resValue("bool", "FIREBASE_ANALYTICS_DEACTIVATED", "true")
             manifestPlaceholders = [crashlyticsCollectionEnabled: "false"]
+        }
+        rustore_release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [crashlyticsCollectionEnabled: "true"]
+            resValue("bool", "FIREBASE_ANALYTICS_DEACTIVATED", "false")
+
         }
         release {
             signingConfig signingConfigs.release
