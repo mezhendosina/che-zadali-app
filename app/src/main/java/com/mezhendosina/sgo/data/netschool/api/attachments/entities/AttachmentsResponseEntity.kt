@@ -40,8 +40,10 @@ data class Attachment(
     @SerializedName("originalFileName")
     val originalFileName: String
 ) {
-    fun toUiEntity(): FileUiEntity = FileUiEntity(
+    fun toUiEntity(assignType: String, assignmentId: Int): FileUiEntity = FileUiEntity(
         id,
+        assignType,
+        assignmentId,
         originalFileName,
         description
     )

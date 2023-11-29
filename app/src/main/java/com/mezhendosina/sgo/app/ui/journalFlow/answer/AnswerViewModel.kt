@@ -17,52 +17,91 @@
 package com.mezhendosina.sgo.app.ui.journalFlow.answer
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mezhendosina.sgo.Singleton
+import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
-import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
-import com.mezhendosina.sgo.app.model.attachments.AttachmentsUtils
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
+import com.mezhendosina.sgo.app.utils.LessonNotFoundException
+import com.mezhendosina.sgo.app.utils.toLiveData
+import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
+import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class AnswerViewModel @Inject constructor(
-    private val lessonRepository: LessonRepository,
+    private val lessonRepository: LessonRepositoryInterface,
     private val attachmentDownloadManager: AttachmentDownloadManager,
-) : ViewModel() {
+    private val settingsDataStore: SettingsDataStore
+) : ViewModel(), AnswerViewModelInterface {
 
-
-    fun getAnswerText(): String {
-        return lessonRepository.answerText
+    private val _files = MutableLiveData<MutableList<FileUiEntity>>(mutableListOf())
+    val files = _files.toLiveData()
+    override fun getHomework(): String {
+        val lesson = lessonRepository.getLesson() ?: throw LessonNotFoundException()
+        return lesson.homework
     }
 
-    fun getAnswerFiles(): List<FileUiEntity> {
-        return lessonRepository.answerFiles
+
+    override fun getAnswer(): String? {
+        val lesson = lessonRepository.getLesson() ?: throw LessonNotFoundException()
+        _files.value = lesson.answerFiles?.toMutableList()
+        return lesson.answerText
     }
 
-    fun getHomework() =
-        if (Singleton.lesson?.homework != null) Singleton.lesson!!.homework!!.assignmentName
-        else if (Singleton.pastMandatoryItem != null) Singleton.pastMandatoryItem!!.assignmentName
-        else null
+    fun editAnswerText(answerText: String) {
+        lessonRepository.editAnswerText(answerText)
+    }
 
-    suspend fun openFile(context: Context, fileUiEntity: FileUiEntity) {
+    override suspend fun sendAnswer(answerText: String?) {
 
     }
 
-    fun addFile(fileUiEntity: FileUiEntity) {
-        lessonRepository.answerFiles = lessonRepository.answerFiles.plus(fileUiEntity)
+    override suspend fun uploadFiles(context: Context) {
+        if (_files.value != null) attachmentDownloadManager.uploadFiles(
+            context,
+            _files.value!!
+        )
     }
 
-    fun deleteFile(fileUiEntity: FileUiEntity) {
-        lessonRepository.answerFiles = lessonRepository.answerFiles.minus(fileUiEntity)
+    override suspend fun downloadFiles(context: Context) {
+        viewModelScope.launch {
+            if (settingsDataStore.getValue(SettingsDataStore.DOWNLOAD_ALL_FILES).first() == true) {
+                _files.value?.forEach {
+                    withContext(Dispatchers.IO) {
+                        downloadFile(context, it)
+                    }
+                }
+            }
+        }
     }
 
-    fun editTextAnswer(text: String) {
-        lessonRepository.answerText = text
+    override suspend fun downloadFile(context: Context, fileUiEntity: FileUiEntity) {
+        attachmentDownloadManager.downloadFile(context, fileUiEntity)
     }
+
+    override fun openFile(context: Context, fileUiEntity: FileUiEntity) {
+        attachmentDownloadManager.openFile(context, fileUiEntity)
+    }
+
+    override fun addFile(fileUiEntity: FileUiEntity) {
+        _files.value?.add(fileUiEntity)
+    }
+
+    override fun deleteFile(fileUiEntity: FileUiEntity) {
+        if (fileUiEntity.id == null) {
+            _files.value?.remove(fileUiEntity)
+        } else {
+            TODO()
+        }
+    }
+
 }

@@ -17,6 +17,8 @@
 package com.mezhendosina.sgo.data.netschool.repo
 
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import com.mezhendosina.sgo.app.model.attachments.ANSWERS
+import com.mezhendosina.sgo.app.model.attachments.HOMEWORK
 import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.uiEntities.AboutLessonUiEntity
 import com.mezhendosina.sgo.app.uiEntities.AssignTypeUiEntity
@@ -34,12 +36,10 @@ import javax.inject.Inject
 
 typealias LessonActionListener = (lesson: AboutLessonUiEntity?) -> Unit
 
-@Module
-@InstallIn(SingletonComponent::class)
 class LessonRepository @Inject constructor(
     private val homeworkSource: HomeworkSource,
     private val attachmentsSource: AttachmentsSource,
-) {
+) : LessonRepositoryInterface {
     private var assignTypes: List<AssignTypeUiEntity>? = null
 
 
@@ -47,11 +47,20 @@ class LessonRepository @Inject constructor(
     private val listeners = mutableSetOf<LessonActionListener>()
 
     var answerFiles: List<FileUiEntity> = emptyList()
-    var answerText: String = ""
+    private var answerText: String = ""
+    override fun getAnswerText(): String = answerText
 
-    fun getLesson(): AboutLessonUiEntity? = lesson
+    override fun editAnswerText(text: String) {
+        answerText = text
+    }
 
-    suspend fun getAboutLesson(
+
+    override fun getLesson(): AboutLessonUiEntity? {
+        return lesson
+
+    }
+
+    override suspend fun getAboutLesson(
         lessonUiEntity: LessonUiEntity,
         studentId: Int
     ) {
@@ -60,8 +69,18 @@ class LessonRepository @Inject constructor(
             AttachmentsRequestEntity(lessonUiEntity.assignments?.map { it.id } ?: emptyList())
         )
         val answerFilesResponse =
-            attachmentsR.firstOrNull()?.answerFiles?.map { it.attachment.toUiEntity() }
-        val attachments = attachmentsR.firstOrNull()?.attachments?.map { it.toUiEntity() }
+            attachmentsR.firstOrNull()?.answerFiles?.map {
+                it.attachment.toUiEntity(
+                    ANSWERS,
+                    lessonUiEntity.classmeetingId
+                )
+            }
+        val attachments = attachmentsR.firstOrNull()?.attachments?.map {
+            it.toUiEntity(
+                HOMEWORK,
+                lessonUiEntity.classmeetingId
+            )
+        }
         val aboutAssign =
             lessonUiEntity.homework?.id?.let { homeworkSource.getAboutAssign(it, studentId) }
         val answerTextResponse =
@@ -87,7 +106,7 @@ class LessonRepository @Inject constructor(
         }
     }
 
-    fun editAnswers(files: List<FileUiEntity>?) {
+    override fun editAnswers(files: List<FileUiEntity>?) {
         lesson = lesson?.editAnswers(answerText, files)
         notifyListeners()
     }
@@ -112,11 +131,11 @@ class LessonRepository @Inject constructor(
     }
 
 
-    fun addListener(listener: LessonActionListener) {
+    override fun addListener(listener: LessonActionListener) {
         listeners.add(listener)
     }
 
-    fun removeListener(listener: LessonActionListener) {
+    override fun removeListener(listener: LessonActionListener) {
         listeners.remove(listener)
     }
 

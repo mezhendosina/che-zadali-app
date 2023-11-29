@@ -185,26 +185,26 @@ class ContainerFragment
     }
 
     private fun observeShowEngageDialog() {
-        containerViewModel.showEngageDialog.observe(viewLifecycleOwner) {
-            if (it) {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Понравилось приложение?")
-                    .setMessage("Если да, то поделись им с одноклассниками, чтобы они тоже могли воспользоваться самым удобным дневником!")
-                    .setPositiveButton("Поделиться") { dialog, _ ->
-                        val sendIntent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_TEXT, "https://sgoapp.ru")
-                            type = "text/plain"
-                        }
-                        val shareIntent =
-                            Intent.createChooser(sendIntent, "Поделиться ссылкой на SGO app")
-                        startActivity(shareIntent)
-                        dialog.dismiss()
-                    }.setNegativeButton("Нет") { dialog, _ ->
-                        dialog.cancel()
-                    }.show()
-            }
-        }
+//        containerViewModel.showEngageDialog.observe(viewLifecycleOwner) {
+//            if (it) {
+//                MaterialAlertDialogBuilder(requireContext())
+//                    .setTitle("Понравилось приложение?")
+//                    .setMessage("Если да, то поделись им с одноклассниками, чтобы они тоже могли воспользоваться самым удобным дневником!")
+//                    .setPositiveButton("Поделиться") { dialog, _ ->
+//                        val sendIntent = Intent().apply {
+//                            action = Intent.ACTION_SEND
+//                            putExtra(Intent.EXTRA_TEXT, "https://sgoapp.ru")
+//                            type = "text/plain"
+//                        }
+//                        val shareIntent =
+//                            Intent.createChooser(sendIntent, "Поделиться ссылкой на SGO app")
+//                        startActivity(shareIntent)
+//                        dialog.dismiss()
+//                    }.setNegativeButton("Нет") { dialog, _ ->
+//                        dialog.cancel()
+//                    }.show()
+//            }
+//        }
     }
 
     override fun observeUserId() {
@@ -270,7 +270,7 @@ class ContainerFragment
         Singleton.mainContainerScreen.observe(viewLifecycleOwner) {
             when (it) {
                 JOURNAL -> {
-                    binding.mainToolbar.setTitle(R.string.journal)
+                    binding.mainToolbar.setTitle(R.string.che_zadali)
                     binding.slideDownAnimation()
                     binding.grades.root.visibility = View.GONE
                     binding.journal.visibility = View.VISIBLE

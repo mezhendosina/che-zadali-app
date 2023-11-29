@@ -136,41 +136,47 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
             if (lesson != null) with(binding!!) {
                 homework.homeworkBody.text = lesson.homework
 
-                if (!lesson.homeworkComment.isNullOrEmpty()) {
-                    homework.commentBody.text = lesson.homeworkComment
-                    homework.commentBody.visibility = View.VISIBLE
-                    homework.commentHeader.visibility = View.VISIBLE
-                } else {
-                    homework.commentBody.visibility = View.GONE
-                    homework.commentHeader.visibility = View.GONE
+                if (lesson.homework.isEmpty()){
+                    homework.root.visibility = View.GONE
+                } else{
+                    if (!lesson.homeworkComment.isNullOrEmpty()) {
+                        homework.commentBody.text = lesson.homeworkComment
+                        homework.commentBody.visibility = View.VISIBLE
+                        homework.commentHeader.visibility = View.VISIBLE
+                    } else {
+                        homework.commentBody.visibility = View.GONE
+                        homework.commentHeader.visibility = View.GONE
+                    }
+
+                    if (!lesson.attachments.isNullOrEmpty()) {
+                        homework.attachmentsList.root.visibility = View.VISIBLE
+                        attachmentAdapter?.attachments = lesson.attachments
+                    } else {
+                        homework.attachmentsList.root.visibility = View.GONE
+                    }
+                    if (lesson.answerText.isNullOrBlank() && lesson.answerFiles.isNullOrEmpty()) {
+                        sendHomework.root.visibility = View.GONE
+                        homework.addAnswerButton.visibility = View.VISIBLE
+                    } else {
+                        sendHomework.root.visibility = View.VISIBLE
+                        homework.addAnswerButton.visibility = View.GONE
+
+                        if (lesson.answerFiles.isNullOrEmpty()) {
+                            sendHomework.sendAttachmentList.visibility = View.GONE
+                        } else {
+                            sendHomework.sendAttachmentList.visibility = View.VISIBLE
+                            answerFileAdapter?.attachments = lesson.answerFiles
+                        }
+                        if (lesson.answerText.isNullOrEmpty()) {
+                            sendHomework.answerText.visibility = View.GONE
+                        } else {
+                            sendHomework.answerText.visibility = View.VISIBLE
+                            sendHomework.answerText.text = lesson.answerText
+                        }
+                    }
                 }
 
-                if (!lesson.attachments.isNullOrEmpty()) {
-                    homework.attachmentsList.root.visibility = View.VISIBLE
-                    attachmentAdapter?.attachments = lesson.attachments
-                } else {
-                    homework.attachmentsList.root.visibility = View.GONE
-                }
-                if (lesson.answerText.isNullOrBlank() && lesson.answerFiles.isNullOrEmpty()) {
-                    sendHomework.root.visibility = View.GONE
-                    homework.addAnswerButton.visibility = View.VISIBLE
-                } else {
-                    sendHomework.root.visibility = View.VISIBLE
-                    homework.addAnswerButton.visibility = View.GONE
 
-                    if (lesson.answerFiles.isNullOrEmpty()) {
-                        sendHomework.sendAttachmentList.visibility = View.GONE
-                    } else {
-                        sendHomework.sendAttachmentList.visibility = View.VISIBLE
-                        answerFileAdapter?.attachments = lesson.answerFiles
-                    }
-                    if (lesson.answerText.isNullOrEmpty()) {
-                        sendHomework.answerText.visibility = View.GONE
-                    } else {
-                        sendHomework.answerText.visibility = View.VISIBLE
-                        sendHomework.answerText.text = lesson.answerText
-                    }
-                }
 
                 if (!lesson.whyGradeEntity.isNullOrEmpty()) {
                     itemWhyGrade.root.visibility = View.VISIBLE

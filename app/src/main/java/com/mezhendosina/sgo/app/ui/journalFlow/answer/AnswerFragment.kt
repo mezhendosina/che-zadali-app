@@ -32,6 +32,7 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAnswerBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
+import com.mezhendosina.sgo.app.model.attachments.HOMEWORK
 import com.mezhendosina.sgo.app.utils.getFileNameFromUri
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -42,25 +43,21 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AnswerFragment : Fragment(R.layout.fragment_answer) {
 
-    @Inject
-    lateinit var attachmentDownloadManager: AttachmentDownloadManager
-
     private var binding: FragmentAnswerBinding? = null
 
     internal val viewModel by viewModels<AnswerViewModel>()
 
     private var adapter: AnswerFileAdapter? = null
 
-    private val selectFileLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val path = it.data?.data
-            if (path?.path != null) {
-                val fileName = getFileNameFromUri(requireContext(), path)
-                val fileEntity = FileUiEntity(null, fileName ?: "", null, path)
-                viewModel.addFile(fileEntity)
-                adapter!!.files = adapter!!.files.plus(fileEntity)
-            }
-        }
+//    private val selectFileLauncher =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+//            val path = it.data?.data
+//            if (path?.path != null) {
+//                val fileName = getFileNameFromUri(requireContext(), path)
+//                viewModel.addFile()
+//                adapter!!.files = adapter!!.files.plus(fileEntity)
+//            }
+//        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,22 +96,21 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAnswerBinding.bind(view)
 
-        binding!!.answerEditText.setText(viewModel.getAnswerText())
+        binding!!.answerEditText.setText(viewModel.getAnswer())
 
         hideUnusedElementsInHomework()
         setupHomework()
         setupAttachments()
-        addOnAttachFileClickListener()
         setupOnEditAnswer()
     }
 
-    private fun addOnAttachFileClickListener() {
-        binding!!.attachFile.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.type = "*/*"
-            selectFileLauncher.launch(intent)
-        }
-    }
+//    private fun addOnAttachFileClickListener() {
+//        binding!!.attachFile.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+//            intent.type = "*/*"
+//            selectFileLauncher.launch(intent)
+//        }
+//    }
 
 
     private fun setupAttachments() {
@@ -130,7 +126,8 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 
     private fun setupOnEditAnswer() {
         binding!!.answer.editText?.addTextChangedListener {
-            viewModel.editTextAnswer(it.toString())
+            viewModel.editAnswerText(it.toString())
+
         }
     }
 

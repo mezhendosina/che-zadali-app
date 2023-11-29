@@ -17,25 +17,6 @@
 package com.mezhendosina.sgo.data.netschool
 
 import androidx.lifecycle.MutableLiveData
-import com.mezhendosina.sgo.app.model.ContainerRepository
-import com.mezhendosina.sgo.app.model.announcements.AnnouncementsRepository
-import com.mezhendosina.sgo.app.model.announcements.AnnouncementsSource
-import com.mezhendosina.sgo.app.model.answer.AnswerRepository
-import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
-import com.mezhendosina.sgo.app.model.grades.GradesRepository
-import com.mezhendosina.sgo.app.model.grades.GradesSource
-import com.mezhendosina.sgo.app.model.journal.DiarySource
-import com.mezhendosina.sgo.app.model.journal.JournalRepository
-import com.mezhendosina.sgo.app.uiEntities.AssignTypeUiEntity
-import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
-import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
-import com.mezhendosina.sgo.data.netschool.api.homework.HomeworkSource
-import com.mezhendosina.sgo.data.netschool.api.login.LoginSource
-import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
-import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
-import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
-import com.mezhendosina.sgo.data.netschool.repo.RegionsRepository
-import com.mezhendosina.sgo.data.netschool.repo.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 
 

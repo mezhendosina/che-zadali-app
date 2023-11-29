@@ -26,6 +26,7 @@ import com.mezhendosina.sgo.data.netschool.base.toDescription
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
+import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -35,7 +36,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LessonContainerViewModel @Inject constructor(
     private val answerRepository: AnswerRepository,
-    private val lessonRepository: LessonRepository,
+    private val lessonRepository: LessonRepositoryInterface,
     private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
@@ -53,16 +54,16 @@ class LessonContainerViewModel @Inject constructor(
             val assignId = lesson?.homework?.id ?: -1
             answerRepository.sendTextAnswer(
                 assignId,
-                lessonRepository.answerText,
+                lessonRepository.getAnswerText(),
                 currentUserId
             )
-            val files = answerRepository.sendFiles(
-                context,
-                lessonRepository.answerFiles,
-                lesson?.homework?.id ?: -1
-            ) // TODO null exception handler
+//            val files = answerRepository.sendFiles(
+//                context,
+//                lessonRepository.answerFiles,
+//                lesson?.homework?.id ?: -1
+//            ) // TODO null exception handler
             withContext(Dispatchers.Main) {
-                lessonRepository.editAnswers(files)
+//                lessonRepository.editAnswers(files)
             }
             withContext(Dispatchers.Main) {
                 Toast.makeText(

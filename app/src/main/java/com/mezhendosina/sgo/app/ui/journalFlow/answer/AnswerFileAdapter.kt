@@ -41,7 +41,7 @@ class AnswerFileAdapter(
     private val fileActionListener: FileActionListener
 ) : RecyclerView.Adapter<AnswerFileAdapter.ViewHolder>(), View.OnClickListener {
 
-    var files: List<FileUiEntity> = viewModel.getAnswerFiles()
+    var files: List<FileUiEntity> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()

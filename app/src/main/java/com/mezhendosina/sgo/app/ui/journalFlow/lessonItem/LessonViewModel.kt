@@ -32,6 +32,7 @@ import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.netschool.repo.LessonActionListener
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
+import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -44,7 +45,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LessonViewModel
 @Inject constructor(
-    private val lessonRepository: LessonRepository,
+    private val lessonRepository: LessonRepositoryInterface,
     private val attachmentDownloadManager: AttachmentDownloadManager,
     private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
@@ -90,15 +91,12 @@ class LessonViewModel
             CoroutineScope(Dispatchers.IO).launch {
                 attachmentDownloadManager.downloadFile(
                     context,
-                    HOMEWORK,
-                    lesson.value!!.id,
                     attachment
                 )
                 withContext(Dispatchers.Main) {
                     attachmentDownloadManager.openFile(
-                        context, HOMEWORK,
-                        lesson.value!!.id,
-                        attachment.fileName
+                        context,
+                        attachment
                     )
                 }
             }

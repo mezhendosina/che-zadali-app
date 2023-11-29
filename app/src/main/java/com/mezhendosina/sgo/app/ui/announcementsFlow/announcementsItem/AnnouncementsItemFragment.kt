@@ -31,6 +31,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAnnouncementItemBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
+import com.mezhendosina.sgo.app.model.attachments.ANNOUNCEMENT
 import com.mezhendosina.sgo.app.utils.AttachmentAdapter
 import com.mezhendosina.sgo.app.utils.AttachmentClickListener
 import com.mezhendosina.sgo.data.DateManipulation
@@ -106,7 +107,7 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
                 }
             )
             attachmentAdapter.attachments =
-                announcement.attachments.map { it.toUiEntity() }
+                announcement.attachments.map { it.toUiEntity(ANNOUNCEMENT, announcement.id) }
             binding.attachmentsList.attachmentsListRecyclerView.adapter = attachmentAdapter
             binding.attachmentsList.attachmentsListRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

@@ -49,6 +49,8 @@ class SettingsDataStore @Inject constructor(@ApplicationContext private val cont
         val DIARY_STYLE = stringPreferencesKey("diary_style")
 
         val SKIP_SUNDAY = booleanPreferencesKey("skip_sunday")
+
+        val DOWNLOAD_ALL_FILES = booleanPreferencesKey("download_all_files")
     }
 
     override fun <T> getValue(value: Preferences.Key<T>): Flow<T?> {

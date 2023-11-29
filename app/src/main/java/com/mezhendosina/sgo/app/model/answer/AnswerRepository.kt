@@ -22,6 +22,7 @@ import com.mezhendosina.sgo.app.utils.getFileNameFromUri
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.SendFileRequestEntity
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
+import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -31,34 +32,34 @@ import javax.inject.Inject
 
 class AnswerRepository @Inject constructor(
     private val attachmentsSource: AttachmentsSource,
-    private val lessonRepository: LessonRepository
+    private val lessonRepository: LessonRepositoryInterface
 ) {
 
     suspend fun sendTextAnswer(assignId: Int, text: String, studentId: Int) {
         attachmentsSource.sendTextAnswer(assignId, studentId, text)
     }
-
-    suspend fun sendFiles(
-        context: Context,
-        files: List<FileUiEntity>,
-        assignId: Int
-    ): List<FileUiEntity> {
-        lessonRepository.getLesson()?.answerFiles?.forEach {
-            if (!files.contains(it) && it.id != null) {
-                attachmentsSource.deleteAttachment(assignId, it.id)
-            }
-        }
-        val out = files.map {
-            if (it.file != null) {
-                val fileId = sendFile(context, assignId, it.file, it.description)
-                it.addId(fileId)
-            } else {
-                it
-            }
-        }
-        return out
-    }
-
+//
+//    suspend fun sendFiles(
+//        context: Context,
+//        files: List<FileUiEntity>,
+//        assignId: Int
+//    ): List<FileUiEntity> {
+//        lessonRepository.getLesson()?.answerFiles?.forEach {
+//            if (!files.contains(it) && it.id != null) {
+//                attachmentsSource.deleteAttachment(assignId, it.id)
+//            }
+//        }
+//        val out = files.map {
+//            if (it.file != null) {
+//                val fileId = sendFile(context, assignId, it.file, it.description)
+//                it.addId(fileId)
+//            } else {
+//                it
+//            }
+//        }
+//        return out
+//    }
+//
 
     private suspend fun sendFile(
         context: Context,
