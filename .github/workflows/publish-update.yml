@@ -14,7 +14,7 @@ jobs:
   build-apk:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: release
 
@@ -26,7 +26,7 @@ jobs:
           cache: gradle
 
       - name: Create google-services.json
-        run: cat /home/runner/work/sgo-app/sgo-app/app/google-services.json | base64
+        run: cat ./app/google-services.json | base64
 
       - name: Putting data into google-services.json
         env:
