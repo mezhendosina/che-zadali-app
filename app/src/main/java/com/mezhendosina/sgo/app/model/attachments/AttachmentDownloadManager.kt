@@ -11,9 +11,10 @@ import com.mezhendosina.sgo.data.netschool.api.attachments.entities.SendFileRequ
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -31,6 +32,10 @@ const val ANSWERS = "answers"
 class AttachmentDownloadManager @Inject constructor(
     private val attachmentsSource: AttachmentsSource
 ) : AttachmentDownloadManagerInterface {
+
+    private val _permission_access = MutableStateFlow<Boolean?>(null)
+    val permission_access: StateFlow<Boolean?> = _permission_access
+
 
     override suspend fun downloadFile(context: Context, fileUiEntity: FileUiEntity): String? {
         val file =
@@ -104,4 +109,27 @@ class AttachmentDownloadManager @Inject constructor(
         return File(typesFolder, attachmentName)
     }
 
+    override suspend fun doAfterGetPermission(context: Context, block: suspend () -> Unit) {
+        when (_permission_access.value) {
+            null -> {
+                _permission_access.value = AttachmentsUtils.checkPermissions(context)
+                doAfterGetPermission(context, block)
+            }
+
+            true -> {
+                block.invoke()
+            }
+
+            else -> {
+                permission_access.first {
+                    if (it == true) block.invoke()
+                    it == true
+                }
+            }
+        }
+    }
+
+    override suspend fun changePermissionStatus(status: Boolean?) {
+        _permission_access.value = status
+    }
 }
