@@ -26,6 +26,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseRegionBinding
+import com.mezhendosina.sgo.app.ui.loginFlow.setOnInsetChanges
 import com.mezhendosina.sgo.app.ui.loginFlow.welcome.WelcomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -73,6 +74,7 @@ class ChooseRegionFragment : Fragment(R.layout.fragment_choose_region) {
                 )
             }
         }
+        binding!!.buttonView.setOnInsetChanges()
 
         observeRegions()
         observeSelectedRegion()
