@@ -106,7 +106,9 @@ class LessonViewModel
             if (e is PermissionNotGranted) {
                 throw PermissionNotGranted()
             } else {
-                _error.value = e.toDescription()
+                withContext(Dispatchers.Main) {
+                    _error.value = e.toDescription()
+                }
             }
         }
     }

@@ -48,7 +48,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
+class LessonFragment : Fragment(R.layout.fragment_item_lesson), LessonFragmentInterface {
 
     internal val viewModel: LessonViewModel by viewModels()
     private var binding: FragmentItemLessonBinding? = null
@@ -125,6 +125,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         observeOnEditAnswerClick()
         observeOnCopyHomeworkClick()
         observeOnAnswerUpdated()
+        observeErrors()
     }
 
     override fun onDestroyView() {
@@ -139,7 +140,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         answerFileAdapter = null
     }
 
-    private fun bindLesson() {
+    override fun bindLesson() {
         viewModel.lesson.observe(viewLifecycleOwner) { lesson ->
             if (lesson != null) with(binding!!) {
                 homework.homeworkBody.text = lesson.homework
@@ -196,7 +197,17 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         }
     }
 
-    private fun observeOnAddAnswerClick() {
+    override fun observeErrors() {
+        viewModel.error.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty() && binding != null) Snackbar.make(
+                binding!!.root,
+                it,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    override fun observeOnAddAnswerClick() {
         binding!!.homework.addAnswerButton.setOnClickListener {
             findNavController().navigate(
                 R.id.action_lessonFragment2_to_answerFragment,
@@ -205,7 +216,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         }
     }
 
-    private fun observeOnEditAnswerClick() {
+    override fun observeOnEditAnswerClick() {
         binding!!.sendHomework.editAnswer.setOnClickListener {
             findNavController().navigate(
                 R.id.action_lessonFragment2_to_answerFragment,
@@ -214,7 +225,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         }
     }
 
-    private fun observeOnCopyHomeworkClick() {
+    override fun observeOnCopyHomeworkClick() {
         binding!!.homework.copyIcon.setOnClickListener {
             val clipboard =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -229,7 +240,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         }
     }
 
-    private fun observeOnAnswerUpdated() {
+    override fun observeOnAnswerUpdated() {
         Singleton.answerUpdated.observe(viewLifecycleOwner) {
             if (it) {
                 CoroutineScope(Dispatchers.IO).launch {
