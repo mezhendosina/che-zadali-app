@@ -36,8 +36,14 @@ open class BaseRetrofitSource
     private val errorAdapter = retrofitConfig.gson.getAdapter(Error::class.java)
 
     suspend fun <T> wrapRetrofitExceptions(
-        requireLogin: Boolean = true, block: suspend () -> T
+        requireLogin: Boolean = true,
+        debug: Boolean = false,
+        debugData: T? = null,
+        block: suspend () -> T
     ): T {
+        if (debug && debugData != null) {
+            return debugData
+        }
         if (Singleton.loggedIn || !requireLogin) {
             return try {
                 block()
