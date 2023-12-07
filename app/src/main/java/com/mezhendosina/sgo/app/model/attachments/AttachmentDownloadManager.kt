@@ -3,8 +3,10 @@ package com.mezhendosina.sgo.app.model.attachments
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import androidx.core.content.FileProvider
+import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.SendFileRequestEntity
@@ -110,22 +112,26 @@ class AttachmentDownloadManager @Inject constructor(
     }
 
     override suspend fun doAfterGetPermission(context: Context, block: suspend () -> Unit) {
-        when (_permission_access.value) {
-            null -> {
-                _permission_access.value = AttachmentsUtils.checkPermissions(context)
-                doAfterGetPermission(context, block)
-            }
+        if (Build.VERSION.SDK_INT <= 32) {
+            when (_permission_access.value) {
+                null -> {
+                    _permission_access.value = AttachmentsUtils.checkPermissions(context)
+                    doAfterGetPermission(context, block)
+                }
 
-            true -> {
-                block.invoke()
-            }
+                true -> {
+                    block.invoke()
+                }
 
-            else -> {
-                permission_access.first {
-                    if (it == true) block.invoke()
-                    it == true
+                else -> {
+                    permission_access.first {
+                        if (it == true) block.invoke()
+                        it == true
+                    }
                 }
             }
+        } else {
+            block.invoke()
         }
     }
 

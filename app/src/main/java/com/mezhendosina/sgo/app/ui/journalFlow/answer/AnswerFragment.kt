@@ -16,13 +16,8 @@
 
 package com.mezhendosina.sgo.app.ui.journalFlow.answer
 
-import android.app.DownloadManager
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -31,14 +26,7 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentAnswerBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
-import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
-import com.mezhendosina.sgo.app.model.attachments.HOMEWORK
-import com.mezhendosina.sgo.app.utils.getFileNameFromUri
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AnswerFragment : Fragment(R.layout.fragment_answer) {
@@ -69,9 +57,7 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
             viewModel,
             object : FileActionListener {
                 override fun onClick(file: FileUiEntity) {
-                    CoroutineScope(Dispatchers.IO).launch {
                         viewModel.openFile(requireContext(), file)
-                    }
                 }
 
                 override fun deleteFile(attachmentId: Int) {

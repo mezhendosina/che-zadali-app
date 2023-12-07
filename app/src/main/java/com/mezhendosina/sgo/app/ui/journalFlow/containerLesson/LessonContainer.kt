@@ -45,10 +45,6 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
 
     private val viewModel by viewModels<LessonContainerViewModel>()
 
-    val r = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform()
@@ -61,7 +57,6 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
         val innerNavController =
             childFragmentManager.findFragmentById(binding!!.lessonFragmentContainer.id)
                 ?.findNavController()
-        r.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         with(binding!!.lessonToolbar) {
 
             itemToolbar.title = viewModel.lesson?.subjectName ?: ""

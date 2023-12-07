@@ -20,6 +20,7 @@ import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -29,6 +30,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
@@ -53,27 +55,30 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
 
     @Inject
     lateinit var attachmentDownloadManager: AttachmentDownloadManager
-
-    private val storagePermission =
+    val storagePermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
             CoroutineScope(Dispatchers.Main).launch {
                 viewModel.changePermissionStatus(it.all { b -> b.value })
             }
         }
 
+
     private val onAttachmentClickListener = object : AttachmentClickListener {
         override fun invoke(attachment: FileUiEntity, loadingList: MutableList<Int>) {
-            if (AttachmentsUtils.checkPermissions(requireContext())) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.downloadAttachment(requireContext(), attachment)
-                }
-            } else {
-                storagePermission.launch(
-                    arrayOf(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.downloadAttachment(requireContext(), attachment)
+            }
+            if (!AttachmentsUtils.checkPermissions(requireContext())) {
+                if (Build.VERSION.SDK_INT in 30..32) {
+                    storagePermission.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+                } else if (Build.VERSION.SDK_INT <= 29) {
+                    storagePermission.launch(
+                        arrayOf(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        )
                     )
-                )
+                }
             }
         }
     }
