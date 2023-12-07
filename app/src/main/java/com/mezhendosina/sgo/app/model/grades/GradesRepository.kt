@@ -37,20 +37,20 @@ class GradesRepository
     @Inject constructor(
     private val gradesSource: GradesSource,
     private val diarySource: DiarySource
-) {
+): GradesRepositoryInterface {
 
     private var grades = mutableListOf<GradesItem>()
 
     private val listeners = mutableSetOf<GradeActionListener>()
 
-    suspend fun loadGradesOptions(): GradeOptions {
+    override suspend fun loadGradesOptions(): GradeOptions {
         val parentInfoLetter =
             gradesSource.getParentInfoLetter(Singleton.at).body()?.string() ?: ""
         return GradesFromHtml().getOptions(parentInfoLetter)
     }
 
 
-    suspend fun loadGrades(gradeOptions: GradeOptions, termid: String, sortType: Int) {
+    override suspend fun loadGrades(gradeOptions: GradeOptions, termid: String, sortType: Int) {
         val at = Singleton.at
         val getGradesRequest = gradesSource.getGrades(
             at,
@@ -99,11 +99,11 @@ class GradesRepository
 //        )
 //    }
 
-    fun addListener(listener: GradeActionListener) {
+   override fun addListener(listener: GradeActionListener) {
         listeners.add(listener)
     }
 
-    fun removeListener(listener: GradeActionListener) {
+    override fun removeListener(listener: GradeActionListener) {
         listeners.remove(listener)
     }
 

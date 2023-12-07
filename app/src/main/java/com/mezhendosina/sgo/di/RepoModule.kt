@@ -2,6 +2,8 @@ package com.mezhendosina.sgo.di
 
 import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
 import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManagerInterface
+import com.mezhendosina.sgo.app.model.grades.GradesRepository
+import com.mezhendosina.sgo.app.model.grades.GradesRepositoryInterface
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepository
@@ -23,6 +25,10 @@ abstract class RepoModule {
     @Binds
     @Singleton
     abstract fun bindLessonRepository(lessonRepository: LessonRepository): LessonRepositoryInterface
+
+    @Binds
+    @Singleton
+    abstract fun bindGradesRepository(gradesRepository: GradesRepository): GradesRepositoryInterface
 
     @Binds
     @Singleton
