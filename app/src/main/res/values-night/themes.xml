@@ -28,6 +28,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:statusBarColor">@color/md_theme_dark_background</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fitsSystemWindows">true</item>
 
 
         <item name="colorPrimary">@color/md_theme_dark_primary</item>

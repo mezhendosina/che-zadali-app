@@ -18,6 +18,7 @@ package com.mezhendosina.sgo.app.activities
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -73,6 +74,7 @@ class MainActivity : AppCompatActivity() {
 //    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         binding = ContainerMainActivityBinding.inflate(layoutInflater)
