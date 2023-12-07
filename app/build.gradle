@@ -51,8 +51,8 @@ android {
         applicationId "com.mezhendosina.sgo.app"
         minSdk 24
         targetSdk 33
-        versionCode 39
-        versionName '3.0.3'
+        versionCode 40
+        versionName '3.0.4'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
