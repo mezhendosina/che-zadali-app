@@ -17,12 +17,10 @@
 package com.mezhendosina.sgo.app.ui.journalFlow.lessonItem
 
 import android.Manifest
-import android.app.DownloadManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.IntentFilter
-import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -32,12 +30,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentItemLessonBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
+import com.mezhendosina.sgo.app.model.attachments.AttachmentsUtils
 import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment
 import com.mezhendosina.sgo.app.utils.AttachmentAdapter
 import com.mezhendosina.sgo.app.utils.AttachmentClickListener
@@ -48,29 +48,37 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
+class LessonFragment : Fragment(R.layout.fragment_item_lesson), LessonFragmentInterface {
 
     internal val viewModel: LessonViewModel by viewModels()
     private var binding: FragmentItemLessonBinding? = null
 
     @Inject
     lateinit var attachmentDownloadManager: AttachmentDownloadManager
-
-    private val storagePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+    val storagePermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            CoroutineScope(Dispatchers.Main).launch {
+                viewModel.changePermissionStatus(it.all { b -> b.value })
+            }
         }
+
 
     private val onAttachmentClickListener = object : AttachmentClickListener {
         override fun invoke(attachment: FileUiEntity, loadingList: MutableList<Int>) {
-            viewModel.downloadAttachment(requireContext(),attachment)
-
-            val permission =
-                requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            if (permission == PackageManager.PERMISSION_GRANTED) {
-                CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.downloadAttachment(requireContext(), attachment)
+            }
+            if (!AttachmentsUtils.checkPermissions(requireContext())) {
+                if (Build.VERSION.SDK_INT in 30..32) {
+                    storagePermission.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+                } else if (Build.VERSION.SDK_INT <= 29) {
+                    storagePermission.launch(
+                        arrayOf(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        )
+                    )
                 }
-            } else {
-                storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             }
         }
     }
@@ -117,6 +125,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         observeOnEditAnswerClick()
         observeOnCopyHomeworkClick()
         observeOnAnswerUpdated()
+        observeErrors()
     }
 
     override fun onDestroyView() {
@@ -131,14 +140,14 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         answerFileAdapter = null
     }
 
-    private fun bindLesson() {
+    override fun bindLesson() {
         viewModel.lesson.observe(viewLifecycleOwner) { lesson ->
             if (lesson != null) with(binding!!) {
                 homework.homeworkBody.text = lesson.homework
 
-                if (lesson.homework.isEmpty()){
+                if (lesson.homework.isEmpty()) {
                     homework.root.visibility = View.GONE
-                } else{
+                } else {
                     if (!lesson.homeworkComment.isNullOrEmpty()) {
                         homework.commentBody.text = lesson.homeworkComment
                         homework.commentBody.visibility = View.VISIBLE
@@ -188,7 +197,17 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         }
     }
 
-    private fun observeOnAddAnswerClick() {
+    override fun observeErrors() {
+        viewModel.error.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty() && binding != null) Snackbar.make(
+                binding!!.root,
+                it,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    override fun observeOnAddAnswerClick() {
         binding!!.homework.addAnswerButton.setOnClickListener {
             findNavController().navigate(
                 R.id.action_lessonFragment2_to_answerFragment,
@@ -197,7 +216,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         }
     }
 
-    private fun observeOnEditAnswerClick() {
+    override fun observeOnEditAnswerClick() {
         binding!!.sendHomework.editAnswer.setOnClickListener {
             findNavController().navigate(
                 R.id.action_lessonFragment2_to_answerFragment,
@@ -206,7 +225,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         }
     }
 
-    private fun observeOnCopyHomeworkClick() {
+    override fun observeOnCopyHomeworkClick() {
         binding!!.homework.copyIcon.setOnClickListener {
             val clipboard =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -221,7 +240,7 @@ class LessonFragment : Fragment(R.layout.fragment_item_lesson) {
         }
     }
 
-    private fun observeOnAnswerUpdated() {
+    override fun observeOnAnswerUpdated() {
         Singleton.answerUpdated.observe(viewLifecycleOwner) {
             if (it) {
                 CoroutineScope(Dispatchers.IO).launch {

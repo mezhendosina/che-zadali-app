@@ -16,10 +16,13 @@ interface AttachmentDownloadManagerInterface {
         files: List<FileUiEntity>
     )
 
-
     fun editDescription(attachmentId: Int, description: String?)
 
     fun openFile(context: Context, fileUiEntity: FileUiEntity)
 
     fun getFile(context: Context, assignType: String, assignId: Int, attachmentName: String): File
+
+    suspend fun doAfterGetPermission(context: Context, block: suspend () -> Unit)
+
+    suspend fun changePermissionStatus(status: Boolean?)
 }

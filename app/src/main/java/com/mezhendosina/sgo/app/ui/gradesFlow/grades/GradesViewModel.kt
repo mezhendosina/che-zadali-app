@@ -27,6 +27,7 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradeActionListener
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.model.grades.GradesRepository
+import com.mezhendosina.sgo.app.model.grades.GradesRepositoryInterface
 import com.mezhendosina.sgo.app.uiEntities.checkItem
 import com.mezhendosina.sgo.app.utils.LoadStatus
 import com.mezhendosina.sgo.app.utils.toDescription
@@ -38,6 +39,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -45,7 +47,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GradesViewModel
 @Inject constructor(
-    private val gradeServices: GradesRepository,
+    private val gradeServices: GradesRepositoryInterface,
     private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 

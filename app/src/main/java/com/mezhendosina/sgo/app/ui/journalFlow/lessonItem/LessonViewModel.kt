@@ -22,20 +22,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
-import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
-import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
-import com.mezhendosina.sgo.app.model.attachments.HOMEWORK
-import com.mezhendosina.sgo.data.netschool.base.PermissionNotGranted
-import com.mezhendosina.sgo.data.netschool.base.toDescription
+import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManagerInterface
 import com.mezhendosina.sgo.app.uiEntities.AboutLessonUiEntity
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
+import com.mezhendosina.sgo.data.netschool.base.PermissionNotGranted
+import com.mezhendosina.sgo.data.netschool.base.toDescription
 import com.mezhendosina.sgo.data.netschool.repo.LessonActionListener
-import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -46,7 +41,7 @@ import javax.inject.Inject
 class LessonViewModel
 @Inject constructor(
     private val lessonRepository: LessonRepositoryInterface,
-    private val attachmentDownloadManager: AttachmentDownloadManager,
+    private val attachmentDownloadManager: AttachmentDownloadManagerInterface,
     private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
@@ -67,6 +62,10 @@ class LessonViewModel
         }
     }
 
+    suspend fun changePermissionStatus(status: Boolean?) {
+        attachmentDownloadManager.changePermissionStatus(status)
+    }
+
     suspend fun loadLesson() {
         try {
             withContext(Dispatchers.Main) {
@@ -83,21 +82,23 @@ class LessonViewModel
         }
     }
 
-    fun downloadAttachment(
+    suspend fun downloadAttachment(
         context: Context,
         attachment: FileUiEntity,
     ) {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
-                attachmentDownloadManager.downloadFile(
-                    context,
-                    attachment
-                )
-                withContext(Dispatchers.Main) {
-                    attachmentDownloadManager.openFile(
+            attachmentDownloadManager.doAfterGetPermission(context) {
+                withContext(Dispatchers.IO) {
+                    attachmentDownloadManager.downloadFile(
                         context,
                         attachment
                     )
+                    withContext(Dispatchers.Main) {
+                        attachmentDownloadManager.openFile(
+                            context,
+                            attachment
+                        )
+                    }
                 }
             }
 
@@ -105,7 +106,9 @@ class LessonViewModel
             if (e is PermissionNotGranted) {
                 throw PermissionNotGranted()
             } else {
-                _error.value = e.toDescription()
+                withContext(Dispatchers.Main) {
+                    _error.value = e.toDescription()
+                }
             }
         }
     }

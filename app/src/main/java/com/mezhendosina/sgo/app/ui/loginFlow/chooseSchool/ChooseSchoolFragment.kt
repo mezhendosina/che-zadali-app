@@ -29,6 +29,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentChooseSchoolBinding
 import com.mezhendosina.sgo.app.ui.loginFlow.login.LoginFragment
+import com.mezhendosina.sgo.app.ui.loginFlow.setOnInsetChanges
 import com.mezhendosina.sgo.app.uiEntities.SchoolUiEntity
 import com.mezhendosina.sgo.app.utils.DividerItemDecoration
 import com.mezhendosina.sgo.app.utils.hideAnimation
@@ -96,6 +97,7 @@ class ChooseSchoolFragment : Fragment(R.layout.fragment_choose_school) {
                 bundleOf(LoginFragment.ARG_SCHOOL_ID to viewModel.selectedItem.value?.id)
             )
         }
+        binding!!.buttonView.setOnInsetChanges()
 
         observeSchools()
         observeErrors()

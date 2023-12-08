@@ -43,14 +43,14 @@ fun AppCompatActivity.setupInsets(fragmentContainer: View) {
             if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
                 view.updateLayoutParams<MarginLayoutParams> {
                     topMargin = insets.top
-                    this.bottomMargin = insetsNavigation.bottom
+                    bottomMargin = insetsNavigation.bottom
                 }
             } else {
                 view.setPadding(
                     insets.left,
                     topBarInset.top,
                     insets.right,
-                    insetsNavigation.bottom
+                    view.paddingBottom
                 )
             }
             WindowInsetsCompat.CONSUMED
