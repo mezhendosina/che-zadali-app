@@ -70,7 +70,7 @@ class AnnouncementsFragment : Fragment(R.layout.fragment_announcements) {
 
     override fun onDestroy() {
         super.onDestroy()
-        binding!!.root.invalidate()
+        binding?.root?.invalidate()
         adapter = null
         binding = null
     }
