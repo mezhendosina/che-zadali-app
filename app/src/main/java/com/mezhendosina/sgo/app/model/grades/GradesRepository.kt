@@ -26,6 +26,9 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -34,19 +37,26 @@ typealias GradeActionListener = (grade: List<GradesItem>) -> Unit
 @Module
 @InstallIn(SingletonComponent::class)
 class GradesRepository
-    @Inject constructor(
+@Inject constructor(
     private val gradesSource: GradesSource,
     private val diarySource: DiarySource
-): GradesRepositoryInterface {
+) : GradesRepositoryInterface {
 
     private var grades = mutableListOf<GradesItem>()
-
     private val listeners = mutableSetOf<GradeActionListener>()
+
+    private val _selectedGradesItem: MutableStateFlow<GradesItem?> = MutableStateFlow(null)
+    override val selectedGradesItem: StateFlow<GradesItem?> = _selectedGradesItem.asStateFlow()
+
 
     override suspend fun loadGradesOptions(): GradeOptions {
         val parentInfoLetter =
             gradesSource.getParentInfoLetter(Singleton.at).body()?.string() ?: ""
         return GradesFromHtml().getOptions(parentInfoLetter)
+    }
+
+    override fun setSelectedGradesItem(gradesItem: GradesItem) {
+        _selectedGradesItem.value = gradesItem
     }
 
 
@@ -99,7 +109,7 @@ class GradesRepository
 //        )
 //    }
 
-   override fun addListener(listener: GradeActionListener) {
+    override fun addListener(listener: GradeActionListener) {
         listeners.add(listener)
     }
 

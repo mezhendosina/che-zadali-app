@@ -68,6 +68,8 @@ class GradesViewModel
         gradeServices.addListener(gradeActionListener)
     }
 
+    fun setLesson(lesson: GradesItem) = gradeServices.setSelectedGradesItem(lesson)
+
     suspend fun load() {
         if (Singleton.grades.isNotEmpty() && Singleton.gradesRecyclerViewLoaded.value == false) {
             withContext(Dispatchers.Main) {

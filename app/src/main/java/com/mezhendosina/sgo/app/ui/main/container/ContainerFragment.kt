@@ -86,15 +86,13 @@ class ContainerFragment
 
     private val gradeAdapter = GradeAdapter(object : OnGradeClickListener {
         override fun invoke(p1: GradesItem, p2: View) {
-            val a = gradesViewModel.grades.value?.indexOf(p1)
-
             val navigationExtras = FragmentNavigatorExtras(
                 p2 to getString(R.string.grade_item_details_transition_name)
             )
-
+            gradesViewModel.setLesson(p1)
             findTopNavController().navigate(
                 R.id.action_containerFragment_to_gradeItemFragment,
-                bundleOf("LESSON_INDEX" to a),
+                null,
                 null,
                 navigationExtras
             )

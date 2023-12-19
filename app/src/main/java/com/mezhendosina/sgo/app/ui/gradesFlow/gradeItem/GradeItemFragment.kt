@@ -42,7 +42,6 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
 
     var binding: FragmentGradeItemBinding? = null
 
-    private lateinit var lesson: GradesItem
 
     internal val viewModel: GradeItemViewModel by viewModels()
 
@@ -71,38 +70,44 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         sharedElementReturnTransition = MaterialContainerTransform().apply {
             scrimColor = Color.TRANSPARENT
         }
-
-        lesson = Singleton.grades[arguments?.getInt("LESSON_INDEX") ?: 0]
-        viewModel.initCalculator(lesson)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGradeItemBinding.bind(view)
-        with(binding!!.gradeToolbar) {
-            collapsingtoolbarlayout.title = lesson.name
-            itemToolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
-            setLessonEmoji(requireContext(), lesson.name)
-        }
-
-        binding!!.gradeCalculator.calculateGrade.adapter = calculateGradeAdapter
-        binding!!.gradeCalculator.calculateGrade.layoutManager =
-            LinearLayoutManager(requireContext())
-        binding!!.gradeCalculator.calculateGrade.itemAnimator = null
-
-        if (Singleton.gradesWithWeight) binding!!.gradeCalculator.root.visibility = View.GONE
-
-        countGradeAdapter.countGrades = lesson.countGradesToList()
-        val itemOffsetDecoration = ItemOffsetDecoration(36)
-        with(binding!!.countGrade) {
-            adapter = countGradeAdapter
-            layoutManager =
-                GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
-            addItemDecoration(itemOffsetDecoration)
-        }
-
-        setupAvgGrade()
+        observeLesson()
         observeCalculatedGrade()
+    }
+
+    private fun observeLesson() {
+        viewModel.lesson.observe(viewLifecycleOwner) { lesson ->
+            if (lesson != null) {
+                with(binding!!.gradeToolbar) {
+                    collapsingtoolbarlayout.title = lesson.name
+                    itemToolbar.setNavigationOnClickListener { findTopNavController().popBackStack() }
+                    setLessonEmoji(requireContext(), lesson.name)
+                }
+
+                binding!!.gradeCalculator.calculateGrade.adapter = calculateGradeAdapter
+                binding!!.gradeCalculator.calculateGrade.layoutManager =
+                    LinearLayoutManager(requireContext())
+                binding!!.gradeCalculator.calculateGrade.itemAnimator = null
+
+                if (Singleton.gradesWithWeight) binding!!.gradeCalculator.root.visibility =
+                    View.GONE
+
+                countGradeAdapter.countGrades = lesson.countGradesToList()
+                val itemOffsetDecoration = ItemOffsetDecoration(36)
+                with(binding!!.countGrade) {
+                    adapter = countGradeAdapter
+                    layoutManager =
+                        GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
+                    addItemDecoration(itemOffsetDecoration)
+                }
+
+                setupAvgGrade(lesson)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -111,7 +116,7 @@ class GradeItemFragment : Fragment(R.layout.fragment_grade_item) {
         super.onDestroyView()
     }
 
-    private fun setupAvgGrade() {
+    private fun setupAvgGrade(lesson: GradesItem) {
         val avgGradeType = lesson.avgGrade().toGradeType()
         binding!!.avgGrade.root.setBackgroundResource(
             when (avgGradeType) {
