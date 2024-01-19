@@ -17,13 +17,11 @@
 package com.mezhendosina.sgo.app.ui.main.container
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -33,7 +31,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.material.transition.platform.MaterialSharedAxis
@@ -44,7 +41,6 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
-import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.ui.gradesFlow.filter.FilterBottomSheet
 import com.mezhendosina.sgo.app.ui.gradesFlow.filter.GradesFilterViewModel
 import com.mezhendosina.sgo.app.ui.gradesFlow.grades.GradeAdapter
@@ -53,7 +49,7 @@ import com.mezhendosina.sgo.app.ui.gradesFlow.grades.OnGradeClickListener
 import com.mezhendosina.sgo.app.ui.journalFlow.journal.JournalPagerAdapter
 import com.mezhendosina.sgo.app.ui.main.updateBottomSheet.UpdateBottomSheetFragment
 import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
-import com.mezhendosina.sgo.app.utils.LoadStatus
+import com.mezhendosina.sgo.app.utils.LoadStates
 import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.app.utils.slideDownAnimation
 import com.mezhendosina.sgo.app.utils.slideUpAnimation
@@ -138,7 +134,7 @@ class ContainerFragment
                 gradesRecyclerView.adapter = gradeAdapter
 
                 errorMessage.retryButton.setOnClickListener {
-                    Singleton.updateGradeState.value = LoadStatus.UPDATE
+                    Singleton.updateGradeState.value = LoadStates.UPDATE
                 }
             }
 
@@ -282,7 +278,7 @@ class ContainerFragment
 
                     GRADES -> {
                         it.mainToolbar.setTitle(R.string.grades)
-                        Singleton.updateGradeState.value = LoadStatus.UPDATE
+                        Singleton.updateGradeState.value = LoadStates.UPDATE
                         it.slideUpAnimation()
                         it.journal.visibility = View.GONE
                         it.grades.root.visibility = View.VISIBLE
@@ -499,7 +495,7 @@ class ContainerFragment
             binding?.let {
                 with(it.grades) {
                     when (loadState) {
-                        LoadStatus.UPDATE -> {
+                        LoadStates.UPDATE -> {
                             CoroutineScope(Dispatchers.IO).launch {
                                 gradesViewModel.load()
                             }
@@ -516,12 +512,12 @@ class ContainerFragment
                             showLoading()
                         }
 
-                        LoadStatus.ERROR -> {
+                        LoadStates.ERROR -> {
                             loading.root.stopShimmer()
                             showError()
                         }
 
-                        LoadStatus.FINISHED -> {
+                        LoadStates.FINISHED -> {
                             loading.root.stopShimmer()
                             if (gradesViewModel.grades.value.isNullOrEmpty()) {
                                 emptyState.noHomeworkIcon.setImageDrawable(

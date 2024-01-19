@@ -24,11 +24,10 @@ import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
 import com.mezhendosina.sgo.app.uiEntities.checkItem
-import com.mezhendosina.sgo.app.utils.LoadStatus
+import com.mezhendosina.sgo.app.utils.LoadStates
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.repo.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -66,7 +65,7 @@ class GradesFilterViewModel
         viewModelScope.launch {
             settingsDataStore.setValue(SettingsDataStore.SORT_GRADES_BY, sortBy)
             _gradesSortType.value = sortBy
-            Singleton.updateGradeState.value = LoadStatus.UPDATE
+            Singleton.updateGradeState.value = LoadStates.UPDATE
         }
     }
 
@@ -91,7 +90,7 @@ class GradesFilterViewModel
     suspend fun updateYear(yearId: Int) {
         try {
             withContext(Dispatchers.Main) {
-                Singleton.updateGradeState.value = LoadStatus.UPDATE
+                Singleton.updateGradeState.value = LoadStates.UPDATE
             }
             settingsRepository.setYear(yearId)
             if (_yearList.value != null) {
@@ -121,7 +120,7 @@ class GradesFilterViewModel
             val checkItem = Singleton.gradesTerms.value?.checkItem(id)
             withContext(Dispatchers.Main) {
                 Singleton.gradesTerms.value = checkItem
-                Singleton.updateGradeState.value = LoadStatus.UPDATE
+                Singleton.updateGradeState.value = LoadStates.UPDATE
             }
         }
     }

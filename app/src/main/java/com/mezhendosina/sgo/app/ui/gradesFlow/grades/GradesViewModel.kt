@@ -16,7 +16,6 @@
 
 package com.mezhendosina.sgo.app.ui.gradesFlow.grades
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,20 +25,15 @@ import com.google.firebase.perf.ktx.performance
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradeActionListener
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
-import com.mezhendosina.sgo.app.model.grades.GradesRepository
 import com.mezhendosina.sgo.app.model.grades.GradesRepositoryInterface
 import com.mezhendosina.sgo.app.uiEntities.checkItem
-import com.mezhendosina.sgo.app.utils.LoadStatus
+import com.mezhendosina.sgo.app.utils.LoadStates
 import com.mezhendosina.sgo.app.utils.toDescription
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions
-import dagger.hilt.InstallIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -74,7 +68,7 @@ class GradesViewModel
         if (Singleton.grades.isNotEmpty() && Singleton.gradesRecyclerViewLoaded.value == false) {
             withContext(Dispatchers.Main) {
                 _grades.value = Singleton.grades
-                Singleton.updateGradeState.value = LoadStatus.FINISHED
+                Singleton.updateGradeState.value = LoadStates.FINISHED
             }
             return
         } else {
@@ -117,13 +111,13 @@ class GradesViewModel
             val checkSelectedTrim = trims.checkItem(currentTrimId)
             withContext(Dispatchers.Main) {
                 Singleton.gradesTerms.value = checkSelectedTrim
-                Singleton.updateGradeState.value = LoadStatus.FINISHED
+                Singleton.updateGradeState.value = LoadStates.FINISHED
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 Log.e(null, e.stackTraceToString())
                 _errorMessage.value = e.toDescription()
-                Singleton.updateGradeState.value = LoadStatus.ERROR
+                Singleton.updateGradeState.value = LoadStates.ERROR
             }
         } finally {
             withContext(Dispatchers.Main) {

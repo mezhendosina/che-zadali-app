@@ -19,6 +19,7 @@ package com.mezhendosina.sgo.app.ui.journalFlow.journalItem
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -62,7 +63,7 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
 
                 findTopNavController().navigate(
                     R.id.action_containerFragment_to_lessonContainer,
-                    null,
+                    bundleOf(),
                     null,
                     navigationExtras
                 )

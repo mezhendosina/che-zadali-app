@@ -31,6 +31,8 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -43,21 +45,17 @@ class LessonRepository @Inject constructor(
     private var assignTypes: List<AssignTypeUiEntity>? = null
 
 
-    private var lesson: AboutLessonUiEntity? = null
-    private val listeners = mutableSetOf<LessonActionListener>()
+    private val _lesson = MutableStateFlow<AboutLessonUiEntity?>(null)
+    override val lesson: StateFlow<AboutLessonUiEntity?> = _lesson
+
 
     var answerFiles: List<FileUiEntity> = emptyList()
     private var answerText: String = ""
+
     override fun getAnswerText(): String = answerText
 
     override fun editAnswerText(text: String) {
         answerText = text
-    }
-
-
-    override fun getLesson(): AboutLessonUiEntity? {
-        return lesson
-
     }
 
     override suspend fun getAboutLesson(
@@ -101,14 +99,12 @@ class LessonRepository @Inject constructor(
         )
 
         withContext(Dispatchers.Main) {
-            lesson = out
-            notifyListeners()
+            _lesson.value = out
         }
     }
 
     override fun editAnswers(files: List<FileUiEntity>?) {
-        lesson = lesson?.editAnswers(answerText, files)
-        notifyListeners()
+        _lesson.value = _lesson.value?.editAnswers(answerText, files)
     }
 
     private suspend fun loadGrades(lessonUiEntity: LessonUiEntity): List<WhyGradeEntity> {
@@ -128,18 +124,5 @@ class LessonRepository @Inject constructor(
             }
         }
         return gradesList
-    }
-
-
-    override fun addListener(listener: LessonActionListener) {
-        listeners.add(listener)
-    }
-
-    override fun removeListener(listener: LessonActionListener) {
-        listeners.remove(listener)
-    }
-
-    private fun notifyListeners() {
-        listeners.forEach { it.invoke(lesson) }
     }
 }

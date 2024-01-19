@@ -32,6 +32,7 @@ import com.mezhendosina.sgo.data.netschool.repo.LessonActionListener
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -56,7 +57,11 @@ class LessonViewModel
     }
 
     init {
-        lessonRepository.addListener(lessonListener)
+        viewModelScope.launch {
+            lessonRepository.lesson.collect {
+                _lesson.value = it
+            }
+        }
         viewModelScope.launch {
             loadLesson()
         }
@@ -113,8 +118,4 @@ class LessonViewModel
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        lessonRepository.removeListener(lessonListener)
-    }
 }

@@ -8,14 +8,15 @@ import com.mezhendosina.sgo.app.uiEntities.AboutLessonUiEntity
 import com.mezhendosina.sgo.app.uiEntities.WhyGradeEntity
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.AttachmentsRequestEntity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 
 interface LessonRepositoryInterface {
 
+    val lesson: StateFlow<AboutLessonUiEntity?>
+
     fun getAnswerText(): String
     fun editAnswerText(text: String)
-
-    fun getLesson(): AboutLessonUiEntity?
 
     suspend fun getAboutLesson(
         lessonUiEntity: LessonUiEntity,
@@ -23,10 +24,4 @@ interface LessonRepositoryInterface {
     )
 
     fun editAnswers(files: List<FileUiEntity>?)
-
-
-    fun addListener(listener: LessonActionListener)
-
-    fun removeListener(listener: LessonActionListener)
-
 }
