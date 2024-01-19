@@ -19,5 +19,5 @@ package com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo
 data class AccountInfoResponseEntity(
     val permissionGranted: Boolean,
     val trusted: Boolean,
-    val users: List<User>
+    val users: List<User>,
 )

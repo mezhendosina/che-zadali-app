@@ -24,6 +24,7 @@ open class AppException : RuntimeException {
 }
 
 class ConnectionException(cause: Throwable) : AppException(cause = cause)
+
 class TimeOutError(cause: Throwable) : AppException(cause = cause)
 
 class PermissionNotGranted : RuntimeException()
@@ -32,14 +33,14 @@ class PermissionNotGranted : RuntimeException()
  * Server error exception
  */
 open class BackendException(
-    message: String
+    message: String,
 ) : AppException(message)
 
 class ParseBackendResponseException(
-    cause: Throwable
+    cause: Throwable,
 ) : AppException(cause = cause)
 
-class LessonNotFoundException() : NullPointerException()
+class LessonNotFoundException : NullPointerException()
 
 fun Exception.toDescription(): String {
     println(this.stackTraceToString())
@@ -52,4 +53,3 @@ fun Exception.toDescription(): String {
         else -> "Что-то пошло не так"
     }
 }
-

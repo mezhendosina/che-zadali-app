@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         ) {
             super.onFragmentCreated(fm, f, savedInstanceState)
             if (f.findNavController() != navController) navController = f.findNavController()
-            println("start destination ${navController?.graph?.startDestDisplayName}")
 
         }
     }

@@ -23,7 +23,6 @@ import android.view.View
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 
-
 fun showAnimation(view: View) {
     view.apply {
         alpha = 0f
@@ -32,17 +31,21 @@ fun showAnimation(view: View) {
     }
 }
 
-fun hideAnimation(view: View, endVisibility: Int) {
+fun hideAnimation(
+    view: View,
+    endVisibility: Int,
+) {
     view.animate()
         .alpha(0f)
         .setDuration(300)
-        .setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                view.visibility = endVisibility
-            }
-        })
+        .setListener(
+            object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    view.visibility = endVisibility
+                }
+            },
+        )
 }
-
 
 fun ContainerMainBinding.slideDownAnimation() {
     apply {
@@ -50,7 +53,6 @@ fun ContainerMainBinding.slideDownAnimation() {
         TransitionManager.beginDelayedTransition(appbarLayout, materialFade)
         tabsLayout.visibility = View.VISIBLE
         gradesTopBar.root.visibility = View.GONE
-
     }
 }
 
@@ -59,5 +61,4 @@ fun ContainerMainBinding.slideUpAnimation() {
     TransitionManager.beginDelayedTransition(appbarLayout, materialFade)
     tabsLayout.visibility = View.GONE
     gradesTopBar.root.visibility = View.VISIBLE
-
 }

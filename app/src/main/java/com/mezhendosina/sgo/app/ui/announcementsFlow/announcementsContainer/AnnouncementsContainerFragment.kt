@@ -29,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AnnouncementsContainerFragment : Fragment(R.layout.container_announcements) {
-
     private var binding: ContainerAnnouncementsBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +37,10 @@ class AnnouncementsContainerFragment : Fragment(R.layout.container_announcements
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding = ContainerAnnouncementsBinding.bind(view)
         val innerNavController =
@@ -54,10 +56,11 @@ class AnnouncementsContainerFragment : Fragment(R.layout.container_announcements
         }
 
         innerNavController?.addOnDestinationChangedListener { controller, destination, arguments ->
-            binding!!.collapsingtoolbarlayout.title = when (destination.id) {
-                controller.graph.startDestinationId -> requireContext().getString(R.string.announcements)
-                else -> Singleton.selectedAnnouncement?.name ?: ""
-            }
+            binding!!.collapsingtoolbarlayout.title =
+                when (destination.id) {
+                    controller.graph.startDestinationId -> requireContext().getString(R.string.announcements)
+                    else -> Singleton.selectedAnnouncement?.name ?: ""
+                }
         }
     }
 }

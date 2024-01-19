@@ -16,7 +16,6 @@
 
 package com.mezhendosina.sgo.data.netschool.api.announcements
 
-
 import com.google.gson.annotations.SerializedName
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.Attachment
 
@@ -38,9 +37,8 @@ data class AnnouncementsResponseEntity(
     @SerializedName("postDate")
     val postDate: String,
     @SerializedName("recipientInfo")
-    val recipientInfo: Any
+    val recipientInfo: Any,
 )
-
 
 data class Author(
     @SerializedName("fio")
@@ -48,12 +46,12 @@ data class Author(
     @SerializedName("id")
     val id: Int,
     @SerializedName("nickName")
-    val nickName: String
+    val nickName: String,
 )
 
 data class Em(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")
-    val name: String
+    val name: String,
 )

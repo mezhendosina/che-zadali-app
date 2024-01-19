@@ -84,7 +84,7 @@
         android:visibility="invisible"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="Пока недоступно, но скоро обязательно будет :)"
+        android:text="@string/now_not_avaliable"
         app:layout_constraintBottom_toTopOf="@id/default_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
