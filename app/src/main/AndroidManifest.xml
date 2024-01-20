@@ -38,7 +38,7 @@
         android:theme="@style/Theme.SGOApp">
 
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".App"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
