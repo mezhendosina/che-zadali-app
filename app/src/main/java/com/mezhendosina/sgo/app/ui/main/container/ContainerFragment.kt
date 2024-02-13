@@ -31,6 +31,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -42,7 +43,6 @@ import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
 import com.mezhendosina.sgo.app.ui.gradesFlow.filter.FilterBottomSheet
 import com.mezhendosina.sgo.app.ui.gradesFlow.filter.GradesFilterViewModel
-import com.mezhendosina.sgo.app.ui.gradesFlow.grades.GradeAdapter
 import com.mezhendosina.sgo.app.ui.gradesFlow.grades.GradesViewModel
 import com.mezhendosina.sgo.app.ui.gradesFlow.grades.OnGradeClickListener
 import com.mezhendosina.sgo.app.ui.journalFlow.journal.JournalPagerAdapter
@@ -80,29 +80,6 @@ class ContainerFragment :
     private val gradesFilterViewModel: GradesFilterViewModel by viewModels()
     internal val gradesViewModel: GradesViewModel by viewModels()
 
-    private val gradeAdapter =
-        GradeAdapter(
-            object : OnGradeClickListener {
-                override fun invoke(
-                    p1: GradesItem,
-                    p2: View,
-                ) {
-                    val navigationExtras =
-                        FragmentNavigatorExtras(
-                            p2 to getString(R.string.grade_item_details_transition_name),
-                        )
-                    gradesViewModel.setLesson(p1)
-                    findTopNavController().navigate(
-                        R.id.action_containerFragment_to_gradeItemFragment,
-                        null,
-                        null,
-                        navigationExtras,
-                    )
-                    Singleton.gradesRecyclerViewLoaded.value = false
-                }
-            },
-        )
-
     private val journalOnPageChangeCallback =
         object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -117,9 +94,9 @@ class ContainerFragment :
         super.onCreate(savedInstanceState)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-//        sharedElementEnterTransition = MaterialContainerTransform()
-//        sharedElementReturnTransition = MaterialContainerTransform()
-
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
+        setupGrades()
         CoroutineScope(Dispatchers.IO).launch {
             containerViewModel.checkUpdates()
             containerViewModel.loadWeeks()
@@ -143,7 +120,7 @@ class ContainerFragment :
 
             with(grades) {
                 gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                gradesRecyclerView.adapter = gradeAdapter
+                gradesRecyclerView.adapter = gradesViewModel.gradeAdapter
 
                 errorMessage.retryButton.setOnClickListener {
                     Singleton.updateGradeState.value = LoadStates.UPDATE
@@ -177,7 +154,6 @@ class ContainerFragment :
         observeGrades()
 
         observeContainerScreen()
-        observeShowEngageDialog()
     }
 
     override fun onDestroy() {
@@ -185,29 +161,6 @@ class ContainerFragment :
         binding = null
         super.onDestroy()
         file.delete()
-    }
-
-    private fun observeShowEngageDialog() {
-//        containerViewModel.showEngageDialog.observe(viewLifecycleOwner) {
-//            if (it) {
-//                MaterialAlertDialogBuilder(requireContext())
-//                    .setTitle("Понравилось приложение?")
-//                    .setMessage("Если да, то поделись им с одноклассниками, чтобы они тоже могли воспользоваться самым удобным дневником!")
-//                    .setPositiveButton("Поделиться") { dialog, _ ->
-//                        val sendIntent = Intent().apply {
-//                            action = Intent.ACTION_SEND
-//                            putExtra(Intent.EXTRA_TEXT, "https://sgoapp.ru")
-//                            type = "text/plain"
-//                        }
-//                        val shareIntent =
-//                            Intent.createChooser(sendIntent, "Поделиться ссылкой на SGO app")
-//                        startActivity(shareIntent)
-//                        dialog.dismiss()
-//                    }.setNegativeButton("Нет") { dialog, _ ->
-//                        dialog.cancel()
-//                    }.show()
-//            }
-//        }
     }
 
     override fun observeUserId() {
@@ -291,9 +244,7 @@ class ContainerFragment :
                         it.grades.root.visibility = View.VISIBLE
                         CoroutineScope(Dispatchers.IO).launch {
                             gradesFilterViewModel.getYearsList()
-                            if (this@ContainerFragment.context != null) {
-                                gradesFilterViewModel.getGradeSort(requireContext())
-                            }
+                            gradesFilterViewModel.getGradeSort()
                         }
                     }
                 }
@@ -457,7 +408,10 @@ class ContainerFragment :
                         listOf(
                             FilterUiEntity(
                                 GradeSortType.BY_GRADE_VALUE,
-                                GradeSortType.toString(requireContext(), GradeSortType.BY_GRADE_VALUE),
+                                GradeSortType.toString(
+                                    requireContext(),
+                                    GradeSortType.BY_GRADE_VALUE,
+                                ),
                                 selectedItem == GradeSortType.BY_GRADE_VALUE,
                             ),
                             FilterUiEntity(
@@ -470,7 +424,10 @@ class ContainerFragment :
                             ),
                             FilterUiEntity(
                                 GradeSortType.BY_LESSON_NAME,
-                                GradeSortType.toString(requireContext(), GradeSortType.BY_LESSON_NAME),
+                                GradeSortType.toString(
+                                    requireContext(),
+                                    GradeSortType.BY_LESSON_NAME,
+                                ),
                                 selectedItem == GradeSortType.BY_LESSON_NAME,
                             ),
                         )
@@ -490,9 +447,36 @@ class ContainerFragment :
         }
     }
 
+    override fun setupGrades() {
+        if (gradesViewModel.gradeAdapter == null) {
+            gradesViewModel.setAdapter(
+                object : OnGradeClickListener {
+                    override fun invoke(
+                        p1: GradesItem,
+                        p2: View,
+                    ) {
+                        val navigationExtras =
+                            FragmentNavigatorExtras(
+                                p2 to getString(R.string.grade_item_details_transition_name),
+                            )
+                        gradesViewModel.setLesson(p1)
+
+                        findTopNavController().navigate(
+                            R.id.action_containerFragment_to_gradeItemFragment,
+                            null,
+                            null,
+                            navigationExtras,
+                        )
+                        Singleton.gradesRecyclerViewLoaded.value = false
+                    }
+                },
+            )
+        }
+    }
+
     override fun observeGrades() {
         gradesViewModel.grades.observe(viewLifecycleOwner) { list ->
-            gradeAdapter.grades = list
+            gradesViewModel.gradeAdapter?.grades = list
         }
     }
 
