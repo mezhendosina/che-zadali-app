@@ -31,9 +31,9 @@ import java.security.MessageDigest
 
 sealed class Download {
     data class Progress(val percent: Int) : Download()
+
     data class Finished(val file: File) : Download()
 }
-
 
 // Стырено со StackOverflow,
 // модифицировано под алгоритм СГО
@@ -51,8 +51,10 @@ fun ByteArray.toHex(): String {
 // Стырено со StackOverflow,
 // отредактировано DarkCat09
 // (Unresolved reference: BuildConfig)
-fun uriFromFile(context: Context, file: File): Uri? =
-    FileProvider.getUriForFile(context, context.packageName + ".provider", file)
+fun uriFromFile(
+    context: Context,
+    file: File,
+): Uri? = FileProvider.getUriForFile(context, context.packageName + ".provider", file)
 
 fun String.shortcutLesson(lessonsName: List<String>): String {
     if (lessonsName.count { it.contains(this) } > 1) {
@@ -71,7 +73,6 @@ fun ResponseBody.downloadToFileWithProgress(file: File): Flow<Download> =
 
         // flag to delete file if download errors or is cancelled
         var deleteFile = true
-
 
         try {
             byteStream().use { inputStream ->

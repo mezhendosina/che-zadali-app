@@ -21,7 +21,6 @@ import android.net.Uri
 import com.mezhendosina.sgo.app.utils.getFileNameFromUri
 import com.mezhendosina.sgo.data.netschool.api.attachments.AttachmentsSource
 import com.mezhendosina.sgo.data.netschool.api.attachments.entities.SendFileRequestEntity
-import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

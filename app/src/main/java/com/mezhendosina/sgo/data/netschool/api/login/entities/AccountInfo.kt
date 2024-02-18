@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.data.requests.sgo.login.entities
-
+package com.mezhendosina.sgo.data.netschool.api.login.entities
 
 import com.google.gson.annotations.SerializedName
+import com.mezhendosina.sgo.data.requests.sgo.login.entities.CurrentOrganization
+import com.mezhendosina.sgo.data.requests.sgo.login.entities.Organization
+import com.mezhendosina.sgo.data.requests.sgo.login.entities.User
 
 data class AccountInfo(
     @SerializedName("accessToken")
@@ -41,5 +43,5 @@ data class AccountInfo(
     @SerializedName("user")
     val user: User,
     @SerializedName("userRoles")
-    val userRoles: List<Any>
+    val userRoles: List<Any>,
 )

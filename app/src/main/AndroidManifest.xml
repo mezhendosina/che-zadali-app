@@ -38,22 +38,24 @@
         android:theme="@style/Theme.SGOApp">
 
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".activities.RoutingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.BROWSABLE"/>
             </intent-filter>
+
         </activity>
 
         <activity
             android:name=".activities.LoginActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".activities.MainActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

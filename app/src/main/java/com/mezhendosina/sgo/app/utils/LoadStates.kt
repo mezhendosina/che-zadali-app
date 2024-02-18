@@ -16,8 +16,15 @@
 
 package com.mezhendosina.sgo.app.utils
 
-enum class LoadStatus {
+enum class LoadStates {
     UPDATE,
     ERROR,
     FINISHED
+}
+
+interface LoadState {
+    fun onError()
+    fun onLoading()
+    fun onEmpty()
+    fun onLoaded()
 }

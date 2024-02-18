@@ -26,12 +26,12 @@
         style="@style/settingsTextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/phone_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
+            android:hint="@string/phone_number"
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

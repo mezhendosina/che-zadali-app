@@ -25,12 +25,9 @@ import com.mezhendosina.sgo.app.model.attachments.AttachmentDownloadManager
 import com.mezhendosina.sgo.app.utils.LessonNotFoundException
 import com.mezhendosina.sgo.app.utils.toLiveData
 import com.mezhendosina.sgo.data.SettingsDataStore
-import com.mezhendosina.sgo.data.netschool.repo.LessonRepository
 import com.mezhendosina.sgo.data.netschool.repo.LessonRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,14 +42,16 @@ class AnswerViewModel @Inject constructor(
 
     private val _files = MutableLiveData<MutableList<FileUiEntity>>(mutableListOf())
     val files = _files.toLiveData()
+
+
     override fun getHomework(): String {
-        val lesson = lessonRepository.getLesson() ?: throw LessonNotFoundException()
+        val lesson = lessonRepository.lesson.value ?: throw LessonNotFoundException()
         return lesson.homework
     }
 
 
     override fun getAnswer(): String? {
-        val lesson = lessonRepository.getLesson() ?: throw LessonNotFoundException()
+        val lesson = lessonRepository.lesson.value ?: throw LessonNotFoundException()
         _files.value = lesson.answerFiles?.toMutableList()
         return lesson.answerText
     }
@@ -62,7 +61,7 @@ class AnswerViewModel @Inject constructor(
     }
 
     override suspend fun sendAnswer(answerText: String?) {
-
+        TODO()
     }
 
     override suspend fun uploadFiles(context: Context) {

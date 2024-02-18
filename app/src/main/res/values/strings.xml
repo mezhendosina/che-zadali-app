@@ -28,7 +28,7 @@
     <string name="attachments">Прикрепленные файлы</string>
     <string name="send_homework">Ответ на задание</string>
     <string name="logout">Выйти из аккаунта</string>
-    <string name="in_progress">В разработке</string>
+    <string name="in_development">В разработке</string>
     <string name="selected_theme">Выбранная тема</string>
     <string name="contain_attachments">Есть прикрепленные файлы</string>
     <string name="settings">Настройки</string>
@@ -178,4 +178,11 @@
     <string name="empty">Не заполнено</string>
     <string name="che_zadali">че задали?</string>
     <string name="share_app">Поделиться приложением</string>
+    <string name="special_thanks_body"><![CDATA[Даниилу Барменкову<br>Вячеславу Сумину<br>Марии Левчановой<br><a href=\"https://github.com/ArtemBay\">ArtemBay</a>]]></string>
+    <string name="now_not_avaliable">Пока недоступно, но скоро обязательно будет :)</string>
+    <string name="monday">Понедельник день бездельник</string>
+    <string name="tuesday">Вторник повторник</string>
+    <string name="wednesday">Среда тамада</string>
+    <string name="for_grade">Для</string>
+    <string name="grade_requires">необходимо получить...</string>
 </resources>

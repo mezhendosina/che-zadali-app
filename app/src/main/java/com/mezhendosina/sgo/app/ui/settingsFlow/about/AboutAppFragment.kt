@@ -31,7 +31,6 @@ import io.noties.markwon.html.HtmlPlugin
 
 @AndroidEntryPoint
 class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
-
     private lateinit var binding: FragmentAboutAppBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +40,10 @@ class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAboutAppBinding.bind(view)
 
@@ -51,7 +53,7 @@ class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
         val markwon = Markwon.builder(requireContext()).usePlugin(HtmlPlugin.create()).build()
         markwon.setMarkdown(
             binding.specialThanks,
-            "Даниилу Барменкову<br>Вячеславу Сумину<br>Марии Левчановой<br><a href=\"https://github.com/ArtemBay\">ArtemBay</a>"
+            getString(R.string.special_thanks_body),
         )
 
         binding.telegramChannelButton.setOnClickListener {
@@ -62,18 +64,20 @@ class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
         }
 
         binding.githubRepoButton.setOnClickListener {
-            val githubIntent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://github.com/mezhendosina/sgo-app")
-            )
+            val githubIntent =
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://github.com/mezhendosina/sgo-app"),
+                )
             startActivity(githubIntent)
         }
 
         binding.appWebSiteButton.setOnClickListener {
-            val githubIntent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://sgoapp.ru")
-            )
+            val githubIntent =
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://sgoapp.ru"),
+                )
             startActivity(githubIntent)
         }
     }

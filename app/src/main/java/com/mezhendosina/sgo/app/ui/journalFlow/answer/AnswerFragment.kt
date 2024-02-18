@@ -30,7 +30,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AnswerFragment : Fragment(R.layout.fragment_answer) {
-
     private var binding: FragmentAnswerBinding? = null
 
     internal val viewModel by viewModels<AnswerViewModel>()
@@ -53,22 +52,23 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
 
-        adapter = AnswerFileAdapter(
-            viewModel,
-            object : FileActionListener {
-                override fun onClick(file: FileUiEntity) {
+        adapter =
+            AnswerFileAdapter(
+                viewModel,
+                object : FileActionListener {
+                    override fun onClick(file: FileUiEntity) {
                         viewModel.openFile(requireContext(), file)
-                }
+                    }
 
-                override fun deleteFile(attachmentId: Int) {
-                    TODO("Not yet implemented")
-                }
+                    override fun deleteFile(attachmentId: Int) {
+                        TODO("Not yet implemented")
+                    }
 
-                override fun editDescription(attachmentId: Int) {
-                    TODO("Not yet implemented")
-                }
-            })
-
+                    override fun editDescription(attachmentId: Int) {
+                        TODO("Not yet implemented")
+                    }
+                },
+            )
     }
 
     override fun onDestroyView() {
@@ -78,7 +78,10 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
         adapter = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAnswerBinding.bind(view)
 
@@ -98,7 +101,6 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 //        }
 //    }
 
-
     private fun setupAttachments() {
         binding!!.attachments.adapter = adapter
         binding!!.attachments.layoutManager =
@@ -113,7 +115,6 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
     private fun setupOnEditAnswer() {
         binding!!.answer.editText?.addTextChangedListener {
             viewModel.editAnswerText(it.toString())
-
         }
     }
 

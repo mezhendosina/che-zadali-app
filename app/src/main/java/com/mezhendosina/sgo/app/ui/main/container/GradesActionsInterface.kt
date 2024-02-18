@@ -19,6 +19,7 @@ package com.mezhendosina.sgo.app.ui.main.container
 import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 
 interface GradesActionsInterface {
+    fun setupGrades()
 
     fun observeGrades()
 

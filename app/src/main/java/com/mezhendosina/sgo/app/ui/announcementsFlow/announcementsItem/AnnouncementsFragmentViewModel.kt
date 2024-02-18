@@ -22,31 +22,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
 import com.mezhendosina.sgo.app.model.attachments.AttachmentsRepository
-import com.mezhendosina.sgo.app.model.attachments.AttachmentsUtils
-import com.mezhendosina.sgo.app.utils.PermissionNotGranted
-import com.mezhendosina.sgo.app.utils.toDescription
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
 
 @HiltViewModel
 class AnnouncementsFragmentViewModel
-@Inject constructor(
-    private val attachmentsRepository: AttachmentsRepository
-) : ViewModel() {
+    @Inject
+    constructor(
+        private val attachmentsRepository: AttachmentsRepository,
+    ) : ViewModel() {
+        private val _errorMessage = MutableLiveData<String>()
+        val errorMessage: LiveData<String> = _errorMessage
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> = _errorMessage
-
-    suspend fun downloadAttachment(
-        attachment: FileUiEntity,
-        context: Context
-    ) {
-        TODO()
+        suspend fun downloadAttachment(
+            attachment: FileUiEntity,
+            context: Context,
+        ) {
+            TODO()
+        }
     }
-}
-

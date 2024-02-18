@@ -26,7 +26,7 @@ import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.ui.main.container.ContainerFragment
 import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
 import com.mezhendosina.sgo.app.uiEntities.UserUIEntity
-import com.mezhendosina.sgo.app.utils.LoadStatus
+import com.mezhendosina.sgo.app.utils.LoadStates
 import com.mezhendosina.sgo.data.WeekStartEndEntity
 import com.mezhendosina.sgo.data.netschool.api.announcements.AnnouncementsResponseEntity
 import com.mezhendosina.sgo.data.netschool.api.diary.entities.PastMandatoryEntity
@@ -66,7 +66,7 @@ object Singleton {
 
     var gradesWithWeight = false
 
-    val updateGradeState = MutableLiveData<LoadStatus>()
+    val updateGradeState = MutableLiveData<LoadStates>()
 
     val mainContainerScreen = MutableLiveData<String>(ContainerFragment.JOURNAL)
 

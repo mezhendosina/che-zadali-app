@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Понедельник день бездельник" />
+            android:text="@string/monday" />
 
         <include layout="@layout/item_homework_placeholder" />
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Вторник повторник" />
+            android:text="@string/tuesday" />
 
 
         <include layout="@layout/item_homework_placeholder" />
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Среда тамада" />
+            android:text="@string/wednesday" />
 
 
         <include layout="@layout/item_homework_placeholder" />

@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ItemAttachmentBinding
 import com.mezhendosina.sgo.app.model.answer.FileUiEntity
-import dagger.Module
 import javax.inject.Singleton
 
 interface FileActionListener {
@@ -34,13 +33,11 @@ interface FileActionListener {
     fun editDescription(attachmentId: Int)
 }
 
-
 @Singleton
 class AnswerFileAdapter(
     private val viewModel: AnswerViewModel,
-    private val fileActionListener: FileActionListener
+    private val fileActionListener: FileActionListener,
 ) : RecyclerView.Adapter<AnswerFileAdapter.ViewHolder>(), View.OnClickListener {
-
     var files: List<FileUiEntity> = emptyList()
         set(value) {
             field = value
@@ -65,7 +62,10 @@ class AnswerFileAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemAttachmentBinding.inflate(inflater, parent, false)
 
@@ -73,10 +73,12 @@ class AnswerFileAdapter(
         binding.fileIcon.root.setOnClickListener(this)
 
         return ViewHolder(binding)
-
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: ViewHolder,
+        position: Int,
+    ) {
         val file = files[position]
         with(holder.binding) {
             fileIcon.root.tag = file
@@ -84,7 +86,7 @@ class AnswerFileAdapter(
             fileName.text = file.fileName
             deleteAttachment.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
-            //TODO file description
+            // TODO file description
         }
     }
 

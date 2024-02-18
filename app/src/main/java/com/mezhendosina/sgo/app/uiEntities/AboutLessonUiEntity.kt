@@ -26,9 +26,19 @@ data class AboutLessonUiEntity(
     val attachments: List<FileUiEntity>?,
     val whyGradeEntity: List<WhyGradeEntity>?,
     val answerText: String?,
-    val answerFiles: List<FileUiEntity>?
+    val answerFiles: List<FileUiEntity>?,
 ) {
-    fun editAnswers(text: String?, files: List<FileUiEntity>?) = AboutLessonUiEntity(
-        id, name, homework, homeworkComment, attachments, whyGradeEntity, text, files
+    fun editAnswers(
+        text: String?,
+        files: List<FileUiEntity>?,
+    ) = AboutLessonUiEntity(
+        id,
+        name,
+        homework,
+        homeworkComment,
+        attachments,
+        whyGradeEntity,
+        text,
+        files,
     )
 }

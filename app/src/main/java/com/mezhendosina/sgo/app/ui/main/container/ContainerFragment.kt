@@ -16,14 +16,11 @@
 
 package com.mezhendosina.sgo.app.ui.main.container
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -33,8 +30,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -44,16 +41,14 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerMainBinding
 import com.mezhendosina.sgo.app.databinding.FragmentGradesBinding
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
-import com.mezhendosina.sgo.app.model.journal.DiaryStyle
 import com.mezhendosina.sgo.app.ui.gradesFlow.filter.FilterBottomSheet
 import com.mezhendosina.sgo.app.ui.gradesFlow.filter.GradesFilterViewModel
-import com.mezhendosina.sgo.app.ui.gradesFlow.grades.GradeAdapter
 import com.mezhendosina.sgo.app.ui.gradesFlow.grades.GradesViewModel
 import com.mezhendosina.sgo.app.ui.gradesFlow.grades.OnGradeClickListener
 import com.mezhendosina.sgo.app.ui.journalFlow.journal.JournalPagerAdapter
 import com.mezhendosina.sgo.app.ui.main.updateBottomSheet.UpdateBottomSheetFragment
 import com.mezhendosina.sgo.app.uiEntities.FilterUiEntity
-import com.mezhendosina.sgo.app.utils.LoadStatus
+import com.mezhendosina.sgo.app.utils.LoadStates
 import com.mezhendosina.sgo.app.utils.findTopNavController
 import com.mezhendosina.sgo.app.utils.slideDownAnimation
 import com.mezhendosina.sgo.app.utils.slideUpAnimation
@@ -69,14 +64,15 @@ import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ContainerFragment
-    : Fragment(R.layout.container_main), GradesFilterInterface, GradesActionsInterface,
+class ContainerFragment :
+    Fragment(R.layout.container_main),
+    GradesFilterInterface,
+    GradesActionsInterface,
     ContainerNavigationInterface {
-
     @Inject
     lateinit var settingsDataStore: SettingsDataStore
 
-    private lateinit var binding: ContainerMainBinding
+    private var binding: ContainerMainBinding? = null
 
     private val file: File = File.createTempFile("app", "apk")
 
@@ -84,39 +80,23 @@ class ContainerFragment
     private val gradesFilterViewModel: GradesFilterViewModel by viewModels()
     internal val gradesViewModel: GradesViewModel by viewModels()
 
-    private val gradeAdapter = GradeAdapter(object : OnGradeClickListener {
-        override fun invoke(p1: GradesItem, p2: View) {
-            val a = gradesViewModel.grades.value?.indexOf(p1)
-
-            val navigationExtras = FragmentNavigatorExtras(
-                p2 to getString(R.string.grade_item_details_transition_name)
-            )
-
-            findTopNavController().navigate(
-                R.id.action_containerFragment_to_gradeItemFragment,
-                bundleOf("LESSON_INDEX" to a),
-                null,
-                navigationExtras
-            )
-            Singleton.gradesRecyclerViewLoaded.value = false
+    private val journalOnPageChangeCallback =
+        object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                Singleton.currentWeek = position
+            }
         }
-    })
-
-    private val journalOnPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            super.onPageSelected(position)
-            Singleton.currentWeek = position
-        }
-    }
 
     private val weekNow = currentWeekStart()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-//        sharedElementEnterTransition = MaterialContainerTransform()
-//        sharedElementReturnTransition = MaterialContainerTransform()
-
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
+        setupGrades()
         CoroutineScope(Dispatchers.IO).launch {
             containerViewModel.checkUpdates()
             containerViewModel.loadWeeks()
@@ -124,31 +104,35 @@ class ContainerFragment
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         binding = ContainerMainBinding.bind(view)
         val journalPagerAdapter =
             JournalPagerAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
+        with(binding!!) {
+            gradesTopBar.root.background = mainToolbar.background
+            mainToolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
+            bottomNavigation.setOnItemSelectedListener { onBottomNavItemClickListener(it) }
 
-        binding.gradesTopBar.root.background = binding.mainToolbar.background
-        binding.mainToolbar.setOnMenuItemClickListener { setupOnMenuItemClickListener(it) }
-        binding.bottomNavigation.setOnItemSelectedListener { onBottomNavItemClickListener(it) }
+            with(grades) {
+                gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                gradesRecyclerView.adapter = gradesViewModel.gradeAdapter
 
-        with(binding.grades) {
-            gradesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            gradesRecyclerView.adapter = gradeAdapter
-
-            errorMessage.retryButton.setOnClickListener {
-                Singleton.updateGradeState.value = LoadStatus.UPDATE
+                errorMessage.retryButton.setOnClickListener {
+                    Singleton.updateGradeState.value = LoadStates.UPDATE
+                }
             }
+
+            journal.adapter = journalPagerAdapter
+            journal.registerOnPageChangeCallback(journalOnPageChangeCallback)
         }
 
         observeDownloadState()
         observeUpdates()
-
-        binding.journal.adapter = journalPagerAdapter
-        binding.journal.registerOnPageChangeCallback(journalOnPageChangeCallback)
 
         view.doOnPreDraw {
             startPostponedEnterTransition()
@@ -170,73 +154,48 @@ class ContainerFragment
         observeGrades()
 
         observeContainerScreen()
-        observeShowEngageDialog()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
     }
 
     override fun onDestroy() {
+        binding?.journal?.unregisterOnPageChangeCallback(journalOnPageChangeCallback)
+        binding = null
         super.onDestroy()
         file.delete()
-        binding.journal.unregisterOnPageChangeCallback(journalOnPageChangeCallback)
-    }
-
-    private fun observeShowEngageDialog() {
-//        containerViewModel.showEngageDialog.observe(viewLifecycleOwner) {
-//            if (it) {
-//                MaterialAlertDialogBuilder(requireContext())
-//                    .setTitle("Понравилось приложение?")
-//                    .setMessage("Если да, то поделись им с одноклассниками, чтобы они тоже могли воспользоваться самым удобным дневником!")
-//                    .setPositiveButton("Поделиться") { dialog, _ ->
-//                        val sendIntent = Intent().apply {
-//                            action = Intent.ACTION_SEND
-//                            putExtra(Intent.EXTRA_TEXT, "https://sgoapp.ru")
-//                            type = "text/plain"
-//                        }
-//                        val shareIntent =
-//                            Intent.createChooser(sendIntent, "Поделиться ссылкой на SGO app")
-//                        startActivity(shareIntent)
-//                        dialog.dismiss()
-//                    }.setNegativeButton("Нет") { dialog, _ ->
-//                        dialog.cancel()
-//                    }.show()
-//            }
-//        }
     }
 
     override fun observeUserId() {
         settingsDataStore.getValue(SettingsDataStore.CURRENT_USER_ID).asLiveData()
             .observe(viewLifecycleOwner) {
                 if (it != null) {
-                    binding.journal.invalidate()
+                    binding?.journal?.invalidate()
                 }
             }
     }
 
     private fun observeWeeks(journalPagerAdapter: JournalPagerAdapter) {
         containerViewModel.weeks.observe(viewLifecycleOwner) { entityList ->
-            val tabLayoutMediator = TabLayoutMediator(
-                binding.tabsLayout,
-                binding.journal
-            ) { tab, position ->
-                val item = entityList[position]
-                tab.text =
-                    "${item.formattedWeekStart} - ${item.formattedWeekEnd}"
-            }
-            tabLayoutMediator.attach()
-            journalPagerAdapter.weeksList = entityList
-            if (Singleton.currentWeek == null) {
-                val currentWeekIndex =
-                    entityList.indexOf(entityList.firstOrNull { it.weekStart == weekNow })
-                binding.journal.setCurrentItem(
-                    if (currentWeekIndex != -1) currentWeekIndex else entityList.lastIndex,
-                    false
-                )
-            } else {
-                binding.journal.setCurrentItem(Singleton.currentWeek!!, false)
+            binding?.let { containerMainBinding ->
+                val tabLayoutMediator =
+                    TabLayoutMediator(
+                        containerMainBinding.tabsLayout,
+                        containerMainBinding.journal,
+                    ) { tab, position ->
+                        val item = entityList[position]
+                        tab.text =
+                            "${item.formattedWeekStart} - ${item.formattedWeekEnd}"
+                    }
+                tabLayoutMediator.attach()
+                journalPagerAdapter.weeksList = entityList
+                if (Singleton.currentWeek == null) {
+                    val currentWeekIndex =
+                        entityList.indexOf(entityList.firstOrNull { it.weekStart == weekNow })
+                    containerMainBinding.journal.setCurrentItem(
+                        if (currentWeekIndex != -1) currentWeekIndex else entityList.lastIndex,
+                        false,
+                    )
+                } else {
+                    containerMainBinding.journal.setCurrentItem(Singleton.currentWeek!!, false)
+                }
             }
         }
     }
@@ -267,25 +226,26 @@ class ContainerFragment
     }
 
     override fun observeContainerScreen() {
-        Singleton.mainContainerScreen.observe(viewLifecycleOwner) {
-            when (it) {
-                JOURNAL -> {
-                    binding.mainToolbar.setTitle(R.string.che_zadali)
-                    binding.slideDownAnimation()
-                    binding.grades.root.visibility = View.GONE
-                    binding.journal.visibility = View.VISIBLE
-                }
+        Singleton.mainContainerScreen.observe(viewLifecycleOwner) { mainContainerScreen ->
+            binding?.let {
+                when (mainContainerScreen) {
+                    JOURNAL -> {
+                        it.mainToolbar.setTitle(R.string.che_zadali)
+                        it.slideDownAnimation()
+                        it.grades.root.visibility = View.GONE
+                        it.journal.visibility = View.VISIBLE
+                    }
 
-                GRADES -> {
-                    binding.mainToolbar.setTitle(R.string.grades)
-                    Singleton.updateGradeState.value = LoadStatus.UPDATE
-                    binding.slideUpAnimation()
-                    binding.journal.visibility = View.GONE
-                    binding.grades.root.visibility = View.VISIBLE
-                    CoroutineScope(Dispatchers.IO).launch {
-                        gradesFilterViewModel.getYearsList()
-                        if (this@ContainerFragment.context != null)
-                            gradesFilterViewModel.getGradeSort(requireContext())
+                    GRADES -> {
+                        it.mainToolbar.setTitle(R.string.grades)
+                        Singleton.updateGradeState.value = LoadStates.UPDATE
+                        it.slideUpAnimation()
+                        it.journal.visibility = View.GONE
+                        it.grades.root.visibility = View.VISIBLE
+                        CoroutineScope(Dispatchers.IO).launch {
+                            gradesFilterViewModel.getYearsList()
+                            gradesFilterViewModel.getGradeSort()
+                        }
                     }
                 }
             }
@@ -299,7 +259,7 @@ class ContainerFragment
                     requireContext(),
                     containerViewModel.latestUpdate.value!!,
                     containerViewModel,
-                    file
+                    file,
                 ).show(childFragmentManager, UpdateBottomSheetFragment.TAG)
                 true
             }
@@ -308,7 +268,7 @@ class ContainerFragment
                 findTopNavController().navigate(
                     R.id.action_containerFragment_to_settingsContainer,
                     null,
-                    NavOptions.Builder().setPopUpTo(R.id.containerFragment, false).build()
+                    NavOptions.Builder().setPopUpTo(R.id.containerFragment, false).build(),
                 )
                 true
             }
@@ -320,34 +280,38 @@ class ContainerFragment
 
             else -> false
         }
-
     }
 
     private fun observeUpdates() {
         containerViewModel.latestUpdate.observe(viewLifecycleOwner) { updates ->
             if (updates.tagName != BuildConfig.VERSION_NAME && containerViewModel.showUpdateDialog.value != false) {
-                val modalSheet = UpdateBottomSheetFragment.newInstance(
-                    requireContext(),
-                    updates,
-                    containerViewModel,
-                    file
-                )
+                val modalSheet =
+                    UpdateBottomSheetFragment.newInstance(
+                        requireContext(),
+                        updates,
+                        containerViewModel,
+                        file,
+                    )
                 modalSheet.show(childFragmentManager, UpdateBottomSheetFragment.TAG)
             }
-            if (updates.tagName != BuildConfig.VERSION_NAME) binding.mainToolbar.menu[0].isVisible =
-                true
+            if (updates.tagName != BuildConfig.VERSION_NAME) {
+                binding?.mainToolbar?.menu?.get(0)?.isVisible =
+                    true
+            }
         }
     }
 
     private fun observeDownloadState() {
-        containerViewModel.downloadState.observe(viewLifecycleOwner) {
-            val updateProgress = binding.updateProgress.root
+        containerViewModel.downloadState.observe(viewLifecycleOwner) { downloadState ->
+            binding?.let {
+                val updateProgress = it.updateProgress.root
 
-            when (it) {
-                0, 100 -> updateProgress.visibility = View.GONE
-                else -> {
-                    updateProgress.visibility = View.VISIBLE
-                    binding.updateProgress.updateProgress.progress = it
+                when (downloadState) {
+                    0, 100 -> updateProgress.visibility = View.GONE
+                    else -> {
+                        updateProgress.visibility = View.VISIBLE
+                        it.updateProgress.updateProgress.progress = downloadState
+                    }
                 }
             }
         }
@@ -355,33 +319,36 @@ class ContainerFragment
 
     override fun observeGradesTrim() {
         Singleton.gradesTerms.observe(viewLifecycleOwner) { gradeOptions ->
-            if (gradeOptions != null) {
-                binding.gradesTopBar.term.visibility = View.VISIBLE
-                CoroutineScope(Dispatchers.Main).launch {
-                    val trimId =
-                        settingsDataStore.getValue(SettingsDataStore.TRIM_ID).first()
-                    binding.gradesTopBar.term.text =
-                        gradeOptions.firstOrNull { it.id == trimId }?.name
+            binding?.let { containerMainBinding ->
+                if (gradeOptions != null) {
+                    containerMainBinding.gradesTopBar.term.visibility = View.VISIBLE
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val trimId =
+                            settingsDataStore.getValue(SettingsDataStore.TRIM_ID).first()
+                        containerMainBinding.gradesTopBar.term.text =
+                            gradeOptions.firstOrNull { it.id == trimId }?.name
+                    }
+                } else {
+                    containerMainBinding.gradesTopBar.term.visibility = View.GONE
                 }
-            } else {
-                binding.gradesTopBar.term.visibility = View.GONE
             }
         }
     }
 
     override fun onGradesTrimClickListener() {
-        binding.gradesTopBar.term.setOnClickListener {
+        binding?.gradesTopBar?.term?.setOnClickListener {
             if (Singleton.gradesTerms.value != null) {
-                val filterBottomSheet = FilterBottomSheet(
-                    requireContext().getString(R.string.selected_grade_period),
-                    Singleton.gradesTerms.value!!
-                ) {
-                    gradesFilterViewModel.changeTrimId(it)
-                }
+                val filterBottomSheet =
+                    FilterBottomSheet(
+                        requireContext().getString(R.string.selected_grade_period),
+                        Singleton.gradesTerms.value!!,
+                    ) {
+                        gradesFilterViewModel.changeTrimId(it)
+                    }
 
                 filterBottomSheet.show(
                     requireActivity().supportFragmentManager,
-                    "trim_selector_bottom_sheet"
+                    "trim_selector_bottom_sheet",
                 )
             }
         }
@@ -389,141 +356,185 @@ class ContainerFragment
 
     override fun observeGradesYear() {
         gradesFilterViewModel.yearList.observe(viewLifecycleOwner) { yearList ->
-            val checkedItem = yearList.find { it.checked }
-            if (!yearList.isNullOrEmpty() && checkedItem != null) {
-                binding.gradesTopBar.year.visibility = View.VISIBLE
-                binding.gradesTopBar.year.isChecked =
-                    checkedItem.id != gradesFilterViewModel.currentYearId.value
-                binding.gradesTopBar.year.text = checkedItem.name
-            } else {
-                binding.gradesTopBar.year.visibility = View.GONE
+
+            binding?.let { containerMainBinding ->
+                val checkedItem = yearList.find { it.checked }
+                if (!yearList.isNullOrEmpty() && checkedItem != null) {
+                    containerMainBinding.gradesTopBar.year.visibility = View.VISIBLE
+                    containerMainBinding.gradesTopBar.year.isChecked =
+                        checkedItem.id != gradesFilterViewModel.currentYearId.value
+                    containerMainBinding.gradesTopBar.year.text = checkedItem.name
+                } else {
+                    containerMainBinding.gradesTopBar.year.visibility = View.GONE
+                }
             }
         }
     }
 
     override fun onGradesYearClickListener() {
-        binding.gradesTopBar.year.setOnClickListener {
+        binding?.gradesTopBar?.year?.setOnClickListener {
             val items = gradesFilterViewModel.yearList.value!!
-            val filterBottomSheet = FilterBottomSheet(
-                requireContext().getString(R.string.year_grade_header),
-                items
-            ) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    gradesFilterViewModel.updateYear(it)
+            val filterBottomSheet =
+                FilterBottomSheet(
+                    requireContext().getString(R.string.year_grade_header),
+                    items,
+                ) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        gradesFilterViewModel.updateYear(it)
+                    }
                 }
-            }
             filterBottomSheet.show(
                 requireActivity().supportFragmentManager,
-                "filter_grade_year"
+                "filter_grade_year",
             )
         }
     }
 
     override fun observeGradesSort() {
         gradesFilterViewModel.gradesSortType.observe(viewLifecycleOwner) {
-            binding.gradesTopBar.sortGrades.text = GradeSortType.toString(requireContext(), it)
+            binding?.gradesTopBar?.sortGrades?.text = GradeSortType.toString(requireContext(), it)
         }
     }
 
     override fun onGradesSortClickListener() {
-        binding.gradesTopBar.sortGrades.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                val selectedItem = settingsDataStore.getValue(
-                    SettingsDataStore.SORT_GRADES_BY
-                ).first()
-                val list = listOf(
-                    FilterUiEntity(
-                        GradeSortType.BY_GRADE_VALUE,
-                        GradeSortType.toString(requireContext(), GradeSortType.BY_GRADE_VALUE),
-                        selectedItem == GradeSortType.BY_GRADE_VALUE
-                    ),
-                    FilterUiEntity(
-                        GradeSortType.BY_GRADE_VALUE_DESC,
-                        GradeSortType.toString(
-                            requireContext(),
-                            GradeSortType.BY_GRADE_VALUE_DESC
-                        ),
-                        selectedItem == GradeSortType.BY_GRADE_VALUE_DESC
-                    ),
-                    FilterUiEntity(
-                        GradeSortType.BY_LESSON_NAME,
-                        GradeSortType.toString(requireContext(), GradeSortType.BY_LESSON_NAME),
-                        selectedItem == GradeSortType.BY_LESSON_NAME
-                    ),
-                )
-                val bottomSheet = FilterBottomSheet(
-                    requireContext().getString(R.string.sort_grades_by),
-                    list,
-                ) { id ->
-                    gradesFilterViewModel.setGradeSort(id)
+        binding?.let {
+            it.gradesTopBar.sortGrades.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val selectedItem =
+                        settingsDataStore.getValue(
+                            SettingsDataStore.SORT_GRADES_BY,
+                        ).first()
+                    val list =
+                        listOf(
+                            FilterUiEntity(
+                                GradeSortType.BY_GRADE_VALUE,
+                                GradeSortType.toString(
+                                    requireContext(),
+                                    GradeSortType.BY_GRADE_VALUE,
+                                ),
+                                selectedItem == GradeSortType.BY_GRADE_VALUE,
+                            ),
+                            FilterUiEntity(
+                                GradeSortType.BY_GRADE_VALUE_DESC,
+                                GradeSortType.toString(
+                                    requireContext(),
+                                    GradeSortType.BY_GRADE_VALUE_DESC,
+                                ),
+                                selectedItem == GradeSortType.BY_GRADE_VALUE_DESC,
+                            ),
+                            FilterUiEntity(
+                                GradeSortType.BY_LESSON_NAME,
+                                GradeSortType.toString(
+                                    requireContext(),
+                                    GradeSortType.BY_LESSON_NAME,
+                                ),
+                                selectedItem == GradeSortType.BY_LESSON_NAME,
+                            ),
+                        )
+                    val bottomSheet =
+                        FilterBottomSheet(
+                            requireContext().getString(R.string.sort_grades_by),
+                            list,
+                        ) { id ->
+                            gradesFilterViewModel.setGradeSort(id)
+                        }
+                    bottomSheet.show(
+                        requireActivity().supportFragmentManager,
+                        "sort_grade_bottom_sheet",
+                    )
                 }
-                bottomSheet.show(
-                    requireActivity().supportFragmentManager,
-                    "sort_grade_bottom_sheet"
-                )
             }
+        }
+    }
+
+    override fun setupGrades() {
+        if (gradesViewModel.gradeAdapter == null) {
+            gradesViewModel.setAdapter(
+                object : OnGradeClickListener {
+                    override fun invoke(
+                        p1: GradesItem,
+                        p2: View,
+                    ) {
+                        val navigationExtras =
+                            FragmentNavigatorExtras(
+                                p2 to getString(R.string.grade_item_details_transition_name),
+                            )
+                        gradesViewModel.setLesson(p1)
+
+                        findTopNavController().navigate(
+                            R.id.action_containerFragment_to_gradeItemFragment,
+                            null,
+                            null,
+                            navigationExtras,
+                        )
+                        Singleton.gradesRecyclerViewLoaded.value = false
+                    }
+                },
+            )
         }
     }
 
     override fun observeGrades() {
         gradesViewModel.grades.observe(viewLifecycleOwner) { list ->
-            gradeAdapter.grades = list
+            gradesViewModel.gradeAdapter?.grades = list
         }
     }
 
     override fun observeGradesError() {
         gradesViewModel.errorMessage.observe(viewLifecycleOwner) {
-            binding.grades.errorMessage.errorDescription.text = it
+            binding?.grades?.errorMessage?.errorDescription?.text = it
         }
     }
 
     override fun observeGradesLoadState() {
         val fadeThrough = MaterialFadeThrough()
 
-        Singleton.updateGradeState.observe(viewLifecycleOwner) {
-            with(binding.grades) {
-                when (it) {
-                    LoadStatus.UPDATE -> {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            gradesViewModel.load()
-                        }
-                        TransitionManager.beginDelayedTransition(
-                            loading.root,
-                            fadeThrough
-                        )
-                        TransitionManager.beginDelayedTransition(
-                            gradesRecyclerView,
-                            fadeThrough
-                        )
-
-                        loading.root.startShimmer()
-                        showLoading()
-                    }
-
-                    LoadStatus.ERROR -> {
-                        loading.root.stopShimmer()
-                        showError()
-                    }
-
-                    LoadStatus.FINISHED -> {
-                        loading.root.stopShimmer()
-                        if (gradesViewModel.grades.value.isNullOrEmpty()) {
-                            emptyState.noHomeworkIcon.setImageDrawable(
-                                AppCompatResources.getDrawable(
-                                    requireContext(),
-                                    R.drawable.ic_emty_grade
-                                )
+        Singleton.updateGradeState.observe(viewLifecycleOwner) { loadState ->
+            binding?.let {
+                with(it.grades) {
+                    when (loadState) {
+                        LoadStates.UPDATE -> {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                gradesViewModel.load()
+                            }
+                            TransitionManager.beginDelayedTransition(
+                                loading.root,
+                                fadeThrough,
                             )
-                            emptyState.emptyText.text = "Оценок нет"
-                            showEmptyState()
-                        } else {
-                            gradesRecyclerView.doOnPreDraw {
-                                showGrades()
+                            TransitionManager.beginDelayedTransition(
+                                gradesRecyclerView,
+                                fadeThrough,
+                            )
+
+                            loading.root.startShimmer()
+                            showLoading()
+                        }
+
+                        LoadStates.ERROR -> {
+                            loading.root.stopShimmer()
+                            showError()
+                        }
+
+                        LoadStates.FINISHED -> {
+                            loading.root.stopShimmer()
+                            if (gradesViewModel.grades.value.isNullOrEmpty()) {
+                                emptyState.noHomeworkIcon.setImageDrawable(
+                                    AppCompatResources.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_emty_grade,
+                                    ),
+                                )
+                                emptyState.emptyText.text = "Оценок нет"
+                                showEmptyState()
+                            } else {
+                                gradesRecyclerView.doOnPreDraw {
+                                    showGrades()
+                                }
                             }
                         }
-                    }
 
-                    else -> {}
+                        else -> {}
+                    }
                 }
             }
         }

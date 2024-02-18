@@ -44,14 +44,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-
 @AndroidEntryPoint
 class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) {
-
     private lateinit var binding: FragmentAnnouncementItemBinding
 
     internal val viewModel: AnnouncementsFragmentViewModel by viewModels()
-
 
     private val storagePermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -64,15 +61,19 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAnnouncementItemBinding.bind(view)
 
         val announcement = Singleton.selectedAnnouncement
         if (announcement != null) {
-            val markwon = Markwon.builder(requireContext())
-                .usePlugin(HtmlPlugin.create())
-                .build()
+            val markwon =
+                Markwon.builder(requireContext())
+                    .usePlugin(HtmlPlugin.create())
+                    .build()
             with(binding) {
                 val jsoup = markwon.toMarkdown(announcement.description).toString()
                 homeworkBody.text = Jsoup.parse(jsoup).wholeText()
@@ -90,22 +91,26 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
 
     private fun setupAttachments(announcement: AnnouncementsResponseEntity) {
         if (announcement.attachments.isNotEmpty()) {
-            val attachmentAdapter = AttachmentAdapter(
-                object : AttachmentClickListener {
-                    override fun invoke(attachment: FileUiEntity, loadingList: MutableList<Int>) {
-                        val permission =
-                            requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        if (permission == PackageManager.PERMISSION_GRANTED) {
-                            CoroutineScope(Dispatchers.Main).launch {
-                                TODO()
+            val attachmentAdapter =
+                AttachmentAdapter(
+                    object : AttachmentClickListener {
+                        override fun invoke(
+                            attachment: FileUiEntity,
+                            loadingList: MutableList<Int>,
+                        ) {
+                            val permission =
+                                requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            if (permission == PackageManager.PERMISSION_GRANTED) {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    TODO()
 //                                viewModel.downloadAttachment(attachment)
+                                }
+                            } else {
+                                storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             }
-                        } else {
-                            storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         }
-                    }
-                }
-            )
+                    },
+                )
             attachmentAdapter.attachments =
                 announcement.attachments.map { it.toUiEntity(ANNOUNCEMENT, announcement.id) }
             binding.attachmentsList.attachmentsListRecyclerView.adapter = attachmentAdapter
@@ -121,7 +126,6 @@ class AnnouncementsItemFragment : Fragment(R.layout.fragment_announcement_item) 
             Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
         }
     }
-
 
     private fun showAttachments(binding: FragmentAnnouncementItemBinding) {
         binding.attachmentsList.root.isVisible = true

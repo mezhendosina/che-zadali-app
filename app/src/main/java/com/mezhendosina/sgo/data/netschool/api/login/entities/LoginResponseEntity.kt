@@ -16,9 +16,9 @@
 
 package com.mezhendosina.sgo.data.requests.sgo.login.entities
 
-
 import com.google.gson.annotations.SerializedName
 import com.mezhendosina.sgo.app.netschool.api.login.entities.RequestData
+import com.mezhendosina.sgo.data.netschool.api.login.entities.AccountInfo
 
 data class LoginResponseEntity(
     @SerializedName("accessToken")
@@ -40,5 +40,5 @@ data class LoginResponseEntity(
     @SerializedName("timeOut")
     val timeOut: Int,
     @SerializedName("tokenType")
-    val tokenType: String
+    val tokenType: String,
 )

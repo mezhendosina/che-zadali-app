@@ -16,10 +16,8 @@
 
 package com.mezhendosina.sgo.app.ui.journalFlow.containerLesson
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -30,7 +28,6 @@ import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.ContainerLessonBinding
 import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment.Companion.ADD_ANSWER
 import com.mezhendosina.sgo.app.ui.journalFlow.answer.AnswerFragment.Companion.EDIT_ANSWER
-import com.mezhendosina.sgo.app.utils.addOnToolbarCollapseListener
 import com.mezhendosina.sgo.app.utils.getEmojiLesson
 import com.mezhendosina.sgo.app.utils.setLessonEmoji
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +37,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LessonContainer : Fragment(R.layout.container_lesson) {
-
     private var binding: ContainerLessonBinding? = null
 
     private val viewModel by viewModels<LessonContainerViewModel>()
@@ -51,24 +47,27 @@ class LessonContainer : Fragment(R.layout.container_lesson) {
         sharedElementReturnTransition = MaterialContainerTransform()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding = ContainerLessonBinding.bind(view)
         val innerNavController =
             childFragmentManager.findFragmentById(binding!!.lessonFragmentContainer.id)
                 ?.findNavController()
         with(binding!!.lessonToolbar) {
-
             itemToolbar.title = viewModel.lesson?.subjectName ?: ""
             val lessonNameUiEntity = getEmojiLesson(viewModel.lesson?.subjectName ?: "")
             setLessonEmoji(requireContext(), lessonNameUiEntity?.nameId)
 
             itemToolbar.setNavigationOnClickListener {
-                if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) findNavController().navigateUp()
-                else innerNavController?.navigateUp()
+                if (innerNavController?.currentDestination?.id == innerNavController?.graph?.startDestinationId) {
+                    findNavController().navigateUp()
+                } else {
+                    innerNavController?.navigateUp()
+                }
             }
-
-            addOnToolbarCollapseListener(lessonNameUiEntity?.emoji)
         }
 
         innerNavController?.addOnDestinationChangedListener { _, destination, args ->
