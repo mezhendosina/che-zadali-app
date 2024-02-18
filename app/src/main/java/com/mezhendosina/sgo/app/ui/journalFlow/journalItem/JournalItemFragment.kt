@@ -29,10 +29,10 @@ import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.R
 import com.mezhendosina.sgo.app.databinding.FragmentItemJournalBinding
-import com.mezhendosina.sgo.app.model.journal.entities.LessonUiEntity
 import com.mezhendosina.sgo.app.ui.journalFlow.journalItem.adapters.DiaryAdapter
 import com.mezhendosina.sgo.app.ui.journalFlow.journalItem.adapters.OnHomeworkClickListener
 import com.mezhendosina.sgo.app.ui.journalFlow.journalItem.adapters.PastMandatoryAdapter
+import com.mezhendosina.sgo.app.ui.journalFlow.journalItem.adapters.PastMandatoryClickListener
 import com.mezhendosina.sgo.app.utils.findTopNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -41,78 +41,83 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
-
-
     private var binding: FragmentItemJournalBinding? = null
 
     private val viewModel: JournalItemViewModel by viewModels()
 
-    private val pastMandatoryAdapter = PastMandatoryAdapter {
+    private val pastMandatoryAdapter =
+        PastMandatoryAdapter {
+            Singleton.lesson = null
+            Singleton.pastMandatoryItem = it
+            findTopNavController().navigate(R.id.action_containerFragment_to_lessonContainer)
+        }
+    private val onPastMandatoryClickListener: PastMandatoryClickListener = {
         Singleton.lesson = null
         Singleton.pastMandatoryItem = it
         findTopNavController().navigate(R.id.action_containerFragment_to_lessonContainer)
     }
+    private val onHomeworkClickListener: OnHomeworkClickListener = { p1, p2 ->
+        Singleton.lesson = p1
+        val navigationExtras =
+            FragmentNavigatorExtras(
+                p2 to requireContext().getString(R.string.lesson_item_details_transition_name),
+            )
 
-    private val diaryAdapter: DiaryAdapter = DiaryAdapter(
-        object : OnHomeworkClickListener {
-            override fun invoke(p1: LessonUiEntity, p2: View) {
-                Singleton.lesson = p1
-                val navigationExtras = FragmentNavigatorExtras(
-                    p2 to requireContext().getString(R.string.lesson_item_details_transition_name)
-                )
-
-                findTopNavController().navigate(
-                    R.id.action_containerFragment_to_lessonContainer,
-                    bundleOf(),
-                    null,
-                    navigationExtras
-                )
-//            Singleton.diaryRecyclerViewLoaded.value = false
-            }
-        })
-
+        findTopNavController().navigate(
+            R.id.action_containerFragment_to_lessonContainer,
+            bundleOf(),
+            null,
+            navigationExtras,
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.setupAdapters(
+            onPastMandatoryClickListener = onPastMandatoryClickListener,
+            onHomeworkClickListener = onHomeworkClickListener,
+        )
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.getWeek(
-                requireContext(),
                 arguments?.getString(WEEK_START),
-                arguments?.getString(WEEK_END)
+                arguments?.getString(WEEK_END),
             )
         }
-
-
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentItemJournalBinding.bind(view)
-
+        if (viewModel.pastMandatoryAdapter == null || viewModel.diaryAdapter == null) {
+            viewModel.setupAdapters(onPastMandatoryClickListener, onHomeworkClickListener)
+        }
         binding!!.pastMandatory.pastMandatoryRecyclerView.apply {
             adapter = pastMandatoryAdapter
-            layoutManager = LinearLayoutManager(
-                requireContext(),
-                LinearLayoutManager.VERTICAL,
-                false
-            )
+            layoutManager =
+                LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL,
+                    false,
+                )
         }
 
         observeLoading()
         observeError()
 
         binding!!.diary.apply {
-            adapter = diaryAdapter
+            adapter = viewModel.diaryAdapter
             layoutManager =
                 LinearLayoutManager(
                     requireContext(),
                     LinearLayoutManager.VERTICAL,
-                    false
+                    false,
                 )
         }
 
-        observeWeek(diaryAdapter)
-
+        viewModel.diaryAdapter?.let { observeWeek(it) }
     }
 
     override fun onDestroyView() {
@@ -136,9 +141,8 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                     binding!!.loadError.root.visibility = View.GONE
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.getWeek(
-                            requireContext(),
                             arguments?.getString(WEEK_START),
-                            arguments?.getString(WEEK_END)
+                            arguments?.getString(WEEK_END),
                         )
                     }
                 }
@@ -153,7 +157,6 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
                     binding!!.loading.root.visibility = View.VISIBLE
                     binding!!.diary.visibility = View.INVISIBLE
                     binding!!.loading.root.startShimmer()
-
                 } else {
                     val containerTransform = MaterialFadeThrough()
                     TransitionManager.beginDelayedTransition(binding!!.root, containerTransform)
@@ -193,7 +196,6 @@ class JournalItemFragment : Fragment(R.layout.fragment_item_journal) {
             }
         }
     }
-
 
     companion object {
         const val WEEK_START = "week_start"

@@ -10,6 +10,7 @@ import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.data.AppSettings
 import com.mezhendosina.sgo.data.SettingsDataStore
 import com.mezhendosina.sgo.data.netschool.repo.LoginRepositoryInterface
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -18,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class RoutingActivity : AppCompatActivity() {
     @Inject
     lateinit var settingsDataStore: AppSettings
