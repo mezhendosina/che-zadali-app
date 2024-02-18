@@ -27,7 +27,8 @@ import com.mezhendosina.sgo.app.utils.setupAsLessonEmoji
 import com.mezhendosina.sgo.app.utils.setupGrade
 import com.mezhendosina.sgo.app.utils.toGradeType
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
-import dagger.Module
+import com.mezhendosina.sgo.domain.LessonEmojiUseCase
+import javax.inject.Inject
 import javax.inject.Singleton
 
 typealias OnGradeClickListener = (GradesItem, View) -> Unit
@@ -35,6 +36,8 @@ typealias OnGradeClickListener = (GradesItem, View) -> Unit
 @Singleton
 class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
     RecyclerView.Adapter<GradeAdapter.GradeViewHolder>(), View.OnClickListener {
+    @Inject
+    lateinit var lessonEmojiUseCase: LessonEmojiUseCase
 
     var grades: List<GradesItem> = emptyList()
         set(newValue) {
@@ -48,19 +51,21 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
         val gradeItem = p0.tag as GradesItem
         val view = p0.rootView
 
-
         ViewCompat.setTransitionName(
             view,
             p0.context.getString(
                 R.string.grade_item_transition_name,
-                gradeItem.name
-            )
+                gradeItem.name,
+            ),
         )
 
         onGradeClickListener(gradeItem, view)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GradeViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): GradeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemGradeBinding.inflate(inflater, parent, false)
 
@@ -69,16 +74,18 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
         return GradeViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: GradeViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: GradeViewHolder,
+        position: Int,
+    ) {
         val grade = grades[position]
         with(holder.binding) {
-
             ViewCompat.setTransitionName(
                 root,
                 holder.itemView.context.getString(
                     R.string.grade_item_transition_name,
-                    grade.name
-                )
+                    grade.name,
+                ),
             )
 
             holder.itemView.tag = grade
@@ -91,7 +98,6 @@ class GradeAdapter(private val onGradeClickListener: OnGradeClickListener) :
                 gradeType,
                 grade.avg ?: "",
             )
-
         }
     }
 
