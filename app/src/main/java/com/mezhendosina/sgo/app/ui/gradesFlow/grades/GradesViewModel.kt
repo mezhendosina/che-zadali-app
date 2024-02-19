@@ -20,8 +20,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.perf.ktx.performance
+/*import com.google.firebase.ktx.Firebase
+import com.google.firebase.perf.ktx.performance*/
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.model.grades.GradeActionListener
 import com.mezhendosina.sgo.app.model.grades.GradeSortType
@@ -83,8 +83,8 @@ class GradesViewModel
             }
 
             // start firebase performance trace
-            val trace = Firebase.performance.newTrace("load_grades_trace")
-            trace.start()
+            /*val trace = Firebase.performance.newTrace("load_grades_trace")
+            trace.start()*/
 
             try {
                 // gradesOption request
@@ -129,9 +129,9 @@ class GradesViewModel
                     Singleton.updateGradeState.value = LoadStates.ERROR
                 }
             } finally {
-                withContext(Dispatchers.Main) {
-                    trace.stop()
-                }
+                //withContext(Dispatchers.Main) {
+                   // trace.stop()
+                //}
             }
         }
 

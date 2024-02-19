@@ -22,7 +22,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.color.DynamicColors
-import com.google.firebase.FirebaseApp
+//import com.google.firebase.FirebaseApp
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.data.AppSettings
 import com.mezhendosina.sgo.data.SettingsDataStore
@@ -54,7 +54,7 @@ class SplashActivity : AppCompatActivity() {
 
 
         CoroutineScope(Dispatchers.Main).launch {
-            FirebaseApp.initializeApp(this@SplashActivity)
+            //FirebaseApp.initializeApp(this@SplashActivity)
 
             val intent =
                 if (settingsDataStore.getValue(SettingsDataStore.LOGGED_IN).first() == true) {

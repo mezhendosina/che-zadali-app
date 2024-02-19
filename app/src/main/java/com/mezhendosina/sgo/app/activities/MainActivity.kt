@@ -28,9 +28,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialFadeThrough
-import com.google.firebase.analytics.FirebaseAnalytics
+/*import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.Firebase*/
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
 import com.mezhendosina.sgo.app.utils.errorDialog
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-    private lateinit var analytics: FirebaseAnalytics
+    //private lateinit var analytics: FirebaseAnalytics
 
 //    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
 //        override fun handleOnBackPressed() {
@@ -77,8 +77,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ContainerMainActivityBinding.inflate(layoutInflater)
-        analytics = Firebase.analytics
-        analytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundleOf())
+        /*analytics = Firebase.analytics
+        analytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundleOf())*/
         binding.splashScreen.root.visibility = View.VISIBLE
         binding.container.visibility = View.GONE
 

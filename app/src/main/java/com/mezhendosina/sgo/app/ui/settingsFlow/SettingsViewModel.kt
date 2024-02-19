@@ -65,7 +65,7 @@ class SettingsViewModel
     private val _loading = MutableLiveData<Boolean>(false)
     val loading = _loading.toLiveData()
 
-    private var firebaseToken: String? = null
+    //private var firebaseToken: String? = null
 
     suspend fun getMySettings(arguments: Bundle?) {
         try {
