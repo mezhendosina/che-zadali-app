@@ -18,19 +18,10 @@ package com.mezhendosina.sgo.data.netschool.api.login
 
 import com.mezhendosina.sgo.app.netschool.api.login.entities.SchoolEntity
 import com.mezhendosina.sgo.data.netschool.api.login.entities.StudentResponseEntity
-import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.GetDataResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
-import com.mezhendosina.sgo.data.requests.sgo.login.entities.LogoutRequestEntity
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import okhttp3.ResponseBody
-import retrofit2.Response
-
 
 interface LoginSource {
-
     suspend fun loginData()
 
     suspend fun getSchools(query: String): List<SchoolEntity>
@@ -38,12 +29,6 @@ interface LoginSource {
     suspend fun getData(): GetDataResponseEntity
 
     suspend fun login(loginEntity: LoginEntity): LoginResponseEntity
-
-    suspend fun crossLogin(): Response<ResponseBody>
-
-    suspend fun getGosuslugiAccountInfo(loginState: String): AccountInfoResponseEntity
-
-    suspend fun gosuslugiLogin(loginState: String, userId: String): LoginResponseEntity
 
     suspend fun getStudents(): List<StudentResponseEntity>?
 

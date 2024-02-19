@@ -18,25 +18,19 @@ package com.mezhendosina.sgo.data.netschool.api.login
 
 import com.mezhendosina.sgo.app.netschool.api.login.entities.SchoolEntity
 import com.mezhendosina.sgo.data.netschool.api.login.entities.StudentResponseEntity
-import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.GetDataResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface LoginApi {
     @GET("webapi/schools/search")
     suspend fun getSchools(
-        @Query("name") schoolName: String
+        @Query("name") schoolName: String,
     ): List<SchoolEntity>
 
     @GET("webapi/logindata")
@@ -54,7 +48,7 @@ interface LoginApi {
         @Field("PW") PW: String,
         @Field("lt") lt: String,
         @Field("pw2") pw2: String,
-        @Field("ver") ver: String
+        @Field("ver") ver: String,
     ): LoginResponseEntity
 
     @GET("webapi/context/students")
@@ -62,29 +56,7 @@ interface LoginApi {
 
     @POST("asp/logout.asp")
     @FormUrlEncoded
-    suspend fun logout(@Field("at") at: String)
-
-    @GET("webapi/sso/esia/crosslogin?esia_permissions=1&esia_role=1")
-    suspend fun crossLogin(
-        @Header("Sec-Fetch-Mode") secFetchMode: String = "navigate",
-        @Header("Sec-Fetch-Dest") secFetchDest: String = "document",
-        @Header("Sec-Fetch-User") secFetchUser: String = "?1",
-        @Header("Upgrade-Insecure-Requests") upgradeInsecureRequests: Int = 1
-    ): Response<ResponseBody>
-
-    @GET("webapi/sso/esia/account-info")
-    suspend fun getAccountInfo(
-        @Query("loginState") loginState: String
-    ): AccountInfoResponseEntity
-
-    @POST("webapi/auth/login")
-    @FormUrlEncoded
-    suspend fun gosuslugiLogin(
-        @Field("loginState") loginState: String,
-        @Field("lscope") lscope: String,
-        @Field("idp") idp: String = "esia",
-        @Field("loginType") loginType: String = "8"
-    ): LoginResponseEntity
-
-
+    suspend fun logout(
+        @Field("at") at: String,
+    )
 }
