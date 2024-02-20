@@ -16,6 +16,7 @@
 
 package com.mezhendosina.sgo.data.grades
 
+import android.util.Log
 import com.mezhendosina.sgo.app.utils.getEmojiLesson
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.GradesItem
 import com.mezhendosina.sgo.data.netschool.api.grades.entities.gradeOptions.GradeOptions

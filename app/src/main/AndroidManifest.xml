@@ -66,13 +66,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
+<!--
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
-            android:value="${crashlyticsCollectionEnabled}" />
+            android:value="${crashlyticsCollectionEnabled}" />-->
 
-        <meta-data
+   <!--     <meta-data
             android:name="firebase_analytics_collection_deactivated"
-            android:value="@bool/FIREBASE_ANALYTICS_DEACTIVATED" />
+            android:value="@bool/FIREBASE_ANALYTICS_DEACTIVATED" />-->
     </application>
 </manifest>
