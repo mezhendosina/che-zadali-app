@@ -34,7 +34,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.material.transition.platform.MaterialSharedAxis
-//import com.google.firebase.analytics.FirebaseAnalytics
+// import com.google.firebase.analytics.FirebaseAnalytics
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.BuildConfig
 import com.mezhendosina.sgo.app.R
@@ -138,7 +138,6 @@ class ContainerFragment :
             startPostponedEnterTransition()
             Singleton.gradesRecyclerViewLoaded.value = true
         }
-        observeDiaryStyle()
         observeUserId()
         observeWeeks(journalPagerAdapter)
 
@@ -196,15 +195,6 @@ class ContainerFragment :
                 } else {
                     containerMainBinding.journal.setCurrentItem(Singleton.currentWeek!!, false)
                 }
-            }
-        }
-    }
-
-    private fun observeDiaryStyle() {
-        //val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-        CoroutineScope(Dispatchers.Main).launch {
-            settingsDataStore.getValue(SettingsDataStore.DIARY_STYLE).collect {
-                //firebaseAnalytics.setUserProperty("diary_style", it)
             }
         }
     }

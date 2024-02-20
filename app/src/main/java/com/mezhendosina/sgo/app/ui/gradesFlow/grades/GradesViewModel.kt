@@ -82,10 +82,6 @@ class GradesViewModel
                 }
             }
 
-            // start firebase performance trace
-            /*val trace = Firebase.performance.newTrace("load_grades_trace")
-            trace.start()*/
-
             try {
                 // gradesOption request
                 val gradeOptions = gradeServices.loadGradesOptions()
@@ -128,10 +124,6 @@ class GradesViewModel
                     _errorMessage.value = e.toDescription()
                     Singleton.updateGradeState.value = LoadStates.ERROR
                 }
-            } finally {
-                //withContext(Dispatchers.Main) {
-                   // trace.stop()
-                //}
             }
         }
 

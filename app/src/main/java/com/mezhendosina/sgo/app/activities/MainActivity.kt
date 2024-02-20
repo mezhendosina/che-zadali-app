@@ -21,46 +21,45 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialFadeThrough
-/*import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase*/
 import com.mezhendosina.sgo.Singleton
 import com.mezhendosina.sgo.app.databinding.ContainerMainActivityBinding
 import com.mezhendosina.sgo.app.utils.errorDialog
 import com.mezhendosina.sgo.app.utils.setupInsets
+import com.mezhendosina.sgo.domain.FirebaseUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ContainerMainActivityBinding
     private var navController: NavController? = null
 
+    @Inject
+    lateinit var firebaseUseCase: FirebaseUseCase
+
     private val viewModel: MainViewModel by viewModels()
 
-    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
-        override fun onFragmentCreated(
-            fm: FragmentManager,
-            f: Fragment,
-            savedInstanceState: Bundle?
-        ) {
-            super.onFragmentCreated(fm, f, savedInstanceState)
-            if (f.findNavController() != navController) navController = f.findNavController()
-
+    private val fragmentListener =
+        object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentCreated(
+                fm: FragmentManager,
+                f: Fragment,
+                savedInstanceState: Bundle?,
+            ) {
+                super.onFragmentCreated(fm, f, savedInstanceState)
+                if (f.findNavController() != navController) navController = f.findNavController()
+            }
         }
-    }
-    //private lateinit var analytics: FirebaseAnalytics
 
 //    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
 //        override fun handleOnBackPressed() {
@@ -77,8 +76,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ContainerMainActivityBinding.inflate(layoutInflater)
-        /*analytics = Firebase.analytics
-        analytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundleOf())*/
+        firebaseUseCase.appOpen()
         binding.splashScreen.root.visibility = View.VISIBLE
         binding.container.visibility = View.GONE
 
@@ -94,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 TransitionManager.beginDelayedTransition(
                     binding.root,
-                    MaterialFadeThrough()
+                    MaterialFadeThrough(),
                 )
                 binding.splashScreen.root.visibility = View.GONE
                 binding.container.visibility = View.VISIBLE
@@ -123,9 +121,11 @@ class MainActivity : AppCompatActivity() {
         Singleton.journalTabsLayout = null
     }
 
-
     override fun onBackPressed() {
-        if (navController?.currentDestination?.id == navController?.graph?.startDestinationId) super.onBackPressed()
-        else navController?.popBackStack()
+        if (navController?.currentDestination?.id == navController?.graph?.startDestinationId) {
+            super.onBackPressed()
+        } else {
+            navController?.popBackStack()
+        }
     }
 }
