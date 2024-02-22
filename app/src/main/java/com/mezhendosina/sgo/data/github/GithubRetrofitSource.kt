@@ -17,8 +17,8 @@
 package com.mezhendosina.sgo.data.github
 
 import com.google.gson.Gson
-import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
+import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -44,8 +44,9 @@ object GithubRetrofitSource {
 
     private val retrofitConfig =
         RetrofitConfig(
-            retrofit,,,
-            gson
+            retrofit,
+            retrofit,
+            gson,
         )
 
     val baseRetrofitSource = BaseRetrofitSource(retrofitConfig)

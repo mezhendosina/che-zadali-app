@@ -2,8 +2,8 @@ package com.mezhendosina.sgo.data.netschoolEsia.login
 
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
-import com.mezhendosina.sgo.data.netschoolEsia.entities.GetTokenResponse
-import com.mezhendosina.sgo.data.netschoolEsia.entities.GetUsersResponseItem
+import com.mezhendosina.sgo.data.netschoolEsia.entities.login.GetTokenResponse
+import com.mezhendosina.sgo.data.netschoolEsia.entities.login.GetUsersResponseItem
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -1,7 +1,7 @@
 package com.mezhendosina.sgo.data.netschoolEsia.login
 
-import com.mezhendosina.sgo.data.netschoolEsia.entities.GetTokenResponse
-import com.mezhendosina.sgo.data.netschoolEsia.entities.GetUsersResponseItem
+import com.mezhendosina.sgo.data.netschoolEsia.entities.login.GetTokenResponse
+import com.mezhendosina.sgo.data.netschoolEsia.entities.login.GetUsersResponseItem
 
 interface LoginSource {
     /**

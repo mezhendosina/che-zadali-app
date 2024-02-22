@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.mobile.data
+package com.mezhendosina.sgo.data.netschoolEsia.entities
 
 data class SubjectTotal(
     val subjectId: Int,

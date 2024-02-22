@@ -33,7 +33,7 @@ class RetrofitAnnouncementsSource
     constructor(
         config: RetrofitConfig,
     ) : BaseRetrofitSource(config), AnnouncementsSource {
-        private val announcementsApi = retrofit.create(AnnouncementsApi::class.java)
+        private val announcementsApi = config.baseRetrofit.create(AnnouncementsApi::class.java)
 
         override suspend fun getAnnouncements(): List<AnnouncementsResponseEntity> =
             if (!BuildConfig.DEBUG) {

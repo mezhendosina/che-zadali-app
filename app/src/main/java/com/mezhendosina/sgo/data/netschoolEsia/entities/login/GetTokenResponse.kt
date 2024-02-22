@@ -1,5 +1,4 @@
-package com.mezhendosina.sgo.data.netschoolEsia.entities
-
+package com.mezhendosina.sgo.data.netschoolEsia.entities.login
 
 import com.google.gson.annotations.SerializedName
 
@@ -15,5 +14,5 @@ data class GetTokenResponse(
     @SerializedName("scope")
     val scope: String,
     @SerializedName("token_type")
-    val tokenType: String
+    val tokenType: String,
 )
