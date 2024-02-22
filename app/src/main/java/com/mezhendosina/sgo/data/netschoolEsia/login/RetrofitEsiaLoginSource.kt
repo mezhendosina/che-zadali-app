@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.data.netschoolEsia.api.login
+package com.mezhendosina.sgo.data.netschoolEsia.login
 
 import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
@@ -10,21 +10,21 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RetrofitLoginSource
+class RetrofitEsiaLoginSource
     @Inject
     constructor(
         config: RetrofitConfig,
-    ) : BaseRetrofitSource(config), LoginSource {
-        private val loginApi = retrofit.create(LoginApi::class.java)
+    ) : BaseRetrofitSource(config), EsiaLoginSource {
+        private val esiaLoginApi = config.baseRetrofit.create(EsiaLoginApi::class.java)
 
         override suspend fun crossLogin(): Response<ResponseBody> =
             wrapRetrofitExceptions(false) {
-                loginApi.crossLogin()
+                esiaLoginApi.crossLogin()
             }
 
         override suspend fun getGosuslugiAccountInfo(loginState: String): AccountInfoResponseEntity =
             wrapRetrofitExceptions(false) {
-                loginApi.getAccountInfo(loginState)
+                esiaLoginApi.getAccountInfo(loginState)
             }
 
         override suspend fun gosuslugiLogin(
@@ -32,6 +32,6 @@ class RetrofitLoginSource
             userId: String,
         ): LoginResponseEntity =
             wrapRetrofitExceptions(false) {
-                loginApi.gosuslugiLogin(loginState, userId)
+                esiaLoginApi.gosuslugiLogin(loginState, userId)
             }
     }

@@ -30,50 +30,54 @@ import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import com.mezhendosina.sgo.data.requests.github.checkUpdates.CheckUpdates
 
-
 class GithubUpdateDownloader(retrofitConfig: RetrofitConfig) : BaseRetrofitSource(retrofitConfig) {
     private val githubApi =
         GithubRetrofitSource.baseRetrofitSource.retrofit.create(GithubApi::class.java)
 
-    suspend fun getLastVersion(): CheckUpdates = wrapRetrofitExceptions {
-        githubApi.getLatestUpdate()
-    }
+    suspend fun getLastVersion(): CheckUpdates =
+        wrapRetrofitExceptions {
+            githubApi.getLatestUpdate()
+        }
 
     fun downloadUpdate(
         context: Context,
         url: String,
-        onProgressChanged: (progress: Int, uri: Uri?) -> Unit
+        onProgressChanged: (progress: Int, uri: Uri?) -> Unit,
     ) {
         val urlToUri = Uri.parse(url)
         val r = DownloadManager.Request(urlToUri)
         val manager = getSystemService(context, DownloadManager::class.java)
         val enqueue = manager?.enqueue(r)
         if (enqueue != null) {
-            val receiver = object : BroadcastReceiver() {
-                @SuppressLint("Range")
-                override fun onReceive(p0: Context?, p1: Intent?) {
-                    val query = DownloadManager.Query().setFilterById(enqueue)
-                    val cursor = manager.query(query)
-                    if (cursor.moveToFirst()) {
-                        val bytesDownloaded =
-                            cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
-                        val bytesTotal =
-                            cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
-                        val progress = (bytesDownloaded * 100L / bytesTotal).toInt()
-                        val id = cursor.getColumnIndex(DownloadManager.COLUMN_ID)
-                        onProgressChanged.invoke(
-                            progress,
-                            manager.getUriForDownloadedFile(cursor.getLong(id))
-                        )
+            val receiver =
+                object : BroadcastReceiver() {
+                    @SuppressLint("Range")
+                    override fun onReceive(
+                        p0: Context?,
+                        p1: Intent?,
+                    ) {
+                        val query = DownloadManager.Query().setFilterById(enqueue)
+                        val cursor = manager.query(query)
+                        if (cursor.moveToFirst()) {
+                            val bytesDownloaded =
+                                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                            val bytesTotal =
+                                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+                            val progress = (bytesDownloaded * 100L / bytesTotal).toInt()
+                            val id = cursor.getColumnIndex(DownloadManager.COLUMN_ID)
+                            onProgressChanged.invoke(
+                                progress,
+                                manager.getUriForDownloadedFile(cursor.getLong(id)),
+                            )
+                        }
                     }
                 }
-            }
 
             registerReceiver(
                 context,
                 receiver,
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
-                ContextCompat.RECEIVER_NOT_EXPORTED
+                ContextCompat.RECEIVER_NOT_EXPORTED,
             )
         }
     }

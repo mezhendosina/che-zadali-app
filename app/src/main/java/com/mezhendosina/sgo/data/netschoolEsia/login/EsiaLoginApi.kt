@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mezhendosina.sgo.data.netschoolEsia.api.login
+package com.mezhendosina.sgo.data.netschoolEsia.login
 
 import com.mezhendosina.sgo.data.netschool.api.login.entities.accountInfo.AccountInfoResponseEntity
 import com.mezhendosina.sgo.data.requests.sgo.login.entities.LoginResponseEntity
@@ -27,7 +27,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-interface LoginApi {
+interface EsiaLoginApi {
     @GET("webapi/sso/esia/crosslogin?esia_permissions=1&esia_role=1")
     suspend fun crossLogin(
         @Header("Sec-Fetch-Mode") secFetchMode: String = "navigate",

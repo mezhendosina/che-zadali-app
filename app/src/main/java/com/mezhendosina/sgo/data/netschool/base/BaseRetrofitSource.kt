@@ -18,7 +18,6 @@ package com.mezhendosina.sgo.data.netschool.base
 
 import com.google.gson.JsonParseException
 import com.mezhendosina.sgo.Singleton
-import com.mezhendosina.sgo.data.netschool.NetSchoolSingleton
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -31,44 +30,44 @@ import javax.inject.Inject
 @Module
 @InstallIn(SingletonComponent::class)
 open class BaseRetrofitSource
-@Inject constructor(retrofitConfig: RetrofitConfig) {
-    val retrofit = retrofitConfig.retrofit
-    private val errorAdapter = retrofitConfig.gson.getAdapter(Error::class.java)
+    @Inject
+    constructor(baseRetrofitConfig: RetrofitConfig) {
+        private val errorAdapter = baseRetrofitConfig.gson.getAdapter(Error::class.java)
 
-    suspend fun <T> wrapRetrofitExceptions(
-        requireLogin: Boolean = true,
-        debug: Boolean = false,
-        debugData: T? = null,
-        block: suspend () -> T
-    ): T {
-        if (debug && debugData != null) {
-            return debugData
-        }
-        if (Singleton.loggedIn || !requireLogin) {
-            return try {
-                block()
-            } catch (e: JsonParseException) {
-                throw ParseBackendResponseException(e)
-            } catch (e: HttpException) {
-                throw createBackendException(e)
-            } catch (e: SocketTimeoutException) {
-                throw TimeOutError(e)
-            } catch (e: IOException) {
-                throw ConnectionException(e)
+        suspend fun <T> wrapRetrofitExceptions(
+            requireLogin: Boolean = true,
+            debug: Boolean = false,
+            debugData: T? = null,
+            block: suspend () -> T,
+        ): T {
+            if (debug && debugData != null) {
+                return debugData
             }
-        } else {
-            delay(400)
-            return wrapRetrofitExceptions { block() }
+            if (Singleton.loggedIn || !requireLogin) {
+                return try {
+                    block()
+                } catch (e: JsonParseException) {
+                    throw ParseBackendResponseException(e)
+                } catch (e: HttpException) {
+                    throw createBackendException(e)
+                } catch (e: SocketTimeoutException) {
+                    throw TimeOutError(e)
+                } catch (e: IOException) {
+                    throw ConnectionException(e)
+                }
+            } else {
+                delay(400)
+                return wrapRetrofitExceptions { block() }
+            }
+        }
+
+        private fun createBackendException(e: HttpException): Exception {
+            return try {
+                val errorBody = errorAdapter.fromJson(e.message())
+
+                BackendException(errorBody.message!!)
+            } catch (e: Exception) {
+                throw ParseBackendResponseException(e)
+            }
         }
     }
-
-    private fun createBackendException(e: HttpException): Exception {
-        return try {
-            val errorBody = errorAdapter.fromJson(e.message())
-
-            BackendException(errorBody.message!!)
-        } catch (e: Exception) {
-            throw ParseBackendResponseException(e)
-        }
-    }
-}

@@ -28,20 +28,21 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RetrofitAnnouncementsSource @Inject constructor(
-    config: RetrofitConfig
-) : BaseRetrofitSource(config), AnnouncementsSource {
+class RetrofitAnnouncementsSource
+    @Inject
+    constructor(
+        config: RetrofitConfig,
+    ) : BaseRetrofitSource(config), AnnouncementsSource {
+        private val announcementsApi = retrofit.create(AnnouncementsApi::class.java)
 
-    private val announcementsApi = retrofit.create(AnnouncementsApi::class.java)
-
-    override suspend fun getAnnouncements(): List<AnnouncementsResponseEntity> =
-        if (!BuildConfig.DEBUG)
-            wrapRetrofitExceptions {
-                announcementsApi.getAnnouncements()
+        override suspend fun getAnnouncements(): List<AnnouncementsResponseEntity> =
+            if (!BuildConfig.DEBUG) {
+                wrapRetrofitExceptions {
+                    announcementsApi.getAnnouncements()
+                }
+            } else {
+                val itemsListType: Type =
+                    object : TypeToken<List<AnnouncementsResponseEntity>>() {}.type
+                Gson().fromJson(NetSchoolExpectedResults.announcements, itemsListType)
             }
-        else {
-            val itemsListType: Type =
-                object : TypeToken<List<AnnouncementsResponseEntity>>() {}.type
-            Gson().fromJson(NetSchoolExpectedResults.announcements, itemsListType)
-        }
-}
+    }

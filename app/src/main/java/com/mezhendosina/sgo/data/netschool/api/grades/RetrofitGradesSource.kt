@@ -25,30 +25,31 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RetrofitGradesSource @Inject constructor(config: RetrofitConfig) :
+class RetrofitGradesSource
+    @Inject
+    constructor(config: RetrofitConfig) :
     BaseRetrofitSource(config), GradesSource {
+        private val gradesApi = retrofit.create(GradesApi::class.java)
 
-    private val gradesApi = retrofit.create(GradesApi::class.java)
+        override suspend fun getParentInfoLetter(at: String): Response<ResponseBody> =
+            wrapRetrofitExceptions {
+                gradesApi.getParentInfoLetter(at)
+            }
 
-    override suspend fun getParentInfoLetter(at: String): Response<ResponseBody> =
-        wrapRetrofitExceptions {
-            gradesApi.getParentInfoLetter(at)
-        }
-
-    override suspend fun getGrades(
-        at: String,
-        pclid: String,
-        reportType: String,
-        termID: String,
-        sid: String
-    ): Response<ResponseBody> = wrapRetrofitExceptions {
-        gradesApi.getGrades(
-            at = at,
-            pclid = pclid,
-            reportType = reportType,
-            termId = termID,
-            sid = sid
-        )
+        override suspend fun getGrades(
+            at: String,
+            pclid: String,
+            reportType: String,
+            termID: String,
+            sid: String,
+        ): Response<ResponseBody> =
+            wrapRetrofitExceptions {
+                gradesApi.getGrades(
+                    at = at,
+                    pclid = pclid,
+                    reportType = reportType,
+                    termId = termID,
+                    sid = sid,
+                )
+            }
     }
-
-}

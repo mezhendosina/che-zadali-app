@@ -19,8 +19,8 @@ package com.mezhendosina.sgo.app.ui.loginFlow.requestRegion
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
+import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -36,34 +36,41 @@ interface RegionRequest {
 }
 
 @HiltViewModel
-class RequestRegionViewModel @Inject constructor() : ViewModel() {
+class RequestRegionViewModel
+    @Inject
+    constructor() : ViewModel() {
+        private val loginInterceptor =
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+        private val client =
+            OkHttpClient.Builder()
+                .addInterceptor(loginInterceptor)
+                .build()
+        private val gson = Gson()
 
-    private val loginInterceptor =
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(loginInterceptor)
-        .build()
-    private val gson = Gson()
+        private val gsonConverterFactory = GsonConverterFactory.create(gson)
 
-    private val gsonConverterFactory = GsonConverterFactory.create(gson)
+        private val retrofit =
+            Retrofit.Builder()
+                .baseUrl("")
+                .client(client)
+                .addConverterFactory(gsonConverterFactory)
+                .build()
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("")
-        .client(client)
-        .addConverterFactory(gsonConverterFactory)
-        .build()
+        private val retrofitConfig =
+            RetrofitConfig(
+                retrofit,,,
+                gson
+            )
 
-    private val retrofitConfig = RetrofitConfig(
-        retrofit,
-        gson
-    )
+        private val baseRetrofitSource = BaseRetrofitSource(retrofitConfig)
+        private val regionRequest = baseRetrofitSource.retrofit.create(RegionRequest::class.java)
 
-    private val baseRetrofitSource = BaseRetrofitSource(retrofitConfig)
-    private val regionRequest = baseRetrofitSource.retrofit.create(RegionRequest::class.java)
-
-    fun sendRequest(regionName: String, regionUrl: String) {
-        viewModelScope.launch {
-            regionRequest.requestRegion()
+        fun sendRequest(
+            regionName: String,
+            regionUrl: String,
+        ) {
+            viewModelScope.launch {
+                regionRequest.requestRegion()
+            }
         }
     }
-}

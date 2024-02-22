@@ -17,8 +17,8 @@
 package com.mezhendosina.sgo.data.github
 
 import com.google.gson.Gson
-import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
+import com.mezhendosina.sgo.data.netschool.base.BaseRetrofitSource
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -27,23 +27,26 @@ import retrofit2.converter.gson.GsonConverterFactory
 object GithubRetrofitSource {
     private val loginInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(loginInterceptor)
-        .build()
+    private val client =
+        OkHttpClient.Builder()
+            .addInterceptor(loginInterceptor)
+            .build()
     private val gson = Gson()
 
     private val gsonConverterFactory = GsonConverterFactory.create(gson)
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.github.com")
-        .client(client)
-        .addConverterFactory(gsonConverterFactory)
-        .build()
+    private val retrofit =
+        Retrofit.Builder()
+            .baseUrl("https://api.github.com")
+            .client(client)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
 
-    private val retrofitConfig = RetrofitConfig(
-        retrofit,
-        gson
-    )
+    private val retrofitConfig =
+        RetrofitConfig(
+            retrofit,,,
+            gson
+        )
 
     val baseRetrofitSource = BaseRetrofitSource(retrofitConfig)
 }
