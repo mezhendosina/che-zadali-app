@@ -1,4 +1,4 @@
-package com.mezhendosina.sgo.data.netschoolEsia.entities
+package com.mezhendosina.sgo.data.netschoolEsia.entities.assignments
 
 data class Assignment(
     val classmeetingId: Int,
