@@ -2,6 +2,7 @@ package com.mezhendosina.sgo.di
 
 import com.google.gson.Gson
 import com.mezhendosina.sgo.data.SettingsDataStore
+import com.mezhendosina.sgo.di.qualifier.BaseRetrofit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,14 +19,17 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class BaseRetrofit {
-
     @Provides
     @Singleton
     fun createMyCookieJar(): MyCookieJar = MyCookieJar()
 
     @Provides
     @Singleton
-    fun createRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+    @BaseRetrofit
+    fun createRetrofit(
+        gson: Gson,
+        okHttpClient: OkHttpClient,
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://localhost/")
             .client(okHttpClient)
@@ -37,14 +41,13 @@ class BaseRetrofit {
     @Singleton
     fun createGson(): Gson = Gson()
 
-
     @Provides
     @Singleton
     fun createOkHttpClient(
         baseUrlInterceptor: BaseUrlInterceptor,
         headersInterceptor: HeadersInterceptor,
         myCookieJar: MyCookieJar,
-        loggingInterceptor: Interceptor
+        loggingInterceptor: Interceptor,
     ): OkHttpClient {
         val cookieManager = CookieManager()
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL)
@@ -60,14 +63,12 @@ class BaseRetrofit {
     @Singleton
     fun createHeadersInterceptor(
         myCookieJar: MyCookieJar,
-        settingsDataStore: SettingsDataStore
-    ): HeadersInterceptor =
-        HeadersInterceptor(myCookieJar, settingsDataStore)
+        settingsDataStore: SettingsDataStore,
+    ): HeadersInterceptor = HeadersInterceptor(myCookieJar, settingsDataStore)
 
     @Provides
     @Singleton
-    fun createBaseUrlInterceptor(settingsDataStore: SettingsDataStore): BaseUrlInterceptor =
-        BaseUrlInterceptor(settingsDataStore)
+    fun createBaseUrlInterceptor(settingsDataStore: SettingsDataStore): BaseUrlInterceptor = BaseUrlInterceptor(settingsDataStore)
 
     @Provides
     @Singleton
@@ -75,6 +76,4 @@ class BaseRetrofit {
         return HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
     }
-
-
 }

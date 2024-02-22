@@ -27,40 +27,42 @@ import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import javax.inject.Inject
 
 @javax.inject.Singleton
-class RetrofitDiarySource @Inject constructor(config: RetrofitConfig) : BaseRetrofitSource(config),
-    DiarySource {
+class RetrofitDiarySource
+    @Inject
+    constructor(config: RetrofitConfig) :
+    BaseRetrofitSource(config),
+        DiarySource {
+        private val diaryApi = retrofit.create(DiaryApi::class.java)
 
-    private val diaryApi = retrofit.create(DiaryApi::class.java)
+        override suspend fun diaryInit(): DiaryInitResponseEntity =
+            wrapRetrofitExceptions {
+                val resp = diaryApi.diaryInit()
+                if (resp.weight) Singleton.gradesWithWeight = true
+                resp
+            }
 
-    override suspend fun diaryInit(): DiaryInitResponseEntity =
-        wrapRetrofitExceptions {
-            val resp = diaryApi.diaryInit()
-            if (resp.weight) Singleton.gradesWithWeight = true
-            resp
-        }
-
-    override suspend fun diary(diaryEntity: DiaryModelRequestEntity): DiaryResponseEntity =
-        wrapRetrofitExceptions {
+        override suspend fun diary(diaryEntity: DiaryModelRequestEntity): DiaryResponseEntity =
+            wrapRetrofitExceptions {
 //            if (!BuildConfig.DEBUG)
-            diaryApi.diary(
-                studentId = diaryEntity.studentId,
-                weekEnd = diaryEntity.weekEnd,
-                weekStart = diaryEntity.weekStart,
-                yearId = diaryEntity.yearId,
-                withLaAssigns = true
-            )
+                diaryApi.diary(
+                    studentId = diaryEntity.studentId,
+                    weekEnd = diaryEntity.weekEnd,
+                    weekStart = diaryEntity.weekStart,
+                    yearId = diaryEntity.yearId,
+                    withLaAssigns = true,
+                )
 //                            else {
 //                Gson().fromJson(TestData.DIARY, DiaryResponseEntity::class.java)
 //            }
-        }
+            }
 
-    override suspend fun getPastMandatory(diaryEntity: DiaryModelRequestEntity): List<PastMandatoryEntity> =
-        wrapRetrofitExceptions {
-            diaryApi.getPastMandatory(
-                diaryEntity.studentId,
-                diaryEntity.weekEnd,
-                diaryEntity.weekStart,
-                diaryEntity.yearId
-            )
-        }
-}
+        override suspend fun getPastMandatory(diaryEntity: DiaryModelRequestEntity): List<PastMandatoryEntity> =
+            wrapRetrofitExceptions {
+                diaryApi.getPastMandatory(
+                    diaryEntity.studentId,
+                    diaryEntity.weekEnd,
+                    diaryEntity.weekStart,
+                    diaryEntity.yearId,
+                )
+            }
+    }

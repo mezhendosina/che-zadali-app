@@ -17,13 +17,17 @@
 package com.mezhendosina.sgo.data.netschool.base
 
 import com.google.gson.Gson
+import com.mezhendosina.sgo.di.qualifier.BaseRetrofit
+import com.mezhendosina.sgo.di.qualifier.LoginRetrofit
 import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
-class RetrofitConfig @Inject constructor(
-    val retrofit: Retrofit,
-    val gson: Gson,
-)
+class RetrofitConfig
+    @Inject
+    constructor(
+        @BaseRetrofit val baseRetrofit: Retrofit,
+        @LoginRetrofit val loginRetrofit: Retrofit,
+        val gson: Gson,
+    )

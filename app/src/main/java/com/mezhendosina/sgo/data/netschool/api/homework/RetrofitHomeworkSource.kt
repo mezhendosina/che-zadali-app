@@ -24,32 +24,31 @@ import com.mezhendosina.sgo.data.netschool.base.RetrofitConfig
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
-class RetrofitHomeworkSource @Inject constructor(config: RetrofitConfig) :
+class RetrofitHomeworkSource
+    @Inject
+    constructor(config: RetrofitConfig) :
     BaseRetrofitSource(config), HomeworkSource {
+        private val homeworkSource = retrofit.create(HomeworkApi::class.java)
 
-    private val homeworkSource = retrofit.create(HomeworkApi::class.java)
+        override suspend fun assignmentTypes(all: Boolean): List<AssignmentTypesResponseEntity> =
+            wrapRetrofitExceptions {
+                homeworkSource.assignmentTypes(all)
+            }
 
+        override suspend fun getAnswer(
+            assignmentId: Int,
+            studentId: Int,
+        ): List<GetAnswerResponseEntity> =
+            wrapRetrofitExceptions {
+                homeworkSource.getAnswer(assignmentId, studentId)
+            }
 
-    override suspend fun assignmentTypes(all: Boolean): List<AssignmentTypesResponseEntity> =
-        wrapRetrofitExceptions {
-            homeworkSource.assignmentTypes(all)
-        }
-
-
-    override suspend fun getAnswer(
-        assignmentId: Int,
-        studentId: Int
-    ): List<GetAnswerResponseEntity> =
-        wrapRetrofitExceptions {
-            homeworkSource.getAnswer(assignmentId, studentId)
-        }
-
-    override suspend fun getAboutAssign(assignId: Int, studentId: Int): AssignResponseEntity =
-        wrapRetrofitExceptions {
-            homeworkSource.getAboutAssign(assignId, studentId)
-        }
-
-
-}
+        override suspend fun getAboutAssign(
+            assignId: Int,
+            studentId: Int,
+        ): AssignResponseEntity =
+            wrapRetrofitExceptions {
+                homeworkSource.getAboutAssign(assignId, studentId)
+            }
+    }

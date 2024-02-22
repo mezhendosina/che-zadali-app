@@ -10,10 +10,10 @@ import com.mezhendosina.sgo.data.netschool.api.diary.RetrofitDiarySource
 import com.mezhendosina.sgo.data.netschool.api.grades.RetrofitGradesSource
 import com.mezhendosina.sgo.data.netschool.api.homework.HomeworkSource
 import com.mezhendosina.sgo.data.netschool.api.homework.RetrofitHomeworkSource
-import com.mezhendosina.sgo.data.netschool.api.login.LoginSource
-import com.mezhendosina.sgo.data.netschool.api.login.RetrofitLoginSource
 import com.mezhendosina.sgo.data.netschool.api.settings.RetrofitSettingsSource
 import com.mezhendosina.sgo.data.netschool.api.settings.SettingsSource
+import com.mezhendosina.sgo.data.netschoolEsia.login.LoginSource
+import com.mezhendosina.sgo.data.netschoolEsia.login.RetrofitLoginSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,39 +22,24 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class SourcesModule {
+    @Binds
+    abstract fun bindAnnouncementsSource(retrofitAnnouncementsSource: RetrofitAnnouncementsSource): AnnouncementsSource
 
     @Binds
-    abstract fun bindAnnouncementsSource(
-        retrofitAnnouncementsSource: RetrofitAnnouncementsSource
-    ): AnnouncementsSource
+    abstract fun bindAttachmentsSource(retrofitAttachmentsSource: RetrofitAttachmentsSource): AttachmentsSource
 
     @Binds
-    abstract fun bindAttachmentsSource(
-        retrofitAttachmentsSource: RetrofitAttachmentsSource
-    ): AttachmentsSource
+    abstract fun bindDiarySource(retrofitDiarySource: RetrofitDiarySource): DiarySource
 
     @Binds
-    abstract fun bindDiarySource(
-        retrofitDiarySource: RetrofitDiarySource
-    ): DiarySource
+    abstract fun bindGradesSource(retrofitGradesSource: RetrofitGradesSource): GradesSource
 
     @Binds
-    abstract fun bindGradesSource(
-        retrofitGradesSource: RetrofitGradesSource
-    ): GradesSource
+    abstract fun bindHomeworkSource(retrofitHomeworkSource: RetrofitHomeworkSource): HomeworkSource
 
     @Binds
-    abstract fun bindHomeworkSource(
-        retrofitHomeworkSource: RetrofitHomeworkSource
-    ): HomeworkSource
+    abstract fun bindLoginSource(retrofitLoginSource: RetrofitLoginSource): LoginSource
 
     @Binds
-    abstract fun bindLoginSource(
-        retrofitLoginSource: RetrofitLoginSource
-    ): LoginSource
-
-    @Binds
-    abstract fun bindSettingsSource(
-        retrofitSettingsSource: RetrofitSettingsSource
-    ): SettingsSource
+    abstract fun bindSettingsSource(retrofitSettingsSource: RetrofitSettingsSource): SettingsSource
 }

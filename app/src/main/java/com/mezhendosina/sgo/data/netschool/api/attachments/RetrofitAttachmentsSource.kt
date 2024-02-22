@@ -30,59 +30,70 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RetrofitAttachmentsSource @Inject constructor(config: RetrofitConfig) :
+class RetrofitAttachmentsSource
+    @Inject
+    constructor(config: RetrofitConfig) :
     BaseRetrofitSource(config), AttachmentsSource {
+        private val attachmentsSource = retrofit.create(AttachmentsApi::class.java)
 
-    private val attachmentsSource = retrofit.create(AttachmentsApi::class.java)
-    override suspend fun getAttachments(
-        studentId: Int,
-        attachmentsRequestEntity: AttachmentsRequestEntity
-    ): List<AttachmentsResponseEntity> =
-        wrapRetrofitExceptions {
-            attachmentsSource.getAttachments(
-                studentId,
-                attachmentsRequestEntity
-            )
-        }
+        override suspend fun getAttachments(
+            studentId: Int,
+            attachmentsRequestEntity: AttachmentsRequestEntity,
+        ): List<AttachmentsResponseEntity> =
+            wrapRetrofitExceptions {
+                attachmentsSource.getAttachments(
+                    studentId,
+                    attachmentsRequestEntity,
+                )
+            }
 
-    override suspend fun downloadAttachment(attachmentId: Int, file: File): String? =
-        wrapRetrofitExceptions {
-            val request = attachmentsSource.downloadAttachment(attachmentId)
-            request.body()?.byteStream()?.readBytes()
-                ?.let { file.writeBytes(it) }
-            return@wrapRetrofitExceptions request.headers()["Content-Type"]
-        }
+        override suspend fun downloadAttachment(
+            attachmentId: Int,
+            file: File,
+        ): String? =
+            wrapRetrofitExceptions {
+                val request = attachmentsSource.downloadAttachment(attachmentId)
+                request.body()?.byteStream()?.readBytes()
+                    ?.let { file.writeBytes(it) }
+                return@wrapRetrofitExceptions request.headers()["Content-Type"]
+            }
 
-    override suspend fun deleteAttachment(assignmentId: Int, attachmentId: Int): Unit =
-        wrapRetrofitExceptions {
-            attachmentsSource.deleteAttachment(
-                attachmentId,
-                DeleteAttachmentRequestEntity(assignmentId)
-            )
-        }
+        override suspend fun deleteAttachment(
+            assignmentId: Int,
+            attachmentId: Int,
+        ): Unit =
+            wrapRetrofitExceptions {
+                attachmentsSource.deleteAttachment(
+                    attachmentId,
+                    DeleteAttachmentRequestEntity(assignmentId),
+                )
+            }
 
-    override suspend fun editAttachmentDescription(attachmentId: Int, description: String): String =
-        wrapRetrofitExceptions {
-            attachmentsSource.editAttachmentDescription(attachmentId, description)
-        }
+        override suspend fun editAttachmentDescription(
+            attachmentId: Int,
+            description: String,
+        ): String =
+            wrapRetrofitExceptions {
+                attachmentsSource.editAttachmentDescription(attachmentId, description)
+            }
 
-    override suspend fun sendTextAnswer(
-        assignmentId: Int,
-        studentId: Int,
-        answer: String
-    ): Response<ResponseBody> =
-        wrapRetrofitExceptions {
-            val r = attachmentsSource.sendTextAnswer(assignmentId, studentId, answer)
-            r
-        }
+        override suspend fun sendTextAnswer(
+            assignmentId: Int,
+            studentId: Int,
+            answer: String,
+        ): Response<ResponseBody> =
+            wrapRetrofitExceptions {
+                val r = attachmentsSource.sendTextAnswer(assignmentId, studentId, answer)
+                r
+            }
 
-    override suspend fun sendFileAttachment(file: MultipartBody.Part, data: SendFileRequestEntity) =
-        wrapRetrofitExceptions {
+        override suspend fun sendFileAttachment(
+            file: MultipartBody.Part,
+            data: SendFileRequestEntity,
+        ) = wrapRetrofitExceptions {
             attachmentsSource.sendFileAttachment(
                 file,
-                data
+                data,
             )
         }
-
-
-}
+    }

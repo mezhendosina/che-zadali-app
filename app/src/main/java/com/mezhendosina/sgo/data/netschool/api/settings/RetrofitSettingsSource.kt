@@ -30,48 +30,50 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RetrofitSettingsSource @Inject constructor(config: RetrofitConfig) :
+class RetrofitSettingsSource
+    @Inject
+    constructor(config: RetrofitConfig) :
     BaseRetrofitSource(config), SettingsSource {
+        private val settingsApi = retrofit.create(SettingsApi::class.java)
 
-    private val settingsApi = retrofit.create(SettingsApi::class.java)
+        override suspend fun getYearList(): List<YearListResponseEntity> =
+            wrapRetrofitExceptions {
+                settingsApi.getYearList()
+            }
 
-    override suspend fun getYearList(): List<YearListResponseEntity> =
-        wrapRetrofitExceptions {
-            settingsApi.getYearList()
-        }
+        override suspend fun getSettings(): MySettingsResponseEntity =
+            wrapRetrofitExceptions {
+                settingsApi.getSettings()
+            }
 
-    override suspend fun getSettings(): MySettingsResponseEntity =
-        wrapRetrofitExceptions {
-            settingsApi.getSettings()
-        }
+        override suspend fun sendSettings(mySettingsRequestEntity: MySettingsRequestEntity): Unit =
+            wrapRetrofitExceptions {
+                settingsApi.sendSettings(mySettingsRequestEntity)
+            }
 
-    override suspend fun sendSettings(mySettingsRequestEntity: MySettingsRequestEntity): Unit =
-        wrapRetrofitExceptions {
-            settingsApi.sendSettings(mySettingsRequestEntity)
-        }
+        override suspend fun getProfilePhoto(userId: Int): ByteArray? =
+            wrapRetrofitExceptions {
+                settingsApi.getProfilePhoto(com.mezhendosina.sgo.Singleton.at, userId).body()
+                    ?.byteStream()?.readBytes()
+            }
 
-
-    override suspend fun getProfilePhoto(userId: Int): ByteArray? =
-        wrapRetrofitExceptions {
-            settingsApi.getProfilePhoto(com.mezhendosina.sgo.Singleton.at, userId).body()
-                ?.byteStream()?.readBytes()
-        }
-
-    override suspend fun changePassword(userId: Int, password: ChangePasswordEntity) =
-        wrapRetrofitExceptions {
+        override suspend fun changePassword(
+            userId: Int,
+            password: ChangePasswordEntity,
+        ) = wrapRetrofitExceptions {
             settingsApi.changePassword(userId, password)
         }
 
-    override suspend fun changeProfilePhoto(
-        file: MultipartBody.Part,
-        fileName: String,
-        userId: Int
-    ) = wrapRetrofitExceptions {
-        settingsApi.changeProfilePhoto(file, SendPhotoRequestEntity(fileName, userId))
-    }
+        override suspend fun changeProfilePhoto(
+            file: MultipartBody.Part,
+            fileName: String,
+            userId: Int,
+        ) = wrapRetrofitExceptions {
+            settingsApi.changeProfilePhoto(file, SendPhotoRequestEntity(fileName, userId))
+        }
 
-    override suspend fun setYear(id: Int): Response<ResponseBody> = wrapRetrofitExceptions {
-        settingsApi.setYear(id)
+        override suspend fun setYear(id: Int): Response<ResponseBody> =
+            wrapRetrofitExceptions {
+                settingsApi.setYear(id)
+            }
     }
-}
-
