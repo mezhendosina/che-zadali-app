@@ -1,0 +1,27 @@
+package com.mezhendosina.sgo.mobile.data
+
+data class Assignment(
+    val classmeetingId: Int,
+    val assignmentId: Int,
+    val assignmentName: String,
+    val description: String,
+    val result: Float,
+    val classAssignment: Boolean,
+    val duty: Boolean,
+    val comment: String,
+    val assignmentTypeId: Int,
+    val assignmentTypeAbbr: String,
+    val assignmentTypeName: String,
+    val weight: Int,
+    val attachmentsExists: Boolean,
+    val hasTextAnswer: Boolean,
+    val hasFileAnswers: Boolean,
+    val subjectId: Int,
+    val subjectName: String,
+    val dueDate: String,
+    val answerFilesCount: Int,
+    val extraActivity: Boolean,
+    val resultDate: String,
+    val assignmentDate: String,
+    val canAnswer: Boolean,
+)
